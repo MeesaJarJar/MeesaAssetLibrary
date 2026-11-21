@@ -3926,13 +3926,22 @@ const ASSETS = ${data};
     });
   }
 
+  function normalizeMime(value) {
+    var mime = String(value || '').toLowerCase().split(';')[0].trim();
+    if (mime === 'audio/mp3' || mime === 'audio/x-mpeg' || mime === 'audio/mpeg3') return 'audio/mpeg';
+    if (mime === 'image/jpg' || mime === 'image/pjpeg') return 'image/jpeg';
+    if (mime === 'text/javascript' || mime === 'application/javascript') return 'text/javascript';
+    if (mime === 'application/xml' || mime === 'text/xml') return 'application/xml';
+    return mime;
+  }
+
   function mimeAcceptable(expected, actual) {
     var want = String(expected || '').trim().toLowerCase();
     var got = String(actual || '').trim().toLowerCase();
     if (!want) return false;
     if (!got) return true;
     if (got === 'application/octet-stream') return true;
-    return want === got;
+    return normalizeMime(want) === normalizeMime(got);
   }
 
   function makeCheck(key, ok, detail, warn) {
