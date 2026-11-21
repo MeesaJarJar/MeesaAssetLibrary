@@ -479,9 +479,37 @@ def selftest(root: Path) -> dict:
     # Modality floors used by the gallery. Visual assets score only with
     # clipImage; audio assets score only with clapAudio. Text vectors are never
     # scored because CLIP text-to-text cosine is anisotropic.
+    asset_meta = {}
+    for name in ("index.jsonl", "community.jsonl"):
+        path = catalog / name
+        if not path.exists():
+            continue
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line:
+                entry = json.loads(line)
+                asset_meta[entry["id"]] = entry
+
+    def is_dog_asset(entry: dict) -> bool:
+        parts = [entry.get("title", ""), entry.get("summary", "")]
+        parts.extend(entry.get("tags", []))
+        parts.extend(entry.get("keywords", []))
+        return "dog" in " ".join(parts).lower()
+
+    dog_asset_ids = {key for key, value in asset_meta.items() if is_dog_asset(value)}
+
     assert sword_max >= 0.22, (sword_max_key, sword_max)
     assert stone_max >= 0.22, (stone_max_key, stone_max)
-    assert dog_max < 0.22, (dog_max_key, dog_max)
+    if dog_asset_ids:
+        assert dog_max >= 0.22, (dog_max_key, dog_max)
+        assert dog_max_key in dog_asset_ids, (dog_max_key, sorted(dog_asset_ids))
+        non_dog_scores = {k: v for k, v in dog_scores.items() if k not in dog_asset_ids}
+        if non_dog_scores:
+            assert dog_max > max(non_dog_scores.values()), (dog_max, non_dog_scores)
+        for asset_id in dog_asset_ids & set(dog_scores):
+            assert dog_scores[asset_id] >= 0.22, (asset_id, dog_scores[asset_id])
+    else:
+        assert dog_max < 0.22, (dog_max_key, dog_max)
 
     assert sword_scores["MDL-PROP-000012"] > sword_scores["IMG-TEXTURE-000009"], (
         sword_scores
@@ -517,6 +545,13 @@ def selftest(root: Path) -> dict:
     assert audio_score >= 0.10, audio_score
     assert audio_norm > 0.5, audio_norm
 
+    bark_score = None
+    bark_audio = manifest["assets"].get("SND-SFX-000016", {}).get("clapAudio")
+    if bark_audio is not None and "bark" in concepts:
+        bark = clap[offset("clap", "bark", concepts["bark"]["clap"])]
+        bark_score = dot(bark, clap[offset("clapAudio", "SND-SFX-000016", bark_audio)])
+        assert bark_score >= 0.10, bark_score
+
     print("[self-test] integrity ok")
     print(
         f"[self-test] clip sword: max {sword_max:.4f} ({sword_max_key}) >= 0.22; "
@@ -532,9 +567,17 @@ def selftest(root: Path) -> dict:
         f"[self-test] clap ambience: SND-AMBIENCE-000010 {audio_score:.4f} "
         f">= 0.10 (CLAP only; norm {audio_norm:.4f})"
     )
-    print(
-        f"[self-test] clip dog: max {dog_max:.4f} ({dog_max_key}) < 0.22"
-    )
+    if dog_asset_ids:
+        print(
+            f"[self-test] clip dog: max {dog_max:.4f} ({dog_max_key}) >= 0.22 "
+            f"and ranks above non-dog assets; dog assets {len(dog_asset_ids)}"
+        )
+    else:
+        print(
+            f"[self-test] clip dog: max {dog_max:.4f} ({dog_max_key}) < 0.22 (no dog assets)"
+        )
+    if bark_score is not None:
+        print(f"[self-test] clap bark: SND-SFX-000016 {bark_score:.4f} >= 0.10")
     print(
         f"[self-test] vectors: clip {len(clip)} x {DIM}, clap {len(clap)} x {DIM}"
     )

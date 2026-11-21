@@ -2375,9 +2375,28 @@ async function runLiveChecks() {
           assertEmptyWithHint(result, "music");
         });
 
-        await check("live dog returns empty with a request hint", async () => {
+        await check("live dog returns cross-modal dog assets", async () => {
           const result = await search("dog");
-          assertEmptyWithHint(result, "dog");
+          assert(
+            result.json.length >= 4,
+            `dog returned ${result.json.length} results`,
+          );
+          const kinds = new Set(result.json.map((row) => row.kind));
+          for (const kind of ["image", "audio", "video", "model"]) {
+            assert(kinds.has(kind), `dog returned no ${kind} asset`);
+          }
+          const ids = new Set(result.json.map((row) => row.id));
+          assert(ids.has("IMG-CONCEPT-000013"), "dog returned no sitting-dog image");
+          assert(ids.has("SND-SFX-000016"), "dog returned no bark audio");
+          assert(ids.has("MDL-PROP-000018"), "dog returned no dog splat");
+        });
+
+        await check("live bark returns the dog audio", async () => {
+          const result = await search("bark");
+          assert(
+            result.json.some((row) => row.id === "SND-SFX-000016"),
+            "bark returned no dog bark audio",
+          );
         });
       }
     }

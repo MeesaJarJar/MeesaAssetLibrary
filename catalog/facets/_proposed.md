@@ -4,13 +4,13 @@ Landing log for vocabulary that is in use, or under discussion, but is not yet
 promoted to a facet file. Everything here is valid to use today unless an entry
 says otherwise.
 
-Counts are from the four bundles currently in the catalog (2026-11-21).
+Counts are from the ten bundles currently in the catalog (2026-11-21).
 
 ## Namespaces in use without a facet file
 
 | Namespace | Values in use | Why it exists | Promotion trigger |
 | --- | --- | --- | --- |
-| `palette:` | `mossy-green` (3), `twilight` (0), `crimson` (0) | groups assets that share a colour ramp so sets can be matched by mood and hue | promote to `palette.md` once a fifth palette value appears |
+| `palette:` | promoted 2026-11-21 to `catalog/facets/palette.md` | groups assets that share a colour ramp so sets can be matched by mood and hue | done |
 | `mood:` | `melancholic` (0) | emotional framing, mainly for concept plates and music | promote to `mood.md` when mood becomes a common filter |
 
 These were introduced by the starter set and remain valid to use; deleted bundles

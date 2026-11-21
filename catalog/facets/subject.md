@@ -4,13 +4,14 @@ Purpose: what the asset depicts, independent of file format or intended use.
 Values are two-level (`subject:group/thing`) so a search can widen from
 `subject:item/potion` to `subject:item/`.
 
-Counts are from the four bundles currently in the catalog (2026-11-21).
+Counts are from the ten bundles currently in the catalog (2026-11-21).
 
 ## Values
 
 | Value | Count | Meaning |
 | --- | --- | --- |
 | `subject:environment/stone` | 2 | natural or worked stone surfaces: cobbles, walls, cliffs |
+| `subject:creature/dog` | 6 | dogs and dog variants: portraits, action poses, barks and 3D reconstructions |
 | `subject:environment/tree` | 0 | individual trees and tree variants: canopy, trunk and root structure |
 | `subject:ambience/forest` | 1 | a non-musical bed that places the listener in a biome |
 | `subject:structure/tower` | 0 | a built vertical structure, ruined or intact |

@@ -3,7 +3,7 @@
 Purpose: how the asset is drawn or produced, so an agent can keep a set visually
 consistent. Style is about rendering, not subject and not quality.
 
-Counts are from the four bundles currently in the catalog (2026-11-21).
+Counts are from the ten bundles currently in the catalog (2026-11-21).
 
 ## Values
 
@@ -11,7 +11,8 @@ Counts are from the four bundles currently in the catalog (2026-11-21).
 | --- | --- | --- |
 | `style:pixel-art` | 0 | authored on a pixel grid; crisp edges, integer scaling |
 | `style:painted` | 0 | soft brushes, gradients and atmospheric depth |
-| `style:realistic` | 3 | true-to-life surfaces, lighting and proportions; not stylised |
+| `style:realistic` | 4 | true-to-life surfaces, lighting and proportions; not stylised |
+| `style:stylized` | 5 | deliberate simplification or exaggeration; not photoreal, not a pixel grid |
 | `style:flat` | 0 | hard shapes, few tones, no gradients; UI-first |
 | `style:clean-synth` | 1 | simple waveforms, no noise or distortion |
 | `style:reference` | 0 | a documentation artifact, not a rendered scene |

@@ -8,17 +8,17 @@ maintained by hand; rebuild the browsable gallery with
 
 | Kind | Directory | Bundles | Notes |
 | --- | --- | --- | --- |
-| image | `assets/image/` | 1 | tileable stone texture |
-| audio | `assets/audio/` | 1 | ambient forest loop |
+| image | `assets/image/` | 4 | seamless stone texture + three dog concepts |
+| audio | `assets/audio/` | 2 | ambient forest loop + dog bark |
 | doc | `assets/doc/` | 0 | reserved roles only |
-| model | `assets/model/` | 1 | Gaussian splat prop |
-| video | `assets/video/` | 1 | camera capture loop |
+| model | `assets/model/` | 2 | sword totem + dog splats |
+| video | `assets/video/` | 2 | two camera loops |
 | font | `assets/font/` | 0 | reserved roles only |
 | material | `assets/material/` | 0 | reserved roles only |
 | project | `assets/project/` | 0 | engine export bundles |
 | other | `assets/other/` | 0 | uncategorised, use sparingly |
 
-Total: 4 bundles.
+Total: 10 bundles.
 
 ## Entry points
 
@@ -56,7 +56,10 @@ of it. If they disagree, trust `asset.json` and regenerate the index.
 
 ## Current themes
 
-The catalog is a four-bundle viewer demo slice built around one mossy stone
-surface: a seamless tile, a synthesized forest ambience loop, a camera drift
-rendered from that tile and a Gaussian splat sword totem. Each bundle exists to
-exercise one viewer path, and all four are in the `viewer-demos` collection.
+The catalog now has two coherent slices. The mossy-stone slice holds a seamless
+tile, a synthesized forest ambience loop, a camera drift rendered from that tile
+and a Gaussian splat sword totem. The dog slice is the first cross-modal test
+set: three stylized dog concepts sharing the `dog` family, a generated dog bark,
+a camera loop over the golden retriever, and a 65k-gaussian dog splat. Searching
+`dog` should return all six, with the three images collapsed into one family
+card.

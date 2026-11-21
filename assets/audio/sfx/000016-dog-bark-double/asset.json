@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "id": "SND-SFX-000016",
+  "kind": "audio",
+  "role": "sfx",
+  "title": "Dog Bark Double",
+  "summary": "Four-second close, natural SFX of a medium dog barking twice, with a short dry tail and an isolated, unprocessed character. Use for companion NPC reactions, alert cues, or a yard ambience layer; trim the tail for a single one-shot.",
+  "tags": [
+    "subject:creature/dog",
+    "style:realistic",
+    "use:sfx",
+    "format:mp3",
+    "engine:any"
+  ],
+  "keywords": [
+    "dog",
+    "bark",
+    "barking",
+    "woof",
+    "sfx",
+    "animal",
+    "alert"
+  ],
+  "prompt": "a single medium dog barking twice, close perspective, natural, dry, isolated",
+  "family": null,
+  "preview": "preview.png",
+  "files": [
+    {
+      "path": "src/dog-bark.mp3",
+      "bytes": 193051,
+      "mime": "audio/mpeg",
+      "sha256": "099d0331438b9ad8078cfef95022a53849956c82e00b89bb7a2f2c23a2541bf2"
+    }
+  ],
+  "technical": {
+    "duration_s": 4.02,
+    "sample_rate": 44100,
+    "channels": 2,
+    "loopable": false
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI Stable Audio 3",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI Stable Audio 3 (stable_audio_3_medium), 4.0 s. The generation prompt also requested no music and no reverb. CLAP check: 'a single dog bark' 0.536, 'a dog barking' 0.513, far above ambience."
+}

@@ -2786,7 +2786,7 @@ const ASSETS = ${data};
 
   function renderSplat(asset) {
     var autoOn = true;
-    var flipOn = false;
+    var flipOn = !!(asset.technical && asset.technical.flipY === true);
     var failed = false;
 
     var wrap = el('div', 'splat-wrap');

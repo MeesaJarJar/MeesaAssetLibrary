@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000013",
+  "kind": "image",
+  "role": "concept",
+  "title": "Brown Dog Sitting",
+  "summary": "Full-body stylized brown dog sitting with its tongue out on a neutral grey studio background, 768x768. Use for a companion NPC, pet portrait, or scale reference; the flat backdrop needs keying out before engine use.",
+  "tags": [
+    "subject:creature/dog",
+    "style:stylized",
+    "use:concept-art",
+    "palette:earth",
+    "format:png",
+    "engine:any"
+  ],
+  "keywords": [
+    "dog",
+    "brown dog",
+    "sitting",
+    "companion",
+    "creature",
+    "animal",
+    "pet"
+  ],
+  "prompt": "full body portrait of a friendly brown dog sitting, game character concept art, centered, plain black background, clean silhouette, detailed fur, soft studio lighting",
+  "family": "dog",
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/dog-sitting.png",
+      "bytes": 419572,
+      "mime": "image/png",
+      "sha256": "46b814634335a29b2fdccf3c4252a8cf034999565adddf402c45177ec1815089"
+    }
+  ],
+  "technical": {
+    "width": 768,
+    "height": 768,
+    "alpha": false,
+    "tileable": null,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI SDXL txt2img",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI SDXL txt2img, seed 91001, 768x768. Grey studio background, no alpha cutout."
+}

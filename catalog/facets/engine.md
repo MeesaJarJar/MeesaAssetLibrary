@@ -3,13 +3,13 @@
 Purpose: which runtime or toolchain an asset is packaged for. This is about
 packaging compatibility, not art style and not a quality claim.
 
-Counts are from the four bundles currently in the catalog (2026-11-21).
+Counts are from the ten bundles currently in the catalog (2026-11-21).
 
 ## Values
 
 | Value | Count | Meaning |
 | --- | --- | --- |
-| `engine:any` | 4 | plain source files with no engine-specific packaging |
+| `engine:any` | 10 | plain source files with no engine-specific packaging |
 
 ## Choice notes
 

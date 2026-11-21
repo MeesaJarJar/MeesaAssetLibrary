@@ -1,7 +1,303 @@
 {
   "version": 1,
-  "generated": "2026-11-21T19:48:16.611Z",
+  "generated": "2026-11-21T21:34:55.255Z",
   "assets": [
+    {
+      "id": "IMG-CONCEPT-000013",
+      "kind": "image",
+      "role": "concept",
+      "title": "Brown Dog Sitting",
+      "summary": "Full-body stylized brown dog sitting with its tongue out on a neutral grey studio background, 768x768. Use for a companion NPC, pet portrait, or scale reference; the flat backdrop needs keying out before engine use.",
+      "tags": [
+        "subject:creature/dog",
+        "style:stylized",
+        "use:concept-art",
+        "palette:earth",
+        "format:png",
+        "engine:any"
+      ],
+      "keywords": [
+        "dog",
+        "brown dog",
+        "sitting",
+        "companion",
+        "creature",
+        "animal",
+        "pet"
+      ],
+      "prompt": "full body portrait of a friendly brown dog sitting, game character concept art, centered, plain black background, clean silhouette, detailed fur, soft studio lighting",
+      "family": "dog",
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/image/concept/000013-brown-dog-sitting/src/dog-sitting.png",
+      "mime": "image/png",
+      "bytes": 419572,
+      "sha256": null,
+      "dir": "assets/image/concept/000013-brown-dog-sitting",
+      "added": "2026-11-21",
+      "text": "Brown Dog Sitting. Full-body stylized brown dog sitting with its tongue out on a neutral grey studio background, 768x768. Use for a companion NPC, pet portrait, or scale reference; the flat backdrop needs keying out before engine use. subject:creature/dog, style:stylized, use:concept-art, palette:earth, format:png, engine:any. dog, brown dog, sitting, companion, creature, animal, pet. full body portrait of a friendly brown dog sitting, game character concept art, centered, plain black background, clean silhouette, detailed fur, soft studio lighting",
+      "tokens": [
+        "brown",
+        "dog",
+        "sitting",
+        "full",
+        "body",
+        "stylized",
+        "with",
+        "its",
+        "tongue",
+        "out",
+        "on",
+        "neutral",
+        "grey",
+        "studio",
+        "background",
+        "768x768",
+        "use",
+        "for",
+        "companion",
+        "npc",
+        "pet",
+        "portrait",
+        "or",
+        "scale",
+        "reference",
+        "the",
+        "flat",
+        "backdrop",
+        "need",
+        "keying",
+        "before",
+        "engine",
+        "subject",
+        "creature",
+        "style",
+        "concept",
+        "art",
+        "palette",
+        "earth",
+        "format",
+        "png",
+        "any",
+        "animal",
+        "of",
+        "friendly",
+        "game",
+        "character",
+        "centered",
+        "plain",
+        "black",
+        "clean",
+        "silhouette",
+        "detailed",
+        "fur",
+        "soft",
+        "lighting"
+      ],
+      "embeddings": {
+        "clipImage": 0,
+        "clipText": 1,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
+      "id": "IMG-CONCEPT-000014",
+      "kind": "image",
+      "role": "concept",
+      "title": "Golden Retriever Running",
+      "summary": "Side-view stylized golden retriever mid-stride on a dark studio background, 768x768. Use for run-cycle reference, an agility or speed icon, or a hero image; the pose is a single frame, not a spritesheet.",
+      "tags": [
+        "subject:creature/dog",
+        "style:stylized",
+        "use:concept-art",
+        "palette:warm",
+        "format:png",
+        "engine:any"
+      ],
+      "keywords": [
+        "dog",
+        "golden retriever",
+        "running",
+        "motion",
+        "speed",
+        "companion",
+        "creature"
+      ],
+      "prompt": "a golden retriever running, side view, game asset concept art, plain black background, clean silhouette, motion, detailed fur",
+      "family": "dog",
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/image/concept/000014-golden-retriever-running/src/dog-running.png",
+      "mime": "image/png",
+      "bytes": 660864,
+      "sha256": null,
+      "dir": "assets/image/concept/000014-golden-retriever-running",
+      "added": "2026-11-21",
+      "text": "Golden Retriever Running. Side-view stylized golden retriever mid-stride on a dark studio background, 768x768. Use for run-cycle reference, an agility or speed icon, or a hero image; the pose is a single frame, not a spritesheet. subject:creature/dog, style:stylized, use:concept-art, palette:warm, format:png, engine:any. dog, golden retriever, running, motion, speed, companion, creature. a golden retriever running, side view, game asset concept art, plain black background, clean silhouette, motion, detailed fur",
+      "tokens": [
+        "golden",
+        "retriever",
+        "running",
+        "side",
+        "view",
+        "stylized",
+        "mid",
+        "stride",
+        "on",
+        "dark",
+        "studio",
+        "background",
+        "768x768",
+        "use",
+        "for",
+        "run",
+        "cycle",
+        "reference",
+        "an",
+        "agility",
+        "or",
+        "speed",
+        "icon",
+        "hero",
+        "image",
+        "the",
+        "pose",
+        "is",
+        "single",
+        "frame",
+        "not",
+        "spritesheet",
+        "subject",
+        "creature",
+        "dog",
+        "style",
+        "concept",
+        "art",
+        "palette",
+        "warm",
+        "format",
+        "png",
+        "engine",
+        "any",
+        "motion",
+        "companion",
+        "game",
+        "asset",
+        "plain",
+        "black",
+        "clean",
+        "silhouette",
+        "detailed",
+        "fur"
+      ],
+      "embeddings": {
+        "clipImage": 2,
+        "clipText": 3,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
+      "id": "IMG-CONCEPT-000015",
+      "kind": "image",
+      "role": "concept",
+      "title": "White Terrier Portrait",
+      "summary": "Head-and-shoulders stylized white terrier with bright eyes and an open-mouth expression, 768x768. Use for a pet portrait, dialogue bust, or companion UI icon; crop to a square for HUD use.",
+      "tags": [
+        "subject:creature/dog",
+        "style:stylized",
+        "use:concept-art",
+        "palette:monochrome",
+        "format:png",
+        "engine:any"
+      ],
+      "keywords": [
+        "dog",
+        "terrier",
+        "portrait",
+        "face",
+        "icon",
+        "companion",
+        "creature"
+      ],
+      "prompt": "head and shoulders portrait of a small white dog, game icon concept art, plain black background, clean silhouette, detailed fur",
+      "family": "dog",
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/image/concept/000015-white-terrier-portrait/src/dog-portrait.png",
+      "mime": "image/png",
+      "bytes": 630293,
+      "sha256": null,
+      "dir": "assets/image/concept/000015-white-terrier-portrait",
+      "added": "2026-11-21",
+      "text": "White Terrier Portrait. Head-and-shoulders stylized white terrier with bright eyes and an open-mouth expression, 768x768. Use for a pet portrait, dialogue bust, or companion UI icon; crop to a square for HUD use. subject:creature/dog, style:stylized, use:concept-art, palette:monochrome, format:png, engine:any. dog, terrier, portrait, face, icon, companion, creature. head and shoulders portrait of a small white dog, game icon concept art, plain black background, clean silhouette, detailed fur",
+      "tokens": [
+        "white",
+        "terrier",
+        "portrait",
+        "head",
+        "and",
+        "shoulder",
+        "stylized",
+        "with",
+        "bright",
+        "eye",
+        "an",
+        "open",
+        "mouth",
+        "expression",
+        "768x768",
+        "use",
+        "for",
+        "pet",
+        "dialogue",
+        "bust",
+        "or",
+        "companion",
+        "ui",
+        "icon",
+        "crop",
+        "to",
+        "square",
+        "hud",
+        "subject",
+        "creature",
+        "dog",
+        "style",
+        "concept",
+        "art",
+        "palette",
+        "monochrome",
+        "format",
+        "png",
+        "engine",
+        "any",
+        "face",
+        "of",
+        "small",
+        "game",
+        "plain",
+        "black",
+        "background",
+        "clean",
+        "silhouette",
+        "detailed",
+        "fur"
+      ],
+      "embeddings": {
+        "clipImage": 4,
+        "clipText": 5,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
     {
       "id": "IMG-TEXTURE-000009",
       "kind": "image",
@@ -89,8 +385,8 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 0,
-        "clipText": 1,
+        "clipImage": 6,
+        "clipText": 7,
         "clapAudio": null,
         "clapText": null
       }
@@ -168,8 +464,104 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 2,
-        "clipText": 3,
+        "clipImage": 8,
+        "clipText": 9,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
+      "id": "MDL-PROP-000018",
+      "kind": "model",
+      "role": "prop",
+      "title": "Brown Dog Splat",
+      "summary": "65,536-gaussian 3D reconstruction of the sitting brown dog, exported as PLY. Use in the gallery splat viewer or as a stylized 3D companion reference; it is a Gaussian splat, not a rigged mesh.",
+      "tags": [
+        "subject:creature/dog",
+        "style:stylized",
+        "use:reference",
+        "format:ply",
+        "engine:any"
+      ],
+      "keywords": [
+        "dog",
+        "brown dog",
+        "3d",
+        "splat",
+        "gaussian",
+        "companion",
+        "creature"
+      ],
+      "prompt": "full body portrait of a friendly brown dog sitting, game character concept art, centered, plain black background, clean silhouette, detailed fur, soft studio lighting",
+      "family": null,
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/model/prop/000018-brown-dog-splat/src/dog-splat.ply",
+      "mime": "application/octet-stream",
+      "bytes": 4456863,
+      "sha256": null,
+      "dir": "assets/model/prop/000018-brown-dog-splat",
+      "added": "2026-11-21",
+      "text": "Brown Dog Splat. 65,536-gaussian 3D reconstruction of the sitting brown dog, exported as PLY. Use in the gallery splat viewer or as a stylized 3D companion reference; it is a Gaussian splat, not a rigged mesh. subject:creature/dog, style:stylized, use:reference, format:ply, engine:any. dog, brown dog, 3d, splat, gaussian, companion, creature. full body portrait of a friendly brown dog sitting, game character concept art, centered, plain black background, clean silhouette, detailed fur, soft studio lighting",
+      "tokens": [
+        "brown",
+        "dog",
+        "splat",
+        "65",
+        "536",
+        "gaussian",
+        "3d",
+        "reconstruction",
+        "of",
+        "the",
+        "sitting",
+        "exported",
+        "as",
+        "ply",
+        "use",
+        "in",
+        "gallery",
+        "viewer",
+        "or",
+        "stylized",
+        "companion",
+        "reference",
+        "it",
+        "is",
+        "not",
+        "rigged",
+        "mesh",
+        "subject",
+        "creature",
+        "style",
+        "format",
+        "engine",
+        "any",
+        "full",
+        "body",
+        "portrait",
+        "friendly",
+        "game",
+        "character",
+        "concept",
+        "art",
+        "centered",
+        "plain",
+        "black",
+        "background",
+        "clean",
+        "silhouette",
+        "detailed",
+        "fur",
+        "soft",
+        "studio",
+        "lighting"
+      ],
+      "embeddings": {
+        "clipImage": 10,
+        "clipText": 11,
         "clapAudio": null,
         "clapText": null
       }
@@ -252,9 +644,101 @@
       ],
       "embeddings": {
         "clipImage": null,
-        "clipText": 4,
+        "clipText": 12,
         "clapAudio": 0,
         "clapText": 1
+      }
+    },
+    {
+      "id": "SND-SFX-000016",
+      "kind": "audio",
+      "role": "sfx",
+      "title": "Dog Bark Double",
+      "summary": "Four-second close, natural SFX of a medium dog barking twice, with a short dry tail and an isolated, unprocessed character. Use for companion NPC reactions, alert cues, or a yard ambience layer; trim the tail for a single one-shot.",
+      "tags": [
+        "subject:creature/dog",
+        "style:realistic",
+        "use:sfx",
+        "format:mp3",
+        "engine:any"
+      ],
+      "keywords": [
+        "dog",
+        "bark",
+        "barking",
+        "woof",
+        "sfx",
+        "animal",
+        "alert"
+      ],
+      "prompt": "a single medium dog barking twice, close perspective, natural, dry, isolated",
+      "family": null,
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.png",
+      "file": "assets/audio/sfx/000016-dog-bark-double/src/dog-bark.mp3",
+      "mime": "audio/mpeg",
+      "bytes": 193051,
+      "sha256": null,
+      "dir": "assets/audio/sfx/000016-dog-bark-double",
+      "added": "2026-11-21",
+      "text": "Dog Bark Double. Four-second close, natural SFX of a medium dog barking twice, with a short dry tail and an isolated, unprocessed character. Use for companion NPC reactions, alert cues, or a yard ambience layer; trim the tail for a single one-shot. subject:creature/dog, style:realistic, use:sfx, format:mp3, engine:any. dog, bark, barking, woof, sfx, animal, alert. a single medium dog barking twice, close perspective, natural, dry, isolated",
+      "tokens": [
+        "dog",
+        "bark",
+        "double",
+        "four",
+        "second",
+        "close",
+        "natural",
+        "sfx",
+        "of",
+        "medium",
+        "barking",
+        "twice",
+        "with",
+        "short",
+        "dry",
+        "tail",
+        "and",
+        "an",
+        "isolated",
+        "unprocessed",
+        "character",
+        "use",
+        "for",
+        "companion",
+        "npc",
+        "reaction",
+        "alert",
+        "cue",
+        "or",
+        "yard",
+        "ambience",
+        "layer",
+        "trim",
+        "the",
+        "single",
+        "one",
+        "shot",
+        "subject",
+        "creature",
+        "style",
+        "realistic",
+        "format",
+        "mp3",
+        "engine",
+        "any",
+        "woof",
+        "animal",
+        "perspective"
+      ],
+      "embeddings": {
+        "clipImage": null,
+        "clipText": 13,
+        "clapAudio": 2,
+        "clapText": 3
       }
     },
     {
@@ -336,8 +820,111 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 5,
-        "clipText": 6,
+        "clipImage": 14,
+        "clipText": 15,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
+      "id": "VID-CAPTURE-000017",
+      "kind": "video",
+      "role": "capture",
+      "title": "Golden Retriever Camera Loop",
+      "summary": "Six-second 1280x720 camera drift across the golden retriever concept, pushing in with a gentle sway. Use as a menu backdrop or ambient motion plate; it is a camera move over a still, not an animated run cycle.",
+      "tags": [
+        "subject:creature/dog",
+        "style:stylized",
+        "use:reference",
+        "palette:warm",
+        "format:mp4",
+        "engine:any"
+      ],
+      "keywords": [
+        "dog",
+        "golden retriever",
+        "running",
+        "motion",
+        "loop",
+        "backdrop"
+      ],
+      "prompt": "a golden retriever running, side view, game asset concept art, plain black background, clean silhouette, motion, detailed fur",
+      "family": null,
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/video/capture/000017-golden-retriever-camera-loop/src/dog-running-loop.mp4",
+      "mime": "video/mp4",
+      "bytes": 857594,
+      "sha256": null,
+      "dir": "assets/video/capture/000017-golden-retriever-camera-loop",
+      "added": "2026-11-21",
+      "text": "Golden Retriever Camera Loop. Six-second 1280x720 camera drift across the golden retriever concept, pushing in with a gentle sway. Use as a menu backdrop or ambient motion plate; it is a camera move over a still, not an animated run cycle. subject:creature/dog, style:stylized, use:reference, palette:warm, format:mp4, engine:any. dog, golden retriever, running, motion, loop, backdrop. a golden retriever running, side view, game asset concept art, plain black background, clean silhouette, motion, detailed fur",
+      "tokens": [
+        "golden",
+        "retriever",
+        "camera",
+        "loop",
+        "six",
+        "second",
+        "1280x720",
+        "drift",
+        "across",
+        "the",
+        "concept",
+        "pushing",
+        "in",
+        "with",
+        "gentle",
+        "sway",
+        "use",
+        "as",
+        "menu",
+        "backdrop",
+        "or",
+        "ambient",
+        "motion",
+        "plate",
+        "it",
+        "is",
+        "move",
+        "over",
+        "still",
+        "not",
+        "an",
+        "animated",
+        "run",
+        "cycle",
+        "subject",
+        "creature",
+        "dog",
+        "style",
+        "stylized",
+        "reference",
+        "palette",
+        "warm",
+        "format",
+        "mp4",
+        "engine",
+        "any",
+        "running",
+        "side",
+        "view",
+        "game",
+        "asset",
+        "art",
+        "plain",
+        "black",
+        "background",
+        "clean",
+        "silhouette",
+        "detailed",
+        "fur"
+      ],
+      "embeddings": {
+        "clipImage": 16,
+        "clipText": 17,
         "clapAudio": null,
         "clapText": null
       }
@@ -347,46 +934,100 @@
     "32": [
       "MDL-PROP-000012"
     ],
+    "65": [
+      "MDL-PROP-000018"
+    ],
+    "536": [
+      "MDL-PROP-000018"
+    ],
     "768": [
       "MDL-PROP-000012"
     ],
     "1280x720": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "1x": [
       "IMG-TEXTURE-000009"
     ],
     "3d": [
-      "MDL-PROP-000012"
+      "MDL-PROP-000012",
+      "MDL-PROP-000018"
     ],
     "768x768": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009"
     ],
     "across": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "agility": [
+      "IMG-CONCEPT-000014"
+    ],
+    "alert": [
+      "SND-SFX-000016"
     ],
     "ambience": [
       "SND-AMBIENCE-000010",
+      "SND-SFX-000016",
       "VID-CAPTURE-000011"
     ],
     "ambient": [
-      "SND-AMBIENCE-000010"
+      "SND-AMBIENCE-000010",
+      "VID-CAPTURE-000017"
+    ],
+    "an": [
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "SND-SFX-000016",
+      "VID-CAPTURE-000017"
     ],
     "and": [
-      "IMG-TEXTURE-000009",
-      "MDL-PROP-000012",
-      "SND-AMBIENCE-000010"
-    ],
-    "any": [
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016"
+    ],
+    "animal": [
+      "IMG-CONCEPT-000013",
+      "SND-SFX-000016"
+    ],
+    "animated": [
+      "VID-CAPTURE-000017"
+    ],
+    "any": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "IMG-TEXTURE-000009",
+      "MDL-PROP-000012",
+      "MDL-PROP-000018",
+      "SND-AMBIENCE-000010",
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "art": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
     ],
     "as": [
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "asset": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
     ],
     "at": [
       "IMG-TEXTURE-000009",
@@ -396,55 +1037,183 @@
     "ax": [
       "IMG-TEXTURE-000009"
     ],
+    "backdrop": [
+      "IMG-CONCEPT-000013",
+      "VID-CAPTURE-000017"
+    ],
+    "background": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
+    ],
+    "bark": [
+      "SND-SFX-000016"
+    ],
+    "barking": [
+      "SND-SFX-000016"
+    ],
     "bed": [
       "SND-AMBIENCE-000010"
+    ],
+    "before": [
+      "IMG-CONCEPT-000013"
+    ],
+    "black": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
+    ],
+    "body": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
     ],
     "both": [
       "IMG-TEXTURE-000009"
     ],
+    "bright": [
+      "IMG-CONCEPT-000015"
+    ],
+    "brown": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
+    ],
     "bundle": [
       "VID-CAPTURE-000011"
+    ],
+    "bust": [
+      "IMG-CONCEPT-000015"
     ],
     "came": [
       "IMG-TEXTURE-000009"
     ],
     "camera": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "centered": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
+    ],
+    "character": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018",
+      "SND-SFX-000016"
     ],
     "clean": [
-      "SND-AMBIENCE-000010"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "SND-AMBIENCE-000010",
+      "VID-CAPTURE-000017"
     ],
     "cleanly": [
       "IMG-TEXTURE-000009",
       "SND-AMBIENCE-000010"
     ],
+    "close": [
+      "SND-SFX-000016"
+    ],
     "cobblestone": [
       "IMG-TEXTURE-000009",
       "VID-CAPTURE-000011"
     ],
+    "companion": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "SND-SFX-000016"
+    ],
+    "concept": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
+    ],
+    "creature": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "SND-SFX-000016",
+      "VID-CAPTURE-000017"
+    ],
+    "crop": [
+      "IMG-CONCEPT-000015"
+    ],
+    "cue": [
+      "SND-SFX-000016"
+    ],
+    "cycle": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
+    ],
     "d4": [
       "SND-AMBIENCE-000010"
     ],
+    "dark": [
+      "IMG-CONCEPT-000014"
+    ],
     "demonstrate": [
       "VID-CAPTURE-000011"
+    ],
+    "detailed": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
+    ],
+    "dialogue": [
+      "IMG-CONCEPT-000015"
+    ],
+    "dog": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "SND-SFX-000016",
+      "VID-CAPTURE-000017"
+    ],
+    "double": [
+      "SND-SFX-000016"
     ],
     "down": [
       "IMG-TEXTURE-000009"
     ],
     "drift": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "dry": [
+      "SND-SFX-000016"
     ],
     "dungeon": [
       "IMG-TEXTURE-000009"
+    ],
+    "earth": [
+      "IMG-CONCEPT-000013"
     ],
     "echo": [
       "SND-AMBIENCE-000010"
     ],
     "engine": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "environment": [
       "IMG-TEXTURE-000009",
@@ -453,31 +1222,75 @@
     "exercise": [
       "MDL-PROP-000012"
     ],
+    "exported": [
+      "MDL-PROP-000018"
+    ],
+    "expression": [
+      "IMG-CONCEPT-000015"
+    ],
+    "eye": [
+      "IMG-CONCEPT-000015"
+    ],
     "face": [
+      "IMG-CONCEPT-000015",
       "MDL-PROP-000012"
     ],
     "fade": [
       "SND-AMBIENCE-000010"
     ],
+    "flat": [
+      "IMG-CONCEPT-000013"
+    ],
     "floor": [
       "IMG-TEXTURE-000009"
     ],
     "for": [
-      "IMG-TEXTURE-000009"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "IMG-TEXTURE-000009",
+      "SND-SFX-000016"
     ],
     "forest": [
       "IMG-TEXTURE-000009",
       "SND-AMBIENCE-000010"
     ],
     "format": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "four": [
+      "SND-SFX-000016"
+    ],
+    "frame": [
+      "IMG-CONCEPT-000014"
+    ],
+    "friendly": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
     ],
     "from": [
       "IMG-TEXTURE-000009",
       "VID-CAPTURE-000011"
+    ],
+    "full": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
+    ],
+    "fur": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
     ],
     "g3": [
       "SND-AMBIENCE-000010"
@@ -485,14 +1298,30 @@
     "g4": [
       "SND-AMBIENCE-000010"
     ],
+    "gallery": [
+      "MDL-PROP-000018"
+    ],
+    "game": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
+    ],
     "gaussian": [
-      "MDL-PROP-000012"
+      "MDL-PROP-000012",
+      "MDL-PROP-000018"
     ],
     "generated": [
       "IMG-TEXTURE-000009"
     ],
     "gentle": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "golden": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
     ],
     "green": [
       "IMG-TEXTURE-000009",
@@ -500,38 +1329,79 @@
       "VID-CAPTURE-000011"
     ],
     "grey": [
+      "IMG-CONCEPT-000013",
       "IMG-TEXTURE-000009"
     ],
     "guard": [
       "MDL-PROP-000012"
     ],
+    "head": [
+      "IMG-CONCEPT-000015"
+    ],
     "height": [
       "IMG-TEXTURE-000009"
     ],
+    "hero": [
+      "IMG-CONCEPT-000014"
+    ],
+    "hud": [
+      "IMG-CONCEPT-000015"
+    ],
+    "icon": [
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015"
+    ],
+    "image": [
+      "IMG-CONCEPT-000014"
+    ],
     "in": [
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "into": [
       "IMG-TEXTURE-000009"
     ],
     "is": [
+      "IMG-CONCEPT-000014",
       "MDL-PROP-000012",
-      "VID-CAPTURE-000011"
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "isolated": [
+      "SND-SFX-000016"
     ],
     "it": [
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "item": [
       "MDL-PROP-000012"
     ],
+    "its": [
+      "IMG-CONCEPT-000013"
+    ],
     "joint": [
       "IMG-TEXTURE-000009"
     ],
+    "keying": [
+      "IMG-CONCEPT-000013"
+    ],
+    "layer": [
+      "SND-SFX-000016"
+    ],
+    "lighting": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
+    ],
     "loop": [
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "low": [
       "SND-AMBIENCE-000010"
@@ -545,11 +1415,24 @@
     "matching": [
       "IMG-TEXTURE-000009"
     ],
+    "medium": [
+      "SND-SFX-000016"
+    ],
     "menu": [
-      "SND-AMBIENCE-000010"
+      "SND-AMBIENCE-000010",
+      "VID-CAPTURE-000017"
+    ],
+    "mesh": [
+      "MDL-PROP-000018"
+    ],
+    "mid": [
+      "IMG-CONCEPT-000014"
     ],
     "model": [
       "IMG-TEXTURE-000009"
+    ],
+    "monochrome": [
+      "IMG-CONCEPT-000015"
     ],
     "moss": [
       "IMG-TEXTURE-000009"
@@ -562,35 +1445,89 @@
       "SND-AMBIENCE-000010",
       "VID-CAPTURE-000011"
     ],
+    "motion": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
+    ],
+    "mouth": [
+      "IMG-CONCEPT-000015"
+    ],
+    "move": [
+      "VID-CAPTURE-000017"
+    ],
+    "mp3": [
+      "SND-SFX-000016"
+    ],
     "mp4": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "natural": [
+      "SND-SFX-000016"
+    ],
+    "need": [
+      "IMG-CONCEPT-000013"
+    ],
+    "neutral": [
+      "IMG-CONCEPT-000013"
     ],
     "normal": [
       "IMG-TEXTURE-000009"
     ],
+    "not": [
+      "IMG-CONCEPT-000014",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
+    ],
+    "npc": [
+      "IMG-CONCEPT-000013",
+      "SND-SFX-000016"
+    ],
     "of": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000015",
       "MDL-PROP-000012",
-      "SND-AMBIENCE-000010"
+      "MDL-PROP-000018",
+      "SND-AMBIENCE-000010",
+      "SND-SFX-000016"
     ],
     "ogg": [
       "SND-AMBIENCE-000010"
     ],
     "on": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
       "IMG-TEXTURE-000009"
+    ],
+    "one": [
+      "SND-SFX-000016"
     ],
     "only": [
       "IMG-TEXTURE-000009"
     ],
+    "open": [
+      "IMG-CONCEPT-000015"
+    ],
     "or": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "original": [
       "MDL-PROP-000012"
     ],
     "out": [
+      "IMG-CONCEPT-000013",
       "SND-AMBIENCE-000010"
+    ],
+    "over": [
+      "VID-CAPTURE-000017"
     ],
     "overgrown": [
       "IMG-TEXTURE-000009"
@@ -602,9 +1539,13 @@
       "MDL-PROP-000012"
     ],
     "palette": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "patch": [
       "IMG-TEXTURE-000009"
@@ -612,20 +1553,47 @@
     "path": [
       "IMG-TEXTURE-000009"
     ],
+    "perspective": [
+      "SND-SFX-000016"
+    ],
+    "pet": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000015"
+    ],
     "placeholder": [
       "VID-CAPTURE-000011"
     ],
+    "plain": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
+    ],
     "plate": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "playback": [
       "VID-CAPTURE-000011"
     ],
     "ply": [
-      "MDL-PROP-000012"
+      "MDL-PROP-000012",
+      "MDL-PROP-000018"
     ],
     "png": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009"
+    ],
+    "portrait": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018"
+    ],
+    "pose": [
+      "IMG-CONCEPT-000014"
     ],
     "poster": [
       "MDL-PROP-000012"
@@ -637,28 +1605,45 @@
       "MDL-PROP-000012"
     ],
     "pushing": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "quiet": [
       "SND-AMBIENCE-000010"
     ],
+    "reaction": [
+      "SND-SFX-000016"
+    ],
     "realistic": [
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
+      "SND-SFX-000016",
       "VID-CAPTURE-000011"
     ],
     "reconstruction": [
-      "MDL-PROP-000012"
+      "MDL-PROP-000012",
+      "MDL-PROP-000018"
     ],
     "reference": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
       "MDL-PROP-000012",
-      "VID-CAPTURE-000011"
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "render": [
       "MDL-PROP-000012"
     ],
     "rendered": [
       "VID-CAPTURE-000011"
+    ],
+    "retriever": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
+    ],
+    "rigged": [
+      "MDL-PROP-000018"
     ],
     "roughly": [
       "MDL-PROP-000012"
@@ -667,30 +1652,73 @@
       "IMG-TEXTURE-000009"
     ],
     "run": [
-      "IMG-TEXTURE-000009"
+      "IMG-CONCEPT-000014",
+      "IMG-TEXTURE-000009",
+      "VID-CAPTURE-000017"
+    ],
+    "running": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
     ],
     "same": [
       "IMG-TEXTURE-000009"
+    ],
+    "scale": [
+      "IMG-CONCEPT-000013"
     ],
     "seamless": [
       "IMG-TEXTURE-000009"
     ],
     "second": [
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "sfx": [
+      "SND-SFX-000016"
     ],
     "shaped": [
       "MDL-PROP-000012"
     ],
+    "short": [
+      "SND-SFX-000016"
+    ],
+    "shot": [
+      "SND-SFX-000016"
+    ],
+    "shoulder": [
+      "IMG-CONCEPT-000015"
+    ],
     "shrine": [
       "MDL-PROP-000012"
+    ],
+    "side": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
+    ],
+    "silhouette": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
     ],
     "sine": [
       "SND-AMBIENCE-000010"
     ],
+    "single": [
+      "IMG-CONCEPT-000014",
+      "SND-SFX-000016"
+    ],
+    "sitting": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
+    ],
     "six": [
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "slow": [
       "SND-AMBIENCE-000010"
@@ -698,8 +1726,25 @@
     "slowly": [
       "VID-CAPTURE-000011"
     ],
+    "small": [
+      "IMG-CONCEPT-000015"
+    ],
+    "soft": [
+      "IMG-CONCEPT-000013",
+      "MDL-PROP-000018"
+    ],
+    "speed": [
+      "IMG-CONCEPT-000014"
+    ],
     "splat": [
-      "MDL-PROP-000012"
+      "MDL-PROP-000012",
+      "MDL-PROP-000018"
+    ],
+    "spritesheet": [
+      "IMG-CONCEPT-000014"
+    ],
+    "square": [
+      "IMG-CONCEPT-000015"
     ],
     "stacked": [
       "SND-AMBIENCE-000010"
@@ -708,29 +1753,56 @@
       "SND-AMBIENCE-000010"
     ],
     "still": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "stone": [
       "IMG-TEXTURE-000009",
       "VID-CAPTURE-000011"
     ],
+    "stride": [
+      "IMG-CONCEPT-000014"
+    ],
+    "studio": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "MDL-PROP-000018"
+    ],
     "style": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "stylized": [
-      "MDL-PROP-000012"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
+      "MDL-PROP-000012",
+      "MDL-PROP-000018",
+      "VID-CAPTURE-000017"
     ],
     "subject": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "sway": [
-      "VID-CAPTURE-000011"
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "sword": [
       "MDL-PROP-000012"
@@ -738,18 +1810,29 @@
     "synth": [
       "SND-AMBIENCE-000010"
     ],
+    "tail": [
+      "SND-SFX-000016"
+    ],
     "tall": [
       "MDL-PROP-000012"
+    ],
+    "terrier": [
+      "IMG-CONCEPT-000015"
     ],
     "texture": [
       "IMG-TEXTURE-000009",
       "VID-CAPTURE-000011"
     ],
     "the": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "tile": [
       "IMG-TEXTURE-000009",
@@ -762,11 +1845,15 @@
       "IMG-TEXTURE-000009"
     ],
     "to": [
+      "IMG-CONCEPT-000015",
       "MDL-PROP-000012",
       "VID-CAPTURE-000011"
     ],
     "tone": [
       "SND-AMBIENCE-000010"
+    ],
+    "tongue": [
+      "IMG-CONCEPT-000013"
     ],
     "top": [
       "IMG-TEXTURE-000009"
@@ -777,20 +1864,47 @@
     "tremolo": [
       "SND-AMBIENCE-000010"
     ],
+    "trim": [
+      "SND-SFX-000016"
+    ],
+    "twice": [
+      "SND-SFX-000016"
+    ],
+    "ui": [
+      "IMG-CONCEPT-000015"
+    ],
+    "unprocessed": [
+      "SND-SFX-000016"
+    ],
     "use": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
+      "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
     ],
     "video": [
       "VID-CAPTURE-000011"
     ],
+    "view": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
+    ],
     "viewer": [
-      "MDL-PROP-000012"
+      "MDL-PROP-000012",
+      "MDL-PROP-000018"
     ],
     "viewport": [
       "MDL-PROP-000012"
+    ],
+    "warm": [
+      "IMG-CONCEPT-000014",
+      "VID-CAPTURE-000017"
     ],
     "was": [
       "VID-CAPTURE-000011"
@@ -801,14 +1915,33 @@
     "wet": [
       "IMG-TEXTURE-000009"
     ],
+    "white": [
+      "IMG-CONCEPT-000015"
+    ],
     "with": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000015",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "SND-AMBIENCE-000010",
-      "VID-CAPTURE-000011"
+      "SND-SFX-000016",
+      "VID-CAPTURE-000011",
+      "VID-CAPTURE-000017"
+    ],
+    "woof": [
+      "SND-SFX-000016"
+    ],
+    "yard": [
+      "SND-SFX-000016"
     ]
   },
-  "families": {},
+  "families": {
+    "dog": [
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000015"
+    ]
+  },
   "concepts": [
     {
       "id": "abstract",
@@ -5284,8 +6417,8 @@
     }
   ],
   "stats": {
-    "assets": 4,
-    "families": 0,
+    "assets": 10,
+    "families": 1,
     "concepts": 448
   }
 }

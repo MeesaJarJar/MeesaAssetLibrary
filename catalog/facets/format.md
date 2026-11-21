@@ -4,18 +4,19 @@ Purpose: the main file format of the asset, so an agent can match a pipeline
 without opening the bundle. `files[].mime` in `asset.json` remains the
 authoritative type for every individual file.
 
-Counts are from the four bundles currently in the catalog (2026-11-21).
+Counts are from the ten bundles currently in the catalog (2026-11-21).
 
 ## Values
 
 | Value | Count | Meaning |
 | --- | --- | --- |
 | `format:svg` | 0 | vector image; renders anywhere, scales cleanly |
-| `format:png` | 1 | raster image with optional alpha; lossless |
+| `format:png` | 4 | raster image with optional alpha; lossless |
 | `format:ogg` | 1 | compressed audio in an Ogg container |
 | `format:wav` | 0 | uncompressed PCM audio |
-| `format:mp4` | 1 | compressed video in an MP4 container |
-| `format:ply` | 1 | 3D geometry, including Gaussian splat point clouds |
+| `format:mp3` | 1 | compressed audio in an MP3 container |
+| `format:mp4` | 2 | compressed video in an MP4 container |
+| `format:ply` | 2 | 3D geometry, including Gaussian splat point clouds |
 | `format:markdown` | 0 | plain-text document with light markup |
 
 ## Choice notes

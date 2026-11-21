@@ -41,7 +41,7 @@ is a later feature and would reintroduce a model download at query time.
 ### Text vectors are banned from scoring
 
 CLIP text embeddings are anisotropic: unrelated text vectors share a large
-common direction. Measured on the current four assets, the `dog` concept scores
+common direction. Measured on the current ten assets, the `dog` concept scores
 **0.586** against the ambience asset's `clipText`, while the `sword` concept
 scores only **0.497** against the sword asset's own `clipText`. The unrelated
 pair beats the correct pair, so text-to-text cosine cannot be used for scoring.
@@ -322,7 +322,8 @@ It also verifies retrieval against the real assets:
 | CLIP `sword` | max `clipImage` >= `0.22`; `MDL-PROP-000012` above texture and video |
 | CLIP `stone` | max `clipImage` >= `0.22`; texture above the splat |
 | CLAP `ambience` | `clapAudio` >= `0.10`; CLAP only |
-| `dog` | max `clipImage` < `0.22` |
+| CLIP `dog` | max `clipImage` >= `0.22`; all six dog visuals above the floor and above every non-dog asset |
+| CLAP `bark` | `clapAudio` >= `0.10` for `SND-SFX-000016` |
 
 Current measured values:
 
@@ -330,14 +331,16 @@ Current measured values:
 clip sword: max 0.2737 (MDL-PROP-000012) >= 0.22; MDL-PROP-000012 0.2737 > IMG-TEXTURE-000009 0.2125, VID-CAPTURE-000011 0.1791
 clip stone: max 0.2968 (VID-CAPTURE-000011) >= 0.22; IMG-TEXTURE-000009 0.2928 > MDL-PROP-000012 0.2124
 clap ambience: SND-AMBIENCE-000010 0.1678 >= 0.10 (CLAP only; norm 1.0000)
-clip dog: max 0.2143 (IMG-TEXTURE-000009) < 0.22
+clip dog: max 0.2572 (IMG-CONCEPT-000013) >= 0.22; six dog assets, non-dog max 0.214
+clap bark: SND-SFX-000016 0.4481 >= 0.10
 ```
 
-These are absolute modality floors, not relative scores. A z-score gate is not
-usable with only three visual assets: `dog` reaches z `1.37`, essentially the
-same as `sword` at z `1.33`, so it cannot separate a true miss from a hit.
+These are absolute modality floors, not relative scores. A z-score gate was
+evaluated and rejected: with the original three visual assets, `dog` scored
+z `1.37` and `sword` z `1.33`, which cannot separate a true miss from a hit.
 Visual assets score only with `clipImage`, audio assets only with `clapAudio`,
-and `clipText`/`clapText` never enter the score.
+and `clipText`/`clapText` never enter the score. Keyword matches are preserved
+regardless, which is how the bark audio still appears for `dog`.
 
 ## Reference query flow
 

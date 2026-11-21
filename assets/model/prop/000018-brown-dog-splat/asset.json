@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "id": "MDL-PROP-000018",
+  "kind": "model",
+  "role": "prop",
+  "title": "Brown Dog Splat",
+  "summary": "65,536-gaussian 3D reconstruction of the sitting brown dog, exported as PLY. Use in the gallery splat viewer or as a stylized 3D companion reference; it is a Gaussian splat, not a rigged mesh.",
+  "tags": [
+    "subject:creature/dog",
+    "style:stylized",
+    "use:reference",
+    "format:ply",
+    "engine:any"
+  ],
+  "keywords": [
+    "dog",
+    "brown dog",
+    "3d",
+    "splat",
+    "gaussian",
+    "companion",
+    "creature"
+  ],
+  "prompt": "full body portrait of a friendly brown dog sitting, game character concept art, centered, plain black background, clean silhouette, detailed fur, soft studio lighting",
+  "family": null,
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/dog-splat.ply",
+      "bytes": 4456863,
+      "mime": "application/octet-stream",
+      "sha256": "b273d444423204278588ee45dd7b045ef0c970b5aac2ba2bcf441ac4c8221f50"
+    }
+  ],
+  "technical": {
+    "format": "ply",
+    "splats": 65536,
+    "up_axis": "y",
+    "flipY": true
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI TripoSplat",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI TripoSplat from IMG-CONCEPT-000013 dog-sitting.png, 65,536 gaussians. The generated preview is rotated 180 degrees on X; the PLY needs Flip Y on in the viewer."
+}

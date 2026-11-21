@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000014",
+  "kind": "image",
+  "role": "concept",
+  "title": "Golden Retriever Running",
+  "summary": "Side-view stylized golden retriever mid-stride on a dark studio background, 768x768. Use for run-cycle reference, an agility or speed icon, or a hero image; the pose is a single frame, not a spritesheet.",
+  "tags": [
+    "subject:creature/dog",
+    "style:stylized",
+    "use:concept-art",
+    "palette:warm",
+    "format:png",
+    "engine:any"
+  ],
+  "keywords": [
+    "dog",
+    "golden retriever",
+    "running",
+    "motion",
+    "speed",
+    "companion",
+    "creature"
+  ],
+  "prompt": "a golden retriever running, side view, game asset concept art, plain black background, clean silhouette, motion, detailed fur",
+  "family": "dog",
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/dog-running.png",
+      "bytes": 660864,
+      "mime": "image/png",
+      "sha256": "8dbe42ab26e22eeb581667e7ca1ca392219249daecf25a59459e2b48d38ea8fd"
+    }
+  ],
+  "technical": {
+    "width": 768,
+    "height": 768,
+    "alpha": false,
+    "tileable": null,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI SDXL txt2img",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI SDXL txt2img, seed 91002, 768x768. Dark studio background, single action pose."
+}

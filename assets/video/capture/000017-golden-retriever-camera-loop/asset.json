@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "id": "VID-CAPTURE-000017",
+  "kind": "video",
+  "role": "capture",
+  "title": "Golden Retriever Camera Loop",
+  "summary": "Six-second 1280x720 camera drift across the golden retriever concept, pushing in with a gentle sway. Use as a menu backdrop or ambient motion plate; it is a camera move over a still, not an animated run cycle.",
+  "tags": [
+    "subject:creature/dog",
+    "style:stylized",
+    "use:reference",
+    "palette:warm",
+    "format:mp4",
+    "engine:any"
+  ],
+  "keywords": [
+    "dog",
+    "golden retriever",
+    "running",
+    "motion",
+    "loop",
+    "backdrop"
+  ],
+  "prompt": "a golden retriever running, side view, game asset concept art, plain black background, clean silhouette, motion, detailed fur",
+  "family": null,
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/dog-running-loop.mp4",
+      "bytes": 857594,
+      "mime": "video/mp4",
+      "sha256": "5c2393916ef1507a0445414d965113955eae32abb74c7be0768952f0ec873e6d"
+    }
+  ],
+  "technical": {
+    "duration_s": 6,
+    "resolution": "1280x720",
+    "fps": 24,
+    "codec": "h264"
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ffmpeg zoompan",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ffmpeg zoompan from IMG-CONCEPT-000014 dog-running.png, 24 fps, H.264, CRF 20, no audio track."
+}
