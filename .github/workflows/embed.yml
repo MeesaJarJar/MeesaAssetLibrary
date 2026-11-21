@@ -1,0 +1,85 @@
+name: Refresh semantic embeddings
+
+# Maintenance job, started by hand. It regenerates the embedding bins and the
+# search index, then fails if that changed tracked catalog files. It never
+# commits: download the artifact, review the diff, and commit it yourself.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: embed
+  cancel-in-progress: false
+
+jobs:
+  embed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install CPU embedding dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install transformers soundfile pillow
+
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-${{ runner.os }}-${{ hashFiles('scripts/embed.py') }}
+          restore-keys: |
+            hf-${{ runner.os }}-
+
+      # scripts/embed.py loads from the local Hugging Face cache only. Seed a
+      # cold cache on the first run; later runs restore it with actions/cache.
+      - name: Warm Hugging Face cache
+        run: |
+          python - <<'PY'
+          from huggingface_hub import snapshot_download
+
+          for repo_id in ("openai/clip-vit-base-patch32", "laion/clap-htsat-unfused"):
+              print("Downloading", repo_id)
+              snapshot_download(repo_id)
+          PY
+
+      - name: Generate embeddings
+        run: python scripts/embed.py
+
+      - name: Rebuild search index
+        run: node scripts/build-search-index.mjs
+
+      - name: Check catalog changes
+        id: catalog_diff
+        run: |
+          git add -N catalog
+          if git diff --exit-code -- catalog; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- catalog
+            echo "::error::The embedding job changed catalog files. Nothing was committed; download the artifact and commit the updates manually."
+            exit 1
+          fi
+
+      - name: Upload updated catalog files
+        if: failure() && steps.catalog_diff.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: embedding-catalog-updates
+          path: catalog/
+          if-no-files-found: error
+          retention-days: 30

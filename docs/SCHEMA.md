@@ -34,12 +34,21 @@ required unless marked optional.
 | `title` | string | human-readable name, at most 80 characters |
 | `summary` | string | one or two sentences; says what it is and when to use it |
 | `tags` | string[] | `namespace:value` strings, at least two |
+| `keywords` | string[] | optional; free-form search terms, each a non-empty string |
+| `prompt` | string | optional; the generation prompt used to make the asset |
+| `family` | string \| null | optional; groups variants, `null` when the asset has no family |
 | `preview` | string | bundle-relative filename, currently `preview.svg` |
 | `files` | object[] | at least one entry, see below |
 | `technical` | object | kind-specific block, see below |
 | `source` | object | `origin`, `tool`, `captured` |
 | `relations` | object | `parent`, `variants`, `collections` |
 | `notes` | string | free text, may be `""` |
+
+`keywords`, `prompt` and `family` are optional and, when present, sit between
+`tags` and `preview`. `ingest.mjs` omits empty `keywords` and `prompt` values
+and writes `family: null` when no family is supplied. `check-library.mjs`
+validates their types only when they exist, so bundles created before these
+fields were introduced remain valid.
 
 ### files[] entries
 
@@ -85,6 +94,9 @@ Keys are required and appear in exactly this order:
 | `title` | string | short human-readable name |
 | `summary` | string | when to use the asset, not just what it is |
 | `tags` | string[] | the same namespace:value tags as `asset.json` |
+| `keywords` | string[] | optional; free-form search terms, when the asset carries them |
+| `prompt` | string | optional; the generation prompt, when the asset carries one |
+| `family` | string \| null | optional; family label, `null` when none |
 | `preview` | string | bundle-relative preview filename, e.g. `preview.svg` |
 | `file` | string | repo-relative forward-slash path to the primary deliverable; equals `<dir>/<files[0].path>` |
 | `mime` | string | MIME type of `file`; equals `asset.json.files[0].mime` |
@@ -93,10 +105,12 @@ Keys are required and appear in exactly this order:
 | `added` | string | ISO date `YYYY-MM-DD` the bundle entered the library |
 
 `preview` is bundle-relative, while `file` and `dir` are repo-relative. A
-consumer can resolve `file` directly from the repository root.
+consumer can resolve `file` directly from the repository root. The optional
+`keywords`, `prompt` and `family` keys sit between `tags` and `preview`; an
+entry that omits them is still valid.
 
 ```json
-{"id":"IMG-TILE-000001","kind":"image","role":"tile","title":"Mossy Stone Tile","summary":"Seamless 64x64 top-down cobblestone with cold grey-green stones and moss in the joints; low contrast keeps repeated ground tiles clean.","tags":["subject:environment/stone","style:pixel-art","use:tileset","palette:mossy-green","format:png","engine:any"],"preview":"preview.svg","file":"assets/image/tile/000001-mossy-stone/src/mossy-stone.png","mime":"image/png","dir":"assets/image/tile/000001-mossy-stone","bytes":5151,"added":"2026-11-20"}
+{"id":"IMG-TILE-000001","kind":"image","role":"tile","title":"Mossy Stone Tile","summary":"Seamless 64x64 top-down cobblestone with cold grey-green stones and moss in the joints; low contrast keeps repeated ground tiles clean.","tags":["subject:environment/stone","style:pixel-art","use:tileset","palette:mossy-green","format:png","engine:any"],"keywords":["mossy stone","cobblestone","seamless ground"],"prompt":"seamless mossy cobblestone tile, pixel art, top-down","family":"mossy-stone","preview":"preview.svg","file":"assets/image/tile/000001-mossy-stone/src/mossy-stone.png","mime":"image/png","dir":"assets/image/tile/000001-mossy-stone","bytes":5151,"added":"2026-11-20"}
 ```
 
 Entries written before the `file` and `mime` keys existed are legacy.
@@ -131,6 +145,9 @@ Keys are required and appear in exactly this order:
 | `title` | string | short human-readable name |
 | `summary` | string | when to use the asset, not just what it is |
 | `tags` | string[] | the same namespace:value tags as `asset.json` |
+| `keywords` | string[] | optional; free-form search terms, when the asset carries them |
+| `prompt` | string | optional; the generation prompt, when the asset carries one |
+| `family` | string \| null | optional; family label, `null` when none |
 | `preview` | string | bundle-relative preview filename |
 | `file` | string | repo-relative path to the primary deliverable; equals `<dir>/<files[0].path>` |
 | `mime` | string | MIME type of `file`; equals `asset.json.files[0].mime` |
@@ -143,10 +160,11 @@ Keys are required and appear in exactly this order:
 
 `preview` is bundle-relative, while `file` and `dir` are repo-relative. The
 catalog repeats `contributor` and `license` so a consumer can attribute an asset
-without opening the bundle.
+without opening the bundle. Optional `keywords`, `prompt` and `family` sit
+between `tags` and `preview`, exactly as in `catalog/index.jsonl`.
 
 ```json
-{"id":"COM-IMG-000001","kind":"image","role":"concept","title":"Moss Gate","summary":"...","tags":["subject:structure/gate","style:painterly","use:concept-art","format:png","engine:any"],"preview":"preview.webp","file":"community/image/concept/000001-moss-gate/src/moss-gate.png","mime":"image/png","dir":"community/image/concept/000001-moss-gate","bytes":123456,"sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","added":"2026-11-21","contributor":"octocat","license":"CC-BY-4.0"}
+{"id":"COM-IMG-000001","kind":"image","role":"concept","title":"Moss Gate","summary":"...","tags":["subject:structure/gate","style:painterly","use:concept-art","format:png","engine:any"],"keywords":["moss gate","overgrown arch"],"prompt":"a moss-covered stone gate in a forest","family":"moss-gate","preview":"preview.webp","file":"community/image/concept/000001-moss-gate/src/moss-gate.png","mime":"image/png","dir":"community/image/concept/000001-moss-gate","bytes":123456,"sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","added":"2026-11-21","contributor":"octocat","license":"CC-BY-4.0"}
 ```
 
 ### Community asset.json
@@ -160,7 +178,9 @@ A community `asset.json` is schema 1 plus two required top-level keys:
 
 `contributor.url` is the collaborator's GitHub profile. `source.origin` is
 `"community"`. The contributor and license values must agree with the catalog
-line, and `files[].sha256` is mandatory for every community file.
+line, and `files[].sha256` is mandatory for every community file. The contribute
+page writes optional `keywords`, `prompt` and `family` between `tags` and
+`preview`, using the same rules and order as `ingest.mjs`.
 
 ### Community IDs
 
@@ -285,6 +305,25 @@ required field, and never invent a value to avoid `null`.
 - A tag with no count in a facet file is still valid if an asset uses it. The
   facet files list what is known, not what is permitted.
 
+## Families
+
+`family` is an optional free-form label that groups assets belonging together,
+usually variants of one idea across resolutions, palettes or states (for
+example `mossy-stone`). It is a search and display hint, not a replacement for
+`relations`:
+
+- A family may span roles, kinds and catalogs, but a bundle still has exactly
+  one `family` value (or `null`).
+- Family membership is not a promise that every member is a variant. Use
+  `relations.parent` and `relations.variants` for the authoritative two-way
+  variant link.
+- The same family string should be reused exactly; do not create a second
+  spelling for an existing family.
+- `family` may be omitted or `null`. Neither means "unknown"; both mean the
+  asset is not grouped.
+- Families have no separate registry file. Derive the list from the catalogs
+  and the search index.
+
 ## Variants
 
 - A variant is a full bundle with its own ID, directory, `preview.svg` and
@@ -306,6 +345,109 @@ required field, and never invent a value to avoid `null`.
 
 After a move, update `catalog/index.jsonl`, the facet counts, and any collection
 that references the bundle. The ID does not change.
+
+## Generated search artifacts
+
+These files are derived, disposable and never hand-edited. Rebuild the text
+artifacts with `npm run index`; the embedding artifacts come from
+`npm run embed`. The JSONL catalogs and bundles remain the source of truth.
+`docs/SEARCH.md` covers the query flow, concept lexicon and rebuild details in
+depth.
+
+### catalog/search-index.json
+
+A JSON object. Consumers must ignore unknown keys so the builder can add fields
+without a schema change.
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `version` | integer | exactly `1` |
+| `generated` | string | ISO timestamp |
+| `assets` | object[] | one record per bundle from both catalogs, sorted by `id` |
+| `tokens` | object | token to array of matching asset IDs |
+| `families` | object | family label to array of asset IDs |
+| `concepts` | object[] | the concept list, sorted by `id` |
+| `stats` | object | counts of assets, families and concepts |
+
+Each `assets[]` record carries the index metadata (`id`, `kind`, `role`,
+`title`, `summary`, `tags`, optional `keywords`, `prompt`, `family`, `scope`,
+`contributor`, `license`, `preview`, `file`, `mime`, `bytes`, `sha256`, `dir`,
+`added`), a normalized `text` field for keyword matching, a `tokens` array, and
+an `embeddings` object. The gallery also accepts a bare array for
+compatibility, but new builders write the object form.
+
+Embedding slots are integers into the matching binary file. `clipImage` and
+`clipText` index the `clip` bin; `clapAudio` and `clapText` index the `clap`
+bin. An absent vector is `null`, not a missing key.
+
+Assets that have no explicit `family` but share an identical non-empty
+`prompt` with another asset receive a generated `prompt-<hash>` family in the
+search index only. The catalogs and `asset.json` are not rewritten.
+
+### catalog/embeddings.json
+
+The manifest for the binary vectors. `scripts/embed.py` writes it; the search
+builder may fold the same references into `search-index.json`.
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `version` | integer | exactly `1` |
+| `dim` | integer | floats per vector, currently `512` |
+| `clip` | object | `{ "file": "embeddings-clip.bin", "model": "openai/clip-vit-base-patch32" }` |
+| `clap` | object | `{ "file": "embeddings-clap.bin", "model": "laion/clap-htsat-unfused" }` |
+| `assets` | object | asset ID to `{ "clipImage": <slot>, "clipText": <slot>, "clapAudio": <slot>, "clapText": <slot> }` |
+| `concepts` | object | concept ID to `{ "clip": <slot>, "clap": <slot> }` |
+
+`.bin` files are little-endian float32 vectors concatenated in slot order, so
+vector `n` starts at byte `n * dim * 4`. The embed job rewrites the fixed file
+names in place. `build-search-index.mjs` requires `embeddings.json`, so run
+`npm run embed` before `npm run index` on a checkout without it. A missing bin
+or a `null` slot only disables that modality at query time; keyword scoring
+still works.
+
+### catalog/concepts.json
+
+`catalog/concepts.json` is a JSON array of concept objects, sorted by `id`. The
+search builder also accepts the seed array in `scripts/concepts.json` when the
+generated file is absent. The MCP server tolerates an object with a `concepts`
+array or an ID-keyed object, but the generated file is the array form:
+
+```json
+[{"id":"mossy-stone","label":"Mossy stone","synonyms":["wet cobblestone","overgrown paving"],"kind":"material","modality":"image"}]
+```
+
+Concepts expand queries with synonyms; they do not replace tags or asset IDs.
+`kind` and `modality` are optional hints. Concept embeddings, when present,
+live in `embeddings.json` under the same ID as `{ "clip": <slot>, "clap":
+<slot> }`. The seed vocabulary lives in `scripts/concepts.json`; the generated
+`catalog/concepts.json` is what consumers fetch. `build-search-index.mjs` fails
+if neither file yields a concept array, so run `npm run embed` first on a fresh
+checkout.
+
+## Packs
+
+A pack is a portable checkout of selected bundles plus a `pack.json` manifest.
+It is generated output: never a third catalog, never a new bundle, and never a
+reason to renumber or move an asset.
+
+`pack.json` uses `format: "meesa-asset-pack/1"`:
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `format` | string | exactly `meesa-asset-pack/1` |
+| `created` | string | ISO timestamp |
+| `source` | object | `{ "kind": "local" \| "remote", "libraryUrl": string \| null }` |
+| `restrictedAcknowledged` | boolean | true when restricted licenses were accepted |
+| `assets` | object[] | one entry per selected bundle |
+| `totals` | object | `{ "assets": n, "files": n, "bytes": n }` |
+| `verification` | object | `{ "allVerified": boolean, "failures": object[] }` |
+
+Each `assets[]` entry repeats `id`, `title`, `kind`, `role`, `family`,
+`contributor`, `license`, `file`, `sha256` and `preview`, plus `files[]` with
+`path`, `sha256`, `bytes`, `verified` and `status`. The pack also carries
+`CREDITS.md`, `LICENSE.txt` and `README.md`. A consumer must resolve IDs
+against the catalogs, verify the listed hashes, and stop on a mismatch or a
+restricted license it has not been authorized to use.
 
 ## Extension rules
 

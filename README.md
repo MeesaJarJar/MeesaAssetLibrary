@@ -33,7 +33,8 @@ curated `assets/` tree.
 ## Quick start
 
 1. Read `AGENTS.md` for the navigation contract.
-2. Search `catalog/index.jsonl` with `rg` to shortlist IDs.
+2. Search `catalog/index.jsonl` with `rg`, or use the gallery search for
+   natural-language queries, to shortlist IDs.
 3. Read the bundle's `asset.md` before opening any original file.
 4. Validate with `node scripts/check-library.mjs`.
 5. Browse the generated gallery in `gallery/`.
@@ -43,14 +44,45 @@ curated `assets/` tree.
 | Command | Purpose |
 | --- | --- |
 | `npm run ingest` | add one file as a complete bundle (see `AGENTS.md`) |
-| `npm run gallery` | rebuild `gallery/index.html` from the catalog |
+| `npm run index` | rebuild `catalog/search-index.json` from the catalogs and embeddings |
+| `npm run embed` | regenerate the semantic embedding bins (Python maintenance task) |
+| `npm run gallery` | rebuild the search index, then `gallery/index.html` |
 | `npm run check` | verify IDs, hashes, sizes, previews and index integrity |
 | `npm run serve` | serve the repo at `http://localhost:4173` for browsing |
 | `node mcp/test.mjs` | smoke-test the MCP server |
 
-The MCP server in `mcp/` exposes `search_assets`, `get_asset` and
-`list_taxonomy` to any MCP client. See `mcp/README.md` for Claude Desktop and
-OpenCode configuration.
+`npm run embed` invokes `python` from `PATH`. If that is not the right
+interpreter, run the script directly with the portable path for your machine:
+`python3 scripts/embed.py` on Linux/macOS, `py -3 scripts/embed.py` on Windows,
+or an activated virtual environment such as `.venv/Scripts/python.exe
+scripts/embed.py`. The dependencies are CPU Torch, `transformers`,
+`soundfile` and `pillow`; `.github/workflows/embed.yml` installs the same set.
+
+## Search and packs
+
+`catalog/search-index.json` is the generated search corpus. It adds normalized
+text, `keywords`, `prompt` and `family` to each catalog record; the gallery and
+the MCP server read it for keyword and semantic ranking. `catalog/concepts.json`
+holds the concept vocabulary used to expand queries, and the embedding bins are
+optional vectors built by `npm run embed`. Rebuild the index after changing
+metadata, then rebuild the gallery. `npm run index` expects
+`catalog/embeddings.json`; run `npm run embed` first on a checkout that does
+not have the embedding artifacts yet. The generated files are disposable; the
+JSONL catalogs and bundles remain the source of truth. `docs/SEARCH.md` documents
+the concept lexicon and query flow.
+
+Families group related assets and variants. They are advisory: use
+`relations.parent` and `relations.variants` for authoritative variant links.
+
+The gallery cart checks output hashes and then builds a downloadable pack. A
+pack is a `pack.json` manifest plus the bundles it lists, not a third catalog
+and not a copy of the library. Treat a pack as read-only when checking it out,
+resolve every listed ID against the catalogs, and keep community contributor
+and license metadata attached.
+
+The MCP server in `mcp/` exposes `search_assets`, `get_asset`, `list_taxonomy`
+and `checkout_pack` to any MCP client. See `mcp/README.md` for Claude Desktop
+and OpenCode configuration.
 
 ## Layout
 
@@ -64,9 +96,9 @@ OpenCode configuration.
 | `assets/material/` | surface and VFX materials |
 | `assets/doc/` | design notes, specs, palettes, tables |
 | `assets/project/` | engine export bundles |
-| `catalog/` | index, facets, collections, move log |
-| `scripts/` | single-asset ingest, gallery builder, integrity checker, static server |
+| `catalog/` | index, facets, collections, move log, generated search index and embedding bins |
+| `scripts/` | ingest, search index builder, embedding job, gallery builder, integrity checker, static server |
 | `gallery/` | generated static browser, safe to open from disk |
 | `mcp/` | stdio MCP server exposing the catalog to agents |
 | `_inbox/` | drop zone for raw dumps, never authoritative |
-| `docs/` | schema reference |
+| `docs/` | schema and semantic search reference |

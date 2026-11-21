@@ -71,15 +71,20 @@ async function main() {
   const added = localDate();
   if (previewStat.size > PREVIEW_WARN_BYTES) console.warn('WARN preview is ' + previewStat.size + ' bytes, over 512 KB; copied without resizing.');
 
+  const optional = {
+    ...(input.keywords.length ? { keywords: input.keywords.slice() } : {}),
+    ...(input.prompt ? { prompt: input.prompt } : {}),
+    family: input.family,
+  };
   const bundle = {
-    schema: 1, id, kind: input.kind, role: input.role, title: input.title, summary: input.summary, tags: input.tags, preview: previewName,
+    schema: 1, id, kind: input.kind, role: input.role, title: input.title, summary: input.summary, tags: input.tags, ...optional, preview: previewName,
     files: [{ path: 'src/' + sourceName, bytes: sourceStat.size, mime, sha256: sourceHash }], technical,
     source: { origin: input.origin, tool: input.tool, captured: added },
     relations: { parent: null, variants: [], collections: [] }, notes: input.notes,
   };
   const entry = {
     id, kind: input.kind, role: input.role, title: input.title, summary: input.summary,
-    tags: input.tags, preview: previewName, file: relDir + '/' + bundle.files[0].path, mime,
+    tags: input.tags, ...optional, preview: previewName, file: relDir + '/' + bundle.files[0].path, mime,
     dir: relDir, bytes: sourceStat.size, added,
   };
 
@@ -159,9 +164,18 @@ function validateInput(options) {
   if (!/^[a-z0-9][a-z0-9-]*$/.test(slug) || slug.length < 2 || slug.length > 40) {
     throw new Error('invalid slug "' + slug + '" (expected 2-40 lowercase letters, digits or hyphens)');
   }
+
+  const keywords = options.keywords
+    ? String(options.keywords).split(',').map((keyword) => oneLine(keyword)).filter(Boolean)
+    : [];
+  const dedupedKeywords = [...new Set(keywords)];
+  const prompt = options.prompt ? oneLine(options.prompt) : '';
+  const family = options.family ? oneLine(options.family) : null;
+
   return {
     file: options.file, kind, role, title, summary, tags, slug, origin,
     notes: options.notes ? oneLine(options.notes) : '', tool: options.tool ? oneLine(options.tool) : '', preview: options.preview || null, technical,
+    keywords: dedupedKeywords, prompt, family,
   };
 }
 async function scanExisting(root, indexText) {
@@ -347,11 +361,13 @@ function parseArgs(argv) {
   const options = {
     file: null, kind: null, role: null, title: null, summary: null, tags: null, slug: null,
     notes: '', origin: 'generated', tool: '', preview: null, technical: null, root: null,
+    keywords: null, prompt: '', family: '',
     allowNewRole: false, allowDuplicate: false, build: false, dryRun: false, help: false,
   };
   const valued = {
     file: 'file', kind: 'kind', role: 'role', title: 'title', summary: 'summary', tags: 'tags', slug: 'slug', notes: 'notes',
     'source-origin': 'origin', 'source-tool': 'tool', preview: 'preview', technical: 'technical', root: 'root',
+    keywords: 'keywords', prompt: 'prompt', family: 'family',
   };
   const flags = { 'allow-new-role': 'allowNewRole', 'allow-duplicate': 'allowDuplicate', build: 'build', 'dry-run': 'dryRun', help: 'help' };
   for (let i = 0; i < argv.length; i += 1) {
@@ -375,6 +391,7 @@ function parseArgs(argv) {
 function printUsage() {
   console.log('Usage: node scripts/ingest.mjs --file <path> --kind <kind> --role <role> --title "..." --summary "..." --tags "ns:value,ns:value" [options]');
   console.log('Options: --slug --notes --source-origin --source-tool --preview --technical --root --allow-new-role --allow-duplicate --build --dry-run');
+  console.log('         --keywords "a,b" --prompt "..." --family "..."');
 }
 function slugify(value) {
   return value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()

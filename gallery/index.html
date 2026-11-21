@@ -12,6 +12,7 @@
   --bg:#0b0e14;--bg2:#11161f;--panel:#151b26;--panel2:#1b2331;--text:#e6edf3;
   --muted:#9aa7b8;--line:#2a3444;--accent:#7cc4ff;--accent-soft:#24384d;
   --chip:#1d2735;--focus:#ffd166;--stage:#090c11;
+  --ok:#7ee2a8;--bad:#ff9b9b;--warn:#ffd166;
   --shadow:0 12px 32px rgba(0,0,0,.35);
 }
 :root[data-theme="light"]{
@@ -19,6 +20,7 @@
   --bg:#f6f7f9;--bg2:#eef1f5;--panel:#ffffff;--panel2:#f1f4f8;--text:#17202b;
   --muted:#5b6878;--line:#d8dee7;--accent:#0b63a8;--accent-soft:#d9ecfc;
   --chip:#e8eef6;--focus:#9a5b00;--stage:#dfe4ea;
+  --ok:#1d7a46;--bad:#a12626;--warn:#8a5b00;
   --shadow:0 12px 32px rgba(23,32,43,.12);
 }
 html,body{margin:0;min-height:100%}
@@ -361,6 +363,131 @@ audio{width:100%}
 }
 #splat-total{color:var(--text);font-weight:650}
 .splat-hint{margin:0;font-size:.76rem;color:var(--muted)}
+.search-meta{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;margin-top:.4rem}
+.toggle{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--muted);cursor:pointer}
+.toggle input{accent-color:var(--accent);margin:0}
+.index-note{font-size:.76rem;color:var(--muted)}
+.index-note.ready{color:var(--ok)}
+.search-hint{margin:.3rem 0 0;font-size:.72rem;color:var(--muted);max-width:52ch}
+.results-actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.concept-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin:-.45rem 0 1rem}
+.concept-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.concept-chip{
+  font-size:.76rem;border:1px solid var(--accent);background:var(--accent-soft);
+  color:var(--text);border-radius:999px;padding:.08rem .55rem;
+}
+.concept-chip .sep{opacity:.55;padding:0 .12rem}
+.partial-note{font-size:.78rem;color:var(--warn);margin:-.4rem 0 .8rem}
+.card-main{
+  display:flex;flex-direction:column;width:100%;padding:0;border:0;background:none;
+  color:inherit;text-align:left;font:inherit;cursor:pointer;min-width:0;
+}
+.card-actions{display:flex;align-items:center;gap:.4rem;padding:0 .8rem .8rem;flex-wrap:wrap}
+.cart-toggle{
+  border:1px solid var(--line);background:var(--panel2);color:var(--muted);
+  border-radius:7px;padding:.22rem .55rem;font-size:.75rem;
+}
+.cart-toggle:hover{color:var(--text);border-color:var(--accent)}
+.cart-toggle[data-in-cart="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}
+.variant-badge{
+  position:absolute;z-index:3;top:.4rem;left:.4rem;background:rgba(8,12,18,.8);
+  border:1px solid rgba(255,255,255,.4);color:#eaf2fb;border-radius:999px;
+  padding:.08rem .5rem;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;
+}
+.variant-badge.inline{position:static;background:var(--chip);border-color:var(--line);color:var(--muted)}
+.cart-panel{
+  position:fixed;right:1rem;bottom:1rem;z-index:8;width:min(370px,calc(100vw - 2rem));
+  background:var(--panel);border:1px solid var(--line);border-radius:13px;
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.cart-head{
+  display:flex;align-items:center;gap:.5rem;width:100%;padding:.7rem .85rem;
+  background:transparent;border:0;color:var(--text);text-align:left;
+}
+.cart-title{font-weight:650}
+.cart-count{
+  min-width:1.5rem;text-align:center;border:1px solid var(--accent);
+  background:var(--accent-soft);border-radius:999px;padding:0 .4rem;
+  font-size:.76rem;font-variant-numeric:tabular-nums;
+}
+.cart-bytes{margin-left:auto;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.cart-body{border-top:1px solid var(--line);padding:.7rem .85rem .8rem;max-height:min(62vh,540px);overflow:auto}
+.cart-licenses{display:grid;gap:.18rem;margin:0 0 .5rem}
+.cart-license-row{display:flex;justify-content:space-between;gap:.7rem;font-size:.78rem;color:var(--muted)}
+.cart-license-row .n{font-variant-numeric:tabular-nums}
+.cart-license-row.restricted{color:var(--warn)}
+.cart-items{list-style:none;margin:0;padding:0;display:grid;gap:.3rem}
+.cart-item{
+  display:flex;align-items:center;gap:.4rem;padding:.32rem .45rem;font-size:.8rem;
+  border:1px solid var(--line);border-radius:7px;background:var(--panel2);min-width:0;
+}
+.cart-item-title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1 1 auto}
+.cart-item-id{font-size:.68rem;color:var(--muted);white-space:nowrap}
+.cart-remove{border:0;background:none;color:var(--muted);padding:.05rem .25rem;border-radius:4px}
+.cart-remove:hover{color:var(--bad)}
+.cart-empty{margin:.2rem 0;font-size:.82rem;color:var(--muted)}
+.cart-ack{
+  display:flex;align-items:flex-start;gap:.45rem;margin:.6rem 0 .1rem;
+  font-size:.78rem;line-height:1.35;color:var(--muted);
+}
+.cart-ack input{accent-color:var(--accent);margin:.12rem 0 0}
+.cart-ack strong{color:var(--text);font-weight:600}
+.cart-actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.55rem}
+.cart-note{margin:.45rem 0 0;font-size:.73rem;color:var(--muted)}
+.empty-request{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--line)}
+.empty-request p{max-width:46ch}
+.empty-request .muted{font-size:.78rem;margin-top:.55rem}
+.v-variants{margin-bottom:.7rem}
+.variant-strip{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.3rem}
+.variant-btn{
+  border:1px solid var(--line);background:var(--panel2);color:var(--muted);
+  border-radius:999px;padding:.18rem .55rem;font-size:.76rem;
+}
+.variant-btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}
+.v-cart-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+.similar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem}
+.similar-card{
+  display:flex;flex-direction:column;gap:.25rem;padding:0;overflow:hidden;text-align:left;
+  border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--text);
+}
+.similar-card:hover{border-color:var(--accent)}
+.similar-thumb{display:block;aspect-ratio:4/3;background:var(--panel);overflow:hidden}
+.similar-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.similar-title{font-size:.75rem;padding:.1rem .4rem .4rem;overflow-wrap:anywhere}
+.check-body{padding:1rem 1.25rem;overflow:auto}
+.check-summary{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.75rem}
+.check-stat{
+  border:1px solid var(--line);border-radius:8px;background:var(--panel2);
+  padding:.35rem .6rem;font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;
+}
+.check-stat strong{color:var(--text)}
+.check-item{border:1px solid var(--line);border-radius:9px;background:var(--panel2);padding:.6rem .7rem;margin-bottom:.5rem}
+.check-item.restricted{border-color:var(--warn)}
+.check-item-head{display:flex;justify-content:space-between;gap:.6rem;align-items:baseline;flex-wrap:wrap}
+.check-item-title{font-weight:600;font-size:.88rem;overflow-wrap:anywhere}
+.check-item-id{font-size:.72rem;color:var(--muted)}
+.check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:.35rem;margin-top:.5rem}
+.check-pill{
+  border:1px solid var(--line);border-radius:6px;padding:.25rem .4rem;
+  font-size:.73rem;background:var(--panel);overflow-wrap:anywhere;
+}
+.check-pill .k{display:block;font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.check-pass{border-color:color-mix(in srgb,var(--ok) 55%,var(--line))}
+.check-pass .v{color:var(--ok)}
+.check-fail{border-color:color-mix(in srgb,var(--bad) 60%,var(--line))}
+.check-fail .v{color:var(--bad)}
+.check-warn{border-color:color-mix(in srgb,var(--warn) 60%,var(--line))}
+.check-warn .v{color:var(--warn)}
+.check-detail{display:block;margin-top:.2rem;font-size:.7rem;color:var(--muted)}
+.restricted-note{
+  margin:.6rem 0 0;padding:.55rem .7rem;border:1px solid var(--warn);border-radius:8px;
+  background:color-mix(in srgb,var(--warn) 9%,var(--panel));font-size:.8rem;
+}
+.progress{height:9px;border:1px solid var(--line);border-radius:999px;background:var(--panel2);overflow:hidden;margin:.7rem 0}
+.progress > div{height:100%;width:0;background:var(--accent);transition:width .15s ease}
+.pack-status{margin:.2rem 0;font-size:.86rem}
+.pack-summary{margin:.6rem 0 0;font-size:.88rem;overflow-wrap:anywhere}
+.pack-error{color:var(--bad);font-size:.86rem;overflow-wrap:anywhere}
 @media (max-width:900px){
   .layout{grid-template-columns:1fr}
   .facets{position:static;max-height:none}
@@ -375,6 +502,9 @@ audio{width:100%}
   .v-head{padding:.8rem 1rem}
   .v-foot{padding:.65rem 1rem}
   dialog{width:calc(100vw - .75rem);max-height:calc(100vh - .75rem)}
+  .cart-panel{left:.5rem;right:.5rem;bottom:.5rem;width:auto}
+  .cart-body{max-height:52vh}
+  .similar{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -401,15 +531,25 @@ audio{width:100%}
   </div>
   <div class="search">
     <label for="search">Search</label>
-    <input id="search" type="search" placeholder="id, title, summary, tags, role" autocomplete="off">
+    <input id="search" type="search" placeholder="id, title, summary, tags, keywords, role" autocomplete="off">
+    <div class="search-meta">
+      <label class="toggle" for="semantic-toggle">
+        <input id="semantic-toggle" type="checkbox" checked>
+        <span>Semantic</span>
+      </label>
+      <span class="index-note" id="index-note" hidden></span>
+    </div>
+    <p class="search-hint">Semantic ranks results by meaning once the catalog index loads. Keyword search always runs.</p>
   </div>
   <div class="controls">
+    <a class="button subtle add-asset" href="https://github.com/MeesaJarJar/MeesaAssetLibrary/issues?q=label%3Aasset-request" target="_blank" rel="noopener">Requests</a>
     <a class="button subtle add-asset" href="../contribute/">Add asset</a>
     <div>
       <label for="sort">Sort</label>
       <select id="sort">
+        <option value="relevance" selected>Relevance</option>
         <option value="title">Title A-Z</option>
-        <option value="newest" selected>Newest added</option>
+        <option value="newest">Newest added</option>
         <option value="largest">Largest bytes</option>
         <option value="kind">Kind</option>
       </select>
@@ -430,13 +570,26 @@ audio{width:100%}
   <main>
     <div class="results-bar">
       <p id="result-count" role="status" aria-live="polite"></p>
-      <button type="button" class="button subtle" id="reset">Reset filters</button>
+      <div class="results-actions">
+        <button type="button" class="button subtle" id="add-all-results">Add all results</button>
+        <button type="button" class="button subtle" id="reset">Reset filters</button>
+      </div>
     </div>
+    <div class="concept-row" id="concept-row" hidden>
+      <span class="concept-label">Semantic match</span>
+      <span id="concept-chips"></span>
+    </div>
+    <p class="partial-note" id="partial-note" hidden>Showing partial matches: no asset carries every term.</p>
     <div class="grid" id="grid" aria-label="Asset results"></div>
     <div class="empty" id="empty" hidden>
       <h2 id="empty-title">No assets found</h2>
       <p id="empty-text"></p>
       <button type="button" class="button" id="empty-reset">Reset filters</button>
+      <div class="empty-request" id="empty-request" hidden>
+        <p id="request-text"></p>
+        <a class="button" id="request-link" href="#" target="_blank" rel="noopener">Request this asset</a>
+        <p class="muted">This opens a GitHub issue labelled asset-request. It does not add the asset.</p>
+      </div>
     </div>
   </main>
 </div>
@@ -452,6 +605,10 @@ audio{width:100%}
   <div class="v-body">
     <section class="v-main" id="v-media" aria-label="Asset preview"></section>
     <aside class="v-side">
+      <div class="v-variants" id="v-variants" hidden>
+        <span class="field-label">Variants</span>
+        <div class="variant-strip" id="v-variant-strip"></div>
+      </div>
       <p class="v-summary" id="v-summary"></p>
       <h3>Details</h3>
       <dl class="meta" id="v-meta"></dl>
@@ -464,12 +621,87 @@ audio{width:100%}
         <a id="v-md" target="_blank" rel="noopener">asset.md</a>
         <a id="v-json" target="_blank" rel="noopener">asset.json</a>
       </div>
+      <div class="v-cart-row">
+        <button type="button" class="button" id="v-cart">Add to cart</button>
+      </div>
+      <h3 id="v-similar-heading" hidden>More like this</h3>
+      <div class="similar" id="v-similar"></div>
     </aside>
   </div>
   <div class="v-foot">
     <button type="button" class="button subtle" id="v-prev">Previous</button>
     <span class="v-pos" id="v-pos"></span>
     <button type="button" class="button subtle" id="v-next">Next</button>
+  </div>
+</dialog>
+<aside class="cart-panel" id="cart-panel" aria-label="Selection cart">
+  <button type="button" class="cart-head" id="cart-head" aria-expanded="false" aria-controls="cart-body">
+    <span class="cart-title">Cart</span>
+    <span class="cart-count" id="cart-count">0</span>
+    <span class="cart-bytes" id="cart-bytes">0 B</span>
+  </button>
+  <div class="cart-body" id="cart-body" hidden>
+    <div class="cart-licenses" id="cart-licenses"></div>
+    <p class="cart-empty" id="cart-empty">Cart is empty. Add assets from the grid or a viewer.</p>
+    <ul class="cart-items" id="cart-items"></ul>
+    <label class="cart-ack" id="cart-ack-row" hidden>
+      <input type="checkbox" id="cart-ack">
+      <span>I have read the <strong>restricted licence</strong> notice in Check output and accept responsibility for how these files are used.</span>
+    </label>
+    <div class="cart-actions">
+      <button type="button" class="button" id="cart-check">Check output</button>
+      <button type="button" class="button" id="cart-download">Download pack</button>
+      <button type="button" class="button subtle" id="cart-clear">Clear</button>
+    </div>
+    <p class="cart-note" id="cart-note">Check output verifies every file hash before a pack can be downloaded.</p>
+  </div>
+</aside>
+<dialog id="check-dialog" aria-labelledby="check-title">
+  <div class="v-head">
+    <div>
+      <h2 id="check-title">Check output</h2>
+      <p class="muted" id="check-sub" style="margin:.2rem 0 0;font-size:.82rem"></p>
+    </div>
+    <button type="button" class="button subtle" id="check-close">Close</button>
+  </div>
+  <div class="check-body">
+    <div class="check-summary" id="check-summary"></div>
+    <div id="check-list"></div>
+    <label class="cart-ack" id="check-ack-row" hidden>
+      <input type="checkbox" id="check-ack">
+      <span>I acknowledge that at least one selected asset is <strong>LicenseRef-All-Rights-Reserved</strong> or has an unknown licence. I am responsible for obtaining permission before use.</span>
+    </label>
+    <p class="restricted-note" id="check-restricted-note" hidden></p>
+    <p class="pack-status" id="check-status" role="status" aria-live="polite"></p>
+  </div>
+  <div class="v-foot">
+    <span class="muted" id="check-total"></span>
+    <div class="results-actions">
+      <button type="button" class="button subtle" id="check-run">Run check</button>
+      <button type="button" class="button" id="check-download">Download pack</button>
+    </div>
+  </div>
+</dialog>
+<dialog id="pack-dialog" aria-labelledby="pack-title">
+  <div class="v-head">
+    <div>
+      <h2 id="pack-title">Building pack</h2>
+      <p class="muted" id="pack-sub" style="margin:.2rem 0 0;font-size:.82rem"></p>
+    </div>
+    <button type="button" class="button subtle" id="pack-close">Close</button>
+  </div>
+  <div class="check-body">
+    <p class="pack-status" id="pack-status" role="status" aria-live="polite">Starting.</p>
+    <div class="progress" id="pack-progress"><div id="pack-bar"></div></div>
+    <p class="pack-summary" id="pack-summary"></p>
+    <p class="pack-error" id="pack-error" hidden></p>
+  </div>
+  <div class="v-foot">
+    <span class="muted" id="pack-total"></span>
+    <div class="results-actions">
+      <a class="button" id="pack-save" hidden download>Save ZIP</a>
+      <button type="button" class="button subtle" id="pack-done">Done</button>
+    </div>
   </div>
 </dialog>
 <script>
@@ -1083,7 +1315,7 @@ window.MeesaSplat = { parsePly: parsePly, mountSplatViewer: mountSplatViewer };
 })();
 </script>
 <script>
-const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","role":"texture","title":"Mossy Cobblestone Texture","summary":"Seamless 768x768 top-down cobblestone with wet grey stones and green moss packed into the joints, generated prompt-only with a seamless model patch. Use for forest ruins, dungeon floors and overgrown paths; tiles cleanly on both axes at 1x, and the matching normal/height maps came from the same run.","tags":["subject:environment/stone","style:realistic","use:tileset","palette:mossy-green","format:png","engine:any"],"preview":"../assets/image/texture/000009-mossy-cobblestone-texture/preview.webp","file":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png","mime":"image/png","tileable":true,"splat":false,"technical":{"width":768,"height":768,"alpha":false,"tileable":true,"palette":null},"dir":"assets/image/texture/000009-mossy-cobblestone-texture","bytes":1051668,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.md","json":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.json","files":[{"path":"src/Albedo_00001_.png","bytes":1051668,"mime":"image/png","url":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png"}]},{"scope":"curated","id":"SND-AMBIENCE-000010","kind":"audio","role":"ambience","title":"Mossloop Ambience","summary":"Six-second stereo ambient bed of stacked low sine tones (G3, D4, G4) with slow tremolo, echo and fade in/out. Use as a quiet forest or menu loop; the fade makes it loop cleanly at six seconds.","tags":["subject:ambience/forest","style:clean-synth","use:ambience","palette:mossy-green","format:ogg","engine:any"],"preview":"../assets/audio/ambience/000010-mossloop-ambience/preview.png","file":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg","mime":"audio/ogg","tileable":false,"splat":false,"technical":{"duration_s":6,"sample_rate":44100,"channels":2,"loopable":true},"dir":"assets/audio/ambience/000010-mossloop-ambience","bytes":19515,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/audio/ambience/000010-mossloop-ambience/asset.md","json":"../assets/audio/ambience/000010-mossloop-ambience/asset.json","files":[{"path":"src/demo-ambience.ogg","bytes":19515,"mime":"audio/ogg","url":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg"}]},{"scope":"curated","id":"VID-CAPTURE-000011","kind":"video","role":"capture","title":"Mossy Tile Camera Loop","summary":"Six-second 1280x720 camera drift across the mossy cobblestone texture, pushing in slowly with a gentle sway. Use to demonstrate video playback or as a placeholder ambience plate; the still it was rendered from is the tileable texture bundle.","tags":["subject:environment/stone","style:realistic","use:reference","palette:mossy-green","format:mp4","engine:any"],"preview":"../assets/video/capture/000011-mossy-tile-camera-loop/preview.webp","file":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4","mime":"video/mp4","tileable":false,"splat":false,"technical":{"duration_s":6,"resolution":"1280x720","fps":24,"codec":"h264"},"dir":"assets/video/capture/000011-mossy-tile-camera-loop","bytes":893337,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.md","json":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.json","files":[{"path":"src/demo-tile-loop.mp4","bytes":893337,"mime":"video/mp4","url":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4"}]},{"scope":"curated","id":"MDL-PROP-000012","kind":"model","role":"prop","title":"Sword Totem Splat","summary":"32,768-splat Gaussian reconstruction of a tall sword-shaped totem with a pale face at the guard, roughly 5.8 to 1 tall. Use to exercise the 3D splat viewer and as a stylized weapon or shrine prop reference; the PLY is the original and the poster is a viewport render.","tags":["subject:item/sword","style:realistic","use:reference","format:ply","engine:any"],"preview":"../assets/model/prop/000012-sword-totem-splat/preview.png","file":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply","mime":"application/octet-stream","tileable":false,"splat":true,"technical":{"format":"ply","splats":32768,"up_axis":"y","scale_units":"unknown"},"dir":"assets/model/prop/000012-sword-totem-splat","bytes":2228639,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/model/prop/000012-sword-totem-splat/asset.md","json":"../assets/model/prop/000012-sword-totem-splat/asset.json","files":[{"path":"src/splat-test.ply","bytes":2228639,"mime":"application/octet-stream","url":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply"}]}];
+const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","role":"texture","title":"Mossy Cobblestone Texture","summary":"Seamless 768x768 top-down cobblestone with wet grey stones and green moss packed into the joints, generated prompt-only with a seamless model patch. Use for forest ruins, dungeon floors and overgrown paths; tiles cleanly on both axes at 1x, and the matching normal/height maps came from the same run.","tags":["subject:environment/stone","style:realistic","use:tileset","palette:mossy-green","format:png","engine:any"],"keywords":[],"prompt":"","family":"","preview":"../assets/image/texture/000009-mossy-cobblestone-texture/preview.webp","previewName":"preview.webp","file":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png","fileName":"Albedo_00001_.png","mime":"image/png","sha256":"e9a4f58aba8fa25a851d3334a675cd78d3e61458c746e64fe65f58b9a0c125c0","tileable":true,"splat":false,"technical":{"width":768,"height":768,"alpha":false,"tileable":true,"palette":null},"dir":"assets/image/texture/000009-mossy-cobblestone-texture","bytes":1051668,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.md","json":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.json","files":[{"path":"src/Albedo_00001_.png","bytes":1051668,"mime":"image/png","sha256":"e9a4f58aba8fa25a851d3334a675cd78d3e61458c746e64fe65f58b9a0c125c0","url":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png"}]},{"scope":"curated","id":"SND-AMBIENCE-000010","kind":"audio","role":"ambience","title":"Mossloop Ambience","summary":"Six-second stereo ambient bed of stacked low sine tones (G3, D4, G4) with slow tremolo, echo and fade in/out. Use as a quiet forest or menu loop; the fade makes it loop cleanly at six seconds.","tags":["subject:ambience/forest","style:clean-synth","use:ambience","palette:mossy-green","format:ogg","engine:any"],"keywords":[],"prompt":"","family":"","preview":"../assets/audio/ambience/000010-mossloop-ambience/preview.png","previewName":"preview.png","file":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg","fileName":"demo-ambience.ogg","mime":"audio/ogg","sha256":"d21bd3b273ebb09ad61d88d83de09b24f0b0ff99bb3da017894c14a97919f73a","tileable":false,"splat":false,"technical":{"duration_s":6,"sample_rate":44100,"channels":2,"loopable":true},"dir":"assets/audio/ambience/000010-mossloop-ambience","bytes":19515,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/audio/ambience/000010-mossloop-ambience/asset.md","json":"../assets/audio/ambience/000010-mossloop-ambience/asset.json","files":[{"path":"src/demo-ambience.ogg","bytes":19515,"mime":"audio/ogg","sha256":"d21bd3b273ebb09ad61d88d83de09b24f0b0ff99bb3da017894c14a97919f73a","url":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg"}]},{"scope":"curated","id":"VID-CAPTURE-000011","kind":"video","role":"capture","title":"Mossy Tile Camera Loop","summary":"Six-second 1280x720 camera drift across the mossy cobblestone texture, pushing in slowly with a gentle sway. Use to demonstrate video playback or as a placeholder ambience plate; the still it was rendered from is the tileable texture bundle.","tags":["subject:environment/stone","style:realistic","use:reference","palette:mossy-green","format:mp4","engine:any"],"keywords":[],"prompt":"","family":"","preview":"../assets/video/capture/000011-mossy-tile-camera-loop/preview.webp","previewName":"preview.webp","file":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4","fileName":"demo-tile-loop.mp4","mime":"video/mp4","sha256":"1cf2a8fec366b635668730883bac102ba8db5bcde29631dfa3e94407c375d6fa","tileable":false,"splat":false,"technical":{"duration_s":6,"resolution":"1280x720","fps":24,"codec":"h264"},"dir":"assets/video/capture/000011-mossy-tile-camera-loop","bytes":893337,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.md","json":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.json","files":[{"path":"src/demo-tile-loop.mp4","bytes":893337,"mime":"video/mp4","sha256":"1cf2a8fec366b635668730883bac102ba8db5bcde29631dfa3e94407c375d6fa","url":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4"}]},{"scope":"curated","id":"MDL-PROP-000012","kind":"model","role":"prop","title":"Sword Totem Splat","summary":"32,768-splat Gaussian reconstruction of a tall sword-shaped totem with a pale face at the guard, roughly 5.8 to 1 tall. Use to exercise the 3D splat viewer and as a stylized weapon or shrine prop reference; the PLY is the original and the poster is a viewport render.","tags":["subject:item/sword","style:realistic","use:reference","format:ply","engine:any"],"keywords":[],"prompt":"","family":"","preview":"../assets/model/prop/000012-sword-totem-splat/preview.png","previewName":"preview.png","file":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply","fileName":"splat-test.ply","mime":"application/octet-stream","sha256":"fdcffce45ef94fbe4f49cf294831742581b1a5009fbbeec0c9e1e88d301b6540","tileable":false,"splat":true,"technical":{"format":"ply","splats":32768,"up_axis":"y","scale_units":"unknown"},"dir":"assets/model/prop/000012-sword-totem-splat","bytes":2228639,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/model/prop/000012-sword-totem-splat/asset.md","json":"../assets/model/prop/000012-sword-totem-splat/asset.json","files":[{"path":"src/splat-test.ply","bytes":2228639,"mime":"application/octet-stream","sha256":"fdcffce45ef94fbe4f49cf294831742581b1a5009fbbeec0c9e1e88d301b6540","url":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply"}]}];
 (function () {
   'use strict';
 
@@ -1098,17 +1330,46 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
     glyphs: 'Glyphs', pages: 'Pages', engine: 'Engine',
     engine_version: 'Engine version', bundle_type: 'Bundle type', splats: 'Splats'
   };
-  var state = { query: '', kind: 'all', sort: 'newest', tags: Object.create(null) };
+  var state = {
+    query: '', kind: 'all', sort: 'relevance', tags: Object.create(null),
+    semantic: true, partial: false
+  };
   var current = [];
   var byId = Object.create(null);
   var viewerList = [];
   var viewerIndex = -1;
   var viewerAsset = null;
+  var viewerFamily = [];
   var opener = null;
   var tileApply = null;
   var splatHandle = null;
+  var matchedConcepts = [];
+  var cartOrder = [];
+  var cartMap = Object.create(null);
+  var checkResults = null;
+  var checkAck = false;
+  var checkBusy = false;
+  var packBusy = false;
+  var cartHadRestricted = false;
+  var lastPack = null;
+
+  var semantic = {
+    status: 'idle',
+    promise: null,
+    message: '',
+    dim: 512,
+    assets: Object.create(null),
+    concepts: [],
+    conceptEmbeddings: Object.create(null),
+    clip: null,
+    clap: null,
+    clipModel: '',
+    clapModel: ''
+  };
 
   var searchInput = document.getElementById('search');
+  var semanticToggle = document.getElementById('semantic-toggle');
+  var indexNote = document.getElementById('index-note');
   var sortSelect = document.getElementById('sort');
   var themeButton = document.getElementById('theme');
   var tabs = document.getElementById('kind-tabs');
@@ -1116,7 +1377,14 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
   var noTags = document.getElementById('no-tags');
   var clearTags = document.getElementById('clear-tags');
   var resetButton = document.getElementById('reset');
+  var addAllButton = document.getElementById('add-all-results');
   var emptyReset = document.getElementById('empty-reset');
+  var emptyRequest = document.getElementById('empty-request');
+  var requestText = document.getElementById('request-text');
+  var requestLink = document.getElementById('request-link');
+  var conceptRow = document.getElementById('concept-row');
+  var conceptChips = document.getElementById('concept-chips');
+  var partialNote = document.getElementById('partial-note');
   var grid = document.getElementById('grid');
   var empty = document.getElementById('empty');
   var emptyTitle = document.getElementById('empty-title');
@@ -1137,14 +1405,60 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
   var vPrev = document.getElementById('v-prev');
   var vNext = document.getElementById('v-next');
   var vClose = document.getElementById('v-close');
+  var vVariants = document.getElementById('v-variants');
+  var vVariantStrip = document.getElementById('v-variant-strip');
+  var vCart = document.getElementById('v-cart');
+  var vSimilarHeading = document.getElementById('v-similar-heading');
+  var vSimilar = document.getElementById('v-similar');
+  var cartPanel = document.getElementById('cart-panel');
+  var cartHead = document.getElementById('cart-head');
+  var cartBody = document.getElementById('cart-body');
+  var cartCount = document.getElementById('cart-count');
+  var cartBytes = document.getElementById('cart-bytes');
+  var cartLicenses = document.getElementById('cart-licenses');
+  var cartItems = document.getElementById('cart-items');
+  var cartEmpty = document.getElementById('cart-empty');
+  var cartAckRow = document.getElementById('cart-ack-row');
+  var cartAck = document.getElementById('cart-ack');
+  var cartCheck = document.getElementById('cart-check');
+  var cartDownload = document.getElementById('cart-download');
+  var cartClear = document.getElementById('cart-clear');
+  var checkDialog = document.getElementById('check-dialog');
+  var checkSub = document.getElementById('check-sub');
+  var checkSummary = document.getElementById('check-summary');
+  var checkList = document.getElementById('check-list');
+  var checkAckRow = document.getElementById('check-ack-row');
+  var checkAckBox = document.getElementById('check-ack');
+  var checkRestrictedNote = document.getElementById('check-restricted-note');
+  var checkStatus = document.getElementById('check-status');
+  var checkTotal = document.getElementById('check-total');
+  var checkRun = document.getElementById('check-run');
+  var checkDownload = document.getElementById('check-download');
+  var checkClose = document.getElementById('check-close');
+  var packDialog = document.getElementById('pack-dialog');
+  var packSub = document.getElementById('pack-sub');
+  var packStatus = document.getElementById('pack-status');
+  var packBar = document.getElementById('pack-bar');
+  var packSummary = document.getElementById('pack-summary');
+  var packError = document.getElementById('pack-error');
+  var packTotal = document.getElementById('pack-total');
+  var packClose = document.getElementById('pack-close');
+  var packDone = document.getElementById('pack-done');
+  var packSave = document.getElementById('pack-save');
 
-  ASSETS.forEach(function (asset) {
+  function prepareAsset(asset) {
     asset.scope = asset.scope === 'community' ? 'community' : 'curated';
     asset.contributor = typeof asset.contributor === 'string' ? asset.contributor : '';
     asset.contributorUrl = typeof asset.contributorUrl === 'string' ? asset.contributorUrl : '';
     asset.license = typeof asset.license === 'string' ? asset.license : '';
     asset.tags = Array.isArray(asset.tags) ? asset.tags : [];
     asset.files = Array.isArray(asset.files) ? asset.files : [];
+    asset.keywords = Array.isArray(asset.keywords) ? asset.keywords : [];
+    asset.prompt = typeof asset.prompt === 'string' ? asset.prompt : '';
+    asset.family = typeof asset.family === 'string' ? asset.family : '';
+    asset.sha256 = typeof asset.sha256 === 'string' ? asset.sha256 : '';
+    asset.previewName = typeof asset.previewName === 'string' ? asset.previewName : '';
+    asset.fileName = typeof asset.fileName === 'string' ? asset.fileName : '';
     asset.technical = asset.technical && typeof asset.technical === 'object' ? asset.technical : {};
     asset.parsedTags = [];
     asset.tags.forEach(function (tag) {
@@ -1153,13 +1467,26 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
         asset.parsedTags.push({ namespace: tag.slice(0, at), value: tag.slice(at + 1) });
       }
     });
-    asset.searchText = [
-      asset.id, asset.title, asset.summary, asset.role, asset.kind, asset.scope,
-      asset.contributor, asset.license, asset.tags.join(' ')
-    ].join(' ').toLowerCase();
+    asset.searchFields = {
+      title: String(asset.title || '') + ' ' + String(asset.id || ''),
+      tags: asset.tags.join(' '),
+      keywords: asset.keywords.join(' '),
+      summary: String(asset.summary || ''),
+      prompt: asset.prompt,
+      role: String(asset.role || '') + ' ' + String(asset.kind || '')
+    };
+    Object.keys(asset.searchFields).forEach(function (key) {
+      asset.searchFields[key] = asset.searchFields[key].toLowerCase();
+    });
+    asset.searchFieldsNormalized = Object.create(null);
+    Object.keys(asset.searchFields).forEach(function (key) {
+      asset.searchFieldsNormalized[key] = tokenize(asset.searchFields[key]).join(' ');
+    });
     asset.timestamp = Date.parse(asset.added || '') || 0;
     byId[asset.id] = asset;
-  });
+  }
+
+  ASSETS.forEach(prepareAsset);
 
   function el(tag, className, text) {
     var node = document.createElement(tag);
@@ -1374,8 +1701,277 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
     render();
   }
 
-  function matchesQuery(asset) {
-    return !state.query || asset.searchText.indexOf(state.query) !== -1;
+  var KEYWORD_FIELDS = [
+    ['title', 5], ['tags', 4], ['keywords', 3], ['summary', 2], ['prompt', 2], ['role', 1]
+  ];
+
+  function singularWord(value) {
+    var word = String(value || '').toLowerCase();
+    if (word.length > 4 && word.slice(-3) === 'ies') return word.slice(0, -3) + 'y';
+    if (word.length > 3 && word.charAt(word.length - 1) === 's' && word.slice(-2) !== 'ss') {
+      return word.slice(0, -1);
+    }
+    return word;
+  }
+
+  function tokenize(value) {
+    var seen = Object.create(null);
+    return String(value || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim()
+      .split(' ')
+      .filter(function (token) { return token.length > 0; })
+      .map(singularWord)
+      .filter(function (token) {
+        if (seen[token]) return false;
+        seen[token] = true;
+        return true;
+      });
+  }
+
+  function queryTerms(query) {
+    var terms = [];
+    var rest = String(query || '');
+    rest = rest.replace(/"([^"]+)"/g, function (match, phrase) {
+      var words = tokenize(phrase);
+      if (words.length) terms.push({ text: words.join(' '), phrase: true });
+      return ' ';
+    });
+    tokenize(rest).forEach(function (token) {
+      terms.push({ text: token, phrase: false });
+    });
+    var seen = Object.create(null);
+    return terms.filter(function (term) {
+      var key = (term.phrase ? 'p:' : 't:') + term.text;
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+  }
+
+  function termInAsset(asset, term) {
+    var fields = asset.searchFields;
+    var normalized = asset.searchFieldsNormalized || {};
+    var keys = Object.keys(fields);
+    for (var i = 0; i < keys.length; i += 1) {
+      if (fields[keys[i]].indexOf(term.text) !== -1) return true;
+      if (normalized[keys[i]] && normalized[keys[i]].indexOf(term.text) !== -1) return true;
+    }
+    return false;
+  }
+
+  function keywordScore(asset, terms) {
+    if (!terms.length) return 0;
+    var total = 0;
+    var normalized = asset.searchFieldsNormalized || {};
+    terms.forEach(function (term) {
+      if (!termInAsset(asset, term)) return;
+      var weight = 0;
+      KEYWORD_FIELDS.forEach(function (pair) {
+        if (asset.searchFields[pair[0]].indexOf(term.text) !== -1 ||
+            (normalized[pair[0]] && normalized[pair[0]].indexOf(term.text) !== -1)) {
+          weight += pair[1];
+        }
+      });
+      total += Math.min(5, weight);
+    });
+    return total / (5 * terms.length);
+  }
+
+  function conceptTermSet(concept) {
+    var values = [concept.id, concept.label].concat(
+      Array.isArray(concept.synonyms) ? concept.synonyms : []
+    );
+    var set = Object.create(null);
+    values.forEach(function (value) {
+      var raw = String(value || '').trim().toLowerCase();
+      if (!raw) return;
+      set[raw] = true;
+      tokenize(raw).forEach(function (token) { set[token] = true; });
+    });
+    return set;
+  }
+
+  function matchConcepts(query, terms) {
+    if (!semantic.concepts.length) return [];
+    var tokens = Object.create(null);
+    terms.forEach(function (term) {
+      if (!term.phrase) tokens[term.text] = true;
+    });
+    var lower = String(query || '').toLowerCase();
+    var matched = [];
+    semantic.concepts.forEach(function (concept) {
+      var set = conceptTermSet(concept);
+      var hit = false;
+      Object.keys(tokens).forEach(function (token) {
+        if (set[token]) hit = true;
+      });
+      if (!hit) {
+        Object.keys(set).forEach(function (term) {
+          if (term.indexOf(' ') !== -1 && lower.indexOf(term) !== -1) hit = true;
+        });
+      }
+      if (hit) matched.push(concept);
+    });
+    return matched;
+  }
+
+  function vectorAt(bin, index) {
+    if (!bin || index === null || index === undefined) return null;
+    var number = Number(index);
+    if (!isFinite(number) || number < 0) return null;
+    var offset = Math.floor(number) * semantic.dim;
+    if (offset + semantic.dim > bin.length) return null;
+    return bin.subarray(offset, offset + semantic.dim);
+  }
+
+  function cosine(a, b) {
+    if (!a || !b) return 0;
+    var dot = 0;
+    var na = 0;
+    var nb = 0;
+    for (var i = 0; i < semantic.dim; i += 1) {
+      dot += a[i] * b[i];
+      na += a[i] * a[i];
+      nb += b[i] * b[i];
+    }
+    if (!na || !nb) return 0;
+    return dot / Math.sqrt(na * nb);
+  }
+
+  var CLIP_FLOOR = 0.22;
+  var CLAP_FLOOR = 0.10;
+
+  function conceptModality(concept) {
+    var value = String(concept.modality || 'both').toLowerCase();
+    return value === 'audio' || value === 'visual' ? value : 'both';
+  }
+
+  function conceptHasVector(concept) {
+    var entry = semantic.conceptEmbeddings[concept.id];
+    if (!entry) return false;
+    var modality = conceptModality(concept);
+    var hasClip = modality !== 'audio' && semantic.clip &&
+      entry.clip !== null && entry.clip !== undefined;
+    var hasClap = modality !== 'visual' && semantic.clap &&
+      entry.clap !== null && entry.clap !== undefined;
+    return Boolean(hasClip || hasClap);
+  }
+
+  function meanConceptVector(field, concepts) {
+    var bin = field === 'clip' ? semantic.clip : semantic.clap;
+    if (!bin) return null;
+    var vectors = [];
+    concepts.forEach(function (concept) {
+      var modality = conceptModality(concept);
+      if (field === 'clip' && modality === 'audio') return;
+      if (field === 'clap' && modality === 'visual') return;
+      var entry = semantic.conceptEmbeddings[concept.id];
+      if (!entry || entry[field] === null || entry[field] === undefined) return;
+      var vector = vectorAt(bin, entry[field]);
+      if (vector) vectors.push(vector);
+    });
+    if (!vectors.length) return null;
+    var out = new Float32Array(semantic.dim);
+    vectors.forEach(function (vector) {
+      for (var i = 0; i < semantic.dim; i += 1) out[i] += vector[i];
+    });
+    var norm = 0;
+    for (var j = 0; j < semantic.dim; j += 1) norm += out[j] * out[j];
+    norm = Math.sqrt(norm);
+    if (norm) {
+      for (var k = 0; k < semantic.dim; k += 1) out[k] = out[k] / norm;
+    }
+    return out;
+  }
+
+  // v1 scores media vectors only. Text embeddings stay in the manifest for future
+  // calibration but are not compared here: CLIP text-to-text cosines are anisotropic.
+  function semanticMediaScore(asset, queryClip, queryClap) {
+    var entry = semantic.assets[asset.id];
+    if (!entry) return null;
+    var audio = asset.kind === 'audio';
+    var bin = audio ? semantic.clap : semantic.clip;
+    var query = audio ? queryClap : queryClip;
+    if (!bin || !query) return null;
+    var vector = vectorAt(bin, audio ? entry.clapAudio : entry.clipImage);
+    if (!vector) return null;
+    var value = cosine(query, vector);
+    if (!isFinite(value)) return null;
+    return value >= (audio ? CLAP_FLOOR : CLIP_FLOOR) ? value : null;
+  }
+
+  function conceptContributes(concept) {
+    var modality = conceptModality(concept);
+    var clip = modality !== 'audio' ? meanConceptVector('clip', [concept]) : null;
+    var clap = modality !== 'visual' ? meanConceptVector('clap', [concept]) : null;
+    if (!clip && !clap) return false;
+
+    return ASSETS.some(function (asset) {
+      if (asset.kind === 'audio') {
+        return clap ? semanticMediaScore(asset, null, clap) !== null : false;
+      }
+      return clip ? semanticMediaScore(asset, clip, null) !== null : false;
+    });
+  }
+
+  function computeSearch() {
+    var query = state.query.trim();
+    var terms = query ? queryTerms(query) : [];
+    matchedConcepts = [];
+    var semanticScores = null;
+    var resultModality = null;
+
+    if (terms.length && state.semantic && semantic.status === 'ready') {
+      var matched = matchConcepts(query, terms).filter(conceptHasVector);
+      var contributors = matched.filter(conceptContributes);
+      if (contributors.length) {
+        var clip = meanConceptVector('clip', contributors);
+        var clap = meanConceptVector('clap', contributors);
+        if (clip || clap) {
+          var scores = Object.create(null);
+          var contributed = false;
+          ASSETS.forEach(function (asset) {
+            var value = semanticMediaScore(asset, clip, clap);
+            scores[asset.id] = value;
+            if (value !== null) contributed = true;
+          });
+          if (contributed) {
+            matchedConcepts = contributors;
+            semanticScores = scores;
+
+            // An audio-only concept must not pull in images or video, even when a
+            // summary happens to use the same word. Visual-only concepts mirror this.
+            var modalities = contributors.map(conceptModality);
+            if (modalities.every(function (value) { return value === 'audio'; })) {
+              resultModality = 'audio';
+            } else if (modalities.every(function (value) { return value === 'visual'; })) {
+              resultModality = 'visual';
+            }
+          }
+        }
+      }
+    }
+
+    var entries = ASSETS.map(function (asset) {
+      var keyword = terms.length ? keywordScore(asset, terms) : 0;
+      var all = terms.length ? terms.every(function (term) {
+        return termInAsset(asset, term);
+      }) : true;
+      var any = terms.length ? terms.some(function (term) {
+        return termInAsset(asset, term);
+      }) : true;
+      var semanticScore = semanticScores ? semanticScores[asset.id] : null;
+
+      var score = semanticScore !== null
+        ? 0.55 * semanticScore + 0.45 * keyword
+        : keyword;
+
+      return { asset: asset, keyword: keyword, semantic: semanticScore, score: score, all: all, any: any };
+    });
+
+    return { query: query, terms: terms, entries: entries, modality: resultModality };
   }
 
   function matchesTags(asset) {
@@ -1400,45 +1996,182 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
     return true;
   }
 
-  function sortList(list) {
-    list.sort(function (a, b) {
-      if (state.sort === 'title') return compareTitles(a, b);
-      if (state.sort === 'largest') return (b.bytes || 0) - (a.bytes || 0) || compareTitles(a, b);
-      if (state.sort === 'kind') return a.kind.localeCompare(b.kind) || compareTitles(a, b);
-      return (b.timestamp || 0) - (a.timestamp || 0) || compareTitles(a, b);
+  function buildGroups(entries, hasQuery) {
+    var groups = [];
+    var map = Object.create(null);
+
+    entries.forEach(function (entry) {
+      var key = entry.asset.family
+        ? 'family:' + entry.asset.family
+        : 'asset:' + entry.asset.id;
+      var group = map[key];
+
+      if (!group) {
+        group = {
+          key: key,
+          family: entry.asset.family,
+          members: [],
+          rep: entry.asset,
+          score: entry.score,
+          bytes: 0,
+          timestamp: 0
+        };
+        map[key] = group;
+        groups.push(group);
+      }
+
+      group.members.push(entry);
+      group.bytes += Number(entry.asset.bytes) || 0;
+      group.timestamp = Math.max(group.timestamp, entry.asset.timestamp || 0);
+    });
+
+    groups.forEach(function (group) {
+      if (hasQuery) {
+        group.members.sort(function (a, b) {
+          return b.score - a.score || compareTitles(a.asset, b.asset);
+        });
+      }
+      group.rep = group.members[0].asset;
+      group.score = group.members[0].score;
+      group.variantCount = group.members.length;
+    });
+
+    return groups;
+  }
+
+  function sortGroups(groups) {
+    groups.sort(function (a, b) {
+      if (state.query && state.sort === 'relevance') {
+        return b.score - a.score || compareTitles(a.rep, b.rep);
+      }
+      if (state.sort === 'title') return compareTitles(a.rep, b.rep);
+      if (state.sort === 'largest') {
+        return (b.bytes || 0) - (a.bytes || 0) || compareTitles(a.rep, b.rep);
+      }
+      if (state.sort === 'kind') {
+        return a.rep.kind.localeCompare(b.rep.kind) || compareTitles(a.rep, b.rep);
+      }
+      return (b.timestamp || 0) - (a.timestamp || 0) || compareTitles(a.rep, b.rep);
+    });
+  }
+
+  function requestUrl(query) {
+    var body = [
+      'The gallery has no result for: ' + query,
+      '',
+      'What asset would help? Describe the kind, role, style, format and licence you need.',
+      '',
+      'Opened from the asset library gallery.'
+    ].join('\n');
+    return 'https://github.com/MeesaJarJar/MeesaAssetLibrary/issues/new?labels=asset-request' +
+      '&title=' + encodeURIComponent('[Asset request] ' + query) +
+      '&body=' + encodeURIComponent(body);
+  }
+
+  function renderConceptChips() {
+    clear(conceptChips);
+    conceptRow.hidden = matchedConcepts.length === 0;
+    matchedConcepts.forEach(function (concept) {
+      var chip = el('span', 'concept-chip');
+      chip.appendChild(document.createTextNode(concept.label || concept.id));
+      var synonyms = Array.isArray(concept.synonyms) ? concept.synonyms : [];
+      synonyms.slice(0, 4).forEach(function (synonym) {
+        chip.appendChild(el('span', 'sep', '·'));
+        chip.appendChild(document.createTextNode(synonym));
+      });
+      if (synonyms.length > 4) chip.appendChild(el('span', 'sep', '·'));
+      chip.title = 'Concept ' + (concept.id || '') +
+        (synonyms.length ? ' · ' + synonyms.join(', ') : '');
+      conceptChips.appendChild(chip);
     });
   }
 
   function render() {
-    var list = ASSETS.filter(function (asset) {
+    var search = computeSearch();
+    var filtered = search.entries.filter(function (entry) {
       var kindMatch = state.kind === 'all' ||
-        (state.kind === 'community' ? asset.scope === 'community' : asset.kind === state.kind);
-
-      return kindMatch && matchesQuery(asset) && matchesTags(asset);
+        (state.kind === 'community'
+          ? entry.asset.scope === 'community'
+          : entry.asset.kind === state.kind);
+      var modalityMatch = !search.modality ||
+        (search.modality === 'audio'
+          ? entry.asset.kind === 'audio'
+          : entry.asset.kind !== 'audio');
+      return kindMatch && modalityMatch && matchesTags(entry.asset);
     });
 
-    sortList(list);
-    current = list;
+    var chosen = filtered;
+    var partial = false;
+
+    if (search.terms.length) {
+      var allTerms = filtered.filter(function (entry) { return entry.all; });
+      var anyTerms = null;
+
+      if (allTerms.length) {
+        chosen = allTerms;
+      } else {
+        anyTerms = filtered.filter(function (entry) { return entry.any; });
+        if (anyTerms.length) {
+          chosen = anyTerms;
+          partial = true;
+        } else {
+          chosen = [];
+        }
+      }
+
+      // Semantic adds candidates and boosts ranking; it never removes a keyword hit.
+      if (search.entries.some(function (entry) { return entry.semantic !== null; })) {
+        var byKey = Object.create(null);
+        chosen.forEach(function (entry) { byKey[entry.asset.id] = entry; });
+        filtered.forEach(function (entry) {
+          if (entry.semantic !== null) byKey[entry.asset.id] = entry;
+        });
+        chosen = Object.keys(byKey).map(function (id) { return byKey[id]; });
+      }
+    }
+
+    state.partial = partial;
+    var groups = buildGroups(chosen, search.terms.length > 0);
+    sortGroups(groups);
+    current = groups;
 
     clear(grid);
-    list.forEach(function (asset) {
-      grid.appendChild(buildCard(asset));
+    groups.forEach(function (group) {
+      grid.appendChild(buildCard(group));
     });
 
-    countText.textContent = list.length + ' of ' + ASSETS.length +
-      (ASSETS.length === 1 ? ' asset' : ' assets');
-    grid.hidden = list.length === 0;
-    empty.hidden = list.length !== 0;
+    var shownAssets = groups.reduce(function (sum, group) {
+      return sum + group.variantCount;
+    }, 0);
+    countText.textContent = groups.length + (groups.length === 1 ? ' result' : ' results') +
+      ' · ' + shownAssets + ' of ' + ASSETS.length +
+      (ASSETS.length === 1 ? ' asset' : ' assets') + (partial ? ' · partial matches' : '');
 
-    if (list.length === 0) {
+    grid.hidden = groups.length === 0;
+    empty.hidden = groups.length !== 0;
+    renderConceptChips();
+    partialNote.hidden = !partial;
+    addAllButton.disabled = groups.length === 0;
+
+    if (groups.length === 0) {
+      var query = state.query.trim();
       if (!ASSETS.length) {
         emptyTitle.textContent = 'No assets in this library yet';
         emptyText.textContent = 'Add bundles to assets/ and rebuild the gallery.';
         emptyReset.hidden = true;
+        emptyRequest.hidden = true;
+      } else if (query) {
+        emptyTitle.textContent = 'Nothing matches "' + query + '".';
+        emptyText.textContent = 'No keyword or semantic result carries every term. You can ask for this asset.';
+        emptyReset.hidden = false;
+        emptyRequest.hidden = false;
+        requestText.textContent = 'Request "' + query + '" from the library maintainers.';
+        requestLink.href = requestUrl(query);
       } else {
         emptyTitle.textContent = 'No assets match';
         emptyText.textContent = 'Try a different search, kind, or tag combination.';
         emptyReset.hidden = false;
+        emptyRequest.hidden = true;
       }
     }
 
@@ -1446,12 +2179,16 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
       Object.keys(state.tags).length > 0;
     resetButton.disabled = !hasFilters;
     emptyReset.disabled = !hasFilters;
+    updateCartPanel();
   }
 
-  function buildCard(asset) {
-    var button = el('button', 'card');
-    button.type = 'button';
-    button.setAttribute('aria-label', 'Open ' + asset.title + ', ' + asset.kind +
+  function buildCard(group) {
+    var asset = group.rep;
+    var card = el('article', 'card');
+    var open = el('button', 'card-main');
+    open.type = 'button';
+    open.setAttribute('aria-label', 'Open ' + asset.title + ', ' + asset.kind +
+      (group.variantCount > 1 ? ', ' + group.variantCount + ' variants' : '') +
       (asset.splat ? ', 3D splat' : '') +
       (asset.tileable ? ', tileable' : '') + (asset.role ? ', ' + asset.role : ''));
 
@@ -1486,7 +2223,11 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
       thumb.appendChild(el('span', 'tile-badge', 'Tileable'));
     }
 
-    button.appendChild(thumb);
+    if (group.variantCount > 1) {
+      thumb.appendChild(el('span', 'variant-badge', group.variantCount + ' variants'));
+    }
+
+    open.appendChild(thumb);
 
     var body = el('span', 'card-body');
     body.appendChild(el('span', 'card-title', asset.title));
@@ -1523,11 +2264,25 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
       body.appendChild(tagRow);
     }
 
-    button.appendChild(body);
-    button.addEventListener('click', function () {
+    open.appendChild(body);
+    open.addEventListener('click', function () {
       openViewer(asset, false);
     });
-    return button;
+    card.appendChild(open);
+
+    var actions = el('div', 'card-actions');
+    var cartButton = el('button', 'cart-toggle', cartLabel(group));
+    cartButton.type = 'button';
+    cartButton.dataset.inCart = groupInCart(group) ? 'true' : 'false';
+    cartButton.setAttribute('aria-label', cartLabel(group) + ': ' + asset.title +
+      (group.variantCount > 1 ? ' and its variants' : ''));
+    cartButton.addEventListener('click', function () {
+      toggleGroupCart(group);
+    });
+    actions.appendChild(cartButton);
+    card.appendChild(actions);
+
+    return card;
   }
 
   function addThumbImage(host, asset, cover, onFail) {
@@ -1582,6 +2337,16 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
 
   // ---- viewer -------------------------------------------------------------
 
+  function familyAssets(asset) {
+    if (!asset || !asset.family) return asset ? [asset] : [];
+    var family = ASSETS.filter(function (other) {
+      return other.family && other.family === asset.family;
+    });
+    if (!family.length) return [asset];
+    family.sort(compareTitles);
+    return family;
+  }
+
   function openViewer(asset, fromHash) {
     if (!asset) return;
     if (viewerAsset && viewerAsset.id === asset.id && dialog.open) return;
@@ -1593,13 +2358,15 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
 
     var list = [];
     var index = -1;
+
     for (var i = 0; i < current.length; i += 1) {
-      if (current[i].id === asset.id) {
-        list = current.slice();
-        index = i;
-        break;
+      var group = current[i];
+      list.push(group.rep);
+      for (var j = 0; j < group.members.length; j += 1) {
+        if (group.members[j].asset.id === asset.id) index = i;
       }
     }
+
     if (index === -1) {
       list = [asset];
       index = 0;
@@ -1620,13 +2387,12 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
     fillViewer();
 
     if (!wasOpen) vClose.focus();
-    if (!fromHash) setHash(asset.id);
+    if (!fromHash) syncHash();
   }
 
   function fillViewer() {
-    var asset = viewerList[viewerIndex];
+    var asset = viewerAsset;
     if (!asset) return;
-    viewerAsset = asset;
 
     vTitle.textContent = asset.title;
     vBadge.textContent = '';
@@ -1639,11 +2405,19 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
       vBadge.appendChild(el('span', 'badge-sep', ' / '));
       vBadge.appendChild(el('span', 'community-badge', 'Community'));
     }
+    viewerFamily = familyAssets(asset);
+    if (!viewerFamily.length) viewerFamily = [asset];
+    if (viewerFamily.length > 1) {
+      vBadge.appendChild(el('span', 'badge-sep', ' / '));
+      vBadge.appendChild(el('span', 'variant-badge inline', viewerFamily.length + ' variants'));
+    }
     vSummary.textContent = asset.summary || 'No summary.';
 
     fillMeta(asset);
     fillTags(asset);
     fillFiles(asset);
+    fillVariants(asset);
+    fillSimilar(asset);
 
     vDownload.hidden = !asset.file;
     if (asset.file) {
@@ -1655,11 +2429,124 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
     vMd.href = asset.md;
     vJson.href = asset.json;
 
+    var cartMembers = assetCartMembers(asset);
+    var inCart = cartMembers.every(function (member) { return Boolean(cartMap[member.id]); });
+    vCart.textContent = inCart
+      ? (cartMembers.length > 1 ? 'In cart (' + cartMembers.length + ')' : 'In cart')
+      : (cartMembers.length > 1 ? 'Add ' + cartMembers.length + ' variants to cart' : 'Add to cart');
+    vCart.dataset.inCart = inCart ? 'true' : 'false';
+    vCart.onclick = function () { toggleAssetCart(asset); };
+
     vPos.textContent = (viewerIndex + 1) + ' / ' + viewerList.length;
     vPrev.disabled = viewerList.length < 2;
     vNext.disabled = viewerList.length < 2;
 
     renderMedia(asset);
+  }
+
+  function fillVariants(asset) {
+    clear(vVariantStrip);
+    vVariants.hidden = viewerFamily.length < 2;
+    if (viewerFamily.length < 2) return;
+
+    viewerFamily.forEach(function (member) {
+      var button = el('button', 'variant-btn', member.title);
+      button.type = 'button';
+      button.setAttribute('aria-pressed', member.id === asset.id ? 'true' : 'false');
+      button.addEventListener('click', function () {
+        selectVariant(member);
+      });
+      vVariantStrip.appendChild(button);
+    });
+  }
+
+  function selectVariant(member) {
+    if (!member) return;
+    viewerAsset = member;
+    fillViewer();
+    syncHash();
+  }
+
+  function assetVectors(asset) {
+    if (semantic.status !== 'ready') return null;
+    var entry = semantic.assets[asset.id];
+    if (!entry) return null;
+    var audio = asset.kind === 'audio';
+    var bin = audio ? semantic.clap : semantic.clip;
+    if (!bin) return null;
+    var vector = vectorAt(bin, audio ? entry.clapAudio : entry.clipImage);
+    return vector ? [vector] : null;
+  }
+
+  function embeddingSimilarity(a, b) {
+    var audioA = a.kind === 'audio';
+    var audioB = b.kind === 'audio';
+    if (audioA !== audioB) return 0;
+    var left = assetVectors(a);
+    var right = assetVectors(b);
+    if (!left || !right) return 0;
+    var best = 0;
+    left.forEach(function (one) {
+      right.forEach(function (two) {
+        best = Math.max(best, cosine(one, two));
+      });
+    });
+    return best;
+  }
+
+  function tagSimilarity(a, b) {
+    if (!a.tags.length || !b.tags.length) return 0;
+    var set = Object.create(null);
+    a.tags.forEach(function (tag) { set[tag] = true; });
+    var shared = 0;
+    b.tags.forEach(function (tag) { if (set[tag]) shared += 1; });
+    if (!shared) return 0;
+    var union = a.tags.length + b.tags.length - shared;
+    return union ? shared / union : 0;
+  }
+
+  function findSimilar(asset, limit) {
+    var scored = [];
+    ASSETS.forEach(function (other) {
+      if (other.id === asset.id) return;
+      var score = embeddingSimilarity(asset, other);
+      if (score <= 0) score = tagSimilarity(asset, other);
+      if (score > 0.15) scored.push({ asset: other, score: score });
+    });
+    scored.sort(function (a, b) {
+      return b.score - a.score || compareTitles(a.asset, b.asset);
+    });
+    return scored.slice(0, limit);
+  }
+
+  function fillSimilar(asset) {
+    clear(vSimilar);
+    var similar = findSimilar(asset, 4);
+    vSimilarHeading.hidden = similar.length === 0;
+    if (!similar.length) return;
+
+    similar.forEach(function (item) {
+      var card = el('button', 'similar-card');
+      card.type = 'button';
+      card.setAttribute('aria-label', 'Open ' + item.asset.title);
+      var thumb = el('span', 'similar-thumb');
+      if (item.asset.preview) {
+        var image = document.createElement('img');
+        image.alt = '';
+        image.loading = 'lazy';
+        image.decoding = 'async';
+        image.src = item.asset.preview;
+        thumb.appendChild(image);
+      } else {
+        thumb.appendChild(el('span', 'muted', 'No preview'));
+      }
+      card.appendChild(thumb);
+      card.appendChild(el('span', 'similar-title', item.asset.title));
+      card.addEventListener('click', function () {
+        openViewer(item.asset, false);
+      });
+      vSimilar.appendChild(card);
+    });
   }
 
   function fillMeta(asset) {
@@ -1672,12 +2559,11 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
     addMeta('Directory', asset.dir, true);
     if (asset.mime) addMeta('MIME type', asset.mime);
 
-    if (asset.scope === 'community') {
-      if (asset.contributor) {
-        addMetaLink('Contributor', '@' + asset.contributor, asset.contributorUrl);
-      }
-      if (asset.license) addMeta('License', asset.license);
+    if (asset.contributor) {
+      addMetaLink('Contributor', '@' + asset.contributor, asset.contributorUrl);
     }
+    if (asset.license) addMeta('License', asset.license);
+    if (asset.sha256) addMeta('SHA-256', asset.sha256, true);
 
     Object.keys(asset.technical).forEach(function (key) {
       if (key === 'palette') return;
@@ -2431,52 +3317,101 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
 
   // ---- navigation ---------------------------------------------------------
 
-  function setHash(id) {
-    var target = '#asset=' + encodeURIComponent(id);
+  function syncHash() {
+    var parts = [];
+    if (state.query) parts.push('q=' + encodeURIComponent(state.query));
+    if (cartOrder.length) {
+      parts.push('cart=' + cartOrder.map(function (id) {
+        return encodeURIComponent(id);
+      }).join(','));
+    }
+    if (dialog.open && viewerAsset) {
+      parts.push('asset=' + encodeURIComponent(viewerAsset.id));
+    }
+
+    var target = parts.length ? '#' + parts.join('&') : '';
     if (location.hash === target) return;
+
     try {
-      history.replaceState(null, '', target);
+      if (target) {
+        history.replaceState(null, '', target);
+      } else {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
     } catch (error) {
-      location.hash = target.slice(1);
+      if (target) location.hash = target.slice(1);
+      else location.hash = '';
     }
   }
 
-  function clearHash() {
-    if (!location.hash) return;
-    try {
-      history.replaceState(null, '', location.pathname + location.search);
-    } catch (error) {
-      location.hash = '';
-    }
+  function parseHash() {
+    var raw = location.hash.replace(/^#/, '');
+    var result = { q: '', cart: [], asset: '' };
+    if (!raw) return result;
+
+    raw.split('&').forEach(function (pair) {
+      if (!pair) return;
+      var at = pair.indexOf('=');
+      var key = at === -1 ? pair : pair.slice(0, at);
+      var value = at === -1 ? '' : pair.slice(at + 1);
+      try {
+        value = decodeURIComponent(value.replace(/\+/g, ' '));
+      } catch (error) {
+        /* keep the raw value */
+      }
+
+      if (key === 'q') {
+        result.q = value;
+      } else if (key === 'cart') {
+        result.cart = value.split(',').filter(Boolean);
+      } else if (key === 'asset') {
+        result.asset = value;
+      }
+    });
+
+    if (!result.asset && raw.indexOf('=') === -1) result.asset = raw;
+    return result;
   }
 
-  function handleHash() {
-    var match = /^#asset=(.+)$/.exec(location.hash);
-    if (!match) {
-      if (dialog.open) closeViewer(false);
-      return;
+  function applyHash(initial) {
+    var parsed = parseHash();
+    var queryChanged = parsed.q !== state.query;
+    var cartChanged = parsed.cart.length !== cartOrder.length ||
+      parsed.cart.some(function (id, index) { return cartOrder[index] !== id; });
+
+    if (queryChanged) {
+      state.query = parsed.q;
+      searchInput.value = parsed.q;
+      if (parsed.q) ensureSemantic();
     }
 
-    var id = match[1];
-    try {
-      id = decodeURIComponent(match[1]);
-    } catch (error) {
-      /* keep the raw value */
+    if (cartChanged) setCartOrder(parsed.cart, true);
+
+    if (initial || queryChanged || cartChanged) {
+      render();
+    } else {
+      updateCartPanel();
     }
 
-    var asset = byId[id];
-    if (asset) {
-      openViewer(asset, true);
+    if (parsed.asset) {
+      var asset = byId[parsed.asset];
+      if (asset) openViewer(asset, true);
+      else if (dialog.open) closeViewer(false);
     } else if (dialog.open) {
       closeViewer(false);
     }
   }
 
+  function handleHash() {
+    applyHash(false);
+  }
+
   function stepViewer(delta) {
     if (viewerList.length < 2) return;
     viewerIndex = (viewerIndex + delta + viewerList.length) % viewerList.length;
+    viewerAsset = viewerList[viewerIndex];
     fillViewer();
-    setHash(viewerAsset.id);
+    syncHash();
   }
 
   function closeViewer(updateHash) {
@@ -2492,7 +3427,1338 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
         if (opener && opener.focus) opener.focus();
       }
     }
-    if (updateHash !== false) clearHash();
+    if (updateHash !== false) syncHash();
+  }
+
+  function setSemanticNote(text, ready) {
+    indexNote.hidden = !text;
+    indexNote.textContent = text || '';
+    indexNote.classList.toggle('ready', Boolean(ready));
+  }
+
+  function updateIndexNote() {
+    if (!state.semantic) {
+      setSemanticNote('Semantic is off; ranking by keyword only.', false);
+      return;
+    }
+    if (semantic.status === 'loading') {
+      setSemanticNote('Loading semantic index...', false);
+    } else if (semantic.status === 'unavailable') {
+      setSemanticNote('Semantic index unavailable offline.', false);
+      indexNote.title = semantic.message || '';
+    } else if (semantic.status === 'ready') {
+      setSemanticNote('Semantic index loaded.', true);
+      indexNote.title = '';
+    } else {
+      setSemanticNote('', false);
+    }
+  }
+
+  function normalizeEmbeddingEntry(entry) {
+    function index(value) {
+      var number = Number(value);
+      if (value === null || value === undefined || !isFinite(number) || number < 0) return null;
+      return Math.floor(number);
+    }
+    return {
+      clipImage: index(entry && entry.clipImage),
+      clipText: index(entry && entry.clipText),
+      clapAudio: index(entry && entry.clapAudio),
+      clapText: index(entry && entry.clapText)
+    };
+  }
+
+  function mergeSemanticEntries(entries) {
+    entries.forEach(function (entry) {
+      if (!entry || !entry.id) return;
+      var asset = byId[entry.id];
+      if (!asset) return;
+      if (Array.isArray(entry.keywords) && entry.keywords.length) {
+        asset.keywords = entry.keywords.map(String).filter(Boolean);
+      }
+      if (!asset.prompt && typeof entry.prompt === 'string') asset.prompt = entry.prompt;
+      if (!asset.family && typeof entry.family === 'string') asset.family = entry.family;
+      if (!asset.sha256 && typeof entry.sha256 === 'string') asset.sha256 = entry.sha256;
+      if (!asset.license && typeof entry.license === 'string') asset.license = entry.license;
+      if (!asset.contributor && typeof entry.contributor === 'string') {
+        asset.contributor = entry.contributor;
+        asset.contributorUrl = asset.contributor
+          ? 'https://github.com/' + encodeURIComponent(asset.contributor)
+          : '';
+      }
+      prepareAsset(asset);
+    });
+  }
+
+  function binUrl(base, file) {
+    var value = String(file || '').trim();
+    if (!value) return '';
+    if (/^https?:\/\//i.test(value) || value.charAt(0) === '/') return value;
+    value = value.replace(/^\.?\//, '').replace(/^catalog\//, '');
+    return new URL(value, base).href;
+  }
+
+  function toVectorArray(buffer) {
+    var dim = semantic.dim;
+    var bytesPerVector = dim * 4;
+    var count = Math.floor(buffer.byteLength / bytesPerVector);
+    var view = new DataView(buffer);
+    var out = new Float32Array(count * dim);
+    for (var i = 0; i < count * dim; i += 1) {
+      out[i] = view.getFloat32(i * 4, true);
+    }
+    return out;
+  }
+
+  function fetchSemanticJson(base, name) {
+    return fetch(new URL(name, base).href, { cache: 'no-store' }).then(function (response) {
+      if (!response.ok) throw new Error(name + ' returned HTTP ' + response.status);
+      return response.json();
+    });
+  }
+
+  function fetchSemanticBin(base, file) {
+    var url = binUrl(base, file);
+    if (!url) return Promise.reject(new Error('missing embedding file name'));
+    return fetch(url, { cache: 'no-store' }).then(function (response) {
+      if (!response.ok) throw new Error(url + ' returned HTTP ' + response.status);
+      return response.arrayBuffer();
+    }).then(toVectorArray);
+  }
+
+  function ensureSemantic() {
+    if (!state.semantic) {
+      updateIndexNote();
+      return Promise.resolve();
+    }
+    if (semantic.status === 'ready' || semantic.status === 'unavailable') {
+      updateIndexNote();
+      return Promise.resolve();
+    }
+    if (semantic.promise) return semantic.promise;
+
+    if (location.protocol === 'file:') {
+      semantic.status = 'unavailable';
+      semantic.message = 'file:// cannot fetch catalog/embeddings. Use npm run serve.';
+      updateIndexNote();
+      return Promise.resolve();
+    }
+
+    semantic.status = 'loading';
+    updateIndexNote();
+
+    var base = new URL('../catalog/', location.href);
+    semantic.promise = Promise.all([
+      fetchSemanticJson(base, 'search-index.json'),
+      fetchSemanticJson(base, 'concepts.json'),
+      fetchSemanticJson(base, 'embeddings.json')
+    ]).then(function (values) {
+      var indexData = values[0];
+      var conceptsData = values[1];
+      var manifest = values[2] || {};
+      var indexEntries = Array.isArray(indexData)
+        ? indexData
+        : indexData && Array.isArray(indexData.assets)
+          ? indexData.assets
+          : [];
+      var concepts = conceptsData && Array.isArray(conceptsData.concepts)
+        ? conceptsData.concepts
+        : [];
+      var dim = Number(manifest.dim);
+
+      semantic.dim = isFinite(dim) && dim > 0 ? Math.floor(dim) : 512;
+      semantic.concepts = concepts.filter(function (concept) {
+        return concept && typeof concept.id === 'string' && concept.id;
+      });
+      semantic.clipModel = manifest.clip && manifest.clip.model ? String(manifest.clip.model) : '';
+      semantic.clapModel = manifest.clap && manifest.clap.model ? String(manifest.clap.model) : '';
+
+      mergeSemanticEntries(indexEntries);
+
+      var indexById = Object.create(null);
+      indexEntries.forEach(function (entry) {
+        if (entry && entry.id) indexById[entry.id] = entry;
+      });
+
+      var manifestAssets = manifest.assets && typeof manifest.assets === 'object'
+        ? manifest.assets
+        : {};
+      Object.keys(byId).forEach(function (id) {
+        var entry = manifestAssets[id] || (indexById[id] && indexById[id].embeddings) || null;
+        if (entry) semantic.assets[id] = normalizeEmbeddingEntry(entry);
+      });
+
+      var manifestConcepts = manifest.concepts && typeof manifest.concepts === 'object'
+        ? manifest.concepts
+        : {};
+      semantic.concepts.forEach(function (concept) {
+        var entry = manifestConcepts[concept.id];
+        if (!entry) return;
+        semantic.conceptEmbeddings[concept.id] = {
+          clip: entry.clip === null || entry.clip === undefined ? null : Number(entry.clip),
+          clap: entry.clap === null || entry.clap === undefined ? null : Number(entry.clap)
+        };
+      });
+
+      var jobs = [];
+      var clipFile = manifest.clip && manifest.clip.file;
+      var clapFile = manifest.clap && manifest.clap.file;
+
+      if (clipFile) {
+        jobs.push(fetchSemanticBin(base, clipFile).then(function (vectors) {
+          semantic.clip = vectors;
+        }).catch(function () {
+          semantic.clip = null;
+        }));
+      }
+      if (clapFile) {
+        jobs.push(fetchSemanticBin(base, clapFile).then(function (vectors) {
+          semantic.clap = vectors;
+        }).catch(function () {
+          semantic.clap = null;
+        }));
+      }
+
+      return Promise.all(jobs).then(function () {
+        if (!semantic.clip && !semantic.clap) {
+          throw new Error('embedding bins could not be loaded');
+        }
+        semantic.status = 'ready';
+        semantic.message = '';
+        updateIndexNote();
+        render();
+      });
+    }).catch(function (error) {
+      semantic.status = 'unavailable';
+      semantic.message = error && error.message ? error.message : String(error);
+      semantic.clip = null;
+      semantic.clap = null;
+      updateIndexNote();
+      render();
+    });
+
+    return semantic.promise;
+  }
+
+  function restrictedLicense(license) {
+    var label = String(license || '').trim().toLowerCase();
+    return !label || label === 'unknown' || label === 'licenseref-all-rights-reserved';
+  }
+
+  function licenseLabel(asset) {
+    var label = String(asset.license || '').trim();
+    return label || 'unknown';
+  }
+
+  function cartAssets() {
+    return cartOrder.map(function (id) { return byId[id]; }).filter(Boolean);
+  }
+
+  function groupInCart(group) {
+    return group.members.every(function (member) { return Boolean(cartMap[member.asset.id]); });
+  }
+
+  function cartLabel(group) {
+    var count = group.variantCount;
+    var inCart = groupInCart(group);
+    if (inCart) return count > 1 ? 'In cart (' + count + ')' : 'In cart';
+    return count > 1 ? 'Add ' + count + ' variants' : 'Add to cart';
+  }
+
+  function assetCartMembers(asset) {
+    var family = familyAssets(asset);
+    return family.length > 1 ? family : [asset];
+  }
+
+  function setCartOrder(ids, silent) {
+    cartOrder = [];
+    cartMap = Object.create(null);
+
+    ids.forEach(function (id) {
+      if (!byId[id] || cartMap[id]) return;
+      cartMap[id] = true;
+      cartOrder.push(id);
+    });
+
+    if (!silent) syncHash();
+    updateCartPanel();
+  }
+
+  function addCartMembers(members) {
+    var changed = false;
+    members.forEach(function (asset) {
+      if (!asset || cartMap[asset.id]) return;
+      cartMap[asset.id] = true;
+      cartOrder.push(asset.id);
+      changed = true;
+    });
+    return changed;
+  }
+
+  function removeCartMembers(members) {
+    var changed = false;
+    members.forEach(function (asset) {
+      if (!asset || !cartMap[asset.id]) return;
+      delete cartMap[asset.id];
+      changed = true;
+    });
+    if (!changed) return false;
+    cartOrder = cartOrder.filter(function (id) { return Boolean(cartMap[id]); });
+    return true;
+  }
+
+  function toggleGroupCart(group) {
+    var members = group.members.map(function (member) { return member.asset; });
+    if (groupInCart(group)) removeCartMembers(members);
+    else addCartMembers(members);
+    syncHash();
+    render();
+  }
+
+  function toggleAssetCart(asset) {
+    var members = assetCartMembers(asset);
+    var all = members.every(function (member) { return Boolean(cartMap[member.id]); });
+    if (all) removeCartMembers(members);
+    else addCartMembers(members);
+    syncHash();
+    render();
+    if (dialog.open) fillViewer();
+  }
+
+  function removeCartId(id) {
+    var asset = byId[id];
+    if (asset) removeCartMembers([asset]);
+    syncHash();
+    render();
+    if (dialog.open) fillViewer();
+  }
+
+  function setCartOpen(open) {
+    cartBody.hidden = !open;
+    cartHead.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function updateCartPanel() {
+    var assets = cartAssets();
+    var bytes = assets.reduce(function (sum, asset) {
+      return sum + (Number(asset.bytes) || 0);
+    }, 0);
+    var licenses = Object.create(null);
+    var restricted = [];
+
+    assets.forEach(function (asset) {
+      var label = licenseLabel(asset);
+      licenses[label] = (licenses[label] || 0) + 1;
+      if (restrictedLicense(asset.license)) restricted.push(asset);
+    });
+
+    if (restricted.length && !cartHadRestricted) checkAck = false;
+    if (!restricted.length) checkAck = false;
+    cartHadRestricted = restricted.length > 0;
+    checkAckBox.checked = checkAck;
+    cartAck.checked = checkAck;
+
+    cartCount.textContent = assets.length;
+    cartBytes.textContent = formatBytes(bytes);
+    clear(cartLicenses);
+    clear(cartItems);
+
+    Object.keys(licenses).sort(function (a, b) {
+      return licenses[b] - licenses[a] || a.localeCompare(b);
+    }).forEach(function (label) {
+      var row = el('div', 'cart-license-row' + (restrictedLicense(label) ? ' restricted' : ''));
+      row.appendChild(el('span', null, label));
+      row.appendChild(el('span', 'n', licenses[label]));
+      cartLicenses.appendChild(row);
+    });
+
+    cartEmpty.hidden = assets.length > 0;
+
+    assets.forEach(function (asset) {
+      var item = document.createElement('li');
+      item.className = 'cart-item';
+      var title = el('span', 'cart-item-title', asset.title);
+      title.title = asset.title;
+      item.appendChild(title);
+      item.appendChild(el('span', 'cart-item-id', asset.id));
+      var remove = el('button', 'cart-remove', 'Remove');
+      remove.type = 'button';
+      remove.setAttribute('aria-label', 'Remove ' + asset.title + ' from cart');
+      remove.addEventListener('click', function () { removeCartId(asset.id); });
+      item.appendChild(remove);
+      cartItems.appendChild(item);
+    });
+
+    var needsAck = restricted.length > 0;
+    cartAckRow.hidden = !needsAck;
+    var checkFailed = checkResults && checkResults.failed > 0;
+    var blocked = (needsAck && !checkAck) || checkFailed || assets.length === 0;
+    cartDownload.disabled = blocked;
+    checkDownload.disabled = blocked;
+    cartCheck.disabled = assets.length === 0;
+
+    if (!assets.length) {
+      setCartOpen(false);
+      return;
+    }
+
+    if (cartBody.hidden) setCartOpen(true);
+
+    if (needsAck && !checkAck) {
+      cartDownload.title = 'Check output and acknowledge the restricted licence first.';
+    } else if (checkFailed) {
+      cartDownload.title = 'Fix the failed checks before downloading.';
+    } else {
+      cartDownload.title = '';
+    }
+
+    if (needsAck) {
+      var note = document.getElementById('cart-note');
+      if (note) {
+        note.textContent = checkAck
+          ? 'Restricted licence acknowledged. The pack report records it.'
+          : 'One or more assets are restricted or unknown. Check output and acknowledge before download.';
+      }
+    }
+  }
+
+  function addAllResults() {
+    var changed = false;
+    current.forEach(function (group) {
+      var members = group.members.map(function (member) { return member.asset; });
+      if (addCartMembers(members)) changed = true;
+    });
+    if (!changed) return;
+    syncHash();
+    render();
+  }
+
+  var SHA_K = [
+    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+  ];
+
+  function rotr(value, bits) {
+    return (value >>> bits) | (value << (32 - bits));
+  }
+
+  function sha256Fallback(bytes) {
+    var H = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+      0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+    var length = bytes.length;
+    var padded = new Uint8Array(Math.ceil((length + 9) / 64) * 64);
+    padded.set(bytes);
+    padded[length] = 0x80;
+
+    var bitLength = length * 8;
+    var high = Math.floor(bitLength / 4294967296);
+    var low = bitLength >>> 0;
+    var end = padded.length;
+    padded[end - 8] = (high >>> 24) & 255;
+    padded[end - 7] = (high >>> 16) & 255;
+    padded[end - 6] = (high >>> 8) & 255;
+    padded[end - 5] = high & 255;
+    padded[end - 4] = (low >>> 24) & 255;
+    padded[end - 3] = (low >>> 16) & 255;
+    padded[end - 2] = (low >>> 8) & 255;
+    padded[end - 1] = low & 255;
+
+    var w = new Int32Array(64);
+
+    for (var offset = 0; offset < padded.length; offset += 64) {
+      var i;
+      for (i = 0; i < 16; i += 1) {
+        var at = offset + i * 4;
+        w[i] = (padded[at] << 24) | (padded[at + 1] << 16) |
+          (padded[at + 2] << 8) | padded[at + 3];
+      }
+      for (i = 16; i < 64; i += 1) {
+        var s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ (w[i - 15] >>> 3);
+        var s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ (w[i - 2] >>> 10);
+        w[i] = (w[i - 16] + s0 + w[i - 7] + s1) | 0;
+      }
+
+      var a = H[0];
+      var b = H[1];
+      var c = H[2];
+      var d = H[3];
+      var e = H[4];
+      var f = H[5];
+      var g = H[6];
+      var h = H[7];
+
+      for (i = 0; i < 64; i += 1) {
+        var sum1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+        var ch = (e & f) ^ (~e & g);
+        var temp1 = (h + sum1 + ch + SHA_K[i] + w[i]) | 0;
+        var sum0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+        var maj = (a & b) ^ (a & c) ^ (b & c);
+        var temp2 = (sum0 + maj) | 0;
+        h = g;
+        g = f;
+        f = e;
+        e = (d + temp1) | 0;
+        d = c;
+        c = b;
+        b = a;
+        a = (temp1 + temp2) | 0;
+      }
+
+      H[0] = (H[0] + a) | 0;
+      H[1] = (H[1] + b) | 0;
+      H[2] = (H[2] + c) | 0;
+      H[3] = (H[3] + d) | 0;
+      H[4] = (H[4] + e) | 0;
+      H[5] = (H[5] + f) | 0;
+      H[6] = (H[6] + g) | 0;
+      H[7] = (H[7] + h) | 0;
+    }
+
+    return H.map(function (word) {
+      return ('00000000' + (word >>> 0).toString(16)).slice(-8);
+    }).join('');
+  }
+
+  function bytesToHex(bytes) {
+    var out = '';
+    for (var i = 0; i < bytes.length; i += 1) {
+      out += ('0' + bytes[i].toString(16)).slice(-2);
+    }
+    return out;
+  }
+
+  function sha256Hex(buffer) {
+    var bytes = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer);
+    if (window.crypto && window.crypto.subtle && window.crypto.subtle.digest) {
+      return window.crypto.subtle.digest('SHA-256', bytes).then(function (digest) {
+        return bytesToHex(new Uint8Array(digest));
+      }).catch(function () {
+        return sha256Fallback(bytes);
+      });
+    }
+    try {
+      return Promise.resolve(sha256Fallback(bytes));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  function fetchBytes(url) {
+    return fetch(url, { cache: 'no-store' }).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.arrayBuffer();
+    }).then(function (buffer) {
+      return new Uint8Array(buffer);
+    });
+  }
+
+  function fetchWithMeta(url) {
+    return fetch(url, { cache: 'no-store' }).then(function (response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.arrayBuffer().then(function (buffer) {
+        return {
+          bytes: new Uint8Array(buffer),
+          type: (response.headers.get('content-type') || '').split(';')[0].trim().toLowerCase(),
+          status: response.status
+        };
+      });
+    });
+  }
+
+  function mimeAcceptable(expected, actual) {
+    var want = String(expected || '').trim().toLowerCase();
+    var got = String(actual || '').trim().toLowerCase();
+    if (!want) return false;
+    if (!got) return true;
+    if (got === 'application/octet-stream') return true;
+    return want === got;
+  }
+
+  function makeCheck(key, ok, detail, warn) {
+    return { key: key, ok: Boolean(ok), detail: detail || '', warn: Boolean(warn) };
+  }
+
+  function openCheckDialog() {
+    if (!checkDialog.open) {
+      if (typeof checkDialog.showModal === 'function') checkDialog.showModal();
+      else checkDialog.setAttribute('open', '');
+    }
+  }
+
+  function runChecks() {
+    if (checkBusy) return Promise.resolve();
+    var assets = cartAssets();
+    if (!assets.length) return Promise.resolve();
+
+    checkBusy = true;
+    checkResults = null;
+    checkRun.disabled = true;
+    checkDownload.disabled = true;
+    checkSummary.textContent = '';
+    clear(checkList);
+    checkAckRow.hidden = true;
+    checkRestrictedNote.hidden = true;
+    checkStatus.textContent = 'Checking output...';
+    checkTotal.textContent = '';
+    openCheckDialog();
+
+    var items = [];
+
+    function nextAsset(index) {
+      if (index >= assets.length) return Promise.resolve();
+      var asset = assets[index];
+      checkStatus.textContent = 'Checking ' + (index + 1) + ' of ' + assets.length + ': ' + asset.title;
+
+      return new Promise(function (resolve) { setTimeout(resolve, 0); }).then(function () {
+        var checks = [];
+        var fileResult = null;
+        var fileError = '';
+
+        if (!asset.file) {
+          fileError = 'No file path in the catalog.';
+        } else {
+          return fetchWithMeta(asset.file).then(function (result) {
+            fileResult = result;
+          }).catch(function (error) {
+            fileError = error && error.message ? error.message : String(error);
+          }).then(function () {
+            return finishAsset(asset, checks, fileResult, fileError);
+          }).then(function () {
+            return nextAsset(index + 1);
+          });
+        }
+
+        return finishAsset(asset, checks, null, fileError).then(function () {
+          return nextAsset(index + 1);
+        });
+      });
+    }
+
+    function finishAsset(asset, checks, fileResult, fileError) {
+      var fileOk = Boolean(fileResult);
+      checks.push(makeCheck('File', fileOk,
+        fileOk ? ('HTTP ' + fileResult.status + ' · ' + formatBytes(fileResult.bytes.length))
+          : (fileError || 'File could not be fetched.')));
+
+      var bytesOk = Boolean(fileResult) &&
+        (!asset.bytes || fileResult.bytes.length === Number(asset.bytes));
+      checks.push(makeCheck('Bytes', bytesOk,
+        fileResult
+          ? (formatBytes(fileResult.bytes.length) +
+            (asset.bytes && fileResult.bytes.length !== Number(asset.bytes)
+              ? ' · catalog says ' + formatBytes(asset.bytes)
+              : ''))
+          : 'Not available.'));
+
+      var mimeOk = Boolean(asset.mime) && Boolean(fileResult) &&
+        mimeAcceptable(asset.mime, fileResult.type);
+      checks.push(makeCheck('MIME', mimeOk,
+        fileResult
+          ? (asset.mime || 'missing') + ' · served as ' + (fileResult.type || 'unknown')
+          : 'File not fetched.'));
+
+      var hashFormat = /^[0-9a-f]{64}$/.test(String(asset.sha256 || '').toLowerCase());
+      var hashOk = hashFormat && Boolean(fileResult);
+      var hashDetail = hashFormat ? 'Recorded hash: ' + asset.sha256.slice(0, 16) + '...' : 'Missing or malformed SHA-256.';
+
+      var previewCheck = fetchWithMeta(asset.preview).then(function (preview) {
+        var isImage = !preview.type || preview.type.indexOf('image/') === 0;
+        return makeCheck('Preview', isImage,
+          isImage ? formatBytes(preview.bytes.length) + ' · ' + (preview.type || 'image') : 'Unexpected type ' + preview.type,
+          false);
+      }).catch(function (error) {
+        return makeCheck('Preview', false, error && error.message ? error.message : 'Preview not available.');
+      });
+
+      var hashCheck = fileResult
+        ? sha256Hex(fileResult.bytes).then(function (actual) {
+          if (hashFormat && actual === asset.sha256.toLowerCase()) {
+            return makeCheck('SHA-256', true, 'Verified ' + actual.slice(0, 16) + '...');
+          }
+          hashOk = false;
+          return makeCheck('SHA-256', false,
+            hashFormat ? 'Mismatch: got ' + actual.slice(0, 16) + '...' : hashDetail);
+        })
+        : Promise.resolve(makeCheck('SHA-256', false, hashDetail));
+
+      var licenseDetail = asset.license
+        ? asset.license + (restrictedLicense(asset.license) ? ' · restricted, acknowledgement required' : '')
+        : 'No licence recorded; acknowledgement required.';
+
+      return Promise.all([hashCheck, previewCheck]).then(function (results) {
+        checks.push(results[0]);
+        checks.push(results[1]);
+        checks.push(makeCheck('Licence', true, licenseDetail, restrictedLicense(asset.license)));
+        items.push({
+          asset: asset,
+          checks: checks,
+          restricted: restrictedLicense(asset.license)
+        });
+      });
+    }
+
+    return nextAsset(0).then(function () {
+      var failed = 0;
+      var passed = 0;
+      var totalChecks = 0;
+      items.forEach(function (item) {
+        item.checks.forEach(function (check) {
+          totalChecks += 1;
+          if (check.ok) passed += 1;
+          else failed += 1;
+        });
+      });
+      var restrictedItems = items.filter(function (item) { return item.restricted; });
+      var bytes = assets.reduce(function (sum, asset) {
+        return sum + (Number(asset.bytes) || 0);
+      }, 0);
+      checkResults = {
+        items: items,
+        passed: passed,
+        failed: failed,
+        totalChecks: totalChecks,
+        restricted: restrictedItems,
+        bytes: bytes,
+        acknowledged: checkAck
+      };
+      renderCheckResults();
+      checkBusy = false;
+      checkRun.disabled = false;
+      updateCartPanel();
+    }).catch(function (error) {
+      checkBusy = false;
+      checkRun.disabled = false;
+      checkStatus.textContent = 'Check failed: ' + (error && error.message ? error.message : String(error));
+      checkDownload.disabled = true;
+    });
+  }
+
+  function renderCheckResults() {
+    clear(checkSummary);
+    clear(checkList);
+    if (!checkResults) return;
+
+    function addStat(label, value) {
+      var stat = el('span', 'check-stat');
+      stat.appendChild(el('strong', null, value));
+      stat.appendChild(document.createTextNode(' ' + label));
+      checkSummary.appendChild(stat);
+    }
+
+    addStat('files', String(checkResults.items.length));
+    addStat('bytes', formatBytes(checkResults.bytes));
+    addStat('passed', String(checkResults.passed));
+    addStat('failed', String(checkResults.failed));
+    if (checkResults.restricted.length) {
+      addStat('restricted licences', String(checkResults.restricted.length));
+    }
+
+    checkResults.items.forEach(function (item) {
+      var box = el('div', 'check-item' + (item.restricted ? ' restricted' : ''));
+      var head = el('div', 'check-item-head');
+      head.appendChild(el('span', 'check-item-title', item.asset.title));
+      head.appendChild(el('span', 'check-item-id', item.asset.id));
+      box.appendChild(head);
+
+      var grid = el('div', 'check-grid');
+      item.checks.forEach(function (check) {
+        var status = check.ok ? (check.warn ? 'RESTRICTED' : 'PASS') : 'FAIL';
+        var pill = el('div', 'check-pill ' + (check.ok ? (check.warn ? 'check-warn' : 'check-pass') : 'check-fail'));
+        pill.appendChild(el('span', 'k', check.key));
+        pill.appendChild(el('span', 'v', status));
+        if (check.detail) pill.appendChild(el('span', 'check-detail', check.detail));
+        grid.appendChild(pill);
+      });
+      box.appendChild(grid);
+      checkList.appendChild(box);
+    });
+
+    var restricted = checkResults.restricted;
+    checkAckRow.hidden = restricted.length === 0;
+    checkRestrictedNote.hidden = restricted.length === 0;
+    checkAckBox.checked = checkAck;
+
+    if (restricted.length) {
+      checkRestrictedNote.textContent = 'Restricted or unknown licences: ' +
+        restricted.map(function (item) { return item.asset.id; }).join(', ') +
+        '. Download stays blocked until you acknowledge responsibility above.';
+    }
+
+    if (checkResults.failed > 0) {
+      checkStatus.textContent = checkResults.failed + ' check' +
+        (checkResults.failed === 1 ? '' : 's') + ' failed. Fix these before downloading.';
+    } else if (restricted.length && !checkAck) {
+      checkStatus.textContent = 'All checks passed. Acknowledge the restricted licence to download.';
+    } else if (restricted.length) {
+      checkStatus.textContent = 'All checks passed. Restricted licence acknowledged; the pack report records it.';
+    } else {
+      checkStatus.textContent = 'All checks passed. Every file hash was verified.';
+    }
+
+    checkTotal.textContent = checkResults.items.length + ' file' +
+      (checkResults.items.length === 1 ? '' : 's') + ' · ' + formatBytes(checkResults.bytes) +
+      ' · ' + (checkResults.failed ? checkResults.failed + ' failed' : 'all hashes verified');
+
+    var blocked = checkResults.failed > 0 || (restricted.length > 0 && !checkAck);
+    checkDownload.disabled = blocked;
+    cartDownload.disabled = blocked || cartOrder.length === 0;
+    checkResults.acknowledged = checkAck;
+  }
+
+  function syncAck() {
+    cartAck.checked = checkAck;
+    checkAckBox.checked = checkAck;
+    if (checkResults) {
+      checkResults.acknowledged = checkAck;
+      renderCheckResults();
+    }
+    updateCartPanel();
+  }
+
+  var CRC_TABLE = null;
+  var packObjectUrl = '';
+
+  function crc32(bytes) {
+    if (!CRC_TABLE) {
+      CRC_TABLE = new Uint32Array(256);
+      for (var n = 0; n < 256; n += 1) {
+        var c = n;
+        for (var k = 0; k < 8; k += 1) {
+          c = (c & 1) ? (0xedb88320 ^ (c >>> 1)) : (c >>> 1);
+        }
+        CRC_TABLE[n] = c >>> 0;
+      }
+    }
+    var crc = 0xffffffff;
+    for (var i = 0; i < bytes.length; i += 1) {
+      crc = CRC_TABLE[(crc ^ bytes[i]) & 0xff] ^ (crc >>> 8);
+    }
+    return (crc ^ 0xffffffff) >>> 0;
+  }
+
+  function makeZip(entries) {
+    var encoder = new TextEncoder();
+    var localParts = [];
+    var centralParts = [];
+    var offset = 0;
+    var now = new Date();
+    var dosTime = ((now.getHours() & 31) << 11) | ((now.getMinutes() & 63) << 5) |
+      (Math.floor(now.getSeconds() / 2) & 31);
+    var dosDate = (((now.getFullYear() - 1980) & 127) << 9) |
+      (((now.getMonth() + 1) & 15) << 5) | (now.getDate() & 31);
+
+    entries.forEach(function (entry) {
+      var nameBytes = encoder.encode(entry.name);
+      var data = entry.data instanceof Uint8Array ? entry.data : new Uint8Array(entry.data);
+      var crc = crc32(data);
+
+      var local = new Uint8Array(30 + nameBytes.length);
+      var lv = new DataView(local.buffer);
+      lv.setUint32(0, 0x04034b50, true);
+      lv.setUint16(4, 20, true);
+      lv.setUint16(6, 0x0800, true);
+      lv.setUint16(8, 0, true);
+      lv.setUint16(10, dosTime, true);
+      lv.setUint16(12, dosDate, true);
+      lv.setUint32(14, crc, true);
+      lv.setUint32(18, data.length, true);
+      lv.setUint32(22, data.length, true);
+      lv.setUint16(26, nameBytes.length, true);
+      lv.setUint16(28, 0, true);
+      local.set(nameBytes, 30);
+
+      localParts.push(local);
+      localParts.push(data);
+
+      var central = new Uint8Array(46 + nameBytes.length);
+      var cv = new DataView(central.buffer);
+      cv.setUint32(0, 0x02014b50, true);
+      cv.setUint16(4, 20, true);
+      cv.setUint16(6, 20, true);
+      cv.setUint16(8, 0x0800, true);
+      cv.setUint16(10, 0, true);
+      cv.setUint16(12, dosTime, true);
+      cv.setUint16(14, dosDate, true);
+      cv.setUint32(16, crc, true);
+      cv.setUint32(20, data.length, true);
+      cv.setUint32(24, data.length, true);
+      cv.setUint16(28, nameBytes.length, true);
+      cv.setUint16(30, 0, true);
+      cv.setUint16(32, 0, true);
+      cv.setUint16(34, 0, true);
+      cv.setUint16(36, 0, true);
+      cv.setUint32(38, 0, true);
+      cv.setUint32(42, offset, true);
+      central.set(nameBytes, 46);
+      centralParts.push(central);
+
+      offset += local.length + data.length;
+    });
+
+    var centralSize = centralParts.reduce(function (sum, part) {
+      return sum + part.length;
+    }, 0);
+    var eocd = new Uint8Array(22);
+    var ev = new DataView(eocd.buffer);
+    ev.setUint32(0, 0x06054b50, true);
+    ev.setUint16(4, 0, true);
+    ev.setUint16(6, 0, true);
+    ev.setUint16(8, entries.length, true);
+    ev.setUint16(10, entries.length, true);
+    ev.setUint32(12, centralSize, true);
+    ev.setUint32(16, offset, true);
+    ev.setUint16(20, 0, true);
+
+    var total = offset + centralSize + eocd.length;
+    var out = new Uint8Array(total);
+    var at = 0;
+    localParts.concat(centralParts).forEach(function (part) {
+      out.set(part, at);
+      at += part.length;
+    });
+    out.set(eocd, at);
+    return out;
+  }
+
+  function utf8(value) {
+    return new TextEncoder().encode(String(value));
+  }
+
+  function slugify(value) {
+    var slug = String(value || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .slice(0, 40);
+    return slug || 'all-assets';
+  }
+
+  function fileNameFromUrl(url) {
+    var clean = String(url || '').split('?')[0].split('#')[0];
+    var part = clean.slice(clean.lastIndexOf('/') + 1);
+    try {
+      part = decodeURIComponent(part);
+    } catch (error) {
+      /* keep the encoded name */
+    }
+    return part || 'file';
+  }
+
+  function uniqueEntryName(used, name) {
+    var candidate = name;
+    var dot = candidate.lastIndexOf('.');
+    var base = dot > 0 ? candidate.slice(0, dot) : candidate;
+    var ext = dot > 0 ? candidate.slice(dot) : '';
+    var counter = 2;
+    while (used[candidate]) {
+      candidate = base + '-' + counter + ext;
+      counter += 1;
+    }
+    used[candidate] = true;
+    return candidate;
+  }
+
+  function buildContactSheet(assets) {
+    return new Promise(function (resolve) {
+      try {
+        var picks = assets.slice(0, 24);
+        var columns = 4;
+        var cellWidth = 300;
+        var cellHeight = 200;
+        var gap = 12;
+        var header = 44;
+        var rows = Math.max(1, Math.ceil(picks.length / columns));
+        var canvas = document.createElement('canvas');
+        canvas.width = columns * cellWidth + (columns + 1) * gap;
+        canvas.height = header + rows * (cellHeight + 22 + gap) + gap;
+        var ctx = canvas.getContext('2d');
+        if (!ctx) {
+          resolve(null);
+          return;
+        }
+
+        ctx.fillStyle = '#0b0e14';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#e6edf3';
+        ctx.font = '600 20px system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Asset Library pack contact sheet', gap, 28);
+
+        var pending = picks.length;
+        var settled = false;
+
+        function finish() {
+          if (settled) return;
+          settled = true;
+          try {
+            canvas.toBlob(function (blob) {
+              if (!blob || !blob.arrayBuffer) {
+                resolve(null);
+                return;
+              }
+              blob.arrayBuffer().then(function (buffer) {
+                resolve(new Uint8Array(buffer));
+              }).catch(function () {
+                resolve(null);
+              });
+            }, 'image/webp', 0.86);
+          } catch (error) {
+            resolve(null);
+          }
+        }
+
+        function labelFor(asset, x, y) {
+          ctx.fillStyle = '#9aa7b8';
+          ctx.font = '12px ui-monospace, Consolas, monospace';
+          var text = asset.id + '  ' + asset.title;
+          if (text.length > 48) text = text.slice(0, 47) + '...';
+          ctx.fillText(text, x, y + cellHeight + 16);
+        }
+
+        function drawPlaceholder(asset, x, y) {
+          ctx.fillStyle = '#151b26';
+          ctx.fillRect(x, y, cellWidth, cellHeight);
+          ctx.fillStyle = '#5b6878';
+          ctx.font = '600 13px system-ui, sans-serif';
+          ctx.fillText('No preview', x + gap, y + cellHeight / 2);
+          labelFor(asset, x, y);
+        }
+
+        function done() {
+          pending -= 1;
+          if (pending <= 0) finish();
+        }
+
+        if (!picks.length) {
+          finish();
+          return;
+        }
+
+        picks.forEach(function (asset, index) {
+          var x = gap + (index % columns) * (cellWidth + gap);
+          var y = header + Math.floor(index / columns) * (cellHeight + 22 + gap);
+          ctx.fillStyle = '#151b26';
+          ctx.fillRect(x, y, cellWidth, cellHeight);
+
+          if (!asset.preview) {
+            drawPlaceholder(asset, x, y);
+            done();
+            return;
+          }
+
+          var image = new Image();
+          image.onload = function () {
+            try {
+              var width = image.naturalWidth || image.width || cellWidth;
+              var height = image.naturalHeight || image.height || cellHeight;
+              var scale = Math.min(cellWidth / width, cellHeight / height);
+              var drawWidth = Math.max(1, width * scale);
+              var drawHeight = Math.max(1, height * scale);
+              ctx.drawImage(image, x + (cellWidth - drawWidth) / 2, y + (cellHeight - drawHeight) / 2,
+                drawWidth, drawHeight);
+              labelFor(asset, x, y);
+            } catch (error) {
+              drawPlaceholder(asset, x, y);
+            }
+            done();
+          };
+          image.onerror = function () {
+            drawPlaceholder(asset, x, y);
+            done();
+          };
+          image.src = asset.preview;
+        });
+
+        setTimeout(finish, 8000);
+      } catch (error) {
+        resolve(null);
+      }
+    });
+  }
+
+  function openPackDialog() {
+    if (!packDialog.open) {
+      if (typeof packDialog.showModal === 'function') packDialog.showModal();
+      else packDialog.setAttribute('open', '');
+    }
+  }
+
+  function setPackProgress(percent, text) {
+    packBar.style.width = Math.max(0, Math.min(100, percent)) + '%';
+    if (text !== undefined) packStatus.textContent = text;
+  }
+
+  function downloadPack() {
+    if (packBusy) return;
+    var assets = cartAssets();
+    if (!assets.length) return;
+    var restrictedAssets = assets.filter(function (asset) {
+      return restrictedLicense(asset.license);
+    });
+
+    if (restrictedAssets.length && !checkAck) {
+      openCheckDialog();
+      checkStatus.textContent = 'Acknowledge the restricted licence in Check output before downloading.';
+      checkDownload.disabled = true;
+      return;
+    }
+
+    if (checkResults && checkResults.failed > 0) {
+      openCheckDialog();
+      checkStatus.textContent = 'Fix the failed checks before downloading.';
+      return;
+    }
+
+    packBusy = true;
+    packError.hidden = true;
+    packSummary.textContent = '';
+    packTotal.textContent = '';
+    packSave.hidden = true;
+    setPackProgress(0, 'Starting pack...');
+    openPackDialog();
+
+    var used = Object.create(null);
+    var entries = [];
+    var records = [];
+    var notes = [];
+    var fileCount = 0;
+    var totalBytes = 0;
+    var steps = assets.length * 2 + 3;
+    var step = 0;
+    var createdAt = new Date().toISOString();
+    var slug = slugify(state.query);
+
+    function progress(text) {
+      step += 1;
+      setPackProgress(Math.min(96, Math.round(step / steps * 100)), text);
+    }
+
+    function fail(message) {
+      throw new Error(message);
+    }
+
+    var chain = Promise.resolve();
+    assets.forEach(function (asset) {
+      chain = chain.then(function () {
+        if (!asset.file) {
+          fail('Pack aborted: ' + asset.title + ' (' + asset.id + ') has no file path.');
+        }
+        if (!/^[0-9a-f]{64}$/.test(String(asset.sha256 || '').toLowerCase())) {
+          fail('Pack aborted: ' + asset.title + ' (' + asset.id + ') has no valid SHA-256.');
+        }
+
+        progress('Fetching ' + asset.title + '...');
+        return fetchBytes(asset.file).catch(function (error) {
+          fail('Could not fetch ' + asset.title + ' (' + asset.id + '): ' +
+            (error && error.message ? error.message : String(error)));
+        }).then(function (bytes) {
+          return sha256Hex(bytes).then(function (actual) {
+            if (actual !== asset.sha256.toLowerCase()) {
+              fail('SHA-256 mismatch for ' + asset.title + ' (' + asset.id +
+                '). Expected ' + asset.sha256.slice(0, 16) + '..., got ' +
+                actual.slice(0, 16) + '.... Pack aborted.');
+            }
+            var primaryName = uniqueEntryName(used,
+              'assets/' + asset.id + '/' + (asset.fileName || fileNameFromUrl(asset.file)));
+            entries.push({ name: primaryName, data: bytes });
+            fileCount += 1;
+            totalBytes += bytes.length;
+
+            var previewName = '';
+            if (asset.preview) {
+              return fetchBytes(asset.preview).then(function (previewBytes) {
+                previewName = uniqueEntryName(used,
+                  'assets/' + asset.id + '/' + (asset.previewName || fileNameFromUrl(asset.preview)));
+                entries.push({ name: previewName, data: previewBytes });
+                fileCount += 1;
+                totalBytes += previewBytes.length;
+                records.push({
+                  id: asset.id,
+                  title: asset.title,
+                  kind: asset.kind,
+                  license: licenseLabel(asset),
+                  contributor: asset.contributor || '',
+                  sha256: asset.sha256,
+                  path: primaryName
+                });
+              }).catch(function (error) {
+                fail('Could not fetch the preview for ' + asset.title + ' (' + asset.id + '): ' +
+                  (error && error.message ? error.message : String(error)));
+              });
+            }
+
+            records.push({
+              id: asset.id,
+              title: asset.title,
+              kind: asset.kind,
+              license: licenseLabel(asset),
+              contributor: asset.contributor || '',
+              sha256: asset.sha256,
+              path: primaryName
+            });
+          });
+        });
+      });
+    });
+
+    chain = chain.then(function () {
+      progress('Rendering contact sheet...');
+      return buildContactSheet(assets).then(function (sheet) {
+        if (sheet) {
+          entries.push({ name: 'contact-sheet.webp', data: sheet });
+          fileCount += 1;
+          totalBytes += sheet.length;
+        } else {
+          notes.push('contact-sheet.webp omitted: canvas rendering failed.');
+        }
+      });
+    }).then(function () {
+      progress('Writing pack metadata...');
+
+      var totals = {
+        assets: assets.length,
+        files: fileCount,
+        bytes: totalBytes,
+        verified: true
+      };
+      var pack = {
+        version: 1,
+        name: slug,
+        query: state.query,
+        created: createdAt,
+        assets: records,
+        totals: totals,
+        restrictedAcknowledged: Boolean(restrictedAssets.length && checkAck),
+        contactSheet: !notes.length,
+        notes: notes
+      };
+
+      var credits = [
+        '# Credits',
+        '',
+        'Pack: ' + slug,
+        'Created: ' + createdAt,
+        'Query: ' + (state.query || '(none)'),
+        ''
+      ];
+      records.forEach(function (record) {
+        credits.push('## ' + record.title);
+        credits.push('');
+        credits.push('- ID: ' + record.id);
+        credits.push('- Contributor: ' + (record.contributor ? '@' + record.contributor : 'Curated library'));
+        credits.push('- Licence: ' + record.license);
+        credits.push('- File: ' + record.path);
+        credits.push('');
+      });
+
+      var licenseCounts = Object.create(null);
+      records.forEach(function (record) {
+        licenseCounts[record.license] = (licenseCounts[record.license] || 0) + 1;
+      });
+      var licences = [
+        '# Licence summary',
+        '',
+        'This pack is a convenience bundle. Each asset keeps the licence recorded below;',
+        'the pack itself does not grant additional rights.',
+        ''
+      ];
+      Object.keys(licenseCounts).sort().forEach(function (label) {
+        licences.push('- ' + label + ': ' + licenseCounts[label] + ' asset' +
+          (licenseCounts[label] === 1 ? '' : 's'));
+      });
+      if (restrictedAssets.length) {
+        licences.push('');
+        licences.push('LicenseRef-All-Rights-Reserved assets require written permission from the');
+        licences.push('rights holder before use. An unknown licence must be clarified first.');
+      }
+      licences.push('');
+      licences.push('Per-asset mapping:');
+      licences.push('');
+      records.forEach(function (record) {
+        licences.push('- ' + record.id + ' — ' + record.license);
+      });
+      licences.push('');
+
+      var readme = [
+        '# ' + slug + ' asset pack',
+        '',
+        'This is a static pack built in the browser from the Meesa Asset Library gallery.',
+        '',
+        '## Contents',
+        '',
+        '- assets/<id>/<file> — the primary deliverable and its preview',
+        '- pack.json — machine-readable manifest, paths, sizes and SHA-256 hashes',
+        '- CREDITS.md — attribution for every asset',
+        '- LICENSE.txt — licence summary and per-asset mapping',
+        'README.md — this file',
+        (notes.length ? '- contact-sheet.webp — omitted in this pack' : '- contact-sheet.webp — preview grid (max 24)'),
+        '',
+        '## Use',
+        '',
+        'Unzip the pack and read pack.json before importing files. Verify hashes with',
+        'sha256sum or any equivalent tool. Check CREDITS.md and LICENSE.txt before',
+        'publishing anything that uses these assets.',
+        '',
+        'Generated: ' + createdAt,
+        'Query: ' + (state.query || '(none)'),
+        'Files: ' + fileCount + ', ' + formatBytes(totalBytes) + '.',
+        ''
+      ];
+      if (notes.length) {
+        readme.push('Notes:');
+        notes.forEach(function (note) { readme.push('- ' + note); });
+        readme.push('');
+      }
+      if (restrictedAssets.length && checkAck) {
+        readme.push('The pack includes restricted or unknown licences. The downloader acknowledged');
+        readme.push('responsibility in the gallery; pack.json records restrictedAcknowledged: true.');
+        readme.push('');
+      }
+
+      entries.push({ name: 'pack.json', data: utf8(JSON.stringify(pack, null, 2) + '\n') });
+      entries.push({ name: 'CREDITS.md', data: utf8(credits.join('\n')) });
+      entries.push({ name: 'LICENSE.txt', data: utf8(licences.join('\n')) });
+      entries.push({ name: 'README.md', data: utf8(readme.join('\n')) });
+      return { pack: pack, totals: totals };
+    }).then(function (result) {
+      var zip = makeZip(entries);
+      setPackProgress(100, 'Pack ready. Starting download...');
+      var zipName = 'mesa-pack-' + slug + '.zip';
+      var blob = new Blob([zip], { type: 'application/zip' });
+
+      if (packObjectUrl) URL.revokeObjectURL(packObjectUrl);
+      packObjectUrl = URL.createObjectURL(blob);
+      packSave.href = packObjectUrl;
+      packSave.download = zipName;
+      packSave.hidden = false;
+
+      var link = document.createElement('a');
+      link.href = packObjectUrl;
+      link.download = zipName;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      packSummary.textContent = assets.length + ' asset' + (assets.length === 1 ? '' : 's') +
+        ', ' + result.totals.files + ' files, ' + formatBytes(result.totals.bytes) +
+        ', all recorded SHA-256 hashes verified. ZIP size ' + formatBytes(zip.length) +
+        (notes.length ? ' · contact sheet omitted.' : ' · contact sheet included.');
+      packTotal.textContent = zipName;
+      packError.hidden = true;
+    }).catch(function (error) {
+      setPackProgress(0, 'Pack aborted.');
+      packError.hidden = false;
+      packError.textContent = error && error.message ? error.message : String(error);
+      packSummary.textContent = '';
+    }).then(function () {
+      packBusy = false;
+    });
   }
 
   function clearTagFilters() {
@@ -2516,11 +4782,14 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
       tab.setAttribute('aria-pressed', tab.dataset.kind === 'all' ? 'true' : 'false');
     });
 
+    syncHash();
     render();
   }
 
   searchInput.addEventListener('input', function () {
-    state.query = searchInput.value.trim().toLowerCase();
+    state.query = searchInput.value.trim();
+    if (state.query) ensureSemantic();
+    syncHash();
     render();
   });
 
@@ -2548,9 +4817,65 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
   clearTags.addEventListener('click', clearTagFilters);
   resetButton.addEventListener('click', resetFilters);
   emptyReset.addEventListener('click', resetFilters);
+  addAllButton.addEventListener('click', addAllResults);
   vClose.addEventListener('click', function () { closeViewer(true); });
   vPrev.addEventListener('click', function () { stepViewer(-1); });
   vNext.addEventListener('click', function () { stepViewer(1); });
+
+  semanticToggle.addEventListener('change', function () {
+    state.semantic = semanticToggle.checked;
+    if (state.semantic && state.query) ensureSemantic();
+    updateIndexNote();
+    render();
+  });
+
+  cartHead.addEventListener('click', function () {
+    setCartOpen(cartBody.hidden);
+  });
+
+  cartClear.addEventListener('click', function () {
+    setCartOrder([]);
+    syncHash();
+    render();
+    if (dialog.open) fillViewer();
+  });
+
+  cartCheck.addEventListener('click', function () {
+    runChecks();
+  });
+
+  cartDownload.addEventListener('click', downloadPack);
+
+  cartAck.addEventListener('change', function () {
+    checkAck = cartAck.checked;
+    syncAck();
+  });
+
+  checkAckBox.addEventListener('change', function () {
+    checkAck = checkAckBox.checked;
+    syncAck();
+  });
+
+  checkRun.addEventListener('click', function () {
+    runChecks();
+  });
+
+  checkDownload.addEventListener('click', downloadPack);
+
+  checkClose.addEventListener('click', function () {
+    if (typeof checkDialog.close === 'function') checkDialog.close();
+    else checkDialog.removeAttribute('open');
+  });
+
+  packClose.addEventListener('click', function () {
+    if (typeof packDialog.close === 'function') packDialog.close();
+    else packDialog.removeAttribute('open');
+  });
+
+  packDone.addEventListener('click', function () {
+    if (typeof packDialog.close === 'function') packDialog.close();
+    else packDialog.removeAttribute('open');
+  });
 
   dialog.addEventListener('cancel', function (event) {
     event.preventDefault();
@@ -2605,8 +4930,7 @@ const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","rol
   applyTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
   buildTabs();
   buildTagFacets();
-  render();
-  handleHash();
+  applyHash(true);
 })();
 </script>
 </body>

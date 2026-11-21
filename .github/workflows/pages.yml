@@ -28,6 +28,9 @@ jobs:
       - name: Validate catalog
         run: node scripts/check-library.mjs
 
+      - name: Build search index
+        run: node scripts/build-search-index.mjs
+
       - name: Build gallery
         run: node scripts/build-gallery.mjs
 
@@ -35,7 +38,7 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html .nojekyll _site/
-          cp -r gallery assets community contribute _site/
+          cp -r gallery assets community contribute catalog _site/
 
       - uses: actions/configure-pages@v5
 

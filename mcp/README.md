@@ -1,8 +1,10 @@
 # Meesa Asset Library MCP server
 
-A zero-dependency MCP server that exposes the local media asset catalog to LLM
-agents over stdio. It reads `catalog/index.jsonl`, the per-asset `asset.json`
-metadata, the `asset.md` digests, and the catalog taxonomy.
+A zero-dependency MCP server that exposes the Meesa media asset catalog to LLM
+agents over stdio. It reads the published search catalog
+(`catalog/search-index.json`, `catalog/concepts.json`,
+`catalog/embeddings.json` and the embedding `.bin` files), the per-asset
+`asset.json` metadata, the `asset.md` digests, and the catalog taxonomy.
 
 The server speaks newline-delimited JSON-RPC 2.0 on stdin/stdout. It never
 writes diagnostics to stdout; logs go to stderr.
@@ -10,23 +12,143 @@ writes diagnostics to stdout; logs go to stderr.
 ## Requirements
 
 - Node.js 18 or newer (`node --version`)
-- A populated `catalog/index.jsonl`. If the catalog is missing or empty, the
-  server still starts and returns empty search results; it does not crash.
+- Either the published catalog URL or a local catalog. If both are missing the
+  server still starts; data tools return a clear error instead of crashing.
 
 The library root defaults to the parent directory of this `mcp/` directory.
-Override it with the `MEESA_LIBRARY_ROOT` environment variable.
+Override it with `MEESA_LIBRARY_ROOT`.
+
+## Catalog sources
+
+### Remote (default)
+
+`MEESA_LIBRARY_URL` sets the base URL of the published site. It defaults to
+`https://meesajarjar.github.io/MeesaAssetLibrary/`.
+
+When remote loading is enabled, the server fetches:
+
+- `catalog/search-index.json`
+- `catalog/concepts.json`
+- `catalog/embeddings.json`
+- the two `.bin` files named by the embeddings manifest
+
+The parsed catalog and its `Float32Array` embedding bins are cached in memory.
+After five minutes the next request refreshes them with `If-None-Match` /
+`If-Modified-Since` conditional requests. A failed refresh falls back to the
+local root when it contains `catalog/search-index.json` or
+`catalog/index.jsonl`; otherwise search tools return an error that names both
+the remote failure and the missing local catalog. Failures are remembered for
+five minutes so an offline server does not stall every request.
+
+Set `MEESA_LIBRARY_URL` to an empty string to disable remote loading entirely.
+
+### Local
+
+The local root is read from `catalog/search-index.json`, `catalog/concepts.json`
+and `catalog/embeddings.json`. The JSON and bins are reloaded automatically when
+their mtime or size changes. If `search-index.json` is absent, the server falls
+back to `catalog/index.jsonl` with keyword-only scoring, so older libraries and
+partially generated catalogs keep working.
+
+### Environment variables
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `MEESA_LIBRARY_ROOT` | parent of `mcp/` | Local library root, used for assets, taxonomy and fallback search data. |
+| `MEESA_LIBRARY_URL` | `https://meesajarjar.github.io/MeesaAssetLibrary/` | Published base URL. Empty string disables remote catalog loading. |
+| `MEESA_ISSUE_REPO` | `meesajarjar/MeesaAssetLibrary` | GitHub `owner/repo` used by `request_asset`. |
 
 ## Tools
 
 | Tool | Arguments | Returns |
 | --- | --- | --- |
-| `search_assets` | `query?`, `kind?`, `tags?`, `limit?` | Compact JSON array of matching assets: `id`, `title`, `kind`, `role`, `summary`, `tags`, `dir` |
-| `get_asset` | `id` (required) | JSON object with `id`, `dir`, the full `asset` metadata object, and the raw `markdown` text of `asset.md` |
-| `list_taxonomy` | none | JSON object with `facets` and `collections` arrays |
+| `search_assets` | `query?`, `kind?`, `tags?`, `limit?` | Compact JSON array: `id`, `title`, `kind`, `role`, `summary`, `tags`, `family`, `license`, `contributor`, `score`, `matchedConcepts` |
+| `get_asset` | `id` (required) | JSON object with `id`, `dir`, the full `asset` metadata, the raw `markdown` of `asset.md`, and `searchIndex` when the search catalog has the entry |
+| `list_taxonomy` | none | JSON object with `facets`, `collections`, `families`, `topConcepts`, `conceptCount` and `catalogSource` |
+| `checkout_pack` | `ids` (required), `outDir?`, `includePreview?`, `acknowledgeRestricted?` | JSON object with `outDir`, `fileCount`, `bytes`, per-file `verification`, `failures` and `allVerified` |
+| `request_asset` | `query` (required), `note?` | JSON object with a prefilled GitHub issue `url`; nothing is opened or posted |
 
-`search_assets` uses token scoring over id, title, summary, tags, and role.
-Every tag supplied in `tags` (in `namespace:value` form) must match. `limit`
-defaults to 20 and is capped at 100.
+### search_assets
+
+Every tag supplied in `tags` must match, in `namespace:value` form. `kind` is an
+exact kind filter. `limit` defaults to 20 and is capped at 100.
+
+Scoring uses media vectors only:
+
+- Concept matching by concept `id`, `label` and `synonyms`. A concept matches
+  when a query token is one of its terms, or when a multiword term appears in
+  the query.
+- Query vectors are the normalized mean of the matched concepts' `clip` and
+  `clap` text vectors.
+- Concept `modality` is respected: `audio` concepts search audio assets only,
+  `visual` concepts search visual assets only, and `both` searches both. A query
+  with no matched concept may search either modality.
+- Visual assets (image, video, model and the rest) score with `clipImage`
+  cosine and must reach 0.22. Audio assets score with `clapAudio` cosine and
+  must reach 0.10.
+- `clipText` and `clapText` are never used for scoring. Text-to-text CLIP/CLAP
+  similarity is anisotropic and produces false positives.
+- The final score is `0.55 * semantic + 0.45 * keyword`. When no media vector
+  exists or the cosine is below the floor, the semantic score is absent and the
+  asset falls back to its keyword score.
+- Keyword fields are title (which includes the id) 5, tags 4, keywords 3,
+  summary 2, prompt 2, and role (which includes the kind) 1. Each term's field
+  weights are capped at 5 and the total is divided by `5 * term count`, so the
+  keyword score is always in 0..1.
+
+Keyword matches still return even when the semantic score is below the floor or
+the concept is unknown; the modality restriction above still applies when a
+concept matched. Results combine assets carrying every term, then assets
+carrying any term, with assets that pass the semantic floor. A query that
+matches neither returns an empty JSON array. When that happens and a query was
+supplied, `search_assets` adds a second text content block with a prefilled
+`request_asset` issue URL; the first block remains `[]` so JSON parsing is
+unchanged. Quoted phrases are matched as contiguous text.
+
+### get_asset
+
+Reads `<libraryRoot>/<dir>/asset.json` and `<dir>/asset.md`. The `searchIndex`
+field carries the exact entry from `search-index.json` (or the converted legacy
+index entry) when one exists.
+
+### list_taxonomy
+
+Reads `catalog/facets/*.md` and `catalog/collections/*.md`, then adds asset
+families with counts and the most used concepts from the search catalog.
+
+### checkout_pack
+
+Downloads each asset's `file` and, when `includePreview` is true (the default),
+its `preview`. Files are fetched from `MEESA_LIBRARY_URL` first and from the
+local root as a fallback. Each primary file is checked against the asset's
+`sha256`; a mismatch removes the file and reports the failure.
+
+The layout is:
+
+```
+<pack>/
+  pack.json
+  CREDITS.md
+  LICENSE.txt
+  README.md
+  assets/<id>/<filename>
+  assets/<id>/<preview filename>   (optional)
+```
+
+`outDir` defaults to a new directory under the OS temp directory. Every id is
+validated against `^[A-Za-z0-9][A-Za-z0-9._-]*$`, and `outDir` or asset paths
+containing `..`, absolute paths, drive-prefixed asset paths, Windows-reserved
+file names, or characters such as `<>:"|?*` are refused.
+
+Assets licensed `LicenseRef-All-Rights-Reserved` make the tool refuse the whole
+pack unless `acknowledgeRestricted: true` is passed. The acknowledgement is
+recorded in `pack.json` and `LICENSE.txt`.
+
+### request_asset
+
+Builds `https://github.com/<MEESA_ISSUE_REPO>/issues/new` with a title and body
+containing the query and optional note. It is a link only; the server does not
+open a browser or call GitHub.
 
 ## Run
 
@@ -43,6 +165,13 @@ $env:MEESA_LIBRARY_ROOT = "D:\repos\MeesaAssetLibrary"
 node D:\repos\MeesaAssetLibrary\mcp\server.mjs
 ```
 
+To test offline against the local catalog only:
+
+```powershell
+$env:MEESA_LIBRARY_URL = ""
+node D:\repos\MeesaAssetLibrary\mcp\server.mjs
+```
+
 ## Test
 
 From the repository root:
@@ -51,13 +180,37 @@ From the repository root:
 node mcp/test.mjs
 ```
 
-If `catalog/index.jsonl` is missing or empty, the data-dependent checks print a
-`SKIP` message and the protocol checks still run. To exercise every check
-against a temporary generated fixture without touching the real catalog:
+The default mode is self-contained and does not touch the real catalog. It
+builds a temporary fixture library with four assets (sword, stone texture,
+forest ambience, copper pot), 512-dimension crafted embedding vectors and five
+concepts (sword, stone, ambience, dog, music), then runs:
+
+1. 26 stdio checks: protocol, sword and stone ranking, media-only concept
+   synonyms, CLAP audio matching, audio-only modality gating, `dog` and `music`
+   misses with request hints, blade/weapon keyword fallback, `request_asset`,
+   `get_asset`, taxonomy, filters, pack checkout, restricted-licence refusal,
+   `../` rejection, previews, SHA-256 mismatch reporting, index reload,
+   malformed JSON and clean EOF.
+2. 7 HTTP checks against a temporary static server: identical search results,
+   cache verification by request count, local fallback on a remote failure, the
+   clear error when neither source exists, remote pack checkout with SHA-256
+   verification, `get_asset`, and clean EOF.
+
+The run prints `Summary: 33 passed, 0 failed, 0 skipped, 299 assertions`.
+
+Other modes:
 
 ```powershell
-node mcp/test.mjs --fixture
+node mcp/test.mjs --fixture   # alias for the default fixture mode
+node mcp/test.mjs --live      # read-only checks against the real library; remote loading disabled
 ```
+
+`--live` skips its search checks when the repository has no catalog index. When
+`catalog/search-index.json` and `catalog/embeddings.json` are both present, it
+also verifies the current library expectations: `sword`, `blade` and `weapon`
+rank the model first; `stone` returns a video and a texture image; `ambience`
+returns audio only; and `music`/`dog` return an empty result with a request
+hint.
 
 ## Claude Desktop
 
@@ -78,7 +231,9 @@ Desktop:
 }
 ```
 
-The `env` entry is optional when the default root is correct.
+The `env` entry is optional when the default root is correct. Remote loading is
+on by default; add `"MEESA_LIBRARY_URL": ""` to the `env` object to force local
+only.
 
 ## OpenCode
 
@@ -103,8 +258,9 @@ Current OpenCode configuration (V2) nests MCP server definitions under
 ```
 
 The `environment` entry is optional. OpenCode exposes the tools as
-`meesa-asset-library_search_assets`, `meesa-asset-library_get_asset`, and
-`meesa-asset-library_list_taxonomy` (normalized by the client). In older V1
+`meesa-asset-library_search_assets`, `meesa-asset-library_get_asset`,
+`meesa-asset-library_list_taxonomy`, `meesa-asset-library_checkout_pack` and
+`meesa-asset-library_request_asset` (normalized by the client). In older V1
 configs, server entries lived directly under `mcp`; V2 requires the
 `mcp.servers` nesting shown above.
 
@@ -123,5 +279,23 @@ for example `"D:/repos/MeesaAssetLibrary/mcp/server.mjs"`.
   `-32700` and do not stop the server.
 - Tool failures are returned as a normal tool result with `isError: true` and a
   readable message.
-- The catalog index is cached in memory and reloaded automatically when its
-  mtime or size changes.
+- Input lines may end in LF or CRLF, and a UTF-8 BOM is ignored.
+- Requests are processed in arrival order. A stdin EOF with a partial final
+  line still processes that line, then the process exits cleanly.
+- All network reads use `fetch` with a 30 second timeout. Errors name the URL
+  and, for timeouts, the limit.
+- The legacy `catalog/index.jsonl` is still supported and reloaded when its mtime
+  or size changes.
+
+## Limitations
+
+- Search vectors come from the precomputed concept embeddings. The server does
+  not run a CLIP or CLAP text encoder, so a query with no concept match is
+  keyword-only.
+- Media-vector floors deliberately drop weak semantic-only matches. Text
+  vectors are not scored, because text-to-text cosine is anisotropic.
+- `checkout_pack` verifies the primary file's SHA-256. Previews have no hash in
+  the contract and are recorded as `status: "preview"` rather than verified.
+- An existing non-empty `outDir` is reused; known pack files are overwritten and
+  unrelated files are left alone, so the reported file count can exceed the
+  pack's own files if the directory was not empty.

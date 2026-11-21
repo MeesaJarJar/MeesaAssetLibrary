@@ -175,6 +175,7 @@ function parseIndex(text, catalog, reportError, reportWarning) {
 
     checkIndexKeys(entry, label, reportError, reportWarning);
     checkTags(raw.tags, 'index', label + ':' + lineNo, reportError, reportWarning);
+    checkOptionalMetadata(raw, 'index', label + ':' + lineNo, reportError);
     entries.push(entry);
   });
 
@@ -300,6 +301,7 @@ async function checkBundle(entry, bundleDir, root, catalog, reportError, reportW
   }
 
   checkTags(bundle.tags, 'asset.json', label, reportError, reportWarning);
+  checkOptionalMetadata(bundle, 'asset.json', label, reportError);
   checkPrimaryMatch(entry, bundle, label, reportError);
   await checkPreview(entry.raw, bundle, bundleDir, label, reportError);
   await checkFiles(bundle, bundleDir, label, catalog, reportError);
@@ -387,6 +389,28 @@ function checkTags(tags, source, label, reportError, reportWarning) {
       reportWarning(label + ': ' + source + ' tag "' + value + '" has an empty facet value');
     }
   });
+}
+
+function checkOptionalMetadata(record, source, label, reportError) {
+  if (Object.hasOwn(record, 'keywords')) {
+    if (!Array.isArray(record.keywords)) {
+      reportError(label + ': ' + source + ' "keywords" is not an array');
+    } else {
+      record.keywords.forEach((keyword, index) => {
+        if (typeof keyword !== 'string' || !keyword.trim()) {
+          reportError(label + ': ' + source + ' keyword #' + (index + 1) + ' is not a non-empty string');
+        }
+      });
+    }
+  }
+
+  if (Object.hasOwn(record, 'prompt') && typeof record.prompt !== 'string') {
+    reportError(label + ': ' + source + ' "prompt" is not a string');
+  }
+
+  if (Object.hasOwn(record, 'family') && record.family !== null && typeof record.family !== 'string') {
+    reportError(label + ': ' + source + ' "family" must be a string or null');
+  }
 }
 
 async function checkPreview(indexEntry, bundle, bundleDir, label, reportError) {

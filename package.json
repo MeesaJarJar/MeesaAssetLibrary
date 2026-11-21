@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Local media asset library tooling: gallery builder, integrity checker, and static server.",
+  "description": "Local media asset library tooling: gallery builder, search index, semantic embeddings, integrity checker, and static server.",
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "ingest": "node scripts/ingest.mjs",
-    "gallery": "node scripts/build-gallery.mjs",
+    "index": "node scripts/build-search-index.mjs",
+    "embed": "python scripts/embed.py",
+    "gallery": "node scripts/build-search-index.mjs && node scripts/build-gallery.mjs",
     "check": "node scripts/check-library.mjs",
     "serve": "node scripts/serve.mjs"
   }

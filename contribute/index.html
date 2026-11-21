@@ -320,6 +320,21 @@ fieldset:disabled{opacity:.72}
             <input id="tags" name="tags" type="text" maxlength="1200" autocomplete="off" placeholder="subject:environment/stone, use:tileset, style:pixel-art">
             <p class="hint">Comma or space separated <code>namespace:value</code> tags. <code>format:&lt;ext&gt;</code> and <code>engine:any</code> are added when missing.</p>
           </div>
+          <div class="field full">
+            <label for="prompt">Prompt (optional)</label>
+            <textarea id="prompt" name="prompt" rows="3" maxlength="4000" placeholder="The generation prompt used to make this asset."></textarea>
+            <p class="hint">Prompt and keywords power semantic search; paste the prompt you used if you have it.</p>
+          </div>
+          <div class="field">
+            <label for="keywords">Keywords (optional)</label>
+            <input id="keywords" name="keywords" type="text" maxlength="1200" autocomplete="off" placeholder="mossy, cobblestone, seamless">
+            <p class="hint">Comma separated free-form search terms.</p>
+          </div>
+          <div class="field">
+            <label for="family">Family (optional)</label>
+            <input id="family" name="family" type="text" maxlength="80" autocomplete="off" placeholder="mossy-stone">
+            <p class="hint">Groups variants of the same asset across resolutions or states.</p>
+          </div>
           <div class="field">
             <label for="license">SPDX license <span class="req" aria-hidden="true">*</span></label>
             <select id="license" name="license" required>
@@ -547,6 +562,9 @@ fieldset:disabled{opacity:.72}
       title: 'title',
       summary: 'summary',
       tags: 'tags',
+      prompt: 'prompt',
+      keywords: 'keywords',
+      family: 'family',
       license: 'license',
       notes: 'notes',
       files: 'files',
@@ -2012,6 +2030,20 @@ fieldset:disabled{opacity:.72}
     return { tags: tags };
   }
 
+  function parseKeywords(raw) {
+    var keywords = [];
+    var seen = new Set();
+    String(raw || '').split(',').forEach(function (part) {
+      var keyword = normalizeText(part);
+      if (!keyword) return;
+      var key = keyword.toLowerCase();
+      if (seen.has(key)) return;
+      seen.add(key);
+      keywords.push(keyword);
+    });
+    return keywords;
+  }
+
   async function onReview(event) {
     event.preventDefault();
     if (state.reviewing || state.publishing) return;
@@ -2045,11 +2077,16 @@ fieldset:disabled{opacity:.72}
       var title = normalizeText(dom.title.value);
       var summary = normalizeText(dom.summary.value);
       var notes = normalizeText(dom.notes.value);
+      var prompt = normalizeText(dom.prompt.value);
+      var keywords = parseKeywords(dom.keywords.value);
+      var family = normalizeText(dom.family.value) || null;
       if (!title) errors.push('Title is required.');
       if (title.length > 80) errors.push('Title must be 80 characters or fewer.');
       if (!summary) errors.push('Summary is required.');
       if (summary.length > 2000) errors.push('Summary must be 2000 characters or fewer.');
       if (notes.length > 2000) errors.push('Notes must be 2000 characters or fewer.');
+      if (prompt.length > 4000) errors.push('Prompt must be 4000 characters or fewer.');
+      if (family && family.length > 80) errors.push('Family must be 80 characters or fewer.');
 
       if (!LICENSES.includes(dom.license.value)) errors.push('Choose an SPDX license.');
       if (!dom.ownership.checked) errors.push('Confirm that you created this or have permission to redistribute it.');
@@ -2106,6 +2143,9 @@ fieldset:disabled{opacity:.72}
         summary: summary,
         notes: notes,
         tags: tagsResult.tags,
+        prompt: prompt,
+        keywords: keywords,
+        family: family,
         license: dom.license.value,
         ownership: true,
         files: state.entries.slice(),
@@ -2196,6 +2236,9 @@ fieldset:disabled{opacity:.72}
     addReviewDetail(details, 'Contributor', '@' + state.user.login);
     addReviewDetail(details, 'Ownership', 'Confirmed by contributor');
     addReviewDetail(details, 'Tags', draft.tags.join(', '));
+    if (draft.prompt) addReviewDetail(details, 'Prompt', draft.prompt);
+    if (draft.keywords.length) addReviewDetail(details, 'Keywords', draft.keywords.join(', '));
+    if (draft.family) addReviewDetail(details, 'Family', draft.family);
     addReviewDetail(details, 'Files', draft.files.length + ' ' + (draft.files.length === 1 ? 'file' : 'files') + ', ' +
       formatBytes(draft.files.reduce(function (sum, entry) { return sum + entry.bytes; }, 0)));
 
@@ -2515,6 +2558,9 @@ fieldset:disabled{opacity:.72}
       title: draft.title,
       summary: draft.summary,
       tags: draft.tags.slice(),
+      ...(draft.keywords.length ? { keywords: draft.keywords.slice() } : {}),
+      ...(draft.prompt ? { prompt: draft.prompt } : {}),
+      family: draft.family || null,
       preview: 'preview.webp',
       files: files,
       technical: technical,
@@ -2543,6 +2589,9 @@ fieldset:disabled{opacity:.72}
       title: draft.title,
       summary: draft.summary,
       tags: draft.tags.slice(),
+      ...(draft.keywords.length ? { keywords: draft.keywords.slice() } : {}),
+      ...(draft.prompt ? { prompt: draft.prompt } : {}),
+      family: draft.family || null,
       preview: 'preview.webp',
       file: dir + '/' + files[0].path,
       mime: primary.mime,

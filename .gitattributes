@@ -17,3 +17,4 @@
 *.blend binary
 *.psd binary
 *.aseprite binary
+*.bin binary
