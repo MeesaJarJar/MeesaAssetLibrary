@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000007",
+  "kind": "image",
+  "role": "concept",
+  "title": "Tree Pair - Pine and Bare Oak",
+  "summary": "Two-panel 848x608 study: left, a dense conical pine with a heavy trunk on black; right, a pale-trunked oak with exposed branches and a green canopy on white. Use as a style-matched pair for forest variety or side-by-side reference; crop the panels apart and key the backgrounds before engine use.",
+  "tags": [
+    "subject:environment/tree",
+    "style:pixel-art",
+    "use:concept-art",
+    "palette:mossy-green",
+    "format:png",
+    "engine:any"
+  ],
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/Flux2-Klein-4b-base_00003_.png",
+      "bytes": 544302,
+      "mime": "image/png",
+      "sha256": "92d76b4a9c8c51d8d4810cf87b6c512560fb4863640c45c44844803533f77315"
+    }
+  ],
+  "technical": {
+    "width": 848,
+    "height": 608,
+    "alpha": false,
+    "tileable": null,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI TREETEST (Flux.2 Klein 4B)",
+    "captured": "2026-11-20"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "Generated with ComfyUI TREETEST (Flux.2 Klein 4B image edit) from TreeTogether1.png at seed 1004328381403130, prompt 'Show a different tree in this same format.' Two panels of roughly 400px width; mixed black and white backgrounds, no alpha."
+}

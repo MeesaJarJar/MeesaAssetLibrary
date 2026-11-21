@@ -4,14 +4,14 @@ Purpose: the job the asset does in a game or pipeline. One asset may carry more
 than one `use:` tag when it genuinely serves several jobs; the counts below are
 per tag occurrence.
 
-Counts are from the five starter bundles (2026-11-20).
+Counts are from the eight bundles currently in the catalog (2026-11-20).
 
 ## Values
 
 | Value | Count | Meaning |
 | --- | --- | --- |
 | `use:tileset` | 1 | designed to repeat as terrain or floor |
-| `use:concept-art` | 1 | mood, composition or design reference |
+| `use:concept-art` | 4 | mood, composition or design reference |
 | `use:ui-icon` | 1 | small HUD, inventory or menu icon |
 | `use:ui-sfx` | 1 | interface feedback sound |
 | `use:palette` | 1 | colour reference for authoring other assets |

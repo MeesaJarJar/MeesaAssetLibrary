@@ -32,6 +32,7 @@ original files.
 
 | Command | Purpose |
 | --- | --- |
+| `npm run ingest` | add one file as a complete bundle (see `AGENTS.md`) |
 | `npm run gallery` | rebuild `gallery/index.html` from the catalog |
 | `npm run check` | verify IDs, hashes, sizes, previews and index integrity |
 | `npm run serve` | serve the repo at `http://localhost:4173` for browsing |
@@ -54,7 +55,7 @@ OpenCode configuration.
 | `assets/doc/` | design notes, specs, palettes, tables |
 | `assets/project/` | engine export bundles |
 | `catalog/` | index, facets, collections, move log |
-| `scripts/` | gallery builder, integrity checker, static server |
+| `scripts/` | single-asset ingest, gallery builder, integrity checker, static server |
 | `gallery/` | generated static browser, safe to open from disk |
 | `mcp/` | stdio MCP server exposing the catalog to agents |
 | `_inbox/` | drop zone for raw dumps, never authoritative |

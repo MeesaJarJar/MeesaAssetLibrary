@@ -8,7 +8,7 @@ maintained by hand; rebuild the browsable gallery with
 
 | Kind | Directory | Bundles | Notes |
 | --- | --- | --- | --- |
-| image | `assets/image/` | 3 | tiles, concept art, icon |
+| image | `assets/image/` | 6 | tiles, concept art, icon |
 | audio | `assets/audio/` | 1 | UI sfx |
 | doc | `assets/doc/` | 1 | palette reference |
 | model | `assets/model/` | 0 | reserved roles only |
@@ -18,7 +18,7 @@ maintained by hand; rebuild the browsable gallery with
 | project | `assets/project/` | 0 | engine export bundles |
 | other | `assets/other/` | 0 | uncategorised, use sparingly |
 
-Total: 5 bundles.
+Total: 8 bundles.
 
 ## Entry points
 

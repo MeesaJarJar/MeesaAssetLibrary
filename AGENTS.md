@@ -45,6 +45,20 @@ tag match as a candidate, not a decision: confirm with `asset.md`.
 
 ## Add an asset (checklist)
 
+Fast path for one file at a time:
+
+```sh
+node scripts/ingest.mjs --file <path> --kind image --role concept \
+  --title "..." --summary "..." \
+  --tags "subject:environment/tree,style:pixel-art,use:concept-art,format:png,engine:any" \
+  --source-tool "..." --build
+```
+
+It allocates the next ID, copies the original into `src/`, writes `asset.json`
+and `asset.md`, appends the index line, updates the overview counts, and with
+`--build` runs validation and the gallery. Use the manual checklist only when
+the tool cannot express the case.
+
 1. Choose `kind` and `role`. If the role directory does not exist, add it and a
    line to the matching facet.
 2. Allocate the next ID: highest 6-digit sequence anywhere in the catalog plus

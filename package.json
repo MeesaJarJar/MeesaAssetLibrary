@@ -8,6 +8,7 @@
     "node": ">=18"
   },
   "scripts": {
+    "ingest": "node scripts/ingest.mjs",
     "gallery": "node scripts/build-gallery.mjs",
     "check": "node scripts/check-library.mjs",
     "serve": "node scripts/serve.mjs"

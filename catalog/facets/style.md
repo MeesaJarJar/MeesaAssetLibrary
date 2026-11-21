@@ -3,13 +3,13 @@
 Purpose: how the asset is drawn or produced, so an agent can keep a set visually
 consistent. Style is about rendering, not subject and not quality.
 
-Counts are from the five starter bundles (2026-11-20).
+Counts are from the eight bundles currently in the catalog (2026-11-20).
 
 ## Values
 
 | Value | Count | Meaning |
 | --- | --- | --- |
-| `style:pixel-art` | 1 | authored on a pixel grid; crisp edges, integer scaling |
+| `style:pixel-art` | 4 | authored on a pixel grid; crisp edges, integer scaling |
 | `style:painted` | 1 | soft brushes, gradients and atmospheric depth |
 | `style:flat` | 1 | hard shapes, few tones, no gradients; UI-first |
 | `style:clean-synth` | 1 | simple waveforms, no noise or distortion |
