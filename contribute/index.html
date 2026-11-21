@@ -228,9 +228,14 @@ fieldset:disabled{opacity:.72}
     <div class="panel-head">
       <div>
         <h2 id="auth-title">Collaborator access</h2>
-        <p class="muted small">Sign in with a fine-grained GitHub token that can write to this repository.</p>
+        <p class="muted small">Sign in with a fine-grained GitHub token. Publishing is limited to collaborators invited by MeesaJarJar.</p>
       </div>
       <span class="badge">Publishes to main</span>
+    </div>
+
+    <div class="notice info" role="note">
+      <strong>Invite-only</strong>
+      <p>Only GitHub accounts that MeesaJarJar has added as collaborators can publish assets here. To request access, contact <a href="https://discord.com/users/221046791976517633" target="_blank" rel="noopener noreferrer">MeesaJarJar on Discord</a> &mdash; user ID <code>221046791976517633</code>.</p>
     </div>
 
     <form id="auth-form" method="post" novalidate>
@@ -272,7 +277,7 @@ fieldset:disabled{opacity:.72}
 
   <div id="blocked-message" class="notice error" role="alert" hidden>
     <strong id="blocked-text"></strong>
-    <p>The upload form stays disabled. Sign out and connect a token for an account with write access to this repository.</p>
+    <p>Only collaborators invited by MeesaJarJar can publish. To request access, contact <a href="https://discord.com/users/221046791976517633" target="_blank" rel="noopener noreferrer">MeesaJarJar on Discord</a> &mdash; user ID <code>221046791976517633</code>. The upload form stays disabled until a collaborator token is connected.</p>
   </div>
 
   <section class="panel" id="form-panel" aria-labelledby="form-title" hidden>

@@ -11,6 +11,15 @@ Static, dependency-free contribution form for invited collaborators.
 The page is one self-contained HTML file with inline CSS and JavaScript. It
 loads no scripts, fonts, styles or images from third parties.
 
+## Invite-only
+
+Only GitHub accounts that MeesaJarJar has added as repository collaborators can
+publish. There is no self-service signup, and a GitHub account by itself is not
+enough.
+
+To request access, contact MeesaJarJar on Discord:
+<https://discord.com/users/221046791976517633> (user ID `221046791976517633`).
+
 ## Token setup
 
 1. Open <https://github.com/settings/personal-access-tokens/new>.
@@ -23,7 +32,8 @@ loads no scripts, fonts, styles or images from third parties.
 The token is used for `GET /user`, the repository permission check, the catalog
 reads and the write sequence. The repository must report
 `permissions.push === true`; otherwise the form stays disabled and the page shows
-"This account is not a collaborator on the repository".
+"This account is not a collaborator on the repository", with the Discord contact
+for requesting access.
 
 Authentication errors are distinct:
 
