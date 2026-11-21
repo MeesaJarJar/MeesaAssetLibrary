@@ -1642,6 +1642,104 @@ function resolveAssetDir(relativeDir) {
   return target;
 }
 
+const ASSET_METADATA_TTL_MS = 5 * 60 * 1000;
+const assetMetadataCache = new Map();
+
+function assetMetadataUrl(dir, fileName) {
+  const segments = safeSegments(dir, "asset directory");
+  return `${LIBRARY_URL}${segments
+    .map((segment) => encodeURIComponent(segment))
+    .join("/")}/${encodeURIComponent(fileName)}`;
+}
+
+function searchEntryFor(record) {
+  if (isPlainObject(record.raw)) return record.raw;
+
+  return {
+    id: record.id,
+    kind: record.kind ?? "",
+    role: record.role ?? "",
+    title: record.title ?? "",
+    summary: record.summary ?? "",
+    tags: Array.isArray(record.tags) ? record.tags : [],
+    keywords: Array.isArray(record.keywords) ? record.keywords : [],
+    prompt: record.prompt ?? "",
+    family: record.family ?? "",
+    scope: record.scope ?? "",
+    contributor: record.contributor ?? "",
+    license: record.license ?? "",
+    preview: record.preview ?? "",
+    file: record.file ?? "",
+    mime: record.mime ?? "",
+    bytes: record.bytes ?? 0,
+    sha256: record.sha256 ?? "",
+    dir: record.dir ?? "",
+    added: record.added ?? "",
+    text: record.text ?? "",
+    embeddings: isPlainObject(record.embeddings) ? record.embeddings : {},
+  };
+}
+
+async function fetchRemoteAssetMetadata(record) {
+  const jsonUrl = assetMetadataUrl(record.dir, "asset.json");
+
+  let response;
+  try {
+    response = await fetchResource(jsonUrl);
+  } catch (error) {
+    if (error.status === 404) {
+      return {
+        asset: null,
+        markdown: null,
+        metadataUnavailable: true,
+        note: `asset.json is not available at ${jsonUrl} (HTTP 404). Returning the search-index entry only.`,
+      };
+    }
+    throw new UserInputError(`Cannot fetch ${jsonUrl}: ${error.message}`);
+  }
+
+  let asset;
+  try {
+    asset = JSON.parse(response.buf.toString("utf8").replace(/^\uFEFF/, ""));
+  } catch (error) {
+    throw new UserInputError(`Invalid JSON at ${jsonUrl}: ${error.message}`);
+  }
+  if (!isPlainObject(asset)) {
+    throw new UserInputError(`${jsonUrl} must contain a JSON object.`);
+  }
+
+  let markdown = null;
+  let markdownError = null;
+  const markdownUrl = assetMetadataUrl(record.dir, "asset.md");
+  try {
+    const markdownResponse = await fetchResource(markdownUrl);
+    markdown = markdownResponse.buf
+      .toString("utf8")
+      .replace(/^\uFEFF/, "");
+  } catch (error) {
+    markdownError =
+      error.status === 404
+        ? "asset.md not found"
+        : `Cannot fetch asset.md: ${error.message}`;
+  }
+
+  return { asset, markdown, markdownError, metadataUnavailable: false };
+}
+
+async function loadRemoteAssetMetadata(record) {
+  const cached = assetMetadataCache.get(record.id);
+  if (cached && Date.now() - cached.fetchedAt < ASSET_METADATA_TTL_MS) {
+    return cached.metadata;
+  }
+
+  const metadata = await fetchRemoteAssetMetadata(record);
+  assetMetadataCache.set(record.id, {
+    fetchedAt: Date.now(),
+    metadata,
+  });
+  return metadata;
+}
+
 async function getAsset(args) {
   if (!isPlainObject(args)) {
     throw new UserInputError("get_asset arguments must be an object.");
@@ -1652,9 +1750,11 @@ async function getAsset(args) {
     throw new UserInputError("get_asset requires a non-empty string 'id'.");
   }
 
+  let snapshot = null;
   let searchRecord = null;
   try {
-    searchRecord = (await loadCatalog()).byId.get(id) ?? null;
+    snapshot = await loadCatalog();
+    searchRecord = snapshot.byId.get(id) ?? null;
   } catch (error) {
     log(`Search index unavailable while reading ${id}: ${error.message}`);
   }
@@ -1663,6 +1763,35 @@ async function getAsset(args) {
   if (!record) return toolError(`Asset not found: ${id}`);
   if (!record.dir) {
     return toolError(`Asset ${id} has no directory in the catalog index.`);
+  }
+
+  const searchIndex = searchEntryFor(searchRecord ?? record);
+  const remoteSource = snapshot?.source === "remote" && Boolean(searchRecord);
+
+  if (remoteSource) {
+    let metadata;
+    try {
+      metadata = await loadRemoteAssetMetadata(record);
+    } catch (error) {
+      return toolError(error.message);
+    }
+
+    const payload = {
+      id: record.id,
+      dir: record.dir,
+      asset: metadata.asset,
+      markdown: metadata.markdown,
+      searchIndex,
+    };
+
+    if (metadata.metadataUnavailable) {
+      payload.metadataUnavailable = true;
+      payload.note = metadata.note;
+    } else if (metadata.markdownError) {
+      payload.markdownError = metadata.markdownError;
+    }
+
+    return toolText(JSON.stringify(payload, null, 2));
   }
 
   let assetDir;
@@ -1710,9 +1839,9 @@ async function getAsset(args) {
     dir: record.dir,
     asset,
     markdown,
+    searchIndex,
   };
   if (markdownError) payload.markdownError = markdownError;
-  if (searchRecord) payload.searchIndex = searchRecord.raw;
 
   return toolText(JSON.stringify(payload, null, 2));
 }
@@ -2270,6 +2399,97 @@ function buildPackReadme(entries, restrictedAcknowledged) {
   return lines.join("\n");
 }
 
+function packNameFor(ids) {
+  const slug = ids
+    .join("-")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+  return slug || "asset-pack";
+}
+
+function fullBundlePath(dir, filePath) {
+  const base = String(dir ?? "")
+    .replace(/\\/g, "/")
+    .replace(/\/+$/, "");
+  const raw = String(filePath ?? "")
+    .replace(/\\/g, "/")
+    .replace(/^\.\//, "");
+  if (!raw) return "";
+  if (!base || raw === base || raw.startsWith(`${base}/`)) return raw;
+  return `${base}/${raw}`;
+}
+
+function expectedHashFor(entry, manifest, segments, isPrimary) {
+  const relative = segments.join("/");
+  const baseName = segments[segments.length - 1];
+  const candidates = [];
+
+  if (isPlainObject(manifest) && Array.isArray(manifest.files)) {
+    for (const file of manifest.files) {
+      if (!isPlainObject(file)) continue;
+      const sha = normalizeHash(file.sha256);
+      if (!sha) continue;
+      const full = fullBundlePath(entry.dir, asText(file.path));
+      if (!full) continue;
+      candidates.push({
+        full,
+        base: full.split("/").pop(),
+        sha,
+      });
+    }
+  }
+
+  // The search-index hash always describes the primary file, never a preview.
+  if (isPrimary) {
+    const sha = normalizeHash(entry.sha256);
+    if (sha) {
+      const full = fullBundlePath("", entry.file);
+      candidates.push({
+        full,
+        base: full.split("/").pop(),
+        sha,
+      });
+    }
+  }
+
+  const exact = candidates.find((candidate) => candidate.full === relative);
+  if (exact) return exact.sha;
+
+  const byBase = candidates.find(
+    (candidate) => candidate.base === baseName,
+  );
+  if (byBase) return byBase.sha;
+
+  if (isPrimary && candidates.length === 1) return candidates[0].sha;
+  return "";
+}
+
+async function loadCheckoutManifest(entry, snapshot) {
+  if (snapshot.source === "remote") {
+    try {
+      const metadata = await loadRemoteAssetMetadata(entry);
+      return isPlainObject(metadata.asset) ? metadata.asset : null;
+    } catch (error) {
+      log(`Cannot read remote asset.json for ${entry.id}: ${error.message}`);
+      return null;
+    }
+  }
+
+  try {
+    const assetDir = resolveAssetDir(entry.dir);
+    const text = fs.readFileSync(path.join(assetDir, "asset.json"), "utf8");
+    const parsed = JSON.parse(text.replace(/^\uFEFF/, ""));
+    return isPlainObject(parsed) ? parsed : null;
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      log(`Cannot read asset.json for ${entry.id}: ${error.message}`);
+    }
+    return null;
+  }
+}
+
 async function checkoutPack(args) {
   if (!isPlainObject(args)) {
     throw new UserInputError("checkout_pack arguments must be an object.");
@@ -2335,22 +2555,40 @@ async function checkoutPack(args) {
 
   fs.mkdirSync(outDir, { recursive: true });
 
+  const restrictedIds = entries
+    .filter(
+      (entry) =>
+        entry.license.trim().toLowerCase() ===
+        RESTRICTED_LICENSE.toLowerCase(),
+    )
+    .map((entry) => entry.id);
+  const restrictedAcknowledged = acknowledgeRestricted === true;
+  const restrictedIncluded = restrictedIds.length > 0;
+
   const verification = [];
   const failures = [];
+  const primaryPathById = new Map();
   let totalBytes = 0;
 
   for (const entry of entries) {
-    const requested = [];
     const fileSegments = assetRelativePath(entry, "file");
     if (!fileSegments) {
       failures.push({ id: entry.id, error: "Asset has no 'file' in the catalog." });
       continue;
     }
-    requested.push({
-      kind: "file",
-      segments: fileSegments,
-      expected: normalizeHash(entry.sha256),
-    });
+
+    // Resolve hashes from the search-index entry and the asset.json files[]
+    // block. The deployed search index stores sha256: null for some assets even
+    // though asset.json has the authoritative primary hash.
+    const manifest = await loadCheckoutManifest(entry, snapshot);
+
+    const requested = [
+      {
+        kind: "file",
+        segments: fileSegments,
+        expected: expectedHashFor(entry, manifest, fileSegments, true),
+      },
+    ];
 
     if (includePreview) {
       const previewSegments = assetRelativePath(entry, "preview");
@@ -2358,7 +2596,7 @@ async function checkoutPack(args) {
         requested.push({
           kind: "preview",
           segments: previewSegments,
-          expected: "",
+          expected: expectedHashFor(entry, manifest, previewSegments, false),
         });
       }
     }
@@ -2382,6 +2620,8 @@ async function checkoutPack(args) {
         .relative(outDir, destination)
         .split(path.sep)
         .join("/");
+      const isPrimary = item.kind === "file";
+      if (isPrimary) primaryPathById.set(entry.id, relativeDestination);
 
       try {
         const result = await downloadAssetFile(
@@ -2390,18 +2630,25 @@ async function checkoutPack(args) {
           destination,
         );
 
-        const verified =
-          item.kind === "file" &&
-          item.expected.length > 0 &&
-          result.sha256 === item.expected;
-        const status =
-          item.kind === "preview"
-            ? "preview"
-            : item.expected.length === 0
-              ? "unverified"
-              : verified
-                ? "verified"
-                : "mismatch";
+        let verified;
+        let status;
+        if (item.expected) {
+          if (result.sha256 === item.expected) {
+            verified = true;
+            status = "verified";
+          } else {
+            verified = false;
+            status = "mismatch";
+          }
+        } else if (isPrimary) {
+          verified = false;
+          status = "unverified";
+        } else {
+          // Previews usually have no catalog hash. Record the computed hash so
+          // the pack is still self-verifying.
+          verified = true;
+          status = "verified";
+        }
 
         if (status === "mismatch") {
           try {
@@ -2414,7 +2661,28 @@ async function checkoutPack(args) {
             file: item.segments.join("/"),
             error: `SHA-256 mismatch: expected ${item.expected}, received ${result.sha256}`,
           });
+          verification.push({
+            id: entry.id,
+            kind: item.kind,
+            file: item.segments.join("/"),
+            path: relativeDestination,
+            bytes: result.bytes,
+            sha256: result.sha256,
+            expected: item.expected,
+            status,
+            verified: false,
+            source: result.source,
+            written: false,
+          });
           continue;
+        }
+
+        if (status === "unverified") {
+          failures.push({
+            id: entry.id,
+            file: item.segments.join("/"),
+            error: "No expected SHA-256 in the search index or asset.json.",
+          });
         }
 
         totalBytes += result.bytes;
@@ -2429,6 +2697,7 @@ async function checkoutPack(args) {
           status,
           verified,
           source: result.source,
+          written: true,
         });
       } catch (error) {
         failures.push({
@@ -2436,99 +2705,131 @@ async function checkoutPack(args) {
           file: item.segments.join("/"),
           error: error.message,
         });
+        verification.push({
+          id: entry.id,
+          kind: item.kind,
+          file: item.segments.join("/"),
+          path: relativeDestination,
+          bytes: 0,
+          sha256: "",
+          expected: item.expected || null,
+          status: "error",
+          verified: false,
+          source: null,
+          written: false,
+        });
       }
     }
   }
 
-  const restrictedAcknowledged =
-    acknowledgeRestricted &&
-    entries.some(
-      (entry) =>
-        entry.license.trim().toLowerCase() ===
-        RESTRICTED_LICENSE.toLowerCase(),
-    );
+  const written = verification.filter((item) => item.written);
+  const payloadFileCount = written.length;
+  const allVerified =
+    failures.length === 0 &&
+    verification.length > 0 &&
+    verification.every((item) => item.verified);
+
+  const restrictedNote = restrictedIncluded && restrictedAcknowledged;
 
   writeText(path.join(outDir, "CREDITS.md"), buildCredits(entries));
   writeText(
     path.join(outDir, "LICENSE.txt"),
-    buildLicense(entries, restrictedAcknowledged),
+    buildLicense(entries, restrictedNote),
   );
   writeText(
     path.join(outDir, "README.md"),
-    buildPackReadme(entries, restrictedAcknowledged),
+    buildPackReadme(entries, restrictedNote),
   );
 
   const metadataFiles = ["pack.json", "CREDITS.md", "LICENSE.txt", "README.md"];
-  const provisionalCount = walkFiles(outDir).length + 1;
+  const createdAt = new Date().toISOString();
+  const name = packNameFor(ids);
 
-  const pack = {
-    format: "meesa-asset-pack/1",
-    created: new Date().toISOString(),
-    source: {
-      kind: snapshot.source,
-      libraryUrl: REMOTE_ENABLED ? LIBRARY_URL : null,
-    },
-    restrictedAcknowledged,
-    assets: entries.map((entry) => ({
+  const assetRecords = entries.map((entry) => {
+    const assetFiles = written.filter((item) => item.id === entry.id);
+    const primary = assetFiles.find((item) => item.kind === "file");
+    return {
       id: entry.id,
       title: entry.title,
       kind: entry.kind,
       role: entry.role,
       family: entry.family,
-      contributor: entry.contributor,
-      license: entry.license,
+      contributor: entry.contributor || "",
+      license: entry.license || "",
       file: entry.file,
-      sha256: entry.sha256,
       preview: entry.preview,
-      files: verification
-        .filter((item) => item.id === entry.id)
-        .map((item) => ({
-          path: item.path,
-          sha256: item.sha256,
-          bytes: item.bytes,
-          verified: item.verified,
-          status: item.status,
-        })),
-    })),
+      sha256: primary?.sha256 ?? normalizeHash(entry.sha256),
+      path: primary?.path ?? primaryPathById.get(entry.id) ?? "",
+      files: assetFiles.map((item) => ({
+        path: item.path,
+        sha256: item.sha256,
+        bytes: item.bytes,
+        expected: item.expected,
+        verified: item.verified,
+        status: item.status,
+        kind: item.kind,
+        source: item.source,
+      })),
+    };
+  });
+
+  const pack = {
+    version: 1,
+    name,
+    query: null,
+    ids,
+    format: "meesa-asset-pack/1",
+    created: createdAt,
+    source: {
+      kind: snapshot.source,
+      libraryUrl: REMOTE_ENABLED ? LIBRARY_URL : null,
+    },
+    restrictedAcknowledged,
+    restrictedAssets: restrictedIds,
+    contactSheet: false,
+    notes: [],
+    assets: assetRecords,
     totals: {
       assets: entries.length,
-      files: provisionalCount,
+      files: payloadFileCount,
       bytes: totalBytes,
+      verified: allVerified,
     },
     verification: {
-      allVerified:
-        failures.length === 0 &&
-        verification
-          .filter((item) => item.kind === "file")
-          .every((item) => item.status === "verified"),
+      allVerified,
       failures,
     },
   };
 
-  writeText(path.join(outDir, "pack.json"), `${JSON.stringify(pack, null, 2)}\n`);
+  writeText(
+    path.join(outDir, "pack.json"),
+    `${JSON.stringify(pack, null, 2)}\n`,
+  );
 
   const finalCount = walkFiles(outDir).length;
-  const allVerified =
-    failures.length === 0 &&
-    verification
-      .filter((item) => item.kind === "file")
-      .every((item) => item.status === "verified");
 
   const payload = {
     outDir,
+    version: 1,
+    name,
     fileCount: finalCount,
+    payloadFileCount,
     bytes: totalBytes,
-    assets: entries.map((entry) => ({
-      id: entry.id,
-      title: entry.title,
-      license: entry.license,
-      contributor: entry.contributor,
+    totals: pack.totals,
+    assets: assetRecords.map((asset) => ({
+      id: asset.id,
+      title: asset.title,
+      license: asset.license,
+      contributor: asset.contributor,
+      sha256: asset.sha256,
+      path: asset.path,
     })),
     verification,
     failures,
     allVerified,
     metadataFiles,
     restrictedAcknowledged,
+    restrictedAssets: restrictedIds,
   };
 
   const text = JSON.stringify(payload, null, 2);

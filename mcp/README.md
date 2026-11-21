@@ -63,7 +63,7 @@ partially generated catalogs keep working.
 | Tool | Arguments | Returns |
 | --- | --- | --- |
 | `search_assets` | `query?`, `kind?`, `tags?`, `limit?` | Compact JSON array: `id`, `title`, `kind`, `role`, `summary`, `tags`, `family`, `license`, `contributor`, `score`, `matchedConcepts` |
-| `get_asset` | `id` (required) | JSON object with `id`, `dir`, the full `asset` metadata, the raw `markdown` of `asset.md`, and `searchIndex` when the search catalog has the entry |
+| `get_asset` | `id` (required) | JSON object with `id`, `dir`, the full `asset` metadata, the raw `markdown` of `asset.md`, and the `searchIndex` entry. Remote metadata 404s return `metadataUnavailable: true` and a note instead of an error. |
 | `list_taxonomy` | none | JSON object with `facets`, `collections`, `families`, `topConcepts`, `conceptCount` and `catalogSource` |
 | `checkout_pack` | `ids` (required), `outDir?`, `includePreview?`, `acknowledgeRestricted?` | JSON object with `outDir`, `fileCount`, `bytes`, per-file `verification`, `failures` and `allVerified` |
 | `request_asset` | `query` (required), `note?` | JSON object with a prefilled GitHub issue `url`; nothing is opened or posted |
@@ -107,9 +107,19 @@ unchanged. Quoted phrases are matched as contiguous text.
 
 ### get_asset
 
-Reads `<libraryRoot>/<dir>/asset.json` and `<dir>/asset.md`. The `searchIndex`
-field carries the exact entry from `search-index.json` (or the converted legacy
-index entry) when one exists.
+Always returns the catalog `searchIndex` entry, read from the active search
+catalog.
+
+When the active source is remote, `<MEESA_LIBRARY_URL>/<dir>/asset.json` and
+`<MEESA_LIBRARY_URL>/<dir>/asset.md` are fetched over HTTP with each path
+segment URL-encoded. Results are cached per asset id for five minutes. A
+missing or unreadable `asset.md` is reported as `markdownError` without failing
+the call. If remote `asset.json` returns HTTP 404, the response contains
+`asset: null`, `markdown: null`, `metadataUnavailable: true`, a `note` naming
+the URL, and the `searchIndex` entry; it is not an error.
+
+When the active source is local, `<libraryRoot>/<dir>/asset.json` and
+`<dir>/asset.md` are read from disk as before.
 
 ### list_taxonomy
 
@@ -120,8 +130,15 @@ families with counts and the most used concepts from the search catalog.
 
 Downloads each asset's `file` and, when `includePreview` is true (the default),
 its `preview`. Files are fetched from `MEESA_LIBRARY_URL` first and from the
-local root as a fallback. Each primary file is checked against the asset's
-`sha256`; a mismatch removes the file and reports the failure.
+local root as a fallback.
+
+Every downloaded payload file is hashed with SHA-256. The expected primary hash
+comes from the search-index entry, or from `asset.json`'s `files[]` block when
+the search index has no hash (the deployed library leaves `sha256: null` for
+some assets). A mismatch removes the file and adds a failure. Previews without a
+catalog hash record the computed hash and are marked verified; a primary file
+with no hash in either source is marked `unverified` and makes the pack fail
+verification.
 
 The layout is:
 
@@ -135,14 +152,55 @@ The layout is:
   assets/<id>/<preview filename>   (optional)
 ```
 
+`pack.json` matches the gallery pack shape and keeps the richer verification
+blocks:
+
+```json
+{
+  "version": 1,
+  "name": "mdl-prop-000012",
+  "restrictedAcknowledged": true,
+  "assets": [
+    {
+      "sha256": "<primary hash>",
+      "path": "assets/<id>/<primary file>",
+      "files": [
+        {
+          "path": "assets/<id>/<file>",
+          "sha256": "<hash>",
+          "expected": "<catalog hash or null>",
+          "verified": true,
+          "status": "verified",
+          "kind": "file",
+          "source": "remote"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "assets": 1,
+    "files": 2,
+    "bytes": 2263870,
+    "verified": true
+  },
+  "verification": { "allVerified": true, "failures": [] }
+}
+```
+
+`totals.files` counts only asset payload files (primary and preview); it does
+not include `pack.json`, `CREDITS.md`, `LICENSE.txt`, or `README.md`. The tool
+result also reports `fileCount` (all files on disk, including metadata) and
+`payloadFileCount` (the same count as `totals.files`).
+
 `outDir` defaults to a new directory under the OS temp directory. Every id is
 validated against `^[A-Za-z0-9][A-Za-z0-9._-]*$`, and `outDir` or asset paths
 containing `..`, absolute paths, drive-prefixed asset paths, Windows-reserved
 file names, or characters such as `<>:"|?*` are refused.
 
 Assets licensed `LicenseRef-All-Rights-Reserved` make the tool refuse the whole
-pack unless `acknowledgeRestricted: true` is passed. The acknowledgement is
-recorded in `pack.json` and `LICENSE.txt`.
+pack unless `acknowledgeRestricted: true` is passed. The acknowledgement flag
+reflects the caller's argument even when the pack contains no restricted asset,
+and it is written to `pack.json`, `LICENSE.txt`, and the tool result.
 
 ### request_asset
 
@@ -188,15 +246,17 @@ concepts (sword, stone, ambience, dog, music), then runs:
 1. 26 stdio checks: protocol, sword and stone ranking, media-only concept
    synonyms, CLAP audio matching, audio-only modality gating, `dog` and `music`
    misses with request hints, blade/weapon keyword fallback, `request_asset`,
-   `get_asset`, taxonomy, filters, pack checkout, restricted-licence refusal,
-   `../` rejection, previews, SHA-256 mismatch reporting, index reload,
-   malformed JSON and clean EOF.
-2. 7 HTTP checks against a temporary static server: identical search results,
+   `get_asset`, taxonomy, filters, pack checkout and payload-only totals,
+   restricted-licence refusal and acknowledgement, `../` rejection, previews,
+   corrupted local payload verification, index reload, malformed JSON and clean
+   EOF.
+2. 9 HTTP checks against a temporary static server: identical search results,
    cache verification by request count, local fallback on a remote failure, the
    clear error when neither source exists, remote pack checkout with SHA-256
-   verification, `get_asset`, and clean EOF.
+   verification, corrupted remote payload verification, `get_asset`, remote-only
+   `get_asset` metadata fetching with caching and a 404 fallback, and clean EOF.
 
-The run prints `Summary: 33 passed, 0 failed, 0 skipped, 299 assertions`.
+The run prints `Summary: 35 passed, 0 failed, 0 skipped, 365 assertions`.
 
 Other modes:
 
@@ -294,8 +354,12 @@ for example `"D:/repos/MeesaAssetLibrary/mcp/server.mjs"`.
   keyword-only.
 - Media-vector floors deliberately drop weak semantic-only matches. Text
   vectors are not scored, because text-to-text cosine is anisotropic.
-- `checkout_pack` verifies the primary file's SHA-256. Previews have no hash in
-  the contract and are recorded as `status: "preview"` rather than verified.
+- `checkout_pack` resolves the primary hash from the search index or
+  `asset.json`'s `files[]`. A primary with no hash in either source is written
+  but marked `unverified` and makes `allVerified` false. Previews normally have
+  no catalog hash; their computed SHA-256 is recorded and they are marked
+  verified.
 - An existing non-empty `outDir` is reused; known pack files are overwritten and
-  unrelated files are left alone, so the reported file count can exceed the
-  pack's own files if the directory was not empty.
+  unrelated files are left alone, so the returned `fileCount` can exceed the
+  pack's own files if the directory was not empty. `totals.files` still counts
+  only the payload files written by this pack.

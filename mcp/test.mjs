@@ -1373,11 +1373,12 @@ async function runLocalChecks(fixture) {
       );
     });
 
-    await check("checkout_pack writes five verified files", async () => {
+    await check("checkout_pack writes five files with a verified payload", async () => {
       const packDir = path.join(fixture.workRoot, "pack-sword");
       const result = await session.callTool("checkout_pack", {
         ids: [fixture.assets.sword.id],
         outDir: packDir,
+        acknowledgeRestricted: true,
       });
       assert(
         result.res.result.isError !== true,
@@ -1386,6 +1387,18 @@ async function runLocalChecks(fixture) {
 
       const payload = result.json;
       assert(payload.fileCount === 5, `expected 5 files, received ${payload.fileCount}`);
+      assert(
+        payload.payloadFileCount === 1,
+        `expected 1 payload file, received ${payload.payloadFileCount}`,
+      );
+      assert(
+        payload.totals.files === 1,
+        `expected payload totals.files 1, received ${payload.totals.files}`,
+      );
+      assert(
+        payload.restrictedAcknowledged === true,
+        "acknowledgeRestricted was not recorded",
+      );
       assert(payload.allVerified === true, "pack was not fully verified");
       assert(
         payload.bytes === fixture.contents.sword.length,
@@ -1393,7 +1406,8 @@ async function runLocalChecks(fixture) {
       );
       assert(
         payload.verification.length === 1 &&
-          payload.verification[0].verified === true,
+          payload.verification[0].verified === true &&
+          payload.verification[0].status === "verified",
         "primary file verification is missing",
       );
       assert(
@@ -1422,10 +1436,43 @@ async function runLocalChecks(fixture) {
       );
 
       const pack = JSON.parse(fs.readFileSync(path.join(packDir, "pack.json"), "utf8"));
+      assert(pack.version === 1, "pack version is not 1");
+      assert(
+        pack.name === "img-weapon-000001",
+        `unexpected pack name: ${pack.name}`,
+      );
       assert(pack.format === "meesa-asset-pack/1", "unexpected pack format");
+      assert(
+        pack.restrictedAcknowledged === true,
+        "pack did not record the restricted acknowledgement",
+      );
       assert(pack.totals.assets === 1, "pack total assets is not 1");
-      assert(pack.totals.files === 5, "pack total files is not 5");
-      assert(pack.verification.allVerified === true, "pack.json is not verified");
+      assert(
+        pack.totals.files === 1,
+        `pack total payload files is not 1: ${pack.totals.files}`,
+      );
+      assert(pack.totals.verified === true, "pack totals are not verified");
+      assert(
+        pack.assets[0].sha256 === fixture.assets.sword.sha256,
+        "asset-level hash does not match the file hash",
+      );
+      assert(
+        pack.assets[0].path ===
+          `assets/${fixture.assets.sword.id}/sword.png`,
+        `unexpected asset-level path: ${pack.assets[0].path}`,
+      );
+      assert(
+        pack.assets[0].files.length === 1 &&
+          pack.assets[0].files[0].verified === true &&
+          pack.assets[0].files[0].status === "verified" &&
+          pack.assets[0].files[0].sha256 === fixture.assets.sword.sha256,
+        "asset files block is not verified",
+      );
+      assert(
+        pack.verification.allVerified === true &&
+          pack.verification.failures.length === 0,
+        "pack verification block is not clean",
+      );
     });
 
     await check("checkout_pack refuses restricted licences", async () => {
@@ -1501,13 +1548,26 @@ async function runLocalChecks(fixture) {
         `expected 6 files with preview, received ${result.json.fileCount}`,
       );
       assert(
+        result.json.payloadFileCount === 2,
+        `expected 2 payload files with preview, received ${result.json.payloadFileCount}`,
+      );
+      assert(
+        result.json.totals.files === 2,
+        `expected payload totals.files 2, received ${result.json.totals.files}`,
+      );
+      assert(
         result.json.verification.some(
           (item) =>
             item.kind === "preview" &&
             item.path.endsWith("/preview.svg") &&
-            item.verified === false,
+            item.verified === true &&
+            item.status === "verified",
         ),
-        "preview was not recorded in verification",
+        "preview was not recorded as verified",
+      );
+      assert(
+        result.json.verification.every((item) => item.verified === true),
+        "a payload file was not verified",
       );
       assert(
         fs.existsSync(
@@ -1519,6 +1579,20 @@ async function runLocalChecks(fixture) {
           ),
         ),
         "preview.svg was not written",
+      );
+
+      const pack = JSON.parse(
+        fs.readFileSync(path.join(packDir, "pack.json"), "utf8"),
+      );
+      assert(
+        pack.totals.files === 2,
+        `pack total payload files is not 2: ${pack.totals.files}`,
+      );
+      assert(pack.verification.allVerified === true, "preview pack is not verified");
+      assert(
+        pack.assets[0].files.length === 2 &&
+          pack.assets[0].files.every((file) => file.verified === true),
+        "preview pack files are not all verified",
       );
     });
 
@@ -1535,6 +1609,11 @@ async function runLocalChecks(fixture) {
       );
       assert(result.json.fileCount === 5, `expected 5 files, received ${result.json.fileCount}`);
       assert(
+        result.json.payloadFileCount === 1 &&
+          result.json.totals.files === 1,
+        "restricted pack payload file count is wrong",
+      );
+      assert(
         result.json.restrictedAcknowledged === true,
         "pack did not record the restricted acknowledgement",
       );
@@ -1544,30 +1623,24 @@ async function runLocalChecks(fixture) {
           .includes("Restricted assets included"),
         "LICENSE.txt does not mention the restricted acknowledgement",
       );
+
+      const pack = JSON.parse(
+        fs.readFileSync(path.join(packDir, "pack.json"), "utf8"),
+      );
+      assert(
+        pack.restrictedAcknowledged === true,
+        "pack.json did not record the restricted acknowledgement",
+      );
     });
 
-    await check("checkout_pack reports a SHA-256 mismatch", async () => {
-      const manifest = JSON.parse(
-        fs.readFileSync(fixture.searchIndexPath, "utf8"),
-      );
-      const entry = manifest.assets.find(
-        (asset) => asset.id === fixture.assets.pot.id,
-      );
-      assert(entry, "fixture pot entry is missing");
-      const originalHash = entry.sha256;
+    await check("checkout_pack reports a corrupted payload", async () => {
+      const potFile = path.join(fixture.root, fixture.assets.pot.file);
+      const original = fs.readFileSync(potFile);
 
       try {
-        entry.sha256 = "0".repeat(64);
         fs.writeFileSync(
-          fixture.searchIndexPath,
-          `${JSON.stringify(manifest, null, 2)}\n`,
-          "utf8",
-        );
-        const now = new Date();
-        fs.utimesSync(
-          fixture.searchIndexPath,
-          now,
-          new Date(now.getTime() + 3000),
+          potFile,
+          Buffer.from("corrupted-pot-bytes\n", "utf8"),
         );
 
         const packDir = path.join(fixture.workRoot, "pack-bad-hash");
@@ -1578,17 +1651,31 @@ async function runLocalChecks(fixture) {
 
         assert(
           result.res.result.isError === true,
-          "hash mismatch did not return isError",
+          "corrupted payload did not return isError",
+        );
+        assert(
+          result.json.allVerified === false,
+          "corrupted payload pack claimed to be verified",
         );
         assert(
           result.json.failures.some((failure) =>
             /SHA-256 mismatch/.test(failure.error),
           ),
-          "hash mismatch was not reported in failures",
+          "corrupted payload was not reported in failures",
         );
         assert(
-          result.json.allVerified === false,
-          "hash mismatch pack claimed to be verified",
+          result.json.verification.some(
+            (item) =>
+              item.id === fixture.assets.pot.id &&
+              item.status === "mismatch" &&
+              item.verified === false &&
+              item.written === false,
+          ),
+          "corrupted payload verification entry is wrong",
+        );
+        assert(
+          result.json.totals.files === 0,
+          `corrupted pack counted ${result.json.totals.files} payload files`,
         );
         assert(
           !fs.existsSync(
@@ -1601,19 +1688,23 @@ async function runLocalChecks(fixture) {
           ),
           "mismatched file was left on disk",
         );
+
+        const pack = JSON.parse(
+          fs.readFileSync(path.join(packDir, "pack.json"), "utf8"),
+        );
+        assert(
+          pack.verification.allVerified === false,
+          "pack.json claimed the corrupted pack was verified",
+        );
+        assert(
+          pack.verification.failures.some((failure) =>
+            /SHA-256 mismatch/.test(failure.error),
+          ),
+          "pack.json did not record the mismatch",
+        );
+        assert(pack.totals.files === 0, "corrupted pack totals.files is not 0");
       } finally {
-        entry.sha256 = originalHash;
-        fs.writeFileSync(
-          fixture.searchIndexPath,
-          `${JSON.stringify(manifest, null, 2)}\n`,
-          "utf8",
-        );
-        const restore = new Date();
-        fs.utimesSync(
-          fixture.searchIndexPath,
-          restore,
-          new Date(restore.getTime() + 4000),
-        );
+        fs.writeFileSync(potFile, original);
       }
     });
 
@@ -1887,6 +1978,11 @@ async function runRemoteChecks(fixture, staticServer, localResults) {
         `tool returned isError: ${result.text}`,
       );
       assert(result.json.fileCount === 5, `expected 5 files, received ${result.json.fileCount}`);
+      assert(
+        result.json.payloadFileCount === 1 &&
+          result.json.totals.files === 1,
+        "remote payload file count is wrong",
+      );
       assert(result.json.allVerified === true, "remote pack was not verified");
       assert(
         result.json.verification[0].source === "remote",
@@ -1904,6 +2000,53 @@ async function runRemoteChecks(fixture, staticServer, localResults) {
       );
     });
 
+    await check("remote checkout reports a corrupted payload", async () => {
+      const potFile = path.join(fixture.root, fixture.assets.pot.file);
+      const original = fs.readFileSync(potFile);
+
+      try {
+        fs.writeFileSync(
+          potFile,
+          Buffer.from("remote-corrupted-bytes\n", "utf8"),
+        );
+
+        const packDir = path.join(fixture.workRoot, "pack-remote-corrupt");
+        const result = await session.callTool("checkout_pack", {
+          ids: [fixture.assets.pot.id],
+          outDir: packDir,
+        });
+
+        assert(
+          result.res.result.isError === true,
+          "corrupted remote payload did not return isError",
+        );
+        assert(
+          result.json.allVerified === false,
+          "corrupted remote payload claimed to be verified",
+        );
+        assert(
+          result.json.failures.some((failure) =>
+            /SHA-256 mismatch/.test(failure.error),
+          ),
+          "corrupted remote payload was not reported in failures",
+        );
+        assert(
+          result.json.totals.files === 0,
+          `corrupted remote pack counted ${result.json.totals.files} payload files`,
+        );
+
+        const pack = JSON.parse(
+          fs.readFileSync(path.join(packDir, "pack.json"), "utf8"),
+        );
+        assert(
+          pack.verification.allVerified === false,
+          "corrupted remote pack.json claimed to be verified",
+        );
+      } finally {
+        fs.writeFileSync(potFile, original);
+      }
+    });
+
     await check("remote get_asset returns the search entry", async () => {
       const result = await session.callTool("get_asset", {
         id: fixture.assets.stone.id,
@@ -1916,6 +2059,148 @@ async function runRemoteChecks(fixture, staticServer, localResults) {
         result.json.searchIndex?.id === fixture.assets.stone.id,
         "remote search entry is missing",
       );
+    });
+
+    await check("remote-only get_asset fetches metadata and caches it", async () => {
+      const emptyRoot = path.join(fixture.workRoot, "remote-only-root");
+      fs.mkdirSync(emptyRoot, { recursive: true });
+
+      const remoteOnly = new Session(
+        {
+          ...process.env,
+          MEESA_LIBRARY_ROOT: emptyRoot,
+          MEESA_LIBRARY_URL: staticServer.url,
+        },
+        "remote-only",
+      );
+
+      const countPath = (suffix) =>
+        staticServer.requests.filter((pathname) => pathname === suffix).length;
+      const assetJsonPath =
+        "/assets/image/weapon/000001-iron-sword/asset.json";
+      const assetMdPath =
+        "/assets/image/weapon/000001-iron-sword/asset.md";
+
+      try {
+        const beforeJson = countPath(assetJsonPath);
+        const beforeMd = countPath(assetMdPath);
+
+        const first = await remoteOnly.callTool("get_asset", {
+          id: fixture.assets.sword.id,
+        });
+        assert(
+          first.res.result.isError !== true,
+          `tool returned isError: ${first.text}`,
+        );
+
+        const payload = first.json;
+        assert(payload.id === fixture.assets.sword.id, "payload id mismatch");
+        assert(
+          payload.dir === fixture.assets.sword.dir,
+          `unexpected payload dir: ${payload.dir}`,
+        );
+        assert(
+          payload.asset && payload.asset.title === "Iron Sword",
+          "remote asset.json fields are missing",
+        );
+        assert(
+          payload.asset.summary.includes("one-handed iron sword"),
+          "remote asset.json summary is missing",
+        );
+        assert(
+          payload.asset.files?.[0]?.sha256 === fixture.assets.sword.sha256,
+          "remote asset.json file hash is missing",
+        );
+        assert(
+          typeof payload.markdown === "string" &&
+            payload.markdown.includes("# Iron Sword"),
+          "remote asset.md text is missing",
+        );
+        assert(
+          payload.searchIndex?.id === fixture.assets.sword.id,
+          "remote search entry is missing",
+        );
+        assert(
+          payload.metadataUnavailable !== true,
+          "remote metadata was reported unavailable",
+        );
+
+        assert(
+          countPath(assetJsonPath) === beforeJson + 1,
+          "asset.json was not fetched exactly once",
+        );
+        assert(
+          countPath(assetMdPath) === beforeMd + 1,
+          "asset.md was not fetched exactly once",
+        );
+
+        const second = await remoteOnly.callTool("get_asset", {
+          id: fixture.assets.sword.id,
+        });
+        assert(
+          second.json.asset?.title === "Iron Sword",
+          "cached metadata response is wrong",
+        );
+        assert(
+          countPath(assetJsonPath) === beforeJson + 1,
+          "metadata cache refetched asset.json within the TTL",
+        );
+        assert(
+          countPath(assetMdPath) === beforeMd + 1,
+          "metadata cache refetched asset.md within the TTL",
+        );
+
+        const missingJsonPath =
+          "/assets/image/prop/000005-obsidian-shard/asset.json";
+        const beforeMissing = countPath(missingJsonPath);
+        const missing = await remoteOnly.callTool("get_asset", {
+          id: "IMG-PROP-000005",
+        });
+        assert(
+          missing.res.result.isError !== true,
+          `missing metadata returned isError: ${missing.text}`,
+        );
+        assert(
+          missing.json.metadataUnavailable === true,
+          "missing metadata was not flagged",
+        );
+        assert(
+          missing.json.asset === null,
+          "missing metadata returned an asset object",
+        );
+        assert(
+          missing.json.markdown === null,
+          "missing metadata returned markdown",
+        );
+        assert(
+          missing.json.searchIndex?.id === "IMG-PROP-000005",
+          "missing metadata has no search entry",
+        );
+        assert(
+          typeof missing.json.note === "string" &&
+            missing.json.note.includes("404") &&
+            missing.json.note.includes("asset.json"),
+          `missing metadata note is unclear: ${missing.json.note}`,
+        );
+        assert(
+          countPath(missingJsonPath) === beforeMissing + 1,
+          "missing asset.json was fetched an unexpected number of times",
+        );
+
+        const missingAgain = await remoteOnly.callTool("get_asset", {
+          id: "IMG-PROP-000005",
+        });
+        assert(
+          missingAgain.json.metadataUnavailable === true,
+          "cached missing metadata response is wrong",
+        );
+        assert(
+          countPath(missingJsonPath) === beforeMissing + 1,
+          "missing metadata was refetched within the TTL",
+        );
+      } finally {
+        await remoteOnly.forceClose();
+      }
     });
 
     await check("remote clean shutdown on stdin EOF", async () => {
