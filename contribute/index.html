@@ -1,0 +1,2855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://api.github.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:,">
+<title>Contribute - Meesa Asset Library</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  color-scheme:dark;
+  --bg:#0b0e14;--bg2:#10151d;--panel:#151b26;--panel2:#1b2331;
+  --text:#e6edf3;--muted:#9aa7b8;--line:#2a3444;
+  --accent:#7cc4ff;--accent-soft:#24384d;--good:#7ee0a3;--good-soft:#173326;
+  --warn:#ffd166;--warn-soft:#352b16;--danger:#ff9191;--danger-soft:#351d1d;
+  --chip:#1d2735;--focus:#ffd166;--shadow:0 14px 38px rgba(0,0,0,.34);
+}
+html,body{margin:0;min-height:100%}
+body{
+  background:
+    radial-gradient(1000px 560px at 12% -10%,#1b2a3d 0,transparent 68%),
+    radial-gradient(900px 500px at 100% 0,#15251f 0,transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+[hidden]{display:none!important}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:1rem;top:-4rem;z-index:20;background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:.5rem .8rem}
+.skip:focus{top:1rem}
+.site-header{
+  display:flex;gap:1rem;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;
+  padding:1rem clamp(1rem,3vw,2rem);border-bottom:1px solid var(--line);
+  background:rgba(16,21,29,.94);backdrop-filter:blur(8px);position:sticky;top:0;z-index:5;
+}
+.brand{display:flex;gap:.7rem;align-items:center;min-width:0}
+.brand-mark{
+  width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none;
+  border:1px solid #356080;background:linear-gradient(150deg,#24384d,#173326);
+  color:var(--accent);font-weight:800;font-size:.78rem;letter-spacing:.08em;
+}
+.brand h1{margin:0;font-size:1.15rem;letter-spacing:.01em}
+.brand p{margin:.1rem 0 0;color:var(--muted);font-size:.82rem}
+.header-links{display:flex;gap:.85rem;align-items:center;flex-wrap:wrap;font-size:.88rem}
+.wrap{width:min(960px,100%);margin:0 auto;padding:1.4rem clamp(1rem,3vw,2rem) 4rem}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(1rem,2.4vw,1.5rem);box-shadow:var(--shadow);margin:0 0 1.15rem;
+  scroll-margin-top:5rem;
+}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem}
+.panel h2{margin:0;font-size:1.2rem;letter-spacing:.005em}
+.panel h3{margin:0 0 .5rem;font-size:1rem}
+.panel p{margin:.35rem 0}
+.muted{color:var(--muted)}
+.small{font-size:.84rem}
+.hint{color:var(--muted);font-size:.82rem;margin:.35rem 0 0}
+.stack{display:grid;gap:1rem}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.95rem}
+.field{min-width:0}
+.field.full{grid-column:1 / -1}
+.field label,.field-label{display:block;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.34rem}
+.field .req{color:var(--warn)}
+input[type=text],input[type=password],input[type=url],select,textarea{
+  width:100%;padding:.62rem .72rem;border:1px solid var(--line);border-radius:9px;
+  background:#0f151f;transition:border-color .12s ease,box-shadow .12s ease;
+}
+textarea{resize:vertical;min-height:6rem;line-height:1.5}
+input:hover,select:hover,textarea:hover{border-color:#3a4a61}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,196,255,.12);outline:none}
+input:disabled,select:disabled,textarea:disabled{opacity:.55;cursor:not-allowed}
+input[type=file]{
+  width:100%;padding:.55rem;border:1px dashed #3c4d65;border-radius:9px;background:#0f151f;
+}
+input[type=file]::file-selector-button{
+  margin-right:.7rem;padding:.42rem .75rem;border:1px solid var(--line);border-radius:7px;
+  background:var(--panel2);color:var(--text);cursor:pointer;
+}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+fieldset:disabled{opacity:.72}
+.checkline{display:flex;gap:.6rem;align-items:flex-start;padding:.8rem;border:1px solid var(--line);border-radius:10px;background:#101823}
+.checkline input{margin:.28rem 0 0;accent-color:var(--accent);flex:none;width:1rem;height:1rem}
+.checkline label{margin:0;text-transform:none;letter-spacing:0;font-size:.92rem;font-weight:500;color:var(--text)}
+.button{
+  border:1px solid var(--accent);background:var(--accent-soft);color:var(--text);
+  padding:.55rem .95rem;border-radius:9px;font-weight:600;
+}
+.button:hover{filter:brightness(1.08)}
+.button:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.button.primary{background:#2d6d9b;border-color:#79c5ff;color:#fff}
+.button.subtle{border-color:var(--line);background:var(--panel2);color:var(--muted)}
+.button.subtle:hover{color:var(--text);border-color:var(--accent)}
+.button.danger{border-color:#7b3b3b;background:#2c1b1b;color:#ffc4c4}
+.actions{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin-top:1rem}
+.actions .spacer{flex:1}
+.link-button{background:none;border:0;color:var(--accent);padding:.15rem;border-radius:4px}
+.help{margin-top:1rem;border:1px solid var(--line);border-radius:10px;background:#101823;padding:.75rem .9rem}
+.help summary{cursor:pointer;font-weight:650}
+.help ol{margin:.55rem 0 0;padding-left:1.25rem}
+.help li{margin:.25rem 0}
+.identity{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;padding:.7rem;border:1px solid var(--line);border-radius:11px;background:#101823;margin-top:.9rem}
+.avatar{
+  width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;
+  border:1px solid #3f6380;background:linear-gradient(145deg,#24435c,#1a3028);
+  color:#d9efff;font-weight:750;letter-spacing:.04em;text-decoration:none;
+}
+.identity-text{display:flex;flex-direction:column;min-width:0}
+.identity-text strong{font-size:1rem;overflow-wrap:anywhere}
+.identity-text span{font-size:.8rem;color:var(--muted)}
+.identity .button{margin-left:auto}
+.notice{border:1px solid var(--line);border-radius:10px;padding:.75rem .9rem;margin:.75rem 0;background:var(--panel2);overflow-wrap:anywhere}
+.notice strong{display:block;margin-bottom:.15rem}
+.notice p{margin:.2rem 0}
+.notice.error{border-color:#7b3b3b;background:var(--danger-soft);color:#ffd6d6}
+.notice.warn{border-color:#63511f;background:var(--warn-soft);color:#ffe9ae}
+.notice.ok{border-color:#2e6247;background:var(--good-soft);color:#c9f7d9}
+.notice.info{border-color:#2e5066;background:#12212d;color:#cfe9fb}
+.notice ul{margin:.35rem 0 0;padding-left:1.25rem}
+.notice li{margin:.15rem 0}
+.badge{
+  display:inline-flex;align-items:center;gap:.3rem;border:1px solid var(--line);border-radius:999px;
+  background:var(--chip);color:var(--muted);padding:.12rem .5rem;font-size:.73rem;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+}
+.badge.good{border-color:#2e6247;background:var(--good-soft);color:#bdf2d0}
+.badge.warn{border-color:#63511f;background:var(--warn-soft);color:#ffe6a2}
+.badge.bad{border-color:#7b3b3b;background:var(--danger-soft);color:#ffc4c4}
+.meta-row{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin:.35rem 0}
+.file-summary{margin:.55rem 0 0;color:var(--muted);font-size:.86rem;min-height:1.2rem}
+.file-list{display:grid;gap:.65rem;margin-top:.7rem}
+.file-row{
+  display:grid;grid-template-columns:92px minmax(0,1fr);gap:.8rem;align-items:start;
+  border:1px solid var(--line);border-radius:11px;padding:.65rem;background:#101823;
+}
+.file-thumb{
+  width:92px;aspect-ratio:16/10;border:1px solid var(--line);border-radius:8px;overflow:hidden;
+  background:
+    linear-gradient(45deg,#19212d 25%,transparent 25%,transparent 75%,#19212d 75%),
+    linear-gradient(45deg,#19212d 25%,#111823 25%,#111823 75%,#19212d 75%);
+  background-size:16px 16px;background-position:0 0,8px 8px;
+  display:grid;place-items:center;
+}
+.file-thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.file-body{min-width:0}
+.file-name{font-weight:650;overflow-wrap:anywhere;margin:0}
+.file-original{color:var(--muted);font-size:.78rem;overflow-wrap:anywhere;margin:.1rem 0}
+.file-meta{font-size:.82rem;color:var(--muted);margin:.18rem 0;overflow-wrap:anywhere}
+.file-sha{font-size:.74rem;color:#8190a3;overflow-wrap:anywhere;margin:.12rem 0}
+.file-note{font-size:.82rem;margin:.2rem 0}
+.file-note.error{color:#ffb4b4}
+.file-note.warn{color:#ffe092}
+.review-hero{display:grid;grid-template-columns:minmax(140px,230px) minmax(0,1fr);gap:1rem;align-items:start;margin-bottom:1rem}
+.review-thumb{
+  border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#0b1018;
+  min-height:120px;display:grid;place-items:center;
+}
+.review-thumb img{width:100%;height:auto;display:block;object-fit:contain}
+.review-title{margin:0 0 .25rem;font-size:1.15rem;overflow-wrap:anywhere}
+.review-summary{margin:.35rem 0 0;color:#cad5e2;overflow-wrap:anywhere;white-space:pre-wrap}
+.detail-list{display:grid;grid-template-columns:150px minmax(0,1fr);gap:.35rem .85rem;margin:.9rem 0 0;padding:.9rem 0 0;border-top:1px solid var(--line)}
+.detail-list dt{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em}
+.detail-list dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.chips{display:flex;flex-wrap:wrap;gap:.32rem}
+.chip{font-size:.74rem;border:1px solid var(--line);background:var(--chip);color:#c6d3e2;border-radius:999px;padding:.1rem .48rem;overflow-wrap:anywhere}
+.review-files{margin:.75rem 0 0;padding:0;list-style:none;display:grid;gap:.35rem}
+.review-files li{border-top:1px solid var(--line);padding-top:.35rem;font-size:.84rem;overflow-wrap:anywhere}
+.live-warning{
+  border:1px solid #63511f;background:var(--warn-soft);color:#ffe9ae;border-radius:10px;
+  padding:.72rem .9rem;font-weight:650;margin:1rem 0;overflow-wrap:anywhere;
+}
+.steps{list-style:none;margin:.9rem 0 0;padding:0;display:grid;gap:.3rem}
+.steps li{display:flex;gap:.6rem;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding:.32rem 0;font-size:.86rem}
+.steps .step-label{min-width:0;overflow-wrap:anywhere}
+.steps .step-status{color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.steps li[data-status=active] .step-status{color:var(--warn)}
+.steps li[data-status=done] .step-status{color:var(--good)}
+.steps li[data-status=failed] .step-status{color:var(--danger)}
+.success-id{font-size:1.5rem;letter-spacing:.02em;color:#d9f4ff;overflow-wrap:anywhere}
+.success-actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.footer{border-top:1px solid var(--line);margin-top:2rem;padding-top:1rem;color:var(--muted);font-size:.8rem}
+.footer p{margin:.2rem 0}
+.split{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.nowrap{white-space:nowrap}
+@media (max-width:720px){
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .detail-list{grid-template-columns:1fr}
+  .detail-list dt{margin-top:.35rem}
+  .review-hero{grid-template-columns:1fr}
+  .review-thumb{max-width:320px}
+  .file-row{grid-template-columns:72px minmax(0,1fr)}
+  .file-thumb{width:72px}
+  .identity .button{margin-left:0}
+  .site-header{align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">MAL</div>
+    <div>
+      <h1>Meesa Asset Library</h1>
+      <p>Collaborator upload</p>
+    </div>
+  </div>
+  <nav class="header-links" aria-label="Library links">
+    <a href="../gallery/">Gallery</a>
+    <a href="https://github.com/MeesaJarJar/MeesaAssetLibrary" rel="noopener noreferrer">Repository</a>
+    <a href="../">Library home</a>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+  <section class="panel" id="auth-panel" aria-labelledby="auth-title">
+    <div class="panel-head">
+      <div>
+        <h2 id="auth-title">Collaborator access</h2>
+        <p class="muted small">Sign in with a fine-grained GitHub token that can write to this repository.</p>
+      </div>
+      <span class="badge">Publishes to main</span>
+    </div>
+
+    <form id="auth-form" method="post" novalidate>
+      <div id="token-area">
+        <div class="field">
+          <label for="token">Personal access token <span class="req" aria-hidden="true">*</span></label>
+          <input id="token" name="token" type="password" autocomplete="new-password" spellcheck="false" placeholder="github_pat_..." aria-describedby="token-hint">
+          <p id="token-hint" class="hint">Kept in this tab's sessionStorage only. It is sent only to api.github.com and is never placed in the URL or logged. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Create a fine-grained token</a>.</p>
+        </div>
+        <div class="actions">
+          <button id="connect" class="button primary" type="submit">Connect token</button>
+          <span class="muted small">Read access to the repository is checked before publishing is enabled.</span>
+        </div>
+      </div>
+    </form>
+
+    <details class="help" id="token-help">
+      <summary>How to create the token</summary>
+      <ol>
+        <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">github.com/settings/personal-access-tokens/new</a>.</li>
+        <li>Set <strong>Repository access</strong> to <strong>Only select repositories</strong>, then choose <strong>MeesaAssetLibrary</strong>.</li>
+        <li>Under <strong>Permissions</strong>, set <strong>Contents</strong> to <strong>Read and write</strong>. No other permission is required.</li>
+        <li>Give it an expiry you are comfortable with, generate it, and paste it above.</li>
+      </ol>
+      <p class="hint">A token without Contents read access cannot read the community catalog, so publishing will stay blocked.</p>
+    </details>
+
+    <div id="auth-status" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <div id="signed-in" class="identity" hidden>
+      <a id="profile-link" class="avatar" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><span id="avatar-initials" aria-hidden="true"></span></a>
+      <div class="identity-text">
+        <span>Signed in as</span>
+        <strong id="user-login"></strong>
+      </div>
+      <button id="signout" class="button subtle" type="button">Sign out</button>
+    </div>
+  </section>
+
+  <div id="blocked-message" class="notice error" role="alert" hidden>
+    <strong id="blocked-text"></strong>
+    <p>The upload form stays disabled. Sign out and connect a token for an account with write access to this repository.</p>
+  </div>
+
+  <section class="panel" id="form-panel" aria-labelledby="form-title" hidden>
+    <div class="panel-head">
+      <div>
+        <h2 id="form-title" tabindex="-1">Asset details</h2>
+        <p class="muted small">Nothing is committed until you review the submission and press Publish.</p>
+      </div>
+      <span class="badge good" id="catalog-badge" hidden>Catalog loaded</span>
+    </div>
+
+    <p id="catalog-status" class="hint" role="status" aria-live="polite"></p>
+
+    <form id="asset-form" method="post" novalidate>
+      <fieldset id="form-fields" disabled>
+        <div class="form-grid">
+          <div class="field">
+            <label for="kind">Kind <span class="req" aria-hidden="true">*</span></label>
+            <select id="kind" name="kind" required></select>
+          </div>
+          <div class="field">
+            <label for="role">Role <span class="req" aria-hidden="true">*</span></label>
+            <select id="role" name="role" required></select>
+          </div>
+          <div class="field full" id="custom-role-wrap" hidden>
+            <label for="custom-role">New role name</label>
+            <input id="custom-role" name="custom-role" type="text" maxlength="40" placeholder="for example: decal" autocomplete="off">
+            <p class="hint">Lowercase letters, numbers and hyphens. The role becomes a directory name.</p>
+          </div>
+          <div class="field full">
+            <label for="title">Title <span class="req" aria-hidden="true">*</span></label>
+            <input id="title" name="title" type="text" maxlength="80" autocomplete="off" placeholder="Short human-readable name">
+          </div>
+          <div class="field full">
+            <label for="summary">Summary <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="summary" name="summary" maxlength="2000" placeholder="What it is and when another person or agent should use it."></textarea>
+          </div>
+          <div class="field full">
+            <label for="tags">Tags <span class="req" aria-hidden="true">*</span></label>
+            <input id="tags" name="tags" type="text" maxlength="1200" autocomplete="off" placeholder="subject:environment/stone, use:tileset, style:pixel-art">
+            <p class="hint">Comma or space separated <code>namespace:value</code> tags. <code>format:&lt;ext&gt;</code> and <code>engine:any</code> are added when missing.</p>
+          </div>
+          <div class="field">
+            <label for="license">SPDX license <span class="req" aria-hidden="true">*</span></label>
+            <select id="license" name="license" required>
+              <option value="">Choose a license</option>
+              <option value="CC0-1.0">CC0-1.0 - public domain dedication</option>
+              <option value="CC-BY-4.0">CC-BY-4.0 - attribution required</option>
+              <option value="CC-BY-SA-4.0">CC-BY-SA-4.0 - attribution and share alike</option>
+              <option value="MIT">MIT - permissive software license</option>
+              <option value="LicenseRef-All-Rights-Reserved">LicenseRef-All-Rights-Reserved - no reuse rights granted</option>
+              <option value="LicenseRef-Permission-Granted">LicenseRef-Permission-Granted - explicit permission recorded</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="notes">Notes (optional)</label>
+            <input id="notes" name="notes" type="text" maxlength="2000" autocomplete="off" placeholder="Authoring tool, source, or usage caveat">
+          </div>
+          <div class="field full">
+            <label for="files">Source files <span class="req" aria-hidden="true">*</span></label>
+            <input id="files" name="files" type="file" multiple required accept=".png,.jpg,.jpeg,.webp,.gif,.bmp,.tga,.wav,.ogg,.mp3,.flac,.m4a,.mp4,.webm,.mov,.glb,.gltf,.ply,.obj,.fbx,.ttf,.otf,.woff,.woff2,.md,.txt,.pdf,.csv,.json">
+            <p class="hint">PNG, JPG, WEBP, GIF, BMP, TGA, WAV, OGG, MP3, FLAC, M4A, MP4, WEBM, MOV, GLB, GLTF, PLY, OBJ, FBX, TTF, OTF, WOFF, WOFF2, MD, TXT, PDF, CSV and JSON. SVG, HTML, JavaScript, executables, archives and unknown binaries are refused. There is no file-size or file-count limit in this page; files over 100 MB are allowed but GitHub may reject them.</p>
+            <p id="file-summary" class="file-summary" role="status" aria-live="polite">No files selected.</p>
+            <div id="file-list" class="file-list"></div>
+          </div>
+          <div class="field full">
+            <div class="checkline">
+              <input id="ownership" name="ownership" type="checkbox" required>
+              <label for="ownership">I created this or have permission to redistribute it <span class="req" aria-hidden="true">*</span></label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div id="form-error" class="notice error" role="alert" hidden></div>
+
+      <div class="actions">
+        <button id="review" class="button primary" type="submit" disabled>Review submission</button>
+        <span class="muted small">Nothing is published until the confirmation step.</span>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel" id="confirm-panel" aria-labelledby="confirm-title" hidden>
+    <h2 id="confirm-title">Review and publish</h2>
+    <div id="confirm-body"></div>
+    <p class="live-warning" id="live-warning">This publishes immediately to the live site.</p>
+    <div class="actions">
+      <button id="publish" class="button primary" type="button">Publish to main</button>
+      <button id="edit" class="button subtle" type="button">Back to edit</button>
+      <span class="spacer"></span>
+      <span class="muted small">One commit, one catalog line.</span>
+    </div>
+    <p id="retry-status" class="notice warn" role="status" aria-live="polite" hidden></p>
+    <div id="publish-error" class="notice error" role="alert" hidden></div>
+    <ol id="publish-steps" class="steps" aria-label="Publish progress" hidden></ol>
+  </section>
+
+  <section class="panel" id="success-panel" aria-labelledby="success-title" hidden>
+    <h2 id="success-title">Published</h2>
+    <p>Asset ID</p>
+    <p><strong id="success-id" class="success-id mono" tabindex="-1"></strong></p>
+    <p><a id="gallery-link" href="https://meesajarjar.github.io/MeesaAssetLibrary/gallery/" target="_blank" rel="noopener noreferrer">Open the live gallery entry</a></p>
+    <p class="muted" id="success-note">GitHub Pages usually rebuilds in about a minute. If the entry is not visible yet, wait and reload.</p>
+    <div class="success-actions">
+      <button id="again" class="button" type="button">Contribute another asset</button>
+      <button id="success-signout" class="button subtle" type="button">Sign out</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Uploads are published as a community bundle under <code>community/</code> and recorded in <code>catalog/community.jsonl</code>.</p>
+    <p>The page is self-contained. It loads no third-party scripts, fonts or trackers.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var OWNER = 'MeesaJarJar';
+  var REPO = 'MeesaAssetLibrary';
+  var BRANCH = 'main';
+  var API = 'https://api.github.com';
+  var GALLERY_BASE = 'https://meesajarjar.github.io/MeesaAssetLibrary/gallery/';
+  var CATALOG_PATH = 'catalog/community.jsonl';
+  var BUNDLE_ROOT = 'community';
+  var SESSION_KEY = 'mesa.assetlibrary.contribute.token';
+  var MAX_PREVIEW_EDGE = 512;
+  var PREVIEW_QUALITY = 0.82;
+  var HARD_FILE_CAP = 100 * 1024 * 1024;
+  var MAX_PUBLISH_ATTEMPTS = 6;
+
+  var STEP_NAMES = [
+    'Read main branch ref',
+    'Read head commit',
+    'Read community catalog',
+    'Allocate community ID',
+    'Build bundle in memory',
+    'Upload file blobs',
+    'Create git tree',
+    'Create git commit',
+    'Update main ref'
+  ];
+
+  var KINDS = ['image', 'model', 'audio', 'video', 'font', 'material', 'doc', 'project', 'other'];
+  var KIND_SET = new Set(KINDS);
+  var ROLES = {
+    image: ['tile', 'sprite', 'texture', 'icon', 'ui', 'concept', 'sheet', 'reference'],
+    model: ['prop', 'character', 'environment', 'rig', 'anim'],
+    audio: ['sfx', 'music', 'ambience', 'voice'],
+    video: ['capture', 'reference', 'trailer'],
+    font: ['display', 'text', 'mono'],
+    material: ['surface', 'vfx'],
+    doc: ['design', 'notes', 'palette', 'spec', 'table'],
+    project: ['godot', 'unity', 'other'],
+    other: ['general']
+  };
+  var ABBR = {
+    image: 'IMG',
+    model: 'MDL',
+    audio: 'SND',
+    video: 'VID',
+    font: 'FNT',
+    material: 'MAT',
+    doc: 'DOC',
+    project: 'PRJ',
+    other: 'MSC'
+  };
+  var LICENSES = [
+    'CC0-1.0',
+    'CC-BY-4.0',
+    'CC-BY-SA-4.0',
+    'MIT',
+    'LicenseRef-All-Rights-Reserved',
+    'LicenseRef-Permission-Granted'
+  ];
+
+  var EXT_MIME = Object.freeze({
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    webp: 'image/webp',
+    gif: 'image/gif',
+    bmp: 'image/bmp',
+    tga: 'image/x-tga',
+    wav: 'audio/wav',
+    ogg: 'audio/ogg',
+    mp3: 'audio/mpeg',
+    flac: 'audio/flac',
+    m4a: 'audio/mp4',
+    mp4: 'video/mp4',
+    webm: 'video/webm',
+    mov: 'video/quicktime',
+    glb: 'model/gltf-binary',
+    gltf: 'model/gltf+json',
+    ply: 'application/octet-stream',
+    obj: 'model/obj',
+    fbx: 'application/octet-stream',
+    ttf: 'font/ttf',
+    otf: 'font/otf',
+    woff: 'font/woff',
+    woff2: 'font/woff2',
+    md: 'text/markdown',
+    txt: 'text/plain',
+    pdf: 'application/pdf',
+    csv: 'text/csv',
+    json: 'application/json'
+  });
+  var UNSAFE_EXTS = new Set([
+    'svg', 'svgz', 'html', 'htm', 'xhtml', 'js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx',
+    'exe', 'dll', 'sys', 'com', 'bat', 'cmd', 'ps1', 'psm1', 'sh', 'bash', 'zsh',
+    'msi', 'scr', 'cpl', 'jar', 'apk', 'app', 'dmg', 'iso', 'deb', 'rpm', 'wasm',
+    'zip', 'rar', '7z', 'tar', 'gz', 'tgz', 'bz2', 'xz', 'cab', 'arj', 'lzh'
+  ]);
+  var DOC_FORMATS = { md: 'markdown', txt: 'txt', pdf: 'pdf', csv: 'csv', json: 'json' };
+
+  var dom = {};
+  var state = {
+    token: null,
+    user: null,
+    canPush: false,
+    authBusy: false,
+    reviewing: false,
+    publishing: false,
+    sessionGeneration: 0,
+    analyzing: false,
+    analysisPromise: null,
+    analysisGeneration: 0,
+    entries: [],
+    draft: null,
+    catalog: null,
+    stepNodes: [],
+    publishResult: null
+  };
+
+  cacheDom();
+  populateKinds();
+  renderRoles();
+  bindEvents();
+  restoreSession();
+
+  function cacheDom() {
+    var ids = {
+      authForm: 'auth-form',
+      tokenArea: 'token-area',
+      token: 'token',
+      connect: 'connect',
+      tokenHelp: 'token-help',
+      authStatus: 'auth-status',
+      signedIn: 'signed-in',
+      profileLink: 'profile-link',
+      avatarInitials: 'avatar-initials',
+      userLogin: 'user-login',
+      signout: 'signout',
+      blockedMessage: 'blocked-message',
+      blockedText: 'blocked-text',
+      formPanel: 'form-panel',
+      catalogBadge: 'catalog-badge',
+      catalogStatus: 'catalog-status',
+      assetForm: 'asset-form',
+      formFields: 'form-fields',
+      kind: 'kind',
+      role: 'role',
+      customRoleWrap: 'custom-role-wrap',
+      customRole: 'custom-role',
+      title: 'title',
+      summary: 'summary',
+      tags: 'tags',
+      license: 'license',
+      notes: 'notes',
+      files: 'files',
+      ownership: 'ownership',
+      fileSummary: 'file-summary',
+      fileList: 'file-list',
+      formError: 'form-error',
+      review: 'review',
+      confirmPanel: 'confirm-panel',
+      confirmBody: 'confirm-body',
+      liveWarning: 'live-warning',
+      publish: 'publish',
+      edit: 'edit',
+      retryStatus: 'retry-status',
+      publishError: 'publish-error',
+      publishSteps: 'publish-steps',
+      successPanel: 'success-panel',
+      successId: 'success-id',
+      galleryLink: 'gallery-link',
+      successNote: 'success-note',
+      again: 'again',
+      successSignout: 'success-signout',
+      formTitle: 'form-title',
+      authTitle: 'auth-title'
+    };
+    Object.keys(ids).forEach(function (key) {
+      dom[key] = document.getElementById(ids[key]);
+    });
+  }
+
+  function populateKinds() {
+    dom.kind.replaceChildren();
+    KINDS.forEach(function (kind) {
+      var option = document.createElement('option');
+      option.value = kind;
+      option.textContent = kind;
+      dom.kind.appendChild(option);
+    });
+    dom.kind.value = 'image';
+  }
+
+  function renderRoles() {
+    var kind = dom.kind.value;
+    var roles = ROLES[kind] || [];
+    dom.role.replaceChildren();
+    roles.forEach(function (role) {
+      var option = document.createElement('option');
+      option.value = role;
+      option.textContent = role;
+      dom.role.appendChild(option);
+    });
+    var custom = document.createElement('option');
+    custom.value = '__new';
+    custom.textContent = 'New role...';
+    dom.role.appendChild(custom);
+    dom.role.value = roles.length ? roles[0] : '__new';
+    updateCustomRole();
+  }
+
+  function updateCustomRole() {
+    var isNew = dom.role.value === '__new';
+    dom.customRoleWrap.hidden = !isNew;
+    if (isNew && !state.publishing) {
+      dom.customRole.focus();
+    }
+  }
+
+  function bindEvents() {
+    dom.authForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      connect();
+    });
+    dom.signout.addEventListener('click', signOut);
+    dom.successSignout.addEventListener('click', signOut);
+    dom.kind.addEventListener('change', function () {
+      renderRoles();
+      invalidateDraft();
+    });
+    dom.role.addEventListener('change', function () {
+      updateCustomRole();
+      invalidateDraft();
+    });
+    dom.assetForm.addEventListener('input', function (event) {
+      if (event.target !== dom.files) {
+        invalidateDraft();
+      }
+    });
+    dom.assetForm.addEventListener('change', function (event) {
+      if (event.target !== dom.files) {
+        invalidateDraft();
+      }
+    });
+    dom.assetForm.addEventListener('submit', onReview);
+    dom.files.addEventListener('change', onFilesChanged);
+    dom.publish.addEventListener('click', onPublish);
+    dom.edit.addEventListener('click', function () {
+      if (state.publishing) return;
+      state.draft = null;
+      dom.confirmPanel.hidden = true;
+      dom.publishError.hidden = true;
+      dom.retryStatus.hidden = true;
+      dom.publishSteps.hidden = true;
+      dom.review.focus();
+    });
+    dom.again.addEventListener('click', contributeAnother);
+    window.addEventListener('beforeunload', function () {
+      releaseEntries(state.entries);
+    });
+  }
+
+  function restoreSession() {
+    var saved = null;
+    try {
+      saved = sessionStorage.getItem(SESSION_KEY);
+    } catch (error) {
+      saved = null;
+    }
+    if (saved) {
+      dom.token.value = saved;
+      connect();
+    }
+  }
+
+  function apiHeaders(token) {
+    return {
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Authorization': 'Bearer ' + token
+    };
+  }
+
+  async function ghFetch(path, options) {
+    var opts = options || {};
+    var headers = apiHeaders(opts.token);
+    var init = { method: opts.method || 'GET', headers: headers, cache: 'no-store' };
+    if (opts.body !== undefined) {
+      headers['Content-Type'] = 'application/json';
+      init.body = JSON.stringify(opts.body);
+    }
+    var response;
+    try {
+      response = await fetch(API + path, init);
+    } catch (error) {
+      var networkError = new Error('Network request to GitHub failed. Check the connection and try again.');
+      networkError.network = true;
+      throw networkError;
+    }
+    return response;
+  }
+
+  async function responseError(response) {
+    var message = 'HTTP ' + response.status;
+    try {
+      var data = await response.json();
+      if (data && typeof data.message === 'string' && data.message) {
+        message += ': ' + data.message;
+      }
+      if (data && Array.isArray(data.errors) && data.errors.length) {
+        var details = data.errors.map(function (item) {
+          if (item && typeof item.message === 'string') return item.message;
+          return '';
+        }).filter(Boolean).slice(0, 3);
+        if (details.length) message += ' (' + details.join('; ') + ')';
+      }
+    } catch (error) {
+      // The response did not carry JSON; the status line is enough.
+    }
+    var apiError = new Error(message);
+    apiError.status = response.status;
+    return apiError;
+  }
+
+  async function ghJson(path, options) {
+    var response = await ghFetch(path, options);
+    if (!response.ok) throw await responseError(response);
+    return response.json();
+  }
+
+  async function connect() {
+    if (state.authBusy || state.publishing) return;
+    var token = dom.token.value.trim();
+    clearAuthStatus();
+    hideBlocked();
+    if (!token) {
+      showAuthError('Paste a personal access token first.');
+      return;
+    }
+
+    state.authBusy = true;
+    var session = state.sessionGeneration;
+    dom.connect.disabled = true;
+    dom.connect.textContent = 'Connecting...';
+    setAuthNotice('info', 'Checking the token with GitHub...');
+
+    try {
+      var user;
+      try {
+        user = await ghJson('/user', { token: token });
+      } catch (error) {
+        if (session !== state.sessionGeneration) return;
+        handleUserAuthError(error);
+        return;
+      }
+      if (session !== state.sessionGeneration) return;
+      if (!user || typeof user.login !== 'string' || !/^[A-Za-z0-9-]+$/.test(user.login)) {
+        showAuthError('GitHub returned an unexpected account response. Try again.');
+        return;
+      }
+
+      state.user = user;
+      renderSignedIn(user);
+
+      var repo;
+      try {
+        repo = await ghJson('/repos/' + OWNER + '/' + REPO, { token: token });
+      } catch (error) {
+        if (session !== state.sessionGeneration) return;
+        state.canPush = false;
+        lockForm();
+        if (error.status === 401) {
+          clearStoredToken();
+          showAuthError('GitHub rejected the token (401). It may be invalid or expired.');
+        } else if (error.status === 403) {
+          showBlocked('This account is not a collaborator on the repository (403: access forbidden).');
+          setAuthNotice('warn', 'Signed in as ' + user.login + '. Repository write access was not confirmed (403).');
+        } else if (error.status === 404) {
+          showBlocked('This account is not a collaborator on the repository (404: repository not found or no access).');
+          setAuthNotice('warn', 'Signed in as ' + user.login + '. Repository write access was not confirmed (404).');
+        } else {
+          showAuthError('Could not check repository access: ' + safeMessage(error));
+        }
+        return;
+      }
+
+      if (session !== state.sessionGeneration) return;
+      if (!repo || !repo.permissions || repo.permissions.push !== true) {
+        state.canPush = false;
+        lockForm();
+        showBlocked('This account is not a collaborator on the repository');
+        setAuthNotice('warn', 'Signed in as ' + user.login + '. This token does not report write access to the repository.');
+        return;
+      }
+
+      state.token = token;
+      state.canPush = true;
+      state.catalog = null;
+      dom.catalogBadge.hidden = true;
+      dom.catalogStatus.className = 'hint';
+      try {
+        sessionStorage.setItem(SESSION_KEY, token);
+      } catch (error) {
+        setAuthNotice('warn', 'Connected, but this browser blocked sessionStorage. The token will not survive a reload.');
+      }
+      dom.token.value = '';
+      dom.tokenArea.hidden = true;
+      dom.formPanel.hidden = false;
+      dom.formFields.disabled = false;
+      hideBlocked();
+      dom.signout.hidden = false;
+      updateReviewAvailability();
+      setAuthNotice('ok', 'Connected as ' + user.login + '. Write access confirmed.');
+      dom.formTitle.focus();
+
+      dom.catalogStatus.textContent = 'Reading the community catalog...';
+      try {
+        var catalog = await loadCatalog(token, true);
+        if (session !== state.sessionGeneration) return;
+        showCatalogStatus(catalog);
+      } catch (error) {
+        if (session !== state.sessionGeneration) return;
+        dom.catalogStatus.textContent = 'The community catalog could not be read yet. Review will retry. ' + safeMessage(error);
+        dom.catalogStatus.className = 'notice warn';
+      }
+    } catch (error) {
+      if (session === state.sessionGeneration) {
+        showAuthError('Unexpected error while connecting: ' + safeMessage(error));
+      }
+    } finally {
+      state.authBusy = false;
+      dom.connect.disabled = false;
+      dom.connect.textContent = 'Connect token';
+    }
+  }
+
+  function handleUserAuthError(error) {
+    if (error.status === 401) {
+      clearStoredToken();
+      showAuthError('GitHub rejected the token (401). It may be invalid or expired.');
+    } else if (error.status === 403) {
+      showAuthError('GitHub refused this token (403). Check that it is active and allowed for this account.');
+    } else if (error.status === 404) {
+      showAuthError('GitHub returned 404 for the account check. Verify the token and try again.');
+    } else {
+      showAuthError('Could not verify the token: ' + safeMessage(error));
+    }
+  }
+
+  function renderSignedIn(user) {
+    dom.signedIn.hidden = false;
+    dom.signout.hidden = false;
+    dom.userLogin.textContent = user.login;
+    dom.avatarInitials.textContent = user.login.slice(0, 2).toUpperCase();
+    dom.profileLink.href = 'https://github.com/' + encodeURIComponent(user.login);
+    dom.profileLink.setAttribute('aria-label', 'GitHub profile for ' + user.login);
+    dom.token.value = '';
+    dom.tokenArea.hidden = true;
+    dom.tokenHelp.hidden = true;
+  }
+
+  function setAuthNotice(kind, message) {
+    dom.authStatus.hidden = false;
+    dom.authStatus.className = 'notice ' + kind;
+    dom.authStatus.replaceChildren();
+    dom.authStatus.textContent = message;
+  }
+
+  function showAuthError(message) {
+    setAuthNotice('error', message);
+  }
+
+  function clearAuthStatus() {
+    dom.authStatus.hidden = true;
+    dom.authStatus.textContent = '';
+    dom.authStatus.className = 'notice';
+  }
+
+  function showBlocked(message) {
+    dom.blockedMessage.hidden = false;
+    dom.blockedText.textContent = message;
+    if (state.user) dom.formPanel.hidden = false;
+  }
+
+  function hideBlocked() {
+    dom.blockedMessage.hidden = true;
+    dom.blockedText.textContent = '';
+  }
+
+  function lockForm() {
+    dom.formFields.disabled = true;
+    dom.review.disabled = true;
+    dom.formPanel.hidden = !state.user;
+  }
+
+  function updateReviewAvailability() {
+    var available = state.canPush && !state.analyzing && !state.publishing && !state.reviewing;
+    dom.review.disabled = !available;
+    if (!available && state.canPush) dom.review.disabled = true;
+  }
+
+  function clearStoredToken() {
+    try {
+      sessionStorage.removeItem(SESSION_KEY);
+    } catch (error) {
+      // Nothing else can be done if the browser blocks storage.
+    }
+  }
+
+  function signOut() {
+    if (state.publishing) return;
+    clearStoredToken();
+    state.sessionGeneration += 1;
+    state.analysisGeneration += 1;
+    state.reviewing = false;
+    state.token = null;
+    state.user = null;
+    state.canPush = false;
+    state.entries = [];
+    state.draft = null;
+    state.catalog = null;
+    state.analyzing = false;
+    state.analysisPromise = null;
+    state.publishResult = null;
+    releaseEntries([]);
+    dom.assetForm.reset();
+    dom.token.value = '';
+    dom.tokenArea.hidden = false;
+    dom.tokenHelp.hidden = false;
+    dom.signedIn.hidden = true;
+    dom.formPanel.hidden = true;
+    dom.formFields.disabled = true;
+    dom.blockedMessage.hidden = true;
+    dom.confirmPanel.hidden = true;
+    dom.successPanel.hidden = true;
+    dom.publishError.hidden = true;
+    dom.retryStatus.hidden = true;
+    dom.publishSteps.hidden = true;
+    dom.catalogStatus.textContent = '';
+    dom.catalogStatus.className = 'hint';
+    dom.catalogBadge.hidden = true;
+    clearFormErrors();
+    clearAuthStatus();
+    dom.fileList.replaceChildren();
+    dom.fileSummary.textContent = 'No files selected.';
+    dom.review.disabled = true;
+    dom.publish.disabled = false;
+    dom.edit.disabled = false;
+    renderRoles();
+    dom.token.focus();
+  }
+
+  async function loadCatalog(token, force) {
+    if (!force && state.catalog && state.catalog.loaded) return state.catalog;
+    var response = await ghFetch('/repos/' + OWNER + '/' + REPO + '/contents/' + CATALOG_PATH + '?ref=' + encodeURIComponent(BRANCH), { token: token });
+    if (response.status === 404) {
+      var empty = { text: '', sha: null, exists: false, loaded: true, shaMap: new Map() };
+      state.catalog = empty;
+      return empty;
+    }
+    if (!response.ok) throw await responseError(response);
+    var data = await response.json();
+    var text = '';
+    if (data && data.encoding === 'base64' && typeof data.content === 'string' && data.content.trim()) {
+      text = decodeBase64Utf8(data.content);
+    } else if (data && data.sha && Number(data.size) > 0) {
+      var blobResponse = await ghFetch('/repos/' + OWNER + '/' + REPO + '/git/blobs/' + encodeURIComponent(data.sha), { token: token });
+      if (!blobResponse.ok) throw await responseError(blobResponse);
+      var blob = await blobResponse.json();
+      if (!blob || typeof blob.content !== 'string') {
+        throw new Error('GitHub returned an unreadable community catalog blob.');
+      }
+      text = decodeBase64Utf8(blob.content);
+    } else if (data && Array.isArray(data.items)) {
+      throw new Error('The community catalog path is a directory, not a file.');
+    }
+    var catalog = {
+      text: text,
+      sha: data && typeof data.sha === 'string' ? data.sha : null,
+      exists: true,
+      loaded: true,
+      shaMap: buildShaMap(text)
+    };
+    state.catalog = catalog;
+    return catalog;
+  }
+
+  function showCatalogStatus(catalog) {
+    var count = catalog.text ? catalog.text.replace(/^\uFEFF/, '').split(/\r?\n/).filter(function (line) {
+      return line.trim().length > 0;
+    }).length : 0;
+    dom.catalogStatus.className = 'hint';
+    dom.catalogStatus.textContent = count
+      ? 'Community catalog loaded: ' + count + ' existing ' + (count === 1 ? 'entry' : 'entries') + '. Duplicate files are checked by SHA-256.'
+      : 'Community catalog is empty. This will be the first community entry.';
+    dom.catalogBadge.hidden = false;
+  }
+
+  function buildShaMap(text) {
+    var map = new Map();
+    String(text || '').replace(/^\uFEFF/, '').split(/\r?\n/).forEach(function (line) {
+      if (!line.trim()) return;
+      try {
+        var record = JSON.parse(line);
+        if (record && typeof record.sha256 === 'string' && /^[0-9a-fA-F]{64}$/.test(record.sha256)) {
+          map.set(record.sha256.toLowerCase(), record);
+        }
+      } catch (error) {
+        // Invalid catalog lines are ignored here; the publish path still appends.
+      }
+    });
+    return map;
+  }
+
+  function findDuplicate(text, files) {
+    var map = buildShaMap(text);
+    for (var i = 0; i < files.length; i += 1) {
+      var record = map.get(files[i].sha256);
+      if (record) {
+        return {
+          sha256: files[i].sha256,
+          id: typeof record.id === 'string' ? record.id : '',
+          file: typeof record.file === 'string' ? record.file : ''
+        };
+      }
+    }
+    return null;
+  }
+
+  function onFilesChanged() {
+    if (!state.canPush) return;
+    invalidateDraft();
+    state.analysisGeneration += 1;
+    var generation = state.analysisGeneration;
+    releaseEntries(state.entries);
+    state.entries = [];
+    dom.fileList.replaceChildren();
+    showFormErrors([]);
+
+    var files = Array.prototype.slice.call(dom.files.files || []);
+    if (!files.length) {
+      state.analyzing = false;
+      dom.fileSummary.textContent = 'No files selected.';
+      updateReviewAvailability();
+      return;
+    }
+
+    state.analyzing = true;
+    updateReviewAvailability();
+    dom.fileSummary.textContent = 'Analyzing ' + files.length + ' ' + (files.length === 1 ? 'file' : 'files') + '...';
+    var promise = analyzeFiles(files, generation).then(function (entries) {
+      if (generation !== state.analysisGeneration) {
+        releaseEntries(entries);
+        return;
+      }
+      state.entries = entries;
+      renderFileList(entries);
+      var rejected = entries.filter(function (entry) { return !!entry.error; }).length;
+      var ready = entries.length - rejected;
+      dom.fileSummary.textContent = rejected
+        ? ready + ' ready, ' + rejected + ' rejected. Review is blocked until rejected files are removed.'
+        : files.length + ' ' + (files.length === 1 ? 'file' : 'files') + ' ready.';
+    }).catch(function (error) {
+      if (generation !== state.analysisGeneration) return;
+      state.entries = [];
+      dom.fileList.replaceChildren();
+      dom.fileSummary.textContent = 'File analysis failed.';
+      showFormErrors(['File analysis failed: ' + safeMessage(error)]);
+    }).finally(function () {
+      if (generation !== state.analysisGeneration) return;
+      state.analyzing = false;
+      updateReviewAvailability();
+    });
+    state.analysisPromise = promise;
+  }
+
+  async function analyzeFiles(files, generation) {
+    var entries = [];
+    var usedNames = new Set();
+    try {
+      for (var i = 0; i < files.length; i += 1) {
+        if (generation !== state.analysisGeneration) break;
+        var entry = await analyzeFile(files[i], usedNames, generation);
+        entries.push(entry);
+      }
+      return entries;
+    } catch (error) {
+      releaseEntries(entries);
+      throw error;
+    }
+  }
+
+  async function analyzeFile(file, usedNames, generation) {
+    var originalName = String(file.name || 'file');
+    var ext = extensionOf(originalName);
+    var entry = {
+      file: file,
+      originalName: originalName,
+      name: '',
+      ext: ext,
+      mime: '',
+      bytes: Number(file.size) || 0,
+      sha256: '',
+      warning: '',
+      error: '',
+      meta: '',
+      previewBlob: null,
+      previewUrl: '',
+      analysis: {}
+    };
+
+    if (!entry.bytes) {
+      entry.error = 'Empty files cannot be published.';
+      return entry;
+    }
+    if (UNSAFE_EXTS.has(ext)) {
+      entry.error = 'Unsafe file type rejected: SVG, HTML, JavaScript, executables and archives are not accepted.';
+      return entry;
+    }
+    if (!Object.prototype.hasOwnProperty.call(EXT_MIME, ext)) {
+      entry.error = 'Unsupported file type' + (ext ? ' ".' + ext + '"' : '') + '. Use an allowed media, model, font or document extension.';
+      return entry;
+    }
+
+    var prefix = new Uint8Array(await entry.file.slice(0, 4096).arrayBuffer());
+    var unsafeContent = sniffUnsafeContent(prefix);
+    if (unsafeContent) {
+      entry.error = 'Unsafe content rejected: ' + unsafeContent + '. The file extension alone is not enough.';
+      return entry;
+    }
+
+    entry.name = uniqueName(sanitizeFilename(originalName), usedNames);
+    entry.mime = EXT_MIME[ext];
+    entry.sha256 = await sha256Hex(file);
+    if (generation !== state.analysisGeneration) return entry;
+
+    var duplicate = state.catalog && state.catalog.loaded ? state.catalog.shaMap.get(entry.sha256) : null;
+    if (duplicate) {
+      entry.error = 'This file is already in the community catalog' +
+        (duplicate.id ? ' as ' + duplicate.id : '') +
+        (duplicate.file ? ' (' + duplicate.file + ')' : '') + '. Duplicate SHA-256 files are rejected.';
+      return entry;
+    }
+
+    if (entry.bytes > HARD_FILE_CAP) {
+      entry.warning = 'This file is ' + formatBytes(entry.bytes) + ', over GitHub\'s 100 MB per-file limit. Publishing may fail; the page does not block it.';
+    }
+
+    try {
+      if (isImageExt(ext)) {
+        await analyzeImage(entry);
+      } else if (isAudioExt(ext)) {
+        await analyzeAudio(entry);
+      } else if (isVideoExt(ext)) {
+        await analyzeVideo(entry);
+      } else if (ext === 'ply') {
+        await analyzePly(entry);
+      } else {
+        await analyzePlaceholder(entry);
+      }
+    } catch (error) {
+      entry.error = 'Could not process this file: ' + safeMessage(error);
+      entry.analysis = {};
+    }
+    return entry;
+  }
+
+  async function sha256Hex(file) {
+    if (!window.crypto || !window.crypto.subtle) {
+      throw new Error('WebCrypto is unavailable. Open this page over HTTPS.');
+    }
+    var buffer = await file.arrayBuffer();
+    var digest = await crypto.subtle.digest('SHA-256', buffer);
+    return Array.prototype.map.call(new Uint8Array(digest), function (byte) {
+      return byte.toString(16).padStart(2, '0');
+    }).join('');
+  }
+
+  function sniffUnsafeContent(bytes) {
+    if (!bytes || !bytes.length) return '';
+    var signatures = [
+      { label: 'an executable', values: [0x4d, 0x5a], offset: 0 },
+      { label: 'an executable', values: [0x7f, 0x45, 0x4c, 0x46], offset: 0 },
+      { label: 'an archive', values: [0x50, 0x4b, 0x03, 0x04], offset: 0 },
+      { label: 'an archive', values: [0x50, 0x4b, 0x05, 0x06], offset: 0 },
+      { label: 'an archive', values: [0x52, 0x61, 0x72, 0x21], offset: 0 },
+      { label: 'an archive', values: [0x37, 0x7a, 0xbc, 0xaf, 0x27, 0x1c], offset: 0 },
+      { label: 'an archive', values: [0x1f, 0x8b], offset: 0 },
+      { label: 'an archive', values: [0x42, 0x5a, 0x68], offset: 0 },
+      { label: 'an archive', values: [0xfd, 0x37, 0x7a, 0x58, 0x5a, 0x00], offset: 0 }
+    ];
+    for (var i = 0; i < signatures.length; i += 1) {
+      if (matchesBytes(bytes, signatures[i].values, signatures[i].offset)) {
+        return signatures[i].label;
+      }
+    }
+
+    var limit = Math.min(bytes.length, 512);
+    var text = new TextDecoder('utf-8').decode(bytes.subarray(0, limit));
+    var head = text.replace(/^\uFEFF/, '').replace(/^\s+/, '').toLowerCase();
+    if (head.indexOf('<svg') === 0 || head.indexOf('<?xml') === 0) return 'SVG or XML markup';
+    if (head.indexOf('<!doctype html') === 0 || head.indexOf('<html') === 0) return 'HTML markup';
+    if (head.indexOf('<script') === 0) return 'script markup';
+    return '';
+  }
+
+  function matchesBytes(bytes, values, offset) {
+    if (bytes.length < offset + values.length) return false;
+    for (var i = 0; i < values.length; i += 1) {
+      if (bytes[offset + i] !== values[i]) return false;
+    }
+    return true;
+  }
+
+  function isImageExt(ext) {
+    return ext === 'png' || ext === 'jpg' || ext === 'jpeg' || ext === 'webp' ||
+      ext === 'gif' || ext === 'bmp' || ext === 'tga';
+  }
+
+  function isAudioExt(ext) {
+    return ext === 'wav' || ext === 'ogg' || ext === 'mp3' || ext === 'flac' || ext === 'm4a';
+  }
+
+  function isVideoExt(ext) {
+    return ext === 'mp4' || ext === 'webm' || ext === 'mov';
+  }
+
+  async function analyzeImage(entry) {
+    var width = null;
+    var height = null;
+    var canvas = null;
+    var bitmap = null;
+
+    if (entry.ext === 'tga') {
+      var decoded = await decodeTga(entry.file);
+      width = decoded.width;
+      height = decoded.height;
+      canvas = decoded.canvas;
+    } else {
+      try {
+        bitmap = await createImageBitmap(entry.file);
+      } catch (error) {
+        throw new Error('the browser could not decode this image');
+      }
+      width = bitmap.width;
+      height = bitmap.height;
+      if (!width || !height) throw new Error('the image has no usable dimensions');
+      var scale = Math.min(1, MAX_PREVIEW_EDGE / Math.max(width, height));
+      canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(width * scale));
+      canvas.height = Math.max(1, Math.round(height * scale));
+      var ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close();
+      bitmap = null;
+    }
+
+    var alpha = canvasHasAlpha(canvas);
+    entry.previewBlob = await canvasToWebp(canvas);
+    entry.previewUrl = URL.createObjectURL(entry.previewBlob);
+    entry.analysis = { width: width, height: height, alpha: alpha };
+    entry.meta = width + ' x ' + height + ' px' + (alpha ? ', alpha' : '');
+  }
+
+  async function canvasHasAlpha(canvas) {
+    try {
+      var data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+      for (var i = 3; i < data.length; i += 4) {
+        if (data[i] < 255) return true;
+      }
+    } catch (error) {
+      return null;
+    }
+    return false;
+  }
+
+  async function analyzeAudio(entry) {
+    var audioBuffer = null;
+    var context = null;
+    var warning = '';
+    try {
+      var bytes = await entry.file.arrayBuffer();
+      var AudioCtor = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtor) throw new Error('Web Audio is not available');
+      context = new AudioCtor();
+      audioBuffer = await context.decodeAudioData(bytes.slice(0));
+    } catch (error) {
+      warning = 'This browser could not decode the audio, so duration and waveform are unavailable. The file is still accepted.';
+    }
+
+    var canvas = document.createElement('canvas');
+    canvas.width = 640;
+    canvas.height = 200;
+    var ctx = canvas.getContext('2d');
+    drawPreviewBackground(ctx, canvas.width, canvas.height);
+
+    if (audioBuffer) {
+      var wavInfo = entry.ext === 'wav' ? await readWavInfo(entry.file) : null;
+      var sampleRate = wavInfo && wavInfo.sampleRate ? wavInfo.sampleRate : null;
+      var channels = audioBuffer.numberOfChannels;
+      drawWaveform(ctx, canvas.width, canvas.height, audioBuffer, entry.name, sampleRate);
+      entry.analysis = {
+        duration: audioBuffer.duration,
+        sampleRate: sampleRate,
+        channels: channels
+      };
+      entry.meta = formatDecimal(audioBuffer.duration) + ' s, ' +
+        (sampleRate ? sampleRate + ' Hz, ' : '') +
+        (channels === 1 ? 'mono' : channels + ' channels');
+    } else {
+      drawLabel(ctx, canvas.width, canvas.height, 'AUDIO', [entry.name, 'Waveform unavailable in this browser']);
+      entry.analysis = { duration: null, sampleRate: null, channels: null };
+      entry.meta = 'Audio metadata unavailable';
+    }
+
+    if (context && context.close) {
+      try { await context.close(); } catch (error) { /* already closing */ }
+    }
+    if (warning) entry.warning = appendWarning(entry.warning, warning);
+    entry.previewBlob = await canvasToWebp(canvas);
+    entry.previewUrl = URL.createObjectURL(entry.previewBlob);
+  }
+
+  function drawWaveform(ctx, width, height, audioBuffer, name, sampleRate) {
+    var top = 44;
+    var bottom = height - 26;
+    var middle = (top + bottom) / 2;
+    var channelData = audioBuffer.getChannelData(0);
+    var total = channelData.length;
+    var bars = 320;
+    var barWidth = width / bars;
+    var gradient = ctx.createLinearGradient(0, top, 0, bottom);
+    gradient.addColorStop(0, '#9fd4ff');
+    gradient.addColorStop(0.5, '#7cc4ff');
+    gradient.addColorStop(1, '#5da8d8');
+    ctx.fillStyle = gradient;
+
+    for (var i = 0; i < bars; i += 1) {
+      var start = Math.floor((i / bars) * total);
+      var end = Math.max(start + 1, Math.floor(((i + 1) / bars) * total));
+      var peak = 0;
+      for (var j = start; j < end && j < total; j += 1) {
+        var value = Math.abs(channelData[j]);
+        if (value > peak) peak = value;
+      }
+      var barHeight = Math.max(1, peak * (bottom - top));
+      var x = i * barWidth;
+      ctx.fillRect(x, middle - barHeight / 2, Math.max(1, barWidth - 1), barHeight);
+    }
+
+    ctx.strokeStyle = 'rgba(230,237,243,.22)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, middle);
+    ctx.lineTo(width, middle);
+    ctx.stroke();
+
+    ctx.fillStyle = '#e6edf3';
+    ctx.font = '600 14px system-ui, -apple-system, Segoe UI, sans-serif';
+    ctx.textBaseline = 'top';
+    ctx.fillText(truncateCanvasText(ctx, name, width - 32), 16, 14);
+
+    ctx.fillStyle = '#9aa7b8';
+    ctx.font = '12px ui-monospace, Consolas, monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(formatDuration(audioBuffer.duration) + (sampleRate ? '  ' + sampleRate + ' Hz' : ''), width - 16, height - 22);
+    ctx.textAlign = 'left';
+  }
+
+  async function readWavInfo(file) {
+    var size = Math.min(file.size, 64 * 1024);
+    var buffer = await file.slice(0, size).arrayBuffer();
+    var view = new DataView(buffer);
+    if (view.byteLength < 12) return null;
+    if (asciiAt(view, 0, 4) !== 'RIFF' || asciiAt(view, 8, 4) !== 'WAVE') return null;
+    var offset = 12;
+    while (offset + 8 <= view.byteLength) {
+      var id = asciiAt(view, offset, 4);
+      var chunkSize = view.getUint32(offset + 4, true);
+      var dataStart = offset + 8;
+      if (id === 'fmt ' && chunkSize >= 16 && dataStart + 16 <= view.byteLength) {
+        var audioFormat = view.getUint16(dataStart, true);
+        var channels = view.getUint16(dataStart + 2, true);
+        var sampleRate = view.getUint32(dataStart + 4, true);
+        if (!channels || !sampleRate) return null;
+        return {
+          audioFormat: audioFormat,
+          channels: channels,
+          sampleRate: sampleRate,
+          bitDepth: view.getUint16(dataStart + 14, true)
+        };
+      }
+      offset = dataStart + chunkSize + (chunkSize % 2);
+    }
+    return null;
+  }
+
+  function asciiAt(view, offset, length) {
+    var text = '';
+    for (var i = 0; i < length; i += 1) text += String.fromCharCode(view.getUint8(offset + i));
+    return text;
+  }
+
+  async function analyzeVideo(entry) {
+    var info = { duration: null, width: null, height: null };
+    var frame = null;
+    var warning = '';
+    var url = URL.createObjectURL(entry.file);
+    var video = document.createElement('video');
+
+    try {
+      video.preload = 'auto';
+      video.muted = true;
+      video.playsInline = true;
+      video.src = url;
+      await waitForMedia(video, 'loadedmetadata');
+      if (Number.isFinite(video.duration) && video.duration > 0) info.duration = video.duration;
+      if (video.videoWidth > 0 && video.videoHeight > 0) {
+        info.width = video.videoWidth;
+        info.height = video.videoHeight;
+      }
+      if (info.width && info.height) {
+        if (video.readyState < 2) await waitForMedia(video, 'loadeddata');
+        var target = info.duration && info.duration > 0.1
+          ? Math.min(1, Math.max(0, info.duration - 0.05))
+          : 0;
+        if (target > 0) {
+          try {
+            video.currentTime = target;
+            await waitForMedia(video, 'seeked');
+          } catch (error) {
+            warning = 'The video frame at 1 second could not be captured; the first available frame is shown.';
+          }
+        }
+        var canvas = document.createElement('canvas');
+        var scale = Math.min(1, MAX_PREVIEW_EDGE / Math.max(info.width, info.height));
+        canvas.width = Math.max(1, Math.round(info.width * scale));
+        canvas.height = Math.max(1, Math.round(info.height * scale));
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#070a0f';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        frame = canvas;
+      } else {
+        warning = 'This browser could not read the video dimensions. The file is still accepted.';
+      }
+    } catch (error) {
+      warning = 'This browser could not decode the video, so duration, dimensions and frame preview are unavailable. The file is still accepted.';
+    } finally {
+      video.pause();
+      video.removeAttribute('src');
+      try { video.load(); } catch (error) { /* ignored */ }
+      URL.revokeObjectURL(url);
+    }
+
+    if (!frame) {
+      frame = document.createElement('canvas');
+      frame.width = 512;
+      frame.height = 288;
+      var fallback = frame.getContext('2d');
+      drawPreviewBackground(fallback, frame.width, frame.height);
+      drawLabel(fallback, frame.width, frame.height, 'VIDEO', [entry.name, 'Frame preview unavailable in this browser']);
+    }
+
+    if (warning) entry.warning = appendWarning(entry.warning, warning);
+    entry.analysis = info;
+    entry.previewBlob = await canvasToWebp(frame);
+    entry.previewUrl = URL.createObjectURL(entry.previewBlob);
+    entry.meta = info.width && info.height
+      ? info.width + ' x ' + info.height + ' px, ' + formatDecimal(info.duration) + ' s'
+      : (info.duration ? formatDecimal(info.duration) + ' s, dimensions unavailable' : 'Video metadata unavailable');
+  }
+
+  function waitForMedia(media, eventName) {
+    return new Promise(function (resolve, reject) {
+      var timer = null;
+      function cleanup() {
+        if (timer) clearTimeout(timer);
+        media.removeEventListener(eventName, onEvent);
+        media.removeEventListener('error', onError);
+      }
+      function onEvent() {
+        cleanup();
+        resolve();
+      }
+      function onError() {
+        cleanup();
+        reject(new Error('the media element reported an error'));
+      }
+      timer = setTimeout(function () {
+        cleanup();
+        reject(new Error('timed out waiting for the browser media decoder'));
+      }, 20000);
+      media.addEventListener(eventName, onEvent, { once: true });
+      media.addEventListener('error', onError, { once: true });
+    });
+  }
+
+  async function analyzePly(entry) {
+    var info = await readPlyHeader(entry.file);
+    var vertices = info.vertices;
+    entry.analysis = { vertices: vertices, format: info.format || 'ply' };
+    if (vertices !== null) {
+      entry.meta = vertices.toLocaleString('en-US') + ' vertices' + (info.format ? ', ' + info.format : '');
+    } else {
+      entry.meta = 'PLY point cloud or mesh; vertex count not readable';
+      entry.warning = appendWarning(entry.warning, 'The PLY header did not contain a readable vertex count.');
+    }
+    await analyzePlaceholder(entry, 'MODEL', [
+      entry.name,
+      vertices !== null ? vertices.toLocaleString('en-US') + ' vertices' : 'PLY'
+    ]);
+  }
+
+  async function analyzePlaceholder(entry, forcedLabel, forcedLines) {
+    var label = forcedLabel || labelForEntry(entry);
+    var lines = forcedLines || [entry.name, entry.ext.toUpperCase() + ' file'];
+    var canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 288;
+    var ctx = canvas.getContext('2d');
+    drawPreviewBackground(ctx, canvas.width, canvas.height);
+    drawLabel(ctx, canvas.width, canvas.height, label, lines);
+    entry.previewBlob = await canvasToWebp(canvas);
+    entry.previewUrl = URL.createObjectURL(entry.previewBlob);
+    if (!entry.meta) entry.meta = label + ' file, ' + entry.ext.toUpperCase();
+  }
+
+  function labelForEntry(entry) {
+    if (entry.ext === 'pdf' || entry.ext === 'md' || entry.ext === 'txt' || entry.ext === 'csv' || entry.ext === 'json') return 'DOCUMENT';
+    if (entry.ext === 'ttf' || entry.ext === 'otf' || entry.ext === 'woff' || entry.ext === 'woff2') return 'FONT';
+    if (entry.ext === 'glb' || entry.ext === 'gltf' || entry.ext === 'obj' || entry.ext === 'fbx') return 'MODEL';
+    return 'ASSET';
+  }
+
+  function drawPreviewBackground(ctx, width, height) {
+    var gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, '#111b27');
+    gradient.addColorStop(1, '#0a1017');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+    ctx.strokeStyle = 'rgba(124,196,255,.10)';
+    ctx.lineWidth = 1;
+    for (var x = 0; x < width; x += 32) {
+      ctx.beginPath();
+      ctx.moveTo(x + 0.5, 0);
+      ctx.lineTo(x + 0.5, height);
+      ctx.stroke();
+    }
+    for (var y = 0; y < height; y += 32) {
+      ctx.beginPath();
+      ctx.moveTo(0, y + 0.5);
+      ctx.lineTo(width, y + 0.5);
+      ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(124,196,255,.48)';
+    ctx.strokeRect(12.5, 12.5, width - 25, height - 25);
+  }
+
+  function drawLabel(ctx, width, height, label, lines) {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#e6edf3';
+    ctx.font = '700 30px system-ui, -apple-system, Segoe UI, sans-serif';
+    ctx.fillText(label, width / 2, height / 2 - 24);
+    ctx.fillStyle = '#9aa7b8';
+    ctx.font = '13px ui-monospace, Consolas, monospace';
+    var shown = lines.slice(0, 2);
+    for (var i = 0; i < shown.length; i += 1) {
+      ctx.fillText(truncateCanvasText(ctx, shown[i], width - 56), width / 2, height / 2 + 16 + i * 20);
+    }
+    ctx.textAlign = 'left';
+  }
+
+  function truncateCanvasText(ctx, text, maxWidth) {
+    var value = String(text);
+    if (ctx.measureText(value).width <= maxWidth) return value;
+    var low = 0;
+    var high = value.length;
+    while (low < high) {
+      var mid = Math.ceil((low + high) / 2);
+      if (ctx.measureText(value.slice(0, mid) + '...').width <= maxWidth) low = mid;
+      else high = mid - 1;
+    }
+    return value.slice(0, low) + '...';
+  }
+
+  async function readPlyHeader(file) {
+    var max = Math.min(file.size, 2 * 1024 * 1024);
+    var buffer = await file.slice(0, max).arrayBuffer();
+    var text = new TextDecoder('latin1').decode(new Uint8Array(buffer));
+    var marker = text.indexOf('end_header');
+    var formatMatch = /^format\s+(\S+)/im.exec(text);
+    var format = formatMatch ? formatMatch[1].toLowerCase() : '';
+    if (marker < 0) {
+      return { vertices: null, format: format };
+    }
+    var header = text.slice(0, marker);
+    var match = /^element\s+vertex\s+(\d+)\s*$/im.exec(header);
+    if (!match) return { vertices: null, format: format };
+    var count = Number(match[1]);
+    return { vertices: Number.isSafeInteger(count) && count >= 0 ? count : null, format: format };
+  }
+
+  async function decodeTga(file) {
+    var bytes = new Uint8Array(await file.arrayBuffer());
+    if (bytes.length < 18) throw new Error('the TGA header is truncated');
+    var idLength = bytes[0];
+    var colorMapType = bytes[1];
+    var imageType = bytes[2];
+    var colorMapLength = bytes[5] | (bytes[6] << 8);
+    var colorMapEntry = bytes[7];
+    var width = bytes[12] | (bytes[13] << 8);
+    var height = bytes[14] | (bytes[15] << 8);
+    var pixelDepth = bytes[16];
+    var descriptor = bytes[17];
+    var topOrigin = (descriptor & 0x20) !== 0;
+    var rightOrigin = (descriptor & 0x10) !== 0;
+    var alphaBits = descriptor & 0x0f;
+
+    if (!width || !height) throw new Error('the TGA dimensions are invalid');
+    if (colorMapType !== 0) throw new Error('color-mapped TGA files are not supported');
+    if ([2, 3, 10, 11].indexOf(imageType) < 0) throw new Error('this TGA image type is not supported');
+
+    var offset = 18 + idLength + (colorMapType === 1 ? colorMapLength * Math.ceil(colorMapEntry / 8) : 0);
+    var pixelBytes = Math.ceil(pixelDepth / 8);
+    if ([8, 16, 24, 32].indexOf(pixelDepth) < 0) throw new Error('this TGA pixel depth is not supported');
+
+    var pixels = new Uint8ClampedArray(width * height * 4);
+    var count = width * height;
+    var pixelIndex = 0;
+
+    function writePixel(source, targetIndex) {
+      var r;
+      var g;
+      var b;
+      var a = 255;
+      if (imageType === 3 || imageType === 11) {
+        if (pixelDepth === 8) {
+          r = source[0]; g = source[0]; b = source[0];
+        } else if (pixelDepth === 16) {
+          r = source[0]; g = source[0]; b = source[0]; a = source[1];
+        } else {
+          throw new Error('unsupported grayscale TGA depth');
+        }
+      } else if (pixelDepth === 16) {
+        var word = source[0] | (source[1] << 8);
+        r = Math.round(((word >> 10) & 31) * 255 / 31);
+        g = Math.round(((word >> 5) & 31) * 255 / 31);
+        b = Math.round((word & 31) * 255 / 31);
+        a = (word & 0x8000) ? 255 : 255;
+      } else {
+        b = source[0]; g = source[1]; r = source[2];
+        if (pixelDepth === 32) a = alphaBits ? source[3] : 255;
+      }
+      var row = Math.floor(targetIndex / width);
+      var col = targetIndex % width;
+      var destRow = topOrigin ? row : height - 1 - row;
+      var destCol = rightOrigin ? width - 1 - col : col;
+      var dest = (destRow * width + destCol) * 4;
+      pixels[dest] = r;
+      pixels[dest + 1] = g;
+      pixels[dest + 2] = b;
+      pixels[dest + 3] = a;
+    }
+
+    function readPixel() {
+      if (offset + pixelBytes > bytes.length) throw new Error('the TGA pixel data is truncated');
+      var value = bytes.subarray(offset, offset + pixelBytes);
+      offset += pixelBytes;
+      return value;
+    }
+
+    if (offset > bytes.length) throw new Error('the TGA data offset is invalid');
+
+    if (imageType === 2 || imageType === 3) {
+      for (pixelIndex = 0; pixelIndex < count; pixelIndex += 1) {
+        writePixel(readPixel(), pixelIndex);
+      }
+    } else {
+      while (pixelIndex < count) {
+        if (offset >= bytes.length) throw new Error('the TGA RLE stream is truncated');
+        var packet = bytes[offset];
+        offset += 1;
+        var run = (packet & 0x7f) + 1;
+        if (packet & 0x80) {
+          var repeated = readPixel();
+          for (var r = 0; r < run && pixelIndex < count; r += 1) {
+            writePixel(repeated, pixelIndex);
+            pixelIndex += 1;
+          }
+        } else {
+          for (var k = 0; k < run && pixelIndex < count; k += 1) {
+            writePixel(readPixel(), pixelIndex);
+            pixelIndex += 1;
+          }
+        }
+      }
+    }
+
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    var imageData = new ImageData(pixels, width, height);
+    canvas.getContext('2d').putImageData(imageData, 0, 0);
+
+    var previewScale = Math.min(1, MAX_PREVIEW_EDGE / Math.max(width, height));
+    if (previewScale < 1) {
+      var scaled = document.createElement('canvas');
+      scaled.width = Math.max(1, Math.round(width * previewScale));
+      scaled.height = Math.max(1, Math.round(height * previewScale));
+      scaled.getContext('2d').drawImage(canvas, 0, 0, scaled.width, scaled.height);
+      return { width: width, height: height, canvas: scaled };
+    }
+    return { width: width, height: height, canvas: canvas };
+  }
+
+  function extensionOf(name) {
+    var base = String(name || '').split(/[\\/]/).pop();
+    var dot = base.lastIndexOf('.');
+    if (dot < 0 || dot === base.length - 1) return '';
+    return base.slice(dot + 1).toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+
+  function sanitizeFilename(name) {
+    var base = String(name || 'file').split(/[\\/]/).pop();
+    base = base.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    var dot = base.lastIndexOf('.');
+    var ext = dot >= 0 ? base.slice(dot) : '';
+    var stem = dot >= 0 ? base.slice(0, dot) : base;
+    ext = ext.replace(/[^a-z0-9.]/g, '');
+    if (ext.length > 12) ext = ext.slice(0, 12);
+    stem = stem
+      .replace(/[^a-z0-9._-]+/g, '-')
+      .replace(/\.{2,}/g, '.')
+      .replace(/^-+|-+$/g, '')
+      .replace(/^\.+|\.+$/g, '')
+      .replace(/-{2,}/g, '-');
+    if (!stem) stem = 'file';
+    var room = 80 - ext.length;
+    stem = stem.slice(0, Math.max(1, room)).replace(/[-.]+$/g, '');
+    if (!stem) stem = 'file';
+    return stem + ext;
+  }
+
+  function uniqueName(candidate, used) {
+    if (!used.has(candidate)) {
+      used.add(candidate);
+      return candidate;
+    }
+    var dot = candidate.lastIndexOf('.');
+    var stem = dot >= 0 ? candidate.slice(0, dot) : candidate;
+    var ext = dot >= 0 ? candidate.slice(dot) : '';
+    var counter = 2;
+    while (true) {
+      var suffix = '-' + counter;
+      var room = 80 - ext.length - suffix.length;
+      var next = stem.slice(0, Math.max(1, room)).replace(/[-.]+$/g, '') + suffix + ext;
+      if (!used.has(next)) {
+        used.add(next);
+        return next;
+      }
+      counter += 1;
+    }
+  }
+
+  function safeMessage(error) {
+    if (error && typeof error.message === 'string' && error.message) return error.message;
+    return 'Unknown error';
+  }
+
+  function appendWarning(existing, warning) {
+    if (!existing) return warning;
+    return existing + ' ' + warning;
+  }
+
+  function formatBytes(bytes) {
+    var value = Number(bytes) || 0;
+    if (value < 1024) return value + ' B';
+    if (value < 1024 * 1024) return (value / 1024).toFixed(1) + ' KB';
+    if (value < 1024 * 1024 * 1024) return (value / (1024 * 1024)).toFixed(1) + ' MB';
+    return (value / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+  }
+
+  function formatDecimal(value) {
+    if (!Number.isFinite(value)) return 'unknown';
+    return Math.round(value * 1000) / 1000;
+  }
+
+  function formatDuration(seconds) {
+    if (!Number.isFinite(seconds) || seconds < 0) return '0:00';
+    var whole = Math.round(seconds);
+    var minutes = Math.floor(whole / 60);
+    var rest = whole % 60;
+    return minutes + ':' + String(rest).padStart(2, '0');
+  }
+
+  function canvasToWebp(canvas) {
+    return new Promise(function (resolve, reject) {
+      if (!canvas.toBlob) {
+        reject(new Error('canvas encoding is not supported by this browser'));
+        return;
+      }
+      canvas.toBlob(function (blob) {
+        if (!blob) {
+          reject(new Error('the preview could not be encoded'));
+          return;
+        }
+        if (String(blob.type).toLowerCase() !== 'image/webp') {
+          reject(new Error('this browser cannot encode WebP previews; use a current Chrome, Edge or Firefox'));
+          return;
+        }
+        if (!blob.size) {
+          reject(new Error('the preview encoder returned an empty file'));
+          return;
+        }
+        resolve(blob);
+      }, 'image/webp', PREVIEW_QUALITY);
+    });
+  }
+
+  function renderFileList(entries) {
+    dom.fileList.replaceChildren();
+    entries.forEach(function (entry) {
+      var row = document.createElement('div');
+      row.className = 'file-row';
+
+      var thumb = document.createElement('div');
+      thumb.className = 'file-thumb';
+      if (entry.previewUrl) {
+        var img = document.createElement('img');
+        img.src = entry.previewUrl;
+        img.alt = 'Preview of ' + entry.name;
+        img.loading = 'lazy';
+        thumb.appendChild(img);
+      } else {
+        var noPreview = document.createElement('span');
+        noPreview.className = 'badge bad';
+        noPreview.textContent = 'No preview';
+        thumb.appendChild(noPreview);
+      }
+
+      var body = document.createElement('div');
+      body.className = 'file-body';
+
+      var name = document.createElement('p');
+      name.className = 'file-name';
+      name.textContent = entry.name || entry.originalName;
+      body.appendChild(name);
+
+      if (entry.name && entry.originalName && entry.name !== entry.originalName) {
+        var original = document.createElement('p');
+        original.className = 'file-original';
+        original.textContent = 'Original name: ' + entry.originalName;
+        body.appendChild(original);
+      }
+
+      var metaBits = [];
+      if (entry.mime) metaBits.push(entry.mime);
+      metaBits.push(formatBytes(entry.bytes));
+      if (entry.meta) metaBits.push(entry.meta);
+      var meta = document.createElement('p');
+      meta.className = 'file-meta';
+      meta.textContent = metaBits.join(' | ');
+      body.appendChild(meta);
+
+      if (entry.sha256) {
+        var sha = document.createElement('p');
+        sha.className = 'file-sha mono';
+        sha.textContent = 'sha256 ' + entry.sha256;
+        body.appendChild(sha);
+      }
+
+      var badge = document.createElement('span');
+      if (entry.error) {
+        badge.className = 'badge bad';
+        badge.textContent = 'Rejected';
+      } else if (entry.warning) {
+        badge.className = 'badge warn';
+        badge.textContent = 'Warning';
+      } else {
+        badge.className = 'badge good';
+        badge.textContent = 'Ready';
+      }
+      var badgeRow = document.createElement('div');
+      badgeRow.className = 'meta-row';
+      badgeRow.appendChild(badge);
+      body.appendChild(badgeRow);
+
+      if (entry.warning) {
+        var warning = document.createElement('p');
+        warning.className = 'file-note warn';
+        warning.textContent = entry.warning;
+        body.appendChild(warning);
+      }
+      if (entry.error) {
+        var error = document.createElement('p');
+        error.className = 'file-note error';
+        error.textContent = entry.error;
+        body.appendChild(error);
+      }
+
+      row.appendChild(thumb);
+      row.appendChild(body);
+      dom.fileList.appendChild(row);
+    });
+  }
+
+  function releaseEntries(entries) {
+    (entries || []).forEach(function (entry) {
+      if (entry && entry.previewUrl) {
+        URL.revokeObjectURL(entry.previewUrl);
+        entry.previewUrl = '';
+      }
+    });
+  }
+
+  function clearFormErrors() {
+    dom.formError.hidden = true;
+    dom.formError.replaceChildren();
+  }
+
+  function showFormErrors(errors) {
+    dom.formError.replaceChildren();
+    if (!errors || !errors.length) {
+      dom.formError.hidden = true;
+      return;
+    }
+    var heading = document.createElement('strong');
+    heading.textContent = 'Check the form';
+    dom.formError.appendChild(heading);
+    var list = document.createElement('ul');
+    errors.forEach(function (message) {
+      var item = document.createElement('li');
+      item.textContent = message;
+      list.appendChild(item);
+    });
+    dom.formError.appendChild(list);
+    dom.formError.hidden = false;
+  }
+
+  function invalidateDraft() {
+    if (!state.draft || state.publishing) return;
+    state.draft = null;
+    dom.confirmPanel.hidden = true;
+    dom.publishError.hidden = true;
+    dom.retryStatus.hidden = true;
+    dom.publishSteps.hidden = true;
+  }
+
+  function normalizeText(value) {
+    return String(value || '')
+      .replace(/[\u0000-\u001f\u007f]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function slugify(value, limit) {
+    var slug = String(value || '')
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .replace(/-{2,}/g, '-');
+    var max = limit || 40;
+    if (slug.length > max) slug = slug.slice(0, max).replace(/-+$/g, '');
+    return slug;
+  }
+
+  function currentRole() {
+    if (!KIND_SET.has(dom.kind.value)) return { error: 'Choose a valid kind.' };
+    var choice = dom.role.value;
+    if (choice === '__new') {
+      var raw = dom.customRole.value.trim();
+      if (!raw) return { error: 'Enter a role name for the new role.' };
+      var role = raw.toLowerCase().replace(/_/g, '-').replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').replace(/-{2,}/g, '-');
+      if (!role) return { error: 'The new role needs at least one letter or number.' };
+      if (role.length > 40) role = role.slice(0, 40).replace(/-+$/g, '');
+      return { role: role };
+    }
+    var listed = ROLES[dom.kind.value] || [];
+    if (listed.indexOf(choice) < 0) return { error: 'Choose a role from the list or use New role.' };
+    return { role: choice };
+  }
+
+  function parseTags(raw, primaryExt) {
+    var parts = String(raw || '').split(/[\s,]+/).filter(Boolean);
+    if (!parts.length) {
+      return { error: 'Add at least one tag; tags are required.' };
+    }
+    var tags = [];
+    var seen = new Set();
+    var invalid = [];
+    parts.forEach(function (part) {
+      var tag = part.toLowerCase();
+      if (!/^[a-z0-9][a-z0-9._-]*:[a-z0-9][a-z0-9._/-]*$/.test(tag)) {
+        invalid.push(part);
+        return;
+      }
+      if (!seen.has(tag)) {
+        seen.add(tag);
+        tags.push(tag);
+      }
+    });
+    if (invalid.length) {
+      return { error: 'Invalid tag' + (invalid.length === 1 ? '' : 's') + ': ' + invalid.join(', ') + '. Use lowercase namespace:value with no spaces.' };
+    }
+    var hasFormat = tags.some(function (tag) { return tag.indexOf('format:') === 0; });
+    var hasEngine = tags.some(function (tag) { return tag.indexOf('engine:') === 0; });
+    if (primaryExt && !hasFormat) tags.push('format:' + primaryExt);
+    if (!hasEngine) tags.push('engine:any');
+    return { tags: tags };
+  }
+
+  async function onReview(event) {
+    event.preventDefault();
+    if (state.reviewing || state.publishing) return;
+    clearFormErrors();
+
+    if (state.analyzing) {
+      dom.review.disabled = true;
+      try { await state.analysisPromise; } catch (error) { /* reported by the analysis handler */ }
+      updateReviewAvailability();
+      if (state.analyzing) return;
+    }
+
+    if (!state.canPush || !state.token || !state.user) {
+      showFormErrors(['Connect a collaborator token before reviewing a submission.']);
+      return;
+    }
+
+    var session = state.sessionGeneration;
+    state.reviewing = true;
+    dom.formFields.disabled = true;
+    updateReviewAvailability();
+    try {
+      var errors = [];
+
+      if (!KIND_SET.has(dom.kind.value)) errors.push('Choose a valid kind.');
+
+      var roleResult = currentRole();
+      if (roleResult.error) errors.push(roleResult.error);
+      var role = roleResult.role || '';
+
+      var title = normalizeText(dom.title.value);
+      var summary = normalizeText(dom.summary.value);
+      var notes = normalizeText(dom.notes.value);
+      if (!title) errors.push('Title is required.');
+      if (title.length > 80) errors.push('Title must be 80 characters or fewer.');
+      if (!summary) errors.push('Summary is required.');
+      if (summary.length > 2000) errors.push('Summary must be 2000 characters or fewer.');
+      if (notes.length > 2000) errors.push('Notes must be 2000 characters or fewer.');
+
+      if (!LICENSES.includes(dom.license.value)) errors.push('Choose an SPDX license.');
+      if (!dom.ownership.checked) errors.push('Confirm that you created this or have permission to redistribute it.');
+
+      if (!state.entries.length && !state.analyzing) {
+        errors.push('Select at least one source file.');
+      }
+      state.entries.forEach(function (entry) {
+        if (entry.error) {
+          errors.push((entry.name || entry.originalName) + ': ' + entry.error);
+        }
+      });
+
+      var primary = state.entries[0];
+      var tagsResult = parseTags(dom.tags.value, primary ? primary.ext : '');
+      if (tagsResult.error) errors.push(tagsResult.error);
+
+      if (errors.length) {
+        showFormErrors(errors);
+        return;
+      }
+
+      var catalog;
+      try {
+        dom.catalogStatus.className = 'hint';
+        dom.catalogStatus.textContent = 'Checking the community catalog for duplicate files...';
+        catalog = await loadCatalog(state.token, true);
+        if (session !== state.sessionGeneration) return;
+        showCatalogStatus(catalog);
+      } catch (error) {
+        if (session !== state.sessionGeneration) return;
+        showFormErrors(['Could not read the community catalog, so duplicates cannot be checked: ' + safeMessage(error)]);
+        dom.catalogStatus.className = 'notice error';
+        dom.catalogStatus.textContent = 'Community catalog read failed.';
+        return;
+      }
+
+      if (session !== state.sessionGeneration) return;
+      var duplicate = findDuplicate(catalog.text, state.entries);
+      if (duplicate) {
+        showFormErrors([
+          'This file is already in the community catalog' +
+          (duplicate.id ? ' as ' + duplicate.id : '') +
+          (duplicate.file ? ' (' + duplicate.file + ')' : '') +
+          '. Duplicate SHA-256 files are rejected.'
+        ]);
+        return;
+      }
+
+      var draft = {
+        kind: dom.kind.value,
+        role: role,
+        title: title,
+        summary: summary,
+        notes: notes,
+        tags: tagsResult.tags,
+        license: dom.license.value,
+        ownership: true,
+        files: state.entries.slice(),
+        primary: state.entries[0],
+        slug: slugify(title, 40) || 'asset'
+      };
+
+      state.draft = draft;
+      renderReview(draft);
+      dom.confirmPanel.hidden = false;
+      dom.publish.disabled = false;
+      dom.edit.disabled = false;
+      dom.publishError.hidden = true;
+      dom.retryStatus.hidden = true;
+      dom.publishSteps.hidden = true;
+      dom.confirmPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      dom.publish.focus({ preventScroll: true });
+    } catch (error) {
+      if (session === state.sessionGeneration) {
+        showFormErrors(['Review failed: ' + safeMessage(error)]);
+      }
+    } finally {
+      if (session === state.sessionGeneration) {
+        state.reviewing = false;
+        if (state.canPush && !state.publishing && !dom.formPanel.hidden) {
+          dom.formFields.disabled = false;
+        }
+        updateReviewAvailability();
+      }
+    }
+  }
+
+  function renderReview(draft) {
+    dom.confirmBody.replaceChildren();
+
+    var hero = document.createElement('div');
+    hero.className = 'review-hero';
+
+    var thumb = document.createElement('div');
+    thumb.className = 'review-thumb';
+    if (draft.primary && draft.primary.previewUrl) {
+      var img = document.createElement('img');
+      img.src = draft.primary.previewUrl;
+      img.alt = 'Preview of ' + draft.title;
+      thumb.appendChild(img);
+    } else {
+      var missing = document.createElement('span');
+      missing.className = 'badge bad';
+      missing.textContent = 'No preview';
+      thumb.appendChild(missing);
+    }
+
+    var info = document.createElement('div');
+    var title = document.createElement('h3');
+    title.className = 'review-title';
+    title.textContent = draft.title;
+    info.appendChild(title);
+
+    var meta = document.createElement('div');
+    meta.className = 'meta-row';
+    var kindBadge = document.createElement('span');
+    kindBadge.className = 'badge';
+    kindBadge.textContent = draft.kind;
+    var roleBadge = document.createElement('span');
+    roleBadge.className = 'badge';
+    roleBadge.textContent = draft.role;
+    var countBadge = document.createElement('span');
+    countBadge.className = 'badge';
+    countBadge.textContent = draft.files.length + ' ' + (draft.files.length === 1 ? 'file' : 'files');
+    meta.appendChild(kindBadge);
+    meta.appendChild(roleBadge);
+    meta.appendChild(countBadge);
+    info.appendChild(meta);
+
+    var summary = document.createElement('p');
+    summary.className = 'review-summary';
+    summary.textContent = draft.summary;
+    info.appendChild(summary);
+
+    hero.appendChild(thumb);
+    hero.appendChild(info);
+    dom.confirmBody.appendChild(hero);
+
+    var details = document.createElement('dl');
+    details.className = 'detail-list';
+    addReviewDetail(details, 'ID', 'Assigned at publish');
+    addReviewDetail(details, 'License', draft.license);
+    addReviewDetail(details, 'Contributor', '@' + state.user.login);
+    addReviewDetail(details, 'Ownership', 'Confirmed by contributor');
+    addReviewDetail(details, 'Tags', draft.tags.join(', '));
+    addReviewDetail(details, 'Files', draft.files.length + ' ' + (draft.files.length === 1 ? 'file' : 'files') + ', ' +
+      formatBytes(draft.files.reduce(function (sum, entry) { return sum + entry.bytes; }, 0)));
+
+    var fileList = document.createElement('ul');
+    fileList.className = 'review-files';
+    draft.files.forEach(function (entry) {
+      var item = document.createElement('li');
+      item.textContent = 'src/' + entry.name + ' - ' + entry.mime + ', ' + formatBytes(entry.bytes) +
+        (entry.meta ? ' - ' + entry.meta : '');
+      fileList.appendChild(item);
+    });
+    var filesDt = document.createElement('dt');
+    filesDt.textContent = 'Bundle files';
+    var filesDd = document.createElement('dd');
+    filesDd.appendChild(fileList);
+    details.appendChild(filesDt);
+    details.appendChild(filesDd);
+
+    dom.confirmBody.appendChild(details);
+
+    var warnings = draft.files.filter(function (entry) { return entry.warning; });
+    if (warnings.length) {
+      var warningBox = document.createElement('div');
+      warningBox.className = 'notice warn';
+      var warningHead = document.createElement('strong');
+      warningHead.textContent = 'Warnings';
+      warningBox.appendChild(warningHead);
+      var warningList = document.createElement('ul');
+      warnings.forEach(function (entry) {
+        var item = document.createElement('li');
+        item.textContent = entry.name + ': ' + entry.warning;
+        warningList.appendChild(item);
+      });
+      warningBox.appendChild(warningList);
+      dom.confirmBody.appendChild(warningBox);
+    }
+  }
+
+  function addReviewDetail(list, term, value) {
+    var dt = document.createElement('dt');
+    dt.textContent = term;
+    var dd = document.createElement('dd');
+    dd.textContent = value;
+    list.appendChild(dt);
+    list.appendChild(dd);
+  }
+
+  async function onPublish() {
+    if (!state.draft || state.publishing || !state.canPush) return;
+    state.publishing = true;
+    dom.publish.disabled = true;
+    dom.edit.disabled = true;
+    dom.review.disabled = true;
+    dom.signout.disabled = true;
+    dom.formFields.disabled = true;
+    dom.publishError.hidden = true;
+    dom.retryStatus.hidden = true;
+    dom.publishSteps.hidden = false;
+    resetStepUI();
+
+    var succeeded = false;
+    try {
+      var result = await publishWithRetries(state.draft);
+      succeeded = true;
+      showSuccess(result);
+    } catch (error) {
+      var message;
+      if (error && typeof error.step === 'number') {
+        message = 'Publish failed at step ' + (error.step + 1) + ' (' + STEP_NAMES[error.step] + '): ' + safeMessage(error);
+        if (error.step < 8) {
+          message += ' No commit was added to main.';
+        } else {
+          message += ' The main ref update was not confirmed. Check the repository before retrying.';
+        }
+      } else {
+        message = 'Publish failed: ' + safeMessage(error) + ' No commit was added to main.';
+      }
+      dom.publishError.replaceChildren();
+      dom.publishError.textContent = message;
+      dom.publishError.hidden = false;
+    } finally {
+      state.publishing = false;
+      dom.publish.disabled = false;
+      dom.edit.disabled = false;
+      dom.signout.disabled = false;
+      if (!succeeded) {
+        dom.formFields.disabled = false;
+      }
+      updateReviewAvailability();
+    }
+  }
+
+  async function publishWithRetries(draft) {
+    var lastError = null;
+    for (var attempt = 1; attempt <= MAX_PUBLISH_ATTEMPTS; attempt += 1) {
+      resetStepUI();
+      if (attempt > 1) {
+        dom.retryStatus.hidden = false;
+        dom.retryStatus.textContent = 'Main moved while publishing. Retrying with a fresh allocation (attempt ' +
+          attempt + ' of ' + MAX_PUBLISH_ATTEMPTS + '). Nothing from the previous attempt was committed to main.';
+      } else {
+        dom.retryStatus.hidden = true;
+        dom.retryStatus.textContent = '';
+      }
+      try {
+        var result = await publishOnce(draft);
+        result.attempts = attempt;
+        return result;
+      } catch (error) {
+        lastError = error;
+        if (error && error.retryable && attempt < MAX_PUBLISH_ATTEMPTS) {
+          await delay(350);
+          continue;
+        }
+        error.attempts = attempt;
+        throw error;
+      }
+    }
+    throw lastError || new Error('Publishing could not be completed.');
+  }
+
+  async function publishOnce(draft) {
+    var token = state.token;
+    var ref = await runStep(0, function () {
+      return ghJson('/repos/' + OWNER + '/' + REPO + '/git/ref/heads/' + BRANCH, { token: token });
+    });
+    if (!ref || !ref.object || typeof ref.object.sha !== 'string') {
+      throw new PublishError(0, 'GitHub returned an unexpected ref response.');
+    }
+    var headSha = ref.object.sha;
+
+    var headCommit = await runStep(1, function () {
+      return ghJson('/repos/' + OWNER + '/' + REPO + '/git/commits/' + encodeURIComponent(headSha), { token: token });
+    });
+    if (!headCommit || !headCommit.tree || typeof headCommit.tree.sha !== 'string') {
+      throw new PublishError(1, 'GitHub returned an unexpected commit response.');
+    }
+    var treeSha = headCommit.tree.sha;
+
+    var catalog = await runStep(2, async function () {
+      var data = await readCatalog(token);
+      var duplicate = findDuplicate(data.text, draft.files);
+      if (duplicate) {
+        throw new Error('This file is already in the community catalog' +
+          (duplicate.id ? ' as ' + duplicate.id : '') +
+          (duplicate.file ? ' (' + duplicate.file + ')' : '') + '. Nothing was committed.');
+      }
+      return data;
+    });
+
+    var allocated = await runStep(3, function () {
+      return allocateId(catalog.text, draft.kind);
+    });
+
+    var upload;
+    try {
+      upload = await runStep(4, function () {
+        return buildUpload(draft, allocated, catalog.text);
+      });
+    } catch (error) {
+      throw asPublishError(error, 4);
+    }
+
+    var blobShas = await runStep(5, async function () {
+      var shas = [];
+      for (var i = 0; i < upload.payloads.length; i += 1) {
+        var payload = upload.payloads[i];
+        var blob = await ghJson('/repos/' + OWNER + '/' + REPO + '/git/blobs', {
+          method: 'POST',
+          token: token,
+          body: { content: payload.base64, encoding: 'base64' }
+        });
+        if (!blob || typeof blob.sha !== 'string') {
+          throw new Error('GitHub returned an unexpected blob response for ' + payload.path + '.');
+        }
+        shas.push(blob.sha);
+      }
+      return shas;
+    });
+
+    var treeData = await runStep(6, function () {
+      return ghJson('/repos/' + OWNER + '/' + REPO + '/git/trees', {
+        method: 'POST',
+        token: token,
+        body: {
+          base_tree: treeSha,
+          tree: upload.payloads.map(function (payload, index) {
+            return { path: payload.path, mode: '100644', type: 'blob', sha: blobShas[index] };
+          })
+        }
+      });
+    });
+    if (!treeData || typeof treeData.sha !== 'string') {
+      throw new PublishError(6, 'GitHub returned an unexpected tree response.');
+    }
+
+    var message = 'Community: add ' + upload.id + ' "' + normalizeText(draft.title) + '" by @' + state.user.login;
+    var commit = await runStep(7, function () {
+      return ghJson('/repos/' + OWNER + '/' + REPO + '/git/commits', {
+        method: 'POST',
+        token: token,
+        body: {
+          message: message,
+          tree: treeData.sha,
+          parents: [headSha]
+        }
+      });
+    });
+    if (!commit || typeof commit.sha !== 'string') {
+      throw new PublishError(7, 'GitHub returned an unexpected commit response.');
+    }
+
+    setStep(8, 'active');
+    var response = null;
+    try {
+      response = await ghFetch('/repos/' + OWNER + '/' + REPO + '/git/refs/heads/' + BRANCH, {
+        method: 'PATCH',
+        token: token,
+        body: { sha: commit.sha, force: false }
+      });
+    } catch (error) {
+      setStep(8, 'failed');
+      var networkFailure = new PublishError(8, safeMessage(error));
+      networkFailure.retryable = false;
+      throw networkFailure;
+    }
+    if (!response.ok) {
+      var apiError = await responseError(response);
+      setStep(8, 'failed');
+      var failure = new PublishError(8, safeMessage(apiError));
+      failure.status = response.status;
+      failure.retryable = response.status === 409 || response.status === 422;
+      throw failure;
+    }
+    setStep(8, 'done');
+
+    return {
+      id: upload.id,
+      dir: upload.dir,
+      catalogText: upload.catalogText,
+      message: message,
+      commitSha: commit.sha,
+      headSha: headSha
+    };
+  }
+
+  async function readCatalog(token) {
+    var response = await ghFetch('/repos/' + OWNER + '/' + REPO + '/contents/' + CATALOG_PATH + '?ref=' + encodeURIComponent(BRANCH), { token: token });
+    if (response.status === 404) {
+      return { text: '', sha: null, exists: false };
+    }
+    if (!response.ok) throw await responseError(response);
+    var data = await response.json();
+    var text = '';
+    if (data && data.encoding === 'base64' && typeof data.content === 'string' && data.content.trim()) {
+      text = decodeBase64Utf8(data.content);
+    } else if (data && data.sha && Number(data.size) > 0) {
+      var blobResponse = await ghFetch('/repos/' + OWNER + '/' + REPO + '/git/blobs/' + encodeURIComponent(data.sha), { token: token });
+      if (!blobResponse.ok) throw await responseError(blobResponse);
+      var blob = await blobResponse.json();
+      if (!blob || typeof blob.content !== 'string') throw new Error('The community catalog blob was unreadable.');
+      text = decodeBase64Utf8(blob.content);
+    }
+    return {
+      text: text,
+      sha: data && typeof data.sha === 'string' ? data.sha : null,
+      exists: true
+    };
+  }
+
+  function allocateId(text, kind) {
+    var max = 0;
+    String(text || '').replace(/^\uFEFF/, '').split(/\r?\n/).forEach(function (line) {
+      if (!line.trim()) return;
+      try {
+        var record = JSON.parse(line);
+        if (record && typeof record.id === 'string') {
+          var match = /^COM-[A-Z]{3}-(\d{6})$/.exec(record.id);
+          if (match) max = Math.max(max, Number(match[1]));
+        }
+      } catch (error) {
+        var loose = /"id"\s*:\s*"COM-[A-Z]{3}-(\d{6})"/.exec(line);
+        if (loose) max = Math.max(max, Number(loose[1]));
+      }
+    });
+    var next = max + 1;
+    if (next > 999999) throw new Error('The community ID space is exhausted.');
+    var sequence = String(next).padStart(6, '0');
+    return {
+      id: 'COM-' + ABBR[kind] + '-' + sequence,
+      sequence: sequence,
+      abbreviation: ABBR[kind]
+    };
+  }
+
+  async function buildUpload(draft, allocated, existingCatalog) {
+    var primary = draft.files[0];
+    var date = localDate();
+    var login = state.user.login;
+    var dir = BUNDLE_ROOT + '/' + draft.kind + '/' + draft.role + '/' + allocated.sequence + '-' + draft.slug;
+
+    var files = draft.files.map(function (entry) {
+      return {
+        path: 'src/' + entry.name,
+        bytes: entry.bytes,
+        mime: entry.mime,
+        sha256: entry.sha256
+      };
+    });
+
+    var technical = technicalFor(draft.kind, primary, draft.role);
+    var asset = {
+      schema: 1,
+      id: allocated.id,
+      kind: draft.kind,
+      role: draft.role,
+      title: draft.title,
+      summary: draft.summary,
+      tags: draft.tags.slice(),
+      preview: 'preview.webp',
+      files: files,
+      technical: technical,
+      source: {
+        origin: 'community',
+        tool: 'contribute page',
+        captured: date
+      },
+      relations: {
+        parent: null,
+        variants: [],
+        collections: []
+      },
+      notes: draft.notes,
+      contributor: {
+        login: login,
+        url: 'https://github.com/' + login
+      },
+      license: draft.license
+    };
+
+    var line = {
+      id: allocated.id,
+      kind: draft.kind,
+      role: draft.role,
+      title: draft.title,
+      summary: draft.summary,
+      tags: draft.tags.slice(),
+      preview: 'preview.webp',
+      file: dir + '/' + files[0].path,
+      mime: primary.mime,
+      dir: dir,
+      bytes: primary.bytes,
+      sha256: primary.sha256,
+      added: date,
+      contributor: login,
+      license: draft.license
+    };
+
+    var assetJson = JSON.stringify(asset, null, 2) + '\n';
+    var assetMd = buildAssetMarkdown(draft, allocated, files, technical, login);
+    var catalogText = appendCatalogLine(existingCatalog, JSON.stringify(line));
+
+    var payloads = [
+      { path: dir + '/asset.json', base64: textToBase64(assetJson) },
+      { path: dir + '/asset.md', base64: textToBase64(assetMd) },
+      { path: dir + '/preview.webp', base64: await blobToBase64(primary.previewBlob) }
+    ];
+
+    for (var i = 0; i < draft.files.length; i += 1) {
+      payloads.push({
+        path: dir + '/src/' + draft.files[i].name,
+        base64: await blobToBase64(draft.files[i].file)
+      });
+    }
+    payloads.push({ path: CATALOG_PATH, base64: textToBase64(catalogText) });
+
+    return {
+      id: allocated.id,
+      dir: dir,
+      catalogText: catalogText,
+      payloads: payloads,
+      line: line,
+      asset: asset,
+      assetJson: assetJson,
+      assetMd: assetMd
+    };
+  }
+
+  function buildAssetMarkdown(draft, allocated, files, technical, login) {
+    var technicalText = Object.keys(technical).map(function (key) {
+      var value = technical[key];
+      if (value === null) return key + '=null';
+      if (Array.isArray(value)) return key + '=' + value.join('|');
+      return key + '=' + String(value);
+    }).join(', ');
+    var fileText = files.map(function (file) {
+      return file.path + ' (' + file.mime + ', ' + file.bytes + ' bytes)';
+    }).join('; ');
+    var lines = [
+      '# ' + draft.title,
+      '',
+      draft.summary,
+      '',
+      '- Kind: ' + draft.kind + ' / ' + draft.role,
+      '- Files: ' + fileText,
+      '- Technical: ' + technicalText,
+      '- License: ' + draft.license + ' | Contributor: @' + login + ' (https://github.com/' + login + ')',
+      '- Notes: ' + (draft.notes || 'None.')
+    ];
+    return lines.join('\n') + '\n';
+  }
+
+  function technicalFor(kind, entry, role) {
+    var analysis = entry.analysis || {};
+    if (kind === 'image') {
+      return {
+        width: numberOrNull(analysis.width),
+        height: numberOrNull(analysis.height),
+        alpha: typeof analysis.alpha === 'boolean' ? analysis.alpha : null,
+        tileable: null,
+        palette: null
+      };
+    }
+    if (kind === 'audio') {
+      return {
+        duration_s: roundOrNull(analysis.duration, 3),
+        sample_rate: integerOrNull(analysis.sampleRate),
+        channels: analysis.channels === 1 || analysis.channels === 2 ? analysis.channels : null,
+        loopable: null
+      };
+    }
+    if (kind === 'model') {
+      var model = {
+        format: entry.ext,
+        polycount: null,
+        uv: null,
+        materials: null,
+        rigged: null,
+        animations: null,
+        scale_units: null
+      };
+      if (typeof analysis.vertices === 'number') model.vertices = analysis.vertices;
+      return model;
+    }
+    if (kind === 'video') {
+      return {
+        duration_s: roundOrNull(analysis.duration, 3),
+        resolution: analysis.width && analysis.height ? analysis.width + 'x' + analysis.height : null,
+        fps: null,
+        codec: null
+      };
+    }
+    if (kind === 'font') {
+      return {
+        family: null,
+        weights: [],
+        glyphs: null,
+        format: entry.ext
+      };
+    }
+    if (kind === 'doc') {
+      return {
+        format: DOC_FORMATS[entry.ext] || entry.ext,
+        pages: null
+      };
+    }
+    if (kind === 'material') {
+      return {
+        format: entry.ext === 'png' ? 'png-set' : entry.ext,
+        channels: null,
+        resolution: analysis.width && analysis.height ? Math.max(analysis.width, analysis.height) : null,
+        tileable: null
+      };
+    }
+    if (kind === 'project') {
+      return {
+        engine: role === 'godot' || role === 'unity' ? role : 'other',
+        engine_version: null,
+        bundle_type: null
+      };
+    }
+    return { format: entry.ext };
+  }
+
+  function numberOrNull(value) {
+    return typeof value === 'number' && Number.isFinite(value) ? value : null;
+  }
+
+  function integerOrNull(value) {
+    return typeof value === 'number' && Number.isFinite(value) ? Math.round(value) : null;
+  }
+
+  function roundOrNull(value, digits) {
+    if (typeof value !== 'number' || !Number.isFinite(value)) return null;
+    var factor = Math.pow(10, digits);
+    return Math.round(value * factor) / factor;
+  }
+
+  function appendCatalogLine(existing, line) {
+    var base = String(existing || '');
+    var separator = base.length && !base.endsWith('\n') ? '\n' : '';
+    return base + separator + line + '\n';
+  }
+
+  function localDate() {
+    var now = new Date();
+    return now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+  }
+
+  function showSuccess(result) {
+    state.publishResult = result;
+    var nextCatalog = {
+      text: result.catalogText,
+      sha: null,
+      exists: true,
+      loaded: true,
+      shaMap: buildShaMap(result.catalogText)
+    };
+    state.catalog = nextCatalog;
+    dom.formPanel.hidden = true;
+    dom.confirmPanel.hidden = true;
+    dom.blockedMessage.hidden = true;
+    dom.successPanel.hidden = false;
+    dom.successId.textContent = result.id;
+    dom.galleryLink.href = GALLERY_BASE + '#asset=' + encodeURIComponent(result.id);
+    dom.successNote.textContent = 'GitHub Pages usually rebuilds in about a minute. If the entry is not visible yet, wait and reload.' +
+      (result.attempts > 1 ? ' Published on attempt ' + result.attempts + ' after main moved.' : '');
+    dom.successPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    dom.successId.focus();
+  }
+
+  function contributeAnother() {
+    state.draft = null;
+    state.publishResult = null;
+    releaseEntries(state.entries);
+    state.entries = [];
+    dom.assetForm.reset();
+    dom.fileList.replaceChildren();
+    dom.fileSummary.textContent = 'No files selected.';
+    dom.confirmPanel.hidden = true;
+    dom.successPanel.hidden = true;
+    dom.publishError.hidden = true;
+    dom.retryStatus.hidden = true;
+    dom.publishSteps.hidden = true;
+    dom.catalogStatus.className = 'hint';
+    dom.formPanel.hidden = false;
+    dom.formFields.disabled = false;
+    showFormErrors([]);
+    renderRoles();
+    updateReviewAvailability();
+    dom.formPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    dom.title.focus({ preventScroll: true });
+  }
+
+  function resetStepUI() {
+    dom.publishSteps.replaceChildren();
+    state.stepNodes = [];
+    STEP_NAMES.forEach(function (name) {
+      var item = document.createElement('li');
+      item.dataset.status = 'waiting';
+      var label = document.createElement('span');
+      label.className = 'step-label';
+      label.textContent = name;
+      var status = document.createElement('span');
+      status.className = 'step-status';
+      status.textContent = 'Waiting';
+      item.appendChild(label);
+      item.appendChild(status);
+      dom.publishSteps.appendChild(item);
+      state.stepNodes.push({ item: item, status: status });
+    });
+    dom.retryStatus.hidden = true;
+    dom.retryStatus.textContent = '';
+  }
+
+  function setStep(index, status) {
+    var node = state.stepNodes[index];
+    if (!node) return;
+    node.item.dataset.status = status;
+    node.status.textContent = status === 'active' ? 'Working' : status === 'done' ? 'Done' : status === 'failed' ? 'Failed' : 'Waiting';
+  }
+
+  async function runStep(index, action) {
+    setStep(index, 'active');
+    try {
+      var result = await action();
+      setStep(index, 'done');
+      return result;
+    } catch (error) {
+      setStep(index, 'failed');
+      throw asPublishError(error, index);
+    }
+  }
+
+  function asPublishError(error, index) {
+    if (error instanceof PublishError) return error;
+    var wrapped = new PublishError(index, safeMessage(error));
+    if (error && error.status) wrapped.status = error.status;
+    if (error && error.network) wrapped.network = true;
+    return wrapped;
+  }
+
+  function PublishError(step, message) {
+    this.name = 'PublishError';
+    this.step = step;
+    this.message = message;
+    this.retryable = false;
+    if (Error.captureStackTrace) Error.captureStackTrace(this, PublishError);
+  }
+  PublishError.prototype = Object.create(Error.prototype);
+  PublishError.prototype.constructor = PublishError;
+
+  function delay(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  function textToBase64(text) {
+    return bytesToBase64(new TextEncoder().encode(String(text)));
+  }
+
+  function bytesToBase64(bytes) {
+    var binary = '';
+    var chunk = 0x8000;
+    for (var i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+    }
+    return btoa(binary);
+  }
+
+  function blobToBase64(blob) {
+    return new Promise(function (resolve, reject) {
+      if (!blob) {
+        reject(new Error('a required upload payload is missing'));
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function () {
+        var result = String(reader.result || '');
+        var comma = result.indexOf(',');
+        if (comma < 0) {
+          reject(new Error('the browser returned an unexpected base64 payload'));
+          return;
+        }
+        resolve(result.slice(comma + 1));
+      };
+      reader.onerror = function () {
+        reject(new Error('the browser could not read a file for upload'));
+      };
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function decodeBase64Utf8(value) {
+    var binary = atob(String(value || '').replace(/\s+/g, ''));
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+    return new TextDecoder().decode(bytes);
+  }
+})();
+</script>
+</body>
+</html>

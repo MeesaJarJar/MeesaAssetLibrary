@@ -78,6 +78,25 @@ the tool cannot express the case.
 10. Add the asset to a collection file if it belongs to one.
 11. Run `node scripts/check-library.mjs` and `node scripts/build-gallery.mjs`.
 
+## Community publication surface
+
+Community assets are contributed by invited collaborators and are a separate
+publication surface, not a staging area for the curated library.
+
+- Bundles live at `community/<kind>/<role>/<6-digit>-<slug>/`, with the same
+  layout as curated bundles, and are indexed in `catalog/community.jsonl`.
+- IDs use the `COM-` prefix and their own six-digit sequence. Community
+  sequences are independent of curated sequences.
+- `contributor` and `license` are authoritative once published: carry them
+  through unchanged and never guess or rewrite them. The catalog line and
+  `asset.json` must agree.
+- Never merge, move or copy a community bundle into `assets/`, and never add a
+  community ID to `catalog/index.jsonl`. The trees and catalogs stay separate.
+- Deletion follows the normal rule: a human decides, and the bundle is recorded
+  in `catalog/retired.jsonl`. The ID is never reused.
+- `check-library.mjs` and `build-gallery.mjs` read both catalogs; the gallery
+  labels community assets with a badge and contributor attribution.
+
 ## Token discipline
 
 - Never open binary originals (wav, png, glb, mp4, ttf). Read `asset.md` first.

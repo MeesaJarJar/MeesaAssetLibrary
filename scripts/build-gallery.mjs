@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Build a single self-contained gallery page from catalog/index.jsonl.
+// Build a single self-contained gallery page from catalog/index.jsonl and,
+// when present, catalog/community.jsonl.
 //
 // The page has no external dependencies: all CSS and JS are inlined and every
 // media URL is relative to the generated HTML, so it works from file://.
@@ -11,6 +12,10 @@
 //   "mime" - IANA type of that file
 // Older indexes without these still render; the bundle's asset.json is used to
 // locate a playable/viewable file.
+//
+// Community records carry "contributor" (GitHub login) and "license" and are
+// tagged with scope "community" in the browser data. The curated catalog is
+// required; the community catalog is optional and may be empty.
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -38,8 +43,8 @@ async function main() {
   const index = await loadIndex(root);
 
   if (index.records.length === 0) {
-    console.error('Error: catalog/index.jsonl contains no asset records; nothing to build.');
-    console.error('       Add bundles to assets/ and re-run the ingest script.');
+    console.error('Error: catalog/index.jsonl and catalog/community.jsonl contain no asset records; nothing to build.');
+    console.error('       Add bundles to assets/ or community/ and rebuild.');
     process.exitCode = 1;
     return;
   }
@@ -55,8 +60,11 @@ async function main() {
   await mkdir(path.dirname(outPath), { recursive: true });
   await writeFile(outPath, html, 'utf8');
 
+  const curatedCount = assets.filter((asset) => asset.scope === 'curated').length;
+  const communityCount = assets.length - curatedCount;
   const kib = (Buffer.byteLength(html, 'utf8') / 1024).toFixed(1);
-  console.log('Built gallery: ' + assets.length + ' assets, ' + kib + ' KB -> ' + outPath);
+  console.log('Built gallery: ' + assets.length + ' assets (' + curatedCount + ' curated, ' +
+    communityCount + ' community), ' + kib + ' KB -> ' + outPath);
 }
 
 async function loadSplatViewer() {
@@ -115,16 +123,33 @@ function printUsage() {
 }
 
 async function loadIndex(root) {
-  const indexPath = path.join(root, 'catalog', 'index.jsonl');
+  const curated = await loadCatalog(root, {
+    file: 'index.jsonl',
+    scope: 'curated',
+    required: true,
+  });
+  const community = await loadCatalog(root, {
+    file: 'community.jsonl',
+    scope: 'community',
+    required: false,
+  });
+
+  return { records: curated.records.concat(community.records) };
+}
+
+async function loadCatalog(root, options) {
+  const catalogPath = path.join(root, 'catalog', options.file);
+  const label = 'catalog/' + options.file;
   let text;
 
   try {
-    text = await readFile(indexPath, 'utf8');
+    text = await readFile(catalogPath, 'utf8');
   } catch (error) {
     if (error.code === 'ENOENT') {
-      throw new Error('catalog/index.jsonl was not found at ' + indexPath);
+      if (!options.required) return { records: [] };
+      throw new Error(label + ' was not found at ' + catalogPath);
     }
-    throw new Error('Cannot read ' + indexPath + ': ' + error.message);
+    throw new Error('Cannot read ' + catalogPath + ': ' + error.message);
   }
 
   const records = [];
@@ -139,13 +164,13 @@ async function loadIndex(root) {
     try {
       raw = JSON.parse(line);
     } catch (error) {
-      console.warn('Warning: line ' + lineNo + ': invalid JSON (' + error.message + '); skipped.');
+      console.warn('Warning: ' + label + ':' + lineNo + ': invalid JSON (' + error.message + '); skipped.');
       return;
     }
 
-    const result = validateRecord(raw, lineNo, seenIds);
+    const result = validateRecord(raw, lineNo, seenIds, options.scope, label);
     if (result.error) {
-      console.warn('Warning: line ' + lineNo + ': ' + result.error + '; skipped.');
+      console.warn('Warning: ' + label + ':' + lineNo + ': ' + result.error + '; skipped.');
       return;
     }
 
@@ -156,7 +181,7 @@ async function loadIndex(root) {
   return { records };
 }
 
-function validateRecord(raw, lineNo, seenIds) {
+function validateRecord(raw, lineNo, seenIds, scope, label) {
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
     return { error: 'record is not a JSON object' };
   }
@@ -177,14 +202,23 @@ function validateRecord(raw, lineNo, seenIds) {
 
   let preview = cleanString(raw.preview).replace(/\\/g, '/').replace(/^\.\//, '');
   if (preview && !isSafeRelative(preview)) {
-    console.warn('Warning: line ' + lineNo + ': unsafe "preview" path; using a placeholder.');
+    console.warn('Warning: ' + label + ':' + lineNo + ': unsafe "preview" path; using a placeholder.');
     preview = '';
   }
 
   let file = cleanString(raw.file).replace(/\\/g, '/').replace(/^\.\//, '');
   if (file && !isSafeRelative(file)) {
-    console.warn('Warning: line ' + lineNo + ': unsafe "file" path; ignoring it.');
+    console.warn('Warning: ' + label + ':' + lineNo + ': unsafe "file" path; ignoring it.');
     file = '';
+  }
+
+  const contributor = cleanString(raw.contributor);
+  const license = cleanString(raw.license);
+  if (scope === 'community' && !contributor) {
+    console.warn('Warning: ' + label + ':' + lineNo + ': community record has no "contributor".');
+  }
+  if (scope === 'community' && !license) {
+    console.warn('Warning: ' + label + ':' + lineNo + ': community record has no "license".');
   }
 
   const tags = Array.isArray(raw.tags)
@@ -193,6 +227,7 @@ function validateRecord(raw, lineNo, seenIds) {
 
   return {
     record: {
+      scope,
       id,
       kind,
       role: cleanString(raw.role),
@@ -205,6 +240,8 @@ function validateRecord(raw, lineNo, seenIds) {
       dir,
       bytes: toBytes(raw.bytes),
       added: cleanString(raw.added),
+      contributor,
+      license,
     },
   };
 }
@@ -307,6 +344,7 @@ function toAsset(entry, bundle, root, outPath) {
   );
 
   return {
+    scope: entry.scope,
     id: entry.id,
     kind: entry.kind,
     role: entry.role,
@@ -322,6 +360,11 @@ function toAsset(entry, bundle, root, outPath) {
     dir: entry.dir,
     bytes: entry.bytes,
     added: entry.added,
+    contributor: entry.scope === 'community' ? entry.contributor : '',
+    contributorUrl: entry.scope === 'community' && entry.contributor
+      ? 'https://github.com/' + encodeURIComponent(entry.contributor)
+      : '',
+    license: entry.scope === 'community' ? entry.license : '',
     md: prefix + 'asset.md',
     json: prefix + 'asset.json',
     files,
@@ -522,6 +565,8 @@ select{
   border:1px solid var(--accent);background:var(--accent-soft);color:var(--text);
   padding:.45rem .85rem;border-radius:8px;
 }
+a.button{display:inline-block;text-decoration:none}
+.add-asset{white-space:nowrap}
 .button:hover{filter:brightness(1.08)}
 .button:disabled{opacity:.45;cursor:not-allowed;filter:none}
 .button.subtle{border-color:var(--line);background:var(--panel2);color:var(--muted)}
@@ -582,6 +627,13 @@ select{
   border-radius:999px;padding:.1rem .45rem;overflow-wrap:anywhere;
 }
 .tag-more{font-size:.7rem;color:var(--muted);align-self:center}
+.card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;min-width:0}
+.community-badge{
+  display:inline-block;border:1px solid var(--accent);background:var(--accent-soft);
+  color:var(--accent);border-radius:999px;padding:.05rem .45rem;line-height:1.4;
+  font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.card-contributor{font-size:.76rem;color:var(--muted);overflow-wrap:anywhere}
 .placeholder{
   position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:.3rem;margin:8px;border:1px dashed var(--line);border-radius:8px;
@@ -828,6 +880,7 @@ audio{width:100%}
     <input id="search" type="search" placeholder="id, title, summary, tags, role" autocomplete="off">
   </div>
   <div class="controls">
+    <a class="button subtle add-asset" href="../contribute/">Add asset</a>
     <div>
       <label for="sort">Sort</label>
       <select id="sort">
@@ -840,7 +893,7 @@ audio{width:100%}
     <button type="button" class="button subtle" id="theme" aria-label="Switch to light theme">Light mode</button>
   </div>
 </header>
-<nav class="kind-tabs" id="kind-tabs" aria-label="Filter by asset kind"></nav>
+<nav class="kind-tabs" id="kind-tabs" aria-label="Filter assets"></nav>
 <div class="layout">
   <aside class="facets" aria-labelledby="tags-heading">
     <div class="facets-head">
@@ -955,6 +1008,10 @@ const ASSETS = ${data};
   var vClose = document.getElementById('v-close');
 
   ASSETS.forEach(function (asset) {
+    asset.scope = asset.scope === 'community' ? 'community' : 'curated';
+    asset.contributor = typeof asset.contributor === 'string' ? asset.contributor : '';
+    asset.contributorUrl = typeof asset.contributorUrl === 'string' ? asset.contributorUrl : '';
+    asset.license = typeof asset.license === 'string' ? asset.license : '';
     asset.tags = Array.isArray(asset.tags) ? asset.tags : [];
     asset.files = Array.isArray(asset.files) ? asset.files : [];
     asset.technical = asset.technical && typeof asset.technical === 'object' ? asset.technical : {};
@@ -965,9 +1022,10 @@ const ASSETS = ${data};
         asset.parsedTags.push({ namespace: tag.slice(0, at), value: tag.slice(at + 1) });
       }
     });
-    asset.searchText = [asset.id, asset.title, asset.summary, asset.role, asset.kind, asset.tags.join(' ')]
-      .join(' ')
-      .toLowerCase();
+    asset.searchText = [
+      asset.id, asset.title, asset.summary, asset.role, asset.kind, asset.scope,
+      asset.contributor, asset.license, asset.tags.join(' ')
+    ].join(' ').toLowerCase();
     asset.timestamp = Date.parse(asset.added || '') || 0;
     byId[asset.id] = asset;
   });
@@ -1078,11 +1136,14 @@ const ASSETS = ${data};
 
   function buildTabs() {
     var counts = Object.create(null);
+    var communityCount = 0;
     ASSETS.forEach(function (asset) {
       counts[asset.kind] = (counts[asset.kind] || 0) + 1;
+      if (asset.scope === 'community') communityCount += 1;
     });
 
     addTab('all', 'All', ASSETS.length);
+    addTab('community', 'Community', communityCount);
     KINDS.forEach(function (kind) {
       if (counts[kind]) addTab(kind, kind.charAt(0).toUpperCase() + kind.slice(1), counts[kind]);
     });
@@ -1219,9 +1280,10 @@ const ASSETS = ${data};
 
   function render() {
     var list = ASSETS.filter(function (asset) {
-      return (state.kind === 'all' || asset.kind === state.kind) &&
-        matchesQuery(asset) &&
-        matchesTags(asset);
+      var kindMatch = state.kind === 'all' ||
+        (state.kind === 'community' ? asset.scope === 'community' : asset.kind === state.kind);
+
+      return kindMatch && matchesQuery(asset) && matchesTags(asset);
     });
 
     sortList(list);
@@ -1297,6 +1359,15 @@ const ASSETS = ${data};
 
     var body = el('span', 'card-body');
     body.appendChild(el('span', 'card-title', asset.title));
+
+    if (asset.scope === 'community') {
+      var scopeRow = el('span', 'card-meta');
+      scopeRow.appendChild(el('span', 'community-badge', 'Community'));
+      if (asset.contributor) {
+        scopeRow.appendChild(el('span', 'card-contributor', '@' + asset.contributor));
+      }
+      body.appendChild(scopeRow);
+    }
 
     var badge = el('span', 'badge');
     badge.appendChild(el('span', 'badge-kind', asset.kind));
@@ -1433,6 +1504,10 @@ const ASSETS = ${data};
       vBadge.appendChild(el('span', 'badge-sep', ' / '));
       vBadge.appendChild(el('span', 'badge-role', asset.role));
     }
+    if (asset.scope === 'community') {
+      vBadge.appendChild(el('span', 'badge-sep', ' / '));
+      vBadge.appendChild(el('span', 'community-badge', 'Community'));
+    }
     vSummary.textContent = asset.summary || 'No summary.';
 
     fillMeta(asset);
@@ -1466,6 +1541,13 @@ const ASSETS = ${data};
     addMeta('Directory', asset.dir, true);
     if (asset.mime) addMeta('MIME type', asset.mime);
 
+    if (asset.scope === 'community') {
+      if (asset.contributor) {
+        addMetaLink('Contributor', '@' + asset.contributor, asset.contributorUrl);
+      }
+      if (asset.license) addMeta('License', asset.license);
+    }
+
     Object.keys(asset.technical).forEach(function (key) {
       if (key === 'palette') return;
       var text = formatTech(key, asset.technical[key]);
@@ -1482,6 +1564,23 @@ const ASSETS = ${data};
     } else {
       dd.textContent = value;
     }
+    vMeta.appendChild(dt);
+    vMeta.appendChild(dd);
+  }
+
+  function addMetaLink(label, value, href) {
+    if (!href || (href.indexOf('https://') !== 0 && href.indexOf('http://') !== 0)) {
+      addMeta(label, value);
+      return;
+    }
+
+    var dt = el('dt', null, label);
+    var dd = document.createElement('dd');
+    var link = el('a', null, value);
+    link.href = href;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    dd.appendChild(link);
     vMeta.appendChild(dt);
     vMeta.appendChild(dd);
   }

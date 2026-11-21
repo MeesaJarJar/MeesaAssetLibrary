@@ -22,6 +22,14 @@ original files.
 - Raw dumps and scratch captures. Those go to `_inbox/` and are never
   authoritative until promoted into a bundle.
 
+## Community uploads
+
+Invited collaborators publish community assets directly through the
+[contribute page](contribute/). Community bundles live under `community/` and
+are indexed separately in `catalog/community.jsonl`; they appear in the gallery
+with a Community badge and contributor attribution, and never mix with the
+curated `assets/` tree.
+
 ## Quick start
 
 1. Read `AGENTS.md` for the navigation contract.

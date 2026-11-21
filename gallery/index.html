@@ -89,6 +89,8 @@ select{
   border:1px solid var(--accent);background:var(--accent-soft);color:var(--text);
   padding:.45rem .85rem;border-radius:8px;
 }
+a.button{display:inline-block;text-decoration:none}
+.add-asset{white-space:nowrap}
 .button:hover{filter:brightness(1.08)}
 .button:disabled{opacity:.45;cursor:not-allowed;filter:none}
 .button.subtle{border-color:var(--line);background:var(--panel2);color:var(--muted)}
@@ -149,6 +151,13 @@ select{
   border-radius:999px;padding:.1rem .45rem;overflow-wrap:anywhere;
 }
 .tag-more{font-size:.7rem;color:var(--muted);align-self:center}
+.card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;min-width:0}
+.community-badge{
+  display:inline-block;border:1px solid var(--accent);background:var(--accent-soft);
+  color:var(--accent);border-radius:999px;padding:.05rem .45rem;line-height:1.4;
+  font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.card-contributor{font-size:.76rem;color:var(--muted);overflow-wrap:anywhere}
 .placeholder{
   position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:.3rem;margin:8px;border:1px dashed var(--line);border-radius:8px;
@@ -395,6 +404,7 @@ audio{width:100%}
     <input id="search" type="search" placeholder="id, title, summary, tags, role" autocomplete="off">
   </div>
   <div class="controls">
+    <a class="button subtle add-asset" href="../contribute/">Add asset</a>
     <div>
       <label for="sort">Sort</label>
       <select id="sort">
@@ -407,7 +417,7 @@ audio{width:100%}
     <button type="button" class="button subtle" id="theme" aria-label="Switch to light theme">Light mode</button>
   </div>
 </header>
-<nav class="kind-tabs" id="kind-tabs" aria-label="Filter by asset kind"></nav>
+<nav class="kind-tabs" id="kind-tabs" aria-label="Filter assets"></nav>
 <div class="layout">
   <aside class="facets" aria-labelledby="tags-heading">
     <div class="facets-head">
@@ -1073,7 +1083,7 @@ window.MeesaSplat = { parsePly: parsePly, mountSplatViewer: mountSplatViewer };
 })();
 </script>
 <script>
-const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","title":"Mossy Cobblestone Texture","summary":"Seamless 768x768 top-down cobblestone with wet grey stones and green moss packed into the joints, generated prompt-only with a seamless model patch. Use for forest ruins, dungeon floors and overgrown paths; tiles cleanly on both axes at 1x, and the matching normal/height maps came from the same run.","tags":["subject:environment/stone","style:realistic","use:tileset","palette:mossy-green","format:png","engine:any"],"preview":"../assets/image/texture/000009-mossy-cobblestone-texture/preview.webp","file":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png","mime":"image/png","tileable":true,"splat":false,"technical":{"width":768,"height":768,"alpha":false,"tileable":true,"palette":null},"dir":"assets/image/texture/000009-mossy-cobblestone-texture","bytes":1051668,"added":"2026-11-21","md":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.md","json":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.json","files":[{"path":"src/Albedo_00001_.png","bytes":1051668,"mime":"image/png","url":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png"}]},{"id":"SND-AMBIENCE-000010","kind":"audio","role":"ambience","title":"Mossloop Ambience","summary":"Six-second stereo ambient bed of stacked low sine tones (G3, D4, G4) with slow tremolo, echo and fade in/out. Use as a quiet forest or menu loop; the fade makes it loop cleanly at six seconds.","tags":["subject:ambience/forest","style:clean-synth","use:ambience","palette:mossy-green","format:ogg","engine:any"],"preview":"../assets/audio/ambience/000010-mossloop-ambience/preview.png","file":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg","mime":"audio/ogg","tileable":false,"splat":false,"technical":{"duration_s":6,"sample_rate":44100,"channels":2,"loopable":true},"dir":"assets/audio/ambience/000010-mossloop-ambience","bytes":19515,"added":"2026-11-21","md":"../assets/audio/ambience/000010-mossloop-ambience/asset.md","json":"../assets/audio/ambience/000010-mossloop-ambience/asset.json","files":[{"path":"src/demo-ambience.ogg","bytes":19515,"mime":"audio/ogg","url":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg"}]},{"id":"VID-CAPTURE-000011","kind":"video","role":"capture","title":"Mossy Tile Camera Loop","summary":"Six-second 1280x720 camera drift across the mossy cobblestone texture, pushing in slowly with a gentle sway. Use to demonstrate video playback or as a placeholder ambience plate; the still it was rendered from is the tileable texture bundle.","tags":["subject:environment/stone","style:realistic","use:reference","palette:mossy-green","format:mp4","engine:any"],"preview":"../assets/video/capture/000011-mossy-tile-camera-loop/preview.webp","file":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4","mime":"video/mp4","tileable":false,"splat":false,"technical":{"duration_s":6,"resolution":"1280x720","fps":24,"codec":"h264"},"dir":"assets/video/capture/000011-mossy-tile-camera-loop","bytes":893337,"added":"2026-11-21","md":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.md","json":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.json","files":[{"path":"src/demo-tile-loop.mp4","bytes":893337,"mime":"video/mp4","url":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4"}]},{"id":"MDL-PROP-000012","kind":"model","role":"prop","title":"Sword Totem Splat","summary":"32,768-splat Gaussian reconstruction of a tall sword-shaped totem with a pale face at the guard, roughly 5.8 to 1 tall. Use to exercise the 3D splat viewer and as a stylized weapon or shrine prop reference; the PLY is the original and the poster is a viewport render.","tags":["subject:item/sword","style:realistic","use:reference","format:ply","engine:any"],"preview":"../assets/model/prop/000012-sword-totem-splat/preview.png","file":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply","mime":"application/octet-stream","tileable":false,"splat":true,"technical":{"format":"ply","splats":32768,"up_axis":"y","scale_units":"unknown"},"dir":"assets/model/prop/000012-sword-totem-splat","bytes":2228639,"added":"2026-11-21","md":"../assets/model/prop/000012-sword-totem-splat/asset.md","json":"../assets/model/prop/000012-sword-totem-splat/asset.json","files":[{"path":"src/splat-test.ply","bytes":2228639,"mime":"application/octet-stream","url":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply"}]}];
+const ASSETS = [{"scope":"curated","id":"IMG-TEXTURE-000009","kind":"image","role":"texture","title":"Mossy Cobblestone Texture","summary":"Seamless 768x768 top-down cobblestone with wet grey stones and green moss packed into the joints, generated prompt-only with a seamless model patch. Use for forest ruins, dungeon floors and overgrown paths; tiles cleanly on both axes at 1x, and the matching normal/height maps came from the same run.","tags":["subject:environment/stone","style:realistic","use:tileset","palette:mossy-green","format:png","engine:any"],"preview":"../assets/image/texture/000009-mossy-cobblestone-texture/preview.webp","file":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png","mime":"image/png","tileable":true,"splat":false,"technical":{"width":768,"height":768,"alpha":false,"tileable":true,"palette":null},"dir":"assets/image/texture/000009-mossy-cobblestone-texture","bytes":1051668,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.md","json":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.json","files":[{"path":"src/Albedo_00001_.png","bytes":1051668,"mime":"image/png","url":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png"}]},{"scope":"curated","id":"SND-AMBIENCE-000010","kind":"audio","role":"ambience","title":"Mossloop Ambience","summary":"Six-second stereo ambient bed of stacked low sine tones (G3, D4, G4) with slow tremolo, echo and fade in/out. Use as a quiet forest or menu loop; the fade makes it loop cleanly at six seconds.","tags":["subject:ambience/forest","style:clean-synth","use:ambience","palette:mossy-green","format:ogg","engine:any"],"preview":"../assets/audio/ambience/000010-mossloop-ambience/preview.png","file":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg","mime":"audio/ogg","tileable":false,"splat":false,"technical":{"duration_s":6,"sample_rate":44100,"channels":2,"loopable":true},"dir":"assets/audio/ambience/000010-mossloop-ambience","bytes":19515,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/audio/ambience/000010-mossloop-ambience/asset.md","json":"../assets/audio/ambience/000010-mossloop-ambience/asset.json","files":[{"path":"src/demo-ambience.ogg","bytes":19515,"mime":"audio/ogg","url":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg"}]},{"scope":"curated","id":"VID-CAPTURE-000011","kind":"video","role":"capture","title":"Mossy Tile Camera Loop","summary":"Six-second 1280x720 camera drift across the mossy cobblestone texture, pushing in slowly with a gentle sway. Use to demonstrate video playback or as a placeholder ambience plate; the still it was rendered from is the tileable texture bundle.","tags":["subject:environment/stone","style:realistic","use:reference","palette:mossy-green","format:mp4","engine:any"],"preview":"../assets/video/capture/000011-mossy-tile-camera-loop/preview.webp","file":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4","mime":"video/mp4","tileable":false,"splat":false,"technical":{"duration_s":6,"resolution":"1280x720","fps":24,"codec":"h264"},"dir":"assets/video/capture/000011-mossy-tile-camera-loop","bytes":893337,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.md","json":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.json","files":[{"path":"src/demo-tile-loop.mp4","bytes":893337,"mime":"video/mp4","url":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4"}]},{"scope":"curated","id":"MDL-PROP-000012","kind":"model","role":"prop","title":"Sword Totem Splat","summary":"32,768-splat Gaussian reconstruction of a tall sword-shaped totem with a pale face at the guard, roughly 5.8 to 1 tall. Use to exercise the 3D splat viewer and as a stylized weapon or shrine prop reference; the PLY is the original and the poster is a viewport render.","tags":["subject:item/sword","style:realistic","use:reference","format:ply","engine:any"],"preview":"../assets/model/prop/000012-sword-totem-splat/preview.png","file":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply","mime":"application/octet-stream","tileable":false,"splat":true,"technical":{"format":"ply","splats":32768,"up_axis":"y","scale_units":"unknown"},"dir":"assets/model/prop/000012-sword-totem-splat","bytes":2228639,"added":"2026-11-21","contributor":"","contributorUrl":"","license":"","md":"../assets/model/prop/000012-sword-totem-splat/asset.md","json":"../assets/model/prop/000012-sword-totem-splat/asset.json","files":[{"path":"src/splat-test.ply","bytes":2228639,"mime":"application/octet-stream","url":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply"}]}];
 (function () {
   'use strict';
 
@@ -1129,6 +1139,10 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
   var vClose = document.getElementById('v-close');
 
   ASSETS.forEach(function (asset) {
+    asset.scope = asset.scope === 'community' ? 'community' : 'curated';
+    asset.contributor = typeof asset.contributor === 'string' ? asset.contributor : '';
+    asset.contributorUrl = typeof asset.contributorUrl === 'string' ? asset.contributorUrl : '';
+    asset.license = typeof asset.license === 'string' ? asset.license : '';
     asset.tags = Array.isArray(asset.tags) ? asset.tags : [];
     asset.files = Array.isArray(asset.files) ? asset.files : [];
     asset.technical = asset.technical && typeof asset.technical === 'object' ? asset.technical : {};
@@ -1139,9 +1153,10 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
         asset.parsedTags.push({ namespace: tag.slice(0, at), value: tag.slice(at + 1) });
       }
     });
-    asset.searchText = [asset.id, asset.title, asset.summary, asset.role, asset.kind, asset.tags.join(' ')]
-      .join(' ')
-      .toLowerCase();
+    asset.searchText = [
+      asset.id, asset.title, asset.summary, asset.role, asset.kind, asset.scope,
+      asset.contributor, asset.license, asset.tags.join(' ')
+    ].join(' ').toLowerCase();
     asset.timestamp = Date.parse(asset.added || '') || 0;
     byId[asset.id] = asset;
   });
@@ -1252,11 +1267,14 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
 
   function buildTabs() {
     var counts = Object.create(null);
+    var communityCount = 0;
     ASSETS.forEach(function (asset) {
       counts[asset.kind] = (counts[asset.kind] || 0) + 1;
+      if (asset.scope === 'community') communityCount += 1;
     });
 
     addTab('all', 'All', ASSETS.length);
+    addTab('community', 'Community', communityCount);
     KINDS.forEach(function (kind) {
       if (counts[kind]) addTab(kind, kind.charAt(0).toUpperCase() + kind.slice(1), counts[kind]);
     });
@@ -1393,9 +1411,10 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
 
   function render() {
     var list = ASSETS.filter(function (asset) {
-      return (state.kind === 'all' || asset.kind === state.kind) &&
-        matchesQuery(asset) &&
-        matchesTags(asset);
+      var kindMatch = state.kind === 'all' ||
+        (state.kind === 'community' ? asset.scope === 'community' : asset.kind === state.kind);
+
+      return kindMatch && matchesQuery(asset) && matchesTags(asset);
     });
 
     sortList(list);
@@ -1471,6 +1490,15 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
 
     var body = el('span', 'card-body');
     body.appendChild(el('span', 'card-title', asset.title));
+
+    if (asset.scope === 'community') {
+      var scopeRow = el('span', 'card-meta');
+      scopeRow.appendChild(el('span', 'community-badge', 'Community'));
+      if (asset.contributor) {
+        scopeRow.appendChild(el('span', 'card-contributor', '@' + asset.contributor));
+      }
+      body.appendChild(scopeRow);
+    }
 
     var badge = el('span', 'badge');
     badge.appendChild(el('span', 'badge-kind', asset.kind));
@@ -1607,6 +1635,10 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
       vBadge.appendChild(el('span', 'badge-sep', ' / '));
       vBadge.appendChild(el('span', 'badge-role', asset.role));
     }
+    if (asset.scope === 'community') {
+      vBadge.appendChild(el('span', 'badge-sep', ' / '));
+      vBadge.appendChild(el('span', 'community-badge', 'Community'));
+    }
     vSummary.textContent = asset.summary || 'No summary.';
 
     fillMeta(asset);
@@ -1640,6 +1672,13 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
     addMeta('Directory', asset.dir, true);
     if (asset.mime) addMeta('MIME type', asset.mime);
 
+    if (asset.scope === 'community') {
+      if (asset.contributor) {
+        addMetaLink('Contributor', '@' + asset.contributor, asset.contributorUrl);
+      }
+      if (asset.license) addMeta('License', asset.license);
+    }
+
     Object.keys(asset.technical).forEach(function (key) {
       if (key === 'palette') return;
       var text = formatTech(key, asset.technical[key]);
@@ -1656,6 +1695,23 @@ const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","titl
     } else {
       dd.textContent = value;
     }
+    vMeta.appendChild(dt);
+    vMeta.appendChild(dd);
+  }
+
+  function addMetaLink(label, value, href) {
+    if (!href || (href.indexOf('https://') !== 0 && href.indexOf('http://') !== 0)) {
+      addMeta(label, value);
+      return;
+    }
+
+    var dt = el('dt', null, label);
+    var dd = document.createElement('dd');
+    var link = el('a', null, value);
+    link.href = href;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    dd.appendChild(link);
     vMeta.appendChild(dt);
     vMeta.appendChild(dd);
   }

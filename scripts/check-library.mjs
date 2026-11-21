@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Validate catalog/index.jsonl against the bundles under assets/.
+// Validate catalog/index.jsonl and, when present, catalog/community.jsonl
+// against the bundles they describe.
 
 import { createHash } from 'node:crypto';
 import { createReadStream } from 'node:fs';
@@ -23,18 +24,6 @@ async function main() {
   }
 
   const root = path.resolve(options.root || DEFAULT_ROOT);
-  const indexPath = path.join(root, 'catalog', 'index.jsonl');
-  let text;
-
-  try {
-    text = await readFile(indexPath, 'utf8');
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      console.log('Nothing to check: catalog/index.jsonl does not exist yet.');
-      return;
-    }
-    throw new Error('Cannot read ' + indexPath + ': ' + error.message);
-  }
 
   if (!options.quiet) console.log('Checking ' + root + ' ...');
 
@@ -51,38 +40,69 @@ async function main() {
     console.warn('WARN  ' + message);
   }
 
-  const entries = parseIndex(text, reportError, reportWarning);
+  const catalogs = [
+    { scope: 'curated', file: 'catalog/index.jsonl', prefix: 'index: ' },
+    { scope: 'community', file: 'catalog/community.jsonl', prefix: 'community/index: ' },
+  ];
   const knownDirs = new Set();
+  const counts = { curated: 0, community: 0 };
+  let foundCatalog = false;
 
-  for (const entry of entries) {
-    if (!entry.dir || !entry.safeDir) continue;
+  for (const catalog of catalogs) {
+    const catalogPath = path.join(root, ...catalog.file.split('/'));
+    let text;
 
-    knownDirs.add(dirKey(entry.dir));
-
-    const bundleDir = path.join(root, ...entry.dir.split('/'));
-    const bundleStat = await statSafe(bundleDir);
-
-    if (!bundleStat || !bundleStat.isDirectory()) {
-      reportError(entry.dir + ': index directory is missing or is not a directory');
-      continue;
+    try {
+      text = await readFile(catalogPath, 'utf8');
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw new Error('Cannot read ' + catalogPath + ': ' + error.message);
     }
 
-    await checkBundle(entry, bundleDir, root, reportError, reportWarning);
+    foundCatalog = true;
+    const scopedError = (message) => reportError(catalog.prefix + message);
+    const scopedWarning = (message) => reportWarning(catalog.prefix + message);
+    const entries = parseIndex(text, catalog, scopedError, scopedWarning);
+    counts[catalog.scope] = entries.length;
+
+    for (const entry of entries) {
+      if (!entry.dir || !entry.safeDir) continue;
+
+      knownDirs.add(dirKey(entry.dir));
+
+      const bundleDir = path.join(root, ...entry.dir.split('/'));
+      const bundleStat = await statSafe(bundleDir);
+
+      if (!bundleStat || !bundleStat.isDirectory()) {
+        scopedError(entry.dir + ': index directory is missing or is not a directory');
+        continue;
+      }
+
+      await checkBundle(entry, bundleDir, root, catalog, scopedError, scopedWarning);
+    }
+  }
+
+  if (!foundCatalog) {
+    console.log('Nothing to check: no catalog files exist yet.');
+    return;
   }
 
   await scanOrphans(root, knownDirs, reportWarning);
 
+  const totalEntries = counts.curated + counts.community;
   const errorWord = errorCount === 1 ? 'error' : 'errors';
   const warningWord = warningCount === 1 ? 'warning' : 'warnings';
-  console.log('Checked ' + entries.length + ' entries: ' +
+  console.log('Checked ' + totalEntries + ' entries (' + counts.curated + ' curated, ' +
+    counts.community + ' community): ' +
     errorCount + ' ' + errorWord + ', ' + warningCount + ' ' + warningWord + '.');
 
   process.exitCode = errorCount > 0 ? 1 : 0;
 }
 
-function parseIndex(text, reportError, reportWarning) {
+function parseIndex(text, catalog, reportError, reportWarning) {
   const entries = [];
   const seenIds = new Map();
+  const label = catalog.file;
   const lines = text.replace(/^\uFEFF/, '').split(/\r?\n/);
 
   lines.forEach((line, index) => {
@@ -93,28 +113,51 @@ function parseIndex(text, reportError, reportWarning) {
     try {
       raw = JSON.parse(line);
     } catch (error) {
-      reportError('catalog/index.jsonl:' + lineNo + ': invalid JSON (' + error.message + ')');
+      reportError(label + ':' + lineNo + ': invalid JSON (' + error.message + ')');
       return;
     }
 
     if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
-      reportError('catalog/index.jsonl:' + lineNo + ': entry is not a JSON object');
+      reportError(label + ':' + lineNo + ': entry is not a JSON object');
       return;
     }
 
     const entry = {
-      raw, lineNo, id: '', dir: '', safeDir: false,
+      raw, lineNo, scope: catalog.scope, id: '', dir: '', safeDir: false,
       file: '', mime: '', fileOk: false, mimeOk: false, legacy: false,
+      contributor: '', license: '', sha256: '',
     };
     entry.id = typeof raw.id === 'string' ? raw.id.trim() : '';
 
     if (!entry.id) {
-      reportError('catalog/index.jsonl:' + lineNo + ': missing or invalid "id"');
+      reportError(label + ':' + lineNo + ': missing or invalid "id"');
     } else if (seenIds.has(entry.id)) {
-      reportError('duplicate id "' + entry.id + '" at catalog/index.jsonl:' + lineNo +
+      reportError('duplicate id "' + entry.id + '" at ' + label + ':' + lineNo +
         ' (first seen at line ' + seenIds.get(entry.id) + ')');
     } else {
       seenIds.set(entry.id, lineNo);
+    }
+
+    if (catalog.scope === 'community' && entry.id && !entry.id.startsWith('COM-')) {
+      reportError(label + ':' + lineNo + ': community id "' + entry.id + '" must start with "COM-"');
+    }
+
+    if (catalog.scope === 'community') {
+      entry.contributor = typeof raw.contributor === 'string' ? raw.contributor.trim() : '';
+      entry.license = typeof raw.license === 'string' ? raw.license.trim() : '';
+
+      if (!entry.contributor) {
+        reportError(label + ':' + lineNo + ': missing or invalid "contributor"');
+      }
+      if (!entry.license) {
+        reportError(label + ':' + lineNo + ': missing or invalid "license"');
+      }
+
+      entry.sha256 = typeof raw.sha256 === 'string' ? raw.sha256.trim() : '';
+      if (!isSha256(entry.sha256)) {
+        reportError(label + ':' + lineNo +
+          ': "sha256" must be a 64-character hex string');
+      }
     }
 
     const dirValue = typeof raw.dir === 'string'
@@ -122,41 +165,43 @@ function parseIndex(text, reportError, reportWarning) {
       : '';
 
     if (!safeRelative(dirValue)) {
-      reportError('catalog/index.jsonl:' + lineNo + ': missing or unsafe "dir" (must be repo-relative)');
+      reportError(label + ':' + lineNo + ': missing or unsafe "dir" (must be repo-relative)');
+    } else if (catalog.scope === 'community' && !dirValue.startsWith('community/')) {
+      reportError(label + ':' + lineNo + ': community "dir" must start with "community/"');
     } else {
       entry.dir = dirValue;
       entry.safeDir = true;
     }
 
-    checkIndexKeys(entry, reportError, reportWarning);
-    checkTags(raw.tags, 'index', 'catalog/index.jsonl:' + lineNo, reportError, reportWarning);
+    checkIndexKeys(entry, label, reportError, reportWarning);
+    checkTags(raw.tags, 'index', label + ':' + lineNo, reportError, reportWarning);
     entries.push(entry);
   });
 
   return entries;
 }
 
-function checkIndexKeys(entry, reportError, reportWarning) {
+function checkIndexKeys(entry, label, reportError, reportWarning) {
   const raw = entry.raw;
-  const label = 'catalog/index.jsonl:' + entry.lineNo;
+  const lineLabel = label + ':' + entry.lineNo;
   const hasFile = Object.hasOwn(raw, 'file');
   const hasMime = Object.hasOwn(raw, 'mime');
 
   if (!hasFile && !hasMime) {
     entry.legacy = true;
-    reportWarning(label + ': legacy entry has no "file"/"mime" (rebuild the line to add them)');
+    reportWarning(lineLabel + ': legacy entry has no "file"/"mime" (rebuild the line to add them)');
     return;
   }
 
   if (!hasFile) {
-    reportError(label + ': missing "file"');
+    reportError(lineLabel + ': missing "file"');
   } else if (typeof raw.file !== 'string' || !raw.file.trim()) {
-    reportError(label + ': missing or invalid "file"');
+    reportError(lineLabel + ': missing or invalid "file"');
   } else {
     const file = raw.file.trim().replace(/\\/g, '/');
 
     if (!safeRelative(file)) {
-      reportError(label + ': unsafe "file" path "' + file + '" (must be repo-relative)');
+      reportError(lineLabel + ': unsafe "file" path "' + file + '" (must be repo-relative)');
     } else {
       entry.file = file;
       entry.fileOk = true;
@@ -164,16 +209,16 @@ function checkIndexKeys(entry, reportError, reportWarning) {
   }
 
   if (!hasMime) {
-    reportError(label + ': missing "mime"');
+    reportError(lineLabel + ': missing "mime"');
   } else if (typeof raw.mime !== 'string' || !raw.mime.trim()) {
-    reportError(label + ': missing or invalid "mime"');
+    reportError(lineLabel + ': missing or invalid "mime"');
   } else {
     entry.mime = raw.mime.trim();
     entry.mimeOk = true;
   }
 }
 
-async function checkBundle(entry, bundleDir, root, reportError, reportWarning) {
+async function checkBundle(entry, bundleDir, root, catalog, reportError, reportWarning) {
   const label = entry.dir;
 
   await checkIndexFile(entry, root, reportError);
@@ -215,6 +260,29 @@ async function checkBundle(entry, bundleDir, root, reportError, reportWarning) {
     reportError(label + ': asset.json id "' + bundleId + '" does not match index id "' + entry.id + '"');
   }
 
+  if (catalog.scope === 'community') {
+    const contributor = bundle.contributor;
+    const login = contributor && typeof contributor === 'object' && !Array.isArray(contributor) &&
+      typeof contributor.login === 'string'
+      ? contributor.login.trim()
+      : '';
+    const license = typeof bundle.license === 'string' ? bundle.license.trim() : '';
+
+    if (!login) {
+      reportError(label + ': asset.json "contributor.login" is missing or invalid');
+    } else if (entry.contributor && login !== entry.contributor) {
+      reportError(label + ': asset.json contributor.login "' + login +
+        '" does not match catalog contributor "' + entry.contributor + '"');
+    }
+
+    if (!license) {
+      reportError(label + ': asset.json "license" is missing or invalid');
+    } else if (entry.license && license !== entry.license) {
+      reportError(label + ': asset.json license "' + license +
+        '" does not match catalog license "' + entry.license + '"');
+    }
+  }
+
   // Catalogs may use a short numeric id (000001) or a namespaced id
   // (IMG-TILE-000001); in both cases the bundle's six-digit prefix must agree.
   const prefixMatch = /^(\d{6})(?:-|$)/.exec(path.basename(bundleDir));
@@ -234,7 +302,7 @@ async function checkBundle(entry, bundleDir, root, reportError, reportWarning) {
   checkTags(bundle.tags, 'asset.json', label, reportError, reportWarning);
   checkPrimaryMatch(entry, bundle, label, reportError);
   await checkPreview(entry.raw, bundle, bundleDir, label, reportError);
-  await checkFiles(bundle, bundleDir, label, reportError);
+  await checkFiles(bundle, bundleDir, label, catalog, reportError);
 }
 
 async function checkIndexFile(entry, root, reportError) {
@@ -281,6 +349,17 @@ function checkPrimaryMatch(entry, bundle, label, reportError) {
     } else if (entry.mime !== primaryMime) {
       reportError(label + ': index "mime" "' + entry.mime +
         '" does not match asset.json files[0].mime "' + primaryMime + '"');
+    }
+  }
+
+  if (entry.scope === 'community' && entry.sha256) {
+    const primarySha = typeof primary.sha256 === 'string' ? primary.sha256.trim() : '';
+
+    if (!primarySha) {
+      reportError(label + ': asset.json files[0] has a missing or invalid "sha256"');
+    } else if (primarySha.toLowerCase() !== entry.sha256.toLowerCase()) {
+      reportError(label + ': catalog "sha256" "' + entry.sha256 +
+        '" does not match asset.json files[0].sha256 "' + primarySha + '"');
     }
   }
 }
@@ -346,7 +425,7 @@ async function checkPreview(indexEntry, bundle, bundleDir, label, reportError) {
   }
 }
 
-async function checkFiles(bundle, bundleDir, label, reportError) {
+async function checkFiles(bundle, bundleDir, label, catalog, reportError) {
   if (bundle.files === undefined) return;
 
   if (!Array.isArray(bundle.files)) {
@@ -389,8 +468,13 @@ async function checkFiles(bundle, bundleDir, label, reportError) {
         file.bytes + ', actual ' + fileStat.size + ')');
     }
 
-    if (typeof file.sha256 === 'string' && file.sha256.trim()) {
-      const expected = file.sha256.trim().toLowerCase();
+    const shaValue = typeof file.sha256 === 'string' ? file.sha256.trim() : '';
+
+    if (catalog.scope === 'community' && !isSha256(shaValue)) {
+      reportError(label + ': file "' + relativePath +
+        '" sha256 must be a 64-character hex string');
+    } else if (shaValue) {
+      const expected = shaValue.toLowerCase();
       let actual;
 
       try {
@@ -478,6 +562,10 @@ function sameRepoPath(left, right) {
 function idIncludesPrefix(id, prefix) {
   const groups = id.match(/\d+/g) || [];
   return groups.includes(prefix);
+}
+
+function isSha256(value) {
+  return /^[0-9a-fA-F]{64}$/.test(value);
 }
 
 function parseArgs(argv) {

@@ -57,7 +57,7 @@ The first entry is the primary deliverable. The index mirrors its `path` and
 
 | Key | Type | Notes |
 | --- | --- | --- |
-| `origin` | string | `original`, `generated`, `captured` or `third-party` |
+| `origin` | string | `original`, `generated`, `captured`, `third-party`, or `community` for bundles under `community/` |
 | `tool` | string | authoring tool, pipeline or `""` when not applicable |
 | `captured` | string | ISO date `YYYY-MM-DD` the bytes entered the library |
 
@@ -103,6 +103,75 @@ Entries written before the `file` and `mime` keys existed are legacy.
 `check-library.mjs` accepts a legacy entry with exactly one warning. New ingest
 output always carries both keys, and a legacy line must be rewritten with them
 when it is next edited; an entry with only one of the two keys is an error.
+
+## Community catalog
+
+Community assets are contributed by invited collaborators and form a separate
+publication surface. They use the same bundle layout and metadata rules as
+curated assets, but they live under `community/` and are indexed in
+`catalog/community.jsonl`; they are never mixed into `assets/` or
+`catalog/index.jsonl`.
+
+```
+community/<kind>/<role>/<6-digit>-<slug>/
+  asset.json    schema 1 plus contributor and license
+  asset.md      LLM digest, same rules as curated bundles
+  preview.<ext> cheap thumbnail
+  src/          originals, one or more files
+```
+
+`catalog/community.jsonl` has one JSON object per line, one line per bundle.
+Keys are required and appear in exactly this order:
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `id` | string | `COM-KIND-NNNNNN`, e.g. `COM-IMG-000001`; matches `asset.json` |
+| `kind` | string | matches `asset.json` |
+| `role` | string | matches `asset.json` |
+| `title` | string | short human-readable name |
+| `summary` | string | when to use the asset, not just what it is |
+| `tags` | string[] | the same namespace:value tags as `asset.json` |
+| `preview` | string | bundle-relative preview filename |
+| `file` | string | repo-relative path to the primary deliverable; equals `<dir>/<files[0].path>` |
+| `mime` | string | MIME type of `file`; equals `asset.json.files[0].mime` |
+| `dir` | string | repo-relative bundle directory; must start with `community/` |
+| `bytes` | integer | exact size of the primary file on disk |
+| `sha256` | string | 64-character hex digest of the primary file |
+| `added` | string | ISO date `YYYY-MM-DD` the bundle entered the library |
+| `contributor` | string | GitHub login of the collaborator; required and non-empty |
+| `license` | string | license identifier; required and non-empty |
+
+`preview` is bundle-relative, while `file` and `dir` are repo-relative. The
+catalog repeats `contributor` and `license` so a consumer can attribute an asset
+without opening the bundle.
+
+```json
+{"id":"COM-IMG-000001","kind":"image","role":"concept","title":"Moss Gate","summary":"...","tags":["subject:structure/gate","style:painterly","use:concept-art","format:png","engine:any"],"preview":"preview.webp","file":"community/image/concept/000001-moss-gate/src/moss-gate.png","mime":"image/png","dir":"community/image/concept/000001-moss-gate","bytes":123456,"sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","added":"2026-11-21","contributor":"octocat","license":"CC-BY-4.0"}
+```
+
+### Community asset.json
+
+A community `asset.json` is schema 1 plus two required top-level keys:
+
+```json
+"contributor": {"login": "octocat", "url": "https://github.com/octocat"},
+"license": "CC-BY-4.0"
+```
+
+`contributor.url` is the collaborator's GitHub profile. `source.origin` is
+`"community"`. The contributor and license values must agree with the catalog
+line, and `files[].sha256` is mandatory for every community file.
+
+### Community IDs
+
+- Format: `COM-KIND-NNNNNN`, for example `COM-IMG-000001`, using the same kind
+  abbreviations as curated IDs.
+- The six-digit sequence is independent of the curated sequence: community
+  bundles start at `000001` and never consume a curated number.
+- The six digits must match the directory prefix.
+- IDs never change and sequences are never reused.
+- Community bundles never move into `assets/`, and curated bundles never move
+  into `community/`. The two trees and their catalogs stay separate.
 
 ## ID rules
 
