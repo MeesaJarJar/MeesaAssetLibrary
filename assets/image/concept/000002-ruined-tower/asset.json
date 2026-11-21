@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000002",
+  "kind": "image",
+  "role": "concept",
+  "title": "Ruined Tower on a Hill",
+  "summary": "512x384 painted key art: a broken stone tower silhouetted on a hill under an indigo-to-amber dusk sky; strong single focal point with open space on the left third for titles or UI.",
+  "tags": [
+    "subject:structure/tower",
+    "style:painted",
+    "use:concept-art",
+    "mood:melancholic",
+    "palette:twilight",
+    "format:svg",
+    "engine:any"
+  ],
+  "preview": "preview.svg",
+  "files": [
+    {
+      "path": "src/ruined-tower.svg",
+      "bytes": 4471,
+      "mime": "image/svg+xml",
+      "sha256": "3549d794faccbb1ab91ed36e837e0dd231a1e740f556efc951e3d3345f0d9eb4"
+    }
+  ],
+  "technical": {
+    "width": 512,
+    "height": 384,
+    "alpha": false,
+    "tileable": false,
+    "palette": [
+      "#10162a",
+      "#2b2f4a",
+      "#5c4c62",
+      "#a0715f",
+      "#e2b078",
+      "#12131b",
+      "#14151e"
+    ]
+  },
+  "source": {
+    "origin": "original",
+    "tool": "hand-authored SVG",
+    "captured": "2026-11-20"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": [
+      "demo-starter"
+    ]
+  },
+  "notes": "Flat layers only, no alpha; the hill and tower are merged, so treat it as a reference plate rather than a rigged or parallax-ready scene."
+}

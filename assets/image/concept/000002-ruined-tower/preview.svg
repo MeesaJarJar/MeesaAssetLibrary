@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="206" viewBox="0 0 240 206">
+  <defs>
+    <linearGradient id="psky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10162a"/>
+      <stop offset="0.45" stop-color="#2b2f4a"/>
+      <stop offset="0.68" stop-color="#5c4c62"/>
+      <stop offset="0.8" stop-color="#a0715f"/>
+      <stop offset="1" stop-color="#e2b078"/>
+    </linearGradient>
+    <clipPath id="frame">
+      <rect x="12" y="12" width="216" height="162" rx="4"/>
+    </clipPath>
+  </defs>
+  <rect width="240" height="206" rx="8" fill="#10120e"/>
+  <g clip-path="url(#frame)">
+    <rect x="12" y="12" width="216" height="162" fill="url(#psky)"/>
+    <circle cx="170" cy="46" r="9" fill="#e6dcc6" opacity="0.92"/>
+    <g fill="#cfd6ea" opacity="0.6">
+      <circle cx="34" cy="30" r="1"/>
+      <circle cx="92" cy="24" r="1.2"/>
+      <circle cx="132" cy="44" r="0.8"/>
+      <circle cx="200" cy="30" r="1"/>
+    </g>
+    <path d="M12 128 L38 112 L56 120 L80 104 L104 118 L128 106 L152 120 L174 108 L196 120 L214 112 L228 120 L228 174 L12 174 Z" fill="#2c3048"/>
+    <path d="M12 138 L42 130 L66 138 L90 126 L116 136 L142 128 L168 138 L192 128 L214 136 L228 130 L228 174 L12 174 Z" fill="#222536"/>
+    <path d="M76 152 L78 114 L79 104 L79 99 L82 99 L82 95 L85 95 L85 100 L87 100 L87 94 L90 94 L90 100 L92 100 L92 96 L94 96 L94 100 L96 100 L96 104 L99 107 L101 113 L103 119 L104 152 Z" fill="#12131b"/>
+    <path d="M104 152 L106 130 L109 128 L112 132 L114 152 Z" fill="#12131b"/>
+    <rect x="83" y="112" width="2" height="7" rx="1" fill="#f0b46a" opacity="0.55"/>
+    <rect x="97" y="128" width="2" height="5" rx="1" fill="#f0b46a" opacity="0.35"/>
+    <path d="M12 156 C30 149 52 145 74 147 C96 149 114 144 132 148 C154 153 178 147 200 150 C212 152 222 148 228 150 L228 174 L12 174 Z" fill="#14151e"/>
+  </g>
+  <rect x="12" y="12" width="216" height="162" rx="4" fill="none" stroke="#39422f"/>
+  <text x="12" y="192" font-family="monospace" font-size="9" fill="#8d9a86">IMG-CONCEPT-000002</text>
+  <text x="228" y="192" text-anchor="end" font-family="monospace" font-size="9" fill="#6f7d69">512x384</text>
+</svg>

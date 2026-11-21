@@ -1,0 +1,12 @@
+# OS junk
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+._*
+
+# Dependencies
+node_modules/
+
+# gallery/ is intentionally tracked: it is generated output that agents and
+# humans browse directly.

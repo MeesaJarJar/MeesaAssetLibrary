@@ -1,0 +1,15 @@
+{
+  "name": "meesa-asset-library",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local media asset library tooling: gallery builder, integrity checker, and static server.",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "gallery": "node scripts/build-gallery.mjs",
+    "check": "node scripts/check-library.mjs",
+    "serve": "node scripts/serve.mjs"
+  }
+}

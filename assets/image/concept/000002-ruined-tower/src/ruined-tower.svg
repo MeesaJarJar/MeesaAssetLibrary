@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="384" viewBox="0 0 512 384">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10162a"/>
+      <stop offset="0.4" stop-color="#2b2f4a"/>
+      <stop offset="0.62" stop-color="#5c4c62"/>
+      <stop offset="0.72" stop-color="#a0715f"/>
+      <stop offset="0.78" stop-color="#e2b078"/>
+      <stop offset="1" stop-color="#f0c48a"/>
+    </linearGradient>
+    <radialGradient id="moonGlow">
+      <stop offset="0" stop-color="#e8d9b6" stop-opacity="0.35"/>
+      <stop offset="0.5" stop-color="#cbb28c" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#cbb28c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fog" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b08a78" stop-opacity="0"/>
+      <stop offset="0.55" stop-color="#c09a86" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#b08a78" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="vignette" cx="0.5" cy="0.42" r="0.78">
+      <stop offset="0" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="0.68" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.48"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="512" height="384" fill="url(#sky)"/>
+
+  <g fill="#cfd6ea">
+    <circle cx="42" cy="38" r="1.2" opacity="0.7"/>
+    <circle cx="96" cy="66" r="0.9" opacity="0.5"/>
+    <circle cx="148" cy="30" r="1.4" opacity="0.8"/>
+    <circle cx="212" cy="58" r="1" opacity="0.55"/>
+    <circle cx="262" cy="26" r="0.8" opacity="0.45"/>
+    <circle cx="312" cy="72" r="1.3" opacity="0.6"/>
+    <circle cx="352" cy="36" r="0.9" opacity="0.5"/>
+    <circle cx="436" cy="54" r="1.1" opacity="0.65"/>
+    <circle cx="470" cy="24" r="0.8" opacity="0.4"/>
+    <circle cx="486" cy="112" r="1" opacity="0.45"/>
+    <circle cx="64" cy="118" r="0.8" opacity="0.35"/>
+    <circle cx="196" cy="108" r="0.9" opacity="0.3"/>
+  </g>
+
+  <circle cx="386" cy="92" r="78" fill="url(#moonGlow)"/>
+  <circle cx="386" cy="92" r="24" fill="#e6dcc6" opacity="0.92"/>
+  <circle cx="379" cy="86" r="4" fill="#c9bda2" opacity="0.5"/>
+  <circle cx="394" cy="99" r="6" fill="#c9bda2" opacity="0.35"/>
+
+  <g fill="#1b2137" opacity="0.55">
+    <ellipse cx="120" cy="150" rx="118" ry="9"/>
+    <ellipse cx="330" cy="172" rx="150" ry="8"/>
+    <ellipse cx="216" cy="128" rx="88" ry="6"/>
+    <ellipse cx="440" cy="140" rx="96" ry="7"/>
+  </g>
+
+  <path d="M0 268 L48 246 L86 258 L128 236 L170 256 L214 240 L262 258 L300 244 L344 260 L386 248 L430 262 L472 252 L512 264 L512 384 L0 384 Z" fill="#2c3048"/>
+  <path d="M0 292 L60 276 L104 286 L150 268 L196 282 L240 272 L292 286 L340 274 L392 288 L440 278 L486 290 L512 282 L512 384 L0 384 Z" fill="#222536"/>
+  <rect x="0" y="246" width="512" height="56" fill="url(#fog)"/>
+
+  <g fill="#12131b">
+    <path d="M128 316 L132 210 L134 192 L134 160 L134 148 L141 148 L141 160 L145 160 L145 146 L152 146 L152 160 L156 160 L156 150 L162 150 L162 160 L165 160 L165 154 L170 154 L170 166 L176 172 L182 186 L188 202 L192 316 Z"/>
+    <path d="M192 316 L196 260 L200 254 L208 258 L212 316 Z"/>
+    <path d="M128 316 L120 316 L126 270 L130 266 Z"/>
+  </g>
+  <g stroke="#1c1e2a" stroke-width="1" opacity="0.7">
+    <path d="M135 214 H186"/>
+    <path d="M135 246 H187"/>
+    <path d="M134 278 H189"/>
+  </g>
+  <g fill="#f0b46a">
+    <rect x="142" y="200" width="4" height="16" rx="2" opacity="0.5"/>
+    <rect x="170" y="238" width="4" height="13" rx="2" opacity="0.32"/>
+    <rect x="155" y="172" width="3" height="8" rx="1.5" opacity="0.22"/>
+  </g>
+
+  <path d="M0 322 C40 306 92 296 140 300 C182 303 214 296 248 302 C300 312 360 300 410 306 C452 311 486 304 512 308 L512 384 L0 384 Z" fill="#14151e"/>
+  <g fill="#101119">
+    <path d="M118 310 L124 302 L130 311 L122 314 Z"/>
+    <path d="M204 312 L210 304 L216 313 L208 316 Z"/>
+    <path d="M164 316 L170 309 L174 317 Z"/>
+  </g>
+  <g stroke="#1e2430" stroke-width="1.5" fill="none" opacity="0.7">
+    <path d="M92 330 q6 -8 10 -1"/>
+    <path d="M262 340 q7 -9 12 -2"/>
+    <path d="M360 326 q6 -8 11 -1"/>
+    <path d="M440 344 q7 -9 12 -2"/>
+  </g>
+
+  <g stroke="#0b0d16" stroke-width="2" fill="none" opacity="0.85">
+    <path d="M286 118 q5 -4 10 0 q5 -4 10 0"/>
+    <path d="M318 138 q4 -3 8 0 q4 -3 8 0"/>
+    <path d="M266 148 q3 -2 6 0 q3 -2 6 0"/>
+  </g>
+
+  <rect width="512" height="384" fill="url(#vignette)"/>
+</svg>

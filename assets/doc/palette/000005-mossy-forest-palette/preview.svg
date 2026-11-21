@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="122" viewBox="0 0 240 122">
+  <rect width="240" height="122" rx="8" fill="#10120e"/>
+  <g>
+    <rect x="14" y="14" width="24" height="64" rx="2" fill="#14201a"/>
+    <rect x="40.5" y="14" width="24" height="64" rx="2" fill="#223229"/>
+    <rect x="67" y="14" width="24" height="64" rx="2" fill="#3d5233"/>
+    <rect x="93.5" y="14" width="24" height="64" rx="2" fill="#55703c"/>
+    <rect x="120" y="14" width="24" height="64" rx="2" fill="#7d8f5f"/>
+    <rect x="146.5" y="14" width="24" height="64" rx="2" fill="#4a3a2a"/>
+    <rect x="173" y="14" width="24" height="64" rx="2" fill="#6a7365"/>
+    <rect x="199.5" y="14" width="24" height="64" rx="2" fill="#c9d2c0"/>
+  </g>
+  <g font-family="monospace" font-size="5.5" fill="#7b8875" text-anchor="middle">
+    <text x="26" y="90">#14201a</text>
+    <text x="52.5" y="90">#223229</text>
+    <text x="79" y="90">#3d5233</text>
+    <text x="105.5" y="90">#55703c</text>
+    <text x="132" y="90">#7d8f5f</text>
+    <text x="158.5" y="90">#4a3a2a</text>
+    <text x="185" y="90">#6a7365</text>
+    <text x="211.5" y="90">#c9d2c0</text>
+  </g>
+  <text x="14" y="110" font-family="monospace" font-size="9" fill="#8d9a86">DOC-PALETTE-000005</text>
+  <text x="226" y="110" text-anchor="end" font-family="monospace" font-size="9" fill="#6f7d69">8 swatches</text>
+</svg>
