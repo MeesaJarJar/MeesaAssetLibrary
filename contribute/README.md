@@ -157,7 +157,8 @@ attempt never rewrites or deletes existing files.
 
 The success screen shows the assigned ID, links to
 `https://meesajarjar.github.io/MeesaAssetLibrary/gallery/#asset=<ID>`, and notes
-that GitHub Pages usually rebuilds in about a minute.
+that GitHub Pages rebuilds and deploys the gallery automatically, usually within
+a few minutes.
 
 ## Security and privacy
 
@@ -230,15 +231,12 @@ community scope and contributor. The last run reported
 
 ## Known limitations
 
-- **The gallery is generated, not read live.** `scripts/build-gallery.mjs` now
-  understands `catalog/community.jsonl` and labels community entries, but
-  `gallery/index.html` is a build artifact. This page commits only the community
-  bundle and catalog line; it does not run the gallery builder. The success link
-  is issued as specified, but a new entry becomes visible after the gallery is
-  rebuilt and committed (for example with `npm run gallery`), or after whatever
-  automation the repository uses to rebuild Pages deploys the regenerated file.
-  The "about a minute" note assumes such a rebuild/deploy exists; a plain Pages
-  redeploy of an unchanged `gallery/index.html` will not add the entry.
+- **Deployment is automatic.** `scripts/build-gallery.mjs` understands
+  `catalog/community.jsonl` and labels community entries. The `Build and deploy
+  site` workflow runs the validator and builder on every push to `main`, then
+  deploys the generated gallery. A new entry normally appears within a few
+  minutes; the gallery HTML can be cached for up to 10 minutes, so a hard refresh
+  may be needed.
 - Audio and video previews depend on the browser's codecs. If a browser cannot
   decode a file, the page still accepts it, uploads a labelled placeholder
   preview, and records unknown technical values as `null`. WAV sample rates are

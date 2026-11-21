@@ -376,7 +376,7 @@ fieldset:disabled{opacity:.72}
     <p>Asset ID</p>
     <p><strong id="success-id" class="success-id mono" tabindex="-1"></strong></p>
     <p><a id="gallery-link" href="https://meesajarjar.github.io/MeesaAssetLibrary/gallery/" target="_blank" rel="noopener noreferrer">Open the live gallery entry</a></p>
-    <p class="muted" id="success-note">GitHub Pages usually rebuilds in about a minute. If the entry is not visible yet, wait and reload.</p>
+    <p class="muted" id="success-note">GitHub Pages rebuilds and deploys this automatically, usually within a few minutes. The gallery can stay cached for up to 10 minutes; hard-refresh if the new asset is not visible.</p>
     <div class="success-actions">
       <button id="again" class="button" type="button">Contribute another asset</button>
       <button id="success-signout" class="button subtle" type="button">Sign out</button>
@@ -2716,7 +2716,7 @@ fieldset:disabled{opacity:.72}
     dom.successPanel.hidden = false;
     dom.successId.textContent = result.id;
     dom.galleryLink.href = GALLERY_BASE + '#asset=' + encodeURIComponent(result.id);
-    dom.successNote.textContent = 'GitHub Pages usually rebuilds in about a minute. If the entry is not visible yet, wait and reload.' +
+    dom.successNote.textContent = 'GitHub Pages rebuilds and deploys this automatically, usually within a few minutes. The gallery can stay cached for up to 10 minutes; hard-refresh if the new asset is not visible.' +
       (result.attempts > 1 ? ' Published on attempt ' + result.attempts + ' after main moved.' : '');
     dom.successPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     dom.successId.focus();
