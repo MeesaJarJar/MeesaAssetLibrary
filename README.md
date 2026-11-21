@@ -1,5 +1,7 @@
 # Meesa Asset Library
 
+**Live gallery:** https://meesajarjar.github.io/MeesaAssetLibrary/
+
 A media asset library for game development, built for LLM agents first and
 humans second. Every asset is a self-describing bundle: machine-readable
 metadata, a short digest written for agents, a cheap thumbnail, and the
