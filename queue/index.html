@@ -1,0 +1,1556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:,">
+<title>Asset Requests - Meesa Asset Library</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  color-scheme:dark;
+  --bg:#0b0e14;--bg2:#10151d;--panel:#151b26;--panel2:#1b2331;
+  --text:#e6edf3;--muted:#9aa7b8;--line:#2a3444;
+  --accent:#7cc4ff;--accent-soft:#24384d;--good:#7ee0a3;--good-soft:#173326;
+  --warn:#ffd166;--warn-soft:#352b16;--danger:#ff9191;--danger-soft:#351d1d;
+  --chip:#1d2735;--focus:#ffd166;--shadow:0 14px 38px rgba(0,0,0,.34);
+}
+html,body{margin:0;min-height:100%}
+body{
+  background:
+    radial-gradient(1000px 560px at 12% -10%,#1b2a3d 0,transparent 68%),
+    radial-gradient(900px 500px at 100% 0,#15251f 0,transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+[hidden]{display:none!important}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:1rem;top:-4rem;z-index:20;background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:.5rem .8rem}
+.skip:focus{top:1rem}
+.site-header{
+  display:flex;gap:1rem;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;
+  padding:1rem clamp(1rem,3vw,2rem);border-bottom:1px solid var(--line);
+  background:rgba(16,21,29,.94);backdrop-filter:blur(8px);position:sticky;top:0;z-index:5;
+}
+.brand{display:flex;gap:.7rem;align-items:center;min-width:0}
+.brand-mark{
+  width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none;
+  border:1px solid #356080;background:linear-gradient(150deg,#24384d,#173326);
+  color:var(--accent);font-weight:800;font-size:.78rem;letter-spacing:.08em;
+}
+.brand h1{margin:0;font-size:1.15rem;letter-spacing:.01em}
+.brand p{margin:.1rem 0 0;color:var(--muted);font-size:.82rem}
+.header-links{display:flex;gap:.85rem;align-items:center;flex-wrap:wrap;font-size:.88rem}
+.wrap{width:min(1040px,100%);margin:0 auto;padding:1.4rem clamp(1rem,3vw,2rem) 4rem}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(1rem,2.4vw,1.5rem);box-shadow:var(--shadow);margin:0 0 1.15rem;
+  scroll-margin-top:5rem;
+}
+.panel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem}
+.panel h2{margin:0;font-size:1.2rem;letter-spacing:.005em}
+.panel h3{margin:0 0 .5rem;font-size:1rem}
+.panel p{margin:.35rem 0}
+.muted{color:var(--muted)}
+.small{font-size:.84rem}
+.hint{color:var(--muted);font-size:.82rem;margin:.35rem 0 0}
+.stack{display:grid;gap:1rem}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.95rem}
+.field{min-width:0}
+.field.full{grid-column:1 / -1}
+.field label,.field-label{display:block;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.34rem}
+.field .req{color:var(--warn)}
+input[type=text],input[type=password],input[type=search],select,textarea{
+  width:100%;padding:.62rem .72rem;border:1px solid var(--line);border-radius:9px;
+  background:#0f151f;transition:border-color .12s ease,box-shadow .12s ease;
+}
+textarea{resize:vertical;min-height:5rem;line-height:1.5}
+input:hover,select:hover,textarea:hover{border-color:#3a4a61}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,196,255,.12);outline:none}
+input:disabled,select:disabled,textarea:disabled{opacity:.55;cursor:not-allowed}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+fieldset:disabled{opacity:.72}
+.checkline{display:flex;gap:.6rem;align-items:flex-start;padding:.8rem;border:1px solid var(--line);border-radius:10px;background:#101823}
+.checkline input{margin:.28rem 0 0;accent-color:var(--accent);flex:none;width:1rem;height:1rem}
+.checkline label{margin:0;text-transform:none;letter-spacing:0;font-size:.92rem;font-weight:500;color:var(--text)}
+.button{
+  border:1px solid var(--accent);background:var(--accent-soft);color:var(--text);
+  padding:.55rem .95rem;border-radius:9px;font-weight:600;
+}
+.button:hover{filter:brightness(1.08)}
+.button:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.button.primary{background:#2d6d9b;border-color:#79c5ff;color:#fff}
+.button.subtle{border-color:var(--line);background:var(--panel2);color:var(--muted)}
+.button.subtle:hover{color:var(--text);border-color:var(--accent)}
+.actions{display:flex;gap:.65rem;align-items:center;flex-wrap:wrap;margin-top:1rem}
+.actions .spacer{flex:1}
+.link-button{background:none;border:0;color:var(--accent);padding:.15rem;border-radius:4px;text-decoration:underline;text-underline-offset:2px}
+.help{margin-top:1rem;border:1px solid var(--line);border-radius:10px;background:#101823;padding:.75rem .9rem}
+.help summary{cursor:pointer;font-weight:650}
+.help ol{margin:.55rem 0 0;padding-left:1.25rem}
+.help li{margin:.25rem 0}
+.identity{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;padding:.7rem;border:1px solid var(--line);border-radius:11px;background:#101823;margin-top:.9rem}
+.avatar{
+  width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;
+  border:1px solid #3f6380;background:linear-gradient(145deg,#24435c,#1a3028);
+  color:#d9efff;font-weight:750;letter-spacing:.04em;text-decoration:none;
+}
+.identity-text{display:flex;flex-direction:column;min-width:0}
+.identity-text strong{font-size:1rem;overflow-wrap:anywhere}
+.identity-text span{font-size:.8rem;color:var(--muted)}
+.identity .button{margin-left:auto}
+.notice{border:1px solid var(--line);border-radius:10px;padding:.75rem .9rem;margin:.75rem 0;background:var(--panel2);overflow-wrap:anywhere}
+.notice strong{display:block;margin-bottom:.15rem}
+.notice p{margin:.2rem 0}
+.notice.error{border-color:#7b3b3b;background:var(--danger-soft);color:#ffd6d6}
+.notice.warn{border-color:#63511f;background:var(--warn-soft);color:#ffe9ae}
+.notice.ok{border-color:#2e6247;background:var(--good-soft);color:#c9f7d9}
+.notice.info{border-color:#2e5066;background:#12212d;color:#cfe9fb}
+.notice ul{margin:.35rem 0 0;padding-left:1.25rem}
+.notice li{margin:.15rem 0}
+.badge{
+  display:inline-flex;align-items:center;gap:.3rem;border:1px solid var(--line);border-radius:999px;
+  background:var(--chip);color:var(--muted);padding:.12rem .5rem;font-size:.73rem;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+}
+.badge.good{border-color:#2e6247;background:var(--good-soft);color:#bdf2d0}
+.badge.warn{border-color:#63511f;background:var(--warn-soft);color:#ffe6a2}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem;margin:1rem 0}
+.stat{border:1px solid var(--line);border-radius:11px;background:#101823;padding:.8rem .9rem;min-width:0}
+.stat-value{display:block;font-size:1.65rem;font-weight:750;color:#d9f4ff;line-height:1.2;font-variant-numeric:tabular-nums}
+.stat-label{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
+.top-requesters{margin:1rem 0 .25rem}
+.top-requesters h3{margin-bottom:.35rem}
+.rank-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem}
+.rank-list li{
+  display:inline-flex;align-items:baseline;gap:.4rem;border:1px solid var(--line);border-radius:999px;
+  background:var(--chip);padding:.18rem .6rem;font-size:.82rem;
+}
+.rank-list .rank-count{color:var(--muted);font-size:.76rem}
+.toolbar{display:flex;gap:.65rem;align-items:flex-end;flex-wrap:wrap;margin:.9rem 0 .55rem}
+.toolbar .field{flex:1 1 240px}
+.toolbar .sort-field{flex:0 1 190px}
+.toolbar-actions{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.toolbar-actions .button{padding:.5rem .75rem;font-size:.86rem}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px;margin-top:.65rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem;min-width:760px}
+caption{text-align:left;padding:.55rem .75rem;color:var(--muted);font-size:.8rem}
+th,td{text-align:left;padding:.58rem .75rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:#101823;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:#171f2b}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.query-cell{font-weight:650;overflow-wrap:anywhere}
+.requester-cell{max-width:250px;overflow-wrap:anywhere}
+.note-cell{max-width:320px;overflow-wrap:anywhere}
+.note-cell .note-by{color:var(--muted);font-size:.78rem;white-space:nowrap}
+.stamp{white-space:nowrap;color:#c0ccdb;font-size:.82rem}
+.empty-state{
+  border:1px dashed #3a4a61;border-radius:11px;background:#101823;
+  padding:1.15rem 1.2rem;margin-top:.75rem;
+}
+.empty-state h3{margin:0 0 .35rem;font-size:1.02rem}
+.empty-state p{margin:.35rem 0;color:var(--muted);max-width:70ch}
+.empty-state p:last-child{margin-bottom:0}
+.list-status{min-height:1.3rem}
+pre.line{
+  margin:.6rem 0;padding:.7rem .8rem;border:1px solid var(--line);border-radius:9px;
+  background:#0b1018;color:#cfe9fb;white-space:pre-wrap;overflow-wrap:anywhere;
+  font-size:.82rem;line-height:1.5;
+}
+.counter{display:block;text-align:right;color:var(--muted);font-size:.78rem;margin-top:.15rem}
+.footer{border-top:1px solid var(--line);margin-top:2rem;padding-top:1rem;color:var(--muted);font-size:.8rem}
+.footer p{margin:.2rem 0}
+.nowrap{white-space:nowrap}
+@media (max-width:720px){
+  .form-grid{grid-template-columns:1fr}
+  .field.full{grid-column:auto}
+  .stats{grid-template-columns:1fr}
+  .identity .button{margin-left:0}
+  .site-header{align-items:flex-start}
+  .toolbar .field,.toolbar .sort-field{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">MAL</div>
+    <div>
+      <h1>Meesa Asset Library</h1>
+      <p>Asset request queue</p>
+    </div>
+  </div>
+  <nav class="header-links" aria-label="Library links">
+    <a href="../gallery/">Gallery</a>
+    <a href="../contribute/">Contribute</a>
+    <a href="https://github.com/MeesaJarJar/MeesaAssetLibrary" rel="noopener noreferrer">Repository</a>
+    <a href="../">Library home</a>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+  <section class="panel" aria-labelledby="queue-title">
+    <div class="panel-head">
+      <div>
+        <h2 id="queue-title">Asset request queue</h2>
+        <p class="muted small">Public demand for assets the library does not have yet. One JSON line per request in <code>catalog/asset-requests.jsonl</code>; counts are aggregated here.</p>
+      </div>
+      <span class="badge">Append only</span>
+    </div>
+
+    <div class="stats" aria-label="Queue totals">
+      <div class="stat">
+        <span class="stat-value" id="stat-requests">0</span>
+        <span class="stat-label">Total requests</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-topics">0</span>
+        <span class="stat-label">Unique topics</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="stat-requesters">0</span>
+        <span class="stat-label">Requesters</span>
+      </div>
+    </div>
+
+    <div class="top-requesters">
+      <h3>Top requesters</h3>
+      <ol class="rank-list" id="top-requesters">
+        <li class="muted small">No requests yet.</li>
+      </ol>
+    </div>
+
+    <p class="hint">A request is a demand signal, not an asset. Maintainers decide what to add; request lines are never ingested into <code>assets/</code> or <code>catalog/index.jsonl</code>.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="list-title">
+    <div class="panel-head">
+      <div>
+        <h2 id="list-title">Open requests</h2>
+        <p class="muted small">Aggregated by query. Each topic shows how many people asked, who asked, when it started, and the latest note.</p>
+      </div>
+      <span class="badge good" id="queue-badge" hidden>Queue loaded</span>
+    </div>
+
+    <div id="queue-error" class="notice error" role="alert" hidden>
+      <strong>Queue unavailable</strong>
+      <p id="queue-error-text">The public queue file could not be read.</p>
+      <p><button id="queue-retry" class="link-button" type="button">Retry the queue</button></p>
+    </div>
+
+    <div class="toolbar">
+      <div class="field">
+        <label for="filter">Filter</label>
+        <input id="filter" type="search" placeholder="query, note or requester" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field sort-field">
+        <label for="sort">Sort</label>
+        <select id="sort">
+          <option value="requests" selected>Most requested</option>
+          <option value="newest">Newest request</option>
+        </select>
+      </div>
+      <div class="toolbar-actions">
+        <button id="clear-filters" class="button subtle" type="button" disabled>Clear filters</button>
+        <button id="copy-queries" class="button subtle" type="button" disabled>Copy all queries</button>
+        <button id="download-json" class="button subtle" type="button" disabled>Download JSON</button>
+      </div>
+    </div>
+
+    <p id="list-status" class="hint list-status" role="status" aria-live="polite">Reading the public queue...</p>
+
+    <div id="table-wrap" class="table-wrap" hidden>
+      <table>
+        <caption>Requests are grouped by their lowercase query word.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Query</th>
+            <th scope="col">Requests</th>
+            <th scope="col">Requesters</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Latest note</th>
+          </tr>
+        </thead>
+        <tbody id="queue-body"></tbody>
+      </table>
+    </div>
+
+    <div id="queue-empty" class="empty-state" hidden>
+      <h3>No requests yet</h3>
+      <p>When a gallery search returns nothing, the gallery offers <strong>Submit to queue</strong>. An invited collaborator can then add one public line with the word they searched for and an optional note.</p>
+      <p>That line records demand. It does not create an asset, notify anyone directly, or change the catalog. Maintainers read the queue when choosing what to add next.</p>
+      <p><a href="../gallery/">Search the gallery</a> to see what already exists.</p>
+    </div>
+
+    <div id="filter-empty" class="empty-state" hidden>
+      <h3>No requests match this filter</h3>
+      <p>Try a different query, note or requester, or clear the filter to see the whole queue.</p>
+      <p><button id="filter-reset" class="button subtle" type="button">Clear filters</button></p>
+    </div>
+
+    <p id="invalid-note" class="hint" hidden></p>
+  </section>
+
+  <section class="panel" id="submit-panel" aria-labelledby="submit-title">
+    <div class="panel-head">
+      <div>
+        <h2 id="submit-title">Request an asset</h2>
+        <p class="muted small">Invited collaborators append one line to the public queue. Nothing is committed until you press Add to queue.</p>
+      </div>
+      <span class="badge">Collaborators only</span>
+    </div>
+
+    <div class="notice info">
+      <strong>How a request is stored</strong>
+      <p>The page reads <code>catalog/asset-requests.jsonl</code>, checks for your duplicate, then appends one newline-terminated JSON object with a single commit. The file is public and append-only; there are no counts in it.</p>
+    </div>
+
+    <div id="auth-status" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <form id="auth-form" method="post" novalidate>
+      <div id="token-area">
+        <div class="field">
+          <label for="token">Personal access token <span class="req" aria-hidden="true">*</span></label>
+          <input id="token" name="token" type="password" autocomplete="new-password" spellcheck="false" placeholder="github_pat_..." aria-describedby="token-hint">
+          <p id="token-hint" class="hint">Kept in this tab's sessionStorage only. It is sent only to api.github.com and is never placed in the URL, localStorage, logs or error text. <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">Create a fine-grained token</a>.</p>
+        </div>
+        <div class="actions">
+          <button id="connect" class="button primary" type="submit">Connect token</button>
+          <span class="muted small">Account and repository write access are checked before submitting is enabled.</span>
+        </div>
+      </div>
+    </form>
+
+    <details class="help" id="token-help">
+      <summary>How to create the token</summary>
+      <ol>
+        <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">github.com/settings/personal-access-tokens/new</a>.</li>
+        <li>Set <strong>Repository access</strong> to <strong>Only select repositories</strong>, then choose <strong>MeesaAssetLibrary</strong> only.</li>
+        <li>Under <strong>Permissions</strong>, set <strong>Contents</strong> to <strong>Read and write</strong>. No other permission is required.</li>
+        <li>Generate the token, paste it above, and connect. The page checks <code>GET /user</code> and <code>GET /repos/MeesaJarJar/MeesaAssetLibrary</code> and requires <code>permissions.push</code>.</li>
+      </ol>
+      <p class="hint">A token limited to another repository, or one without Contents read access, cannot read or append the queue.</p>
+    </details>
+
+    <div id="signed-in" class="identity" hidden>
+      <a id="profile-link" class="avatar" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile"><span id="avatar-initials" aria-hidden="true"></span></a>
+      <div class="identity-text">
+        <span>Signed in as</span>
+        <strong id="user-login"></strong>
+      </div>
+      <button id="signout" class="button subtle" type="button">Sign out</button>
+    </div>
+
+    <div id="blocked-message" class="notice error" role="alert" hidden>
+      <strong id="blocked-text"></strong>
+      <p>Only collaborators invited by MeesaJarJar can submit. To request access, contact <a href="https://discord.com/users/221046791976517633" target="_blank" rel="noopener noreferrer">MeesaJarJar on Discord</a> &mdash; user ID <code>221046791976517633</code>. Submitting stays disabled until a collaborator token is connected.</p>
+    </div>
+
+    <form id="request-form" method="post" novalidate>
+      <div class="form-grid">
+        <div class="field full">
+          <label for="query">Query <span class="req" aria-hidden="true">*</span></label>
+          <input id="query" name="query" type="text" maxlength="30" pattern="[a-z]{3,30}" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="treant" aria-describedby="query-hint">
+          <p id="query-hint" class="hint">One lowercase English word, 3-30 letters. The gallery prefills this from the failed search.</p>
+        </div>
+        <div class="field full">
+          <label for="note">Note (optional)</label>
+          <textarea id="note" name="note" rows="3" maxlength="280" placeholder="What would you use it for? Style, role, format or licence needs." aria-describedby="note-hint note-count"></textarea>
+          <span id="note-count" class="counter">0 / 280</span>
+          <p id="note-hint" class="hint">Public. Keep it short and factual; do not include personal or sensitive information.</p>
+        </div>
+      </div>
+
+      <p id="dict-status" class="hint" role="status" aria-live="polite">Loading the common-word list...</p>
+      <div id="dict-error" class="notice warn" role="alert" hidden>
+        <strong>Word list unavailable</strong>
+        <p>The page could not load <code>../catalog/words.txt</code>, so submissions are blocked to avoid typos and unusable one-off words.</p>
+        <p><button id="dict-retry" class="link-button" type="button">Retry the word list</button></p>
+      </div>
+
+      <div id="submit-status" class="notice info" role="status" aria-live="polite" hidden></div>
+      <div id="submit-error" class="notice error" role="alert" hidden></div>
+
+      <div class="actions">
+        <button id="submit" class="button primary" type="submit" disabled>Add to queue</button>
+        <span id="submit-hint" class="muted small">Connect a collaborator token to submit.</span>
+      </div>
+    </form>
+
+    <section id="success-panel" class="notice ok" aria-labelledby="success-title" hidden>
+      <h3 id="success-title" tabindex="-1">Request added</h3>
+      <p>This line is now in the queue file:</p>
+      <pre class="line mono" id="success-line"></pre>
+      <p class="muted small" id="success-note">The table above includes it immediately. The public file updates after GitHub Pages deploys, usually within a few minutes. The token stays connected.</p>
+      <p class="hint" id="success-commit" hidden></p>
+    </section>
+  </section>
+
+  <footer class="footer">
+    <p>Requests are recorded in <code>catalog/asset-requests.jsonl</code> and aggregated by this page at read time. They are not assets.</p>
+    <p>The page is self-contained. It loads no third-party scripts, fonts or trackers.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var OWNER = 'MeesaJarJar';
+  var REPO = 'MeesaAssetLibrary';
+  var BRANCH = 'main';
+  var API = 'https://api.github.com';
+  var QUEUE_PATH = 'catalog/asset-requests.jsonl';
+  var SESSION_KEY = 'mesa.assetlibrary.queue.token';
+  var MAX_NOTE = 280;
+  var RETRY_LIMIT = 3;
+  var DATE_LOCALE = 'en-US';
+
+  // Function words do not describe an asset, so they are rejected even though
+  // the frequency dictionary contains them.
+  var STOPWORDS = new Set([
+    'the', 'and', 'for', 'with', 'from', 'this', 'that', 'these', 'those',
+    'into', 'onto', 'over', 'under', 'about', 'after', 'before', 'again',
+    'also', 'just', 'only', 'very', 'some', 'any', 'all', 'not', 'but',
+    'you', 'your', 'yours', 'are', 'was', 'were', 'been', 'being', 'have',
+    'has', 'had', 'does', 'did', 'doing', 'can', 'could', 'should', 'would',
+    'will', 'shall', 'may', 'might', 'must', 'its', 'it', 'of', 'to', 'in',
+    'on', 'at', 'by', 'as', 'or', 'an', 'is', 'be', 'do', 'if', 'so', 'up',
+    'out', 'no', 'yes', 'one', 'two', 'please', 'want', 'need', 'make',
+    'made', 'new', 'more', 'most', 'other', 'then', 'than', 'when', 'where',
+    'which', 'who', 'whom', 'why', 'how', 'what', 'there', 'here', 'they',
+    'them', 'their', 'we', 'our', 'us', 'he', 'she', 'his', 'her', 'him',
+    'me', 'my', 'mine', 'via', 'per', 'etc'
+  ]);
+
+  // Clinical, intentionally short. Requests are public, so sexual and hate
+  // terms are refused before the dictionary is consulted.
+  var BLOCKLIST = new Set([
+    'sex', 'sexy', 'sexual', 'porn', 'porno', 'pornography', 'nude', 'nudes',
+    'naked', 'erotic', 'erotica', 'hentai', 'nsfw', 'fetish', 'genital',
+    'genitals', 'penis', 'vagina', 'vulva', 'anus', 'anal', 'blowjob',
+    'handjob', 'orgasm', 'orgy', 'incest', 'rape', 'raped', 'rapist',
+    'molest', 'molested', 'pedo', 'pedophile', 'loli', 'lolita',
+    'bestiality', 'beastiality', 'masturbate', 'masturbation', 'prostitute',
+    'whores', 'whore', 'sluts', 'slut', 'dick', 'cock', 'pussy', 'tits',
+    'titties', 'boobs', 'nigger', 'nigga', 'faggot', 'fag', 'dyke', 'tranny',
+    'retard', 'spic', 'kike', 'chink', 'wetback', 'raghead', 'coon', 'nazi',
+    'swastika', 'kkk', 'hate', 'hated', 'hateful', 'hatred', 'racist',
+    'racists', 'racism', 'bigot', 'bigots', 'bigotry', 'genocide', 'slur',
+    'slurs', 'terrorist', 'terrorists', 'terrorism', 'fuck', 'fucking',
+    'fucked', 'shit', 'shitty', 'bitch', 'bitches', 'asshole', 'assholes',
+    'bastard', 'bastards'
+  ]);
+
+  // A generic frequency list has no fantasy or pipeline vocabulary. These game
+  // terms are accepted in addition to catalog/words.txt, which stays upstream.
+  var GENRE_WORDS = new Set([
+    'treant', 'treants', 'ent', 'ents', 'dryad', 'dryads', 'golem', 'golems',
+    'mimic', 'mimics', 'grimoire', 'mana', 'loot', 'npc', 'npcs', 'respawn',
+    'roguelike', 'metroidvania', 'isometric', 'voxel', 'voxels', 'lowpoly',
+    'tileset', 'tilesets', 'spritesheet', 'spritesheets', 'pixelart', 'hitbox',
+    'mob', 'mobs', 'dungeon', 'dungeons', 'quest', 'quests', 'crafting',
+    'inventory', 'wyvern', 'wyverns', 'goblin', 'goblins', 'orc', 'orcs',
+    'elf', 'elves', 'dwarf', 'dwarves', 'steampunk', 'cyberpunk', 'scifi',
+    'eldritch', 'cthulhu', 'rune', 'runes', 'sigil', 'sigils', 'potion',
+    'potions', 'spellbook', 'spellbooks', 'boss', 'bosses', 'biome', 'biomes',
+    'tilemap', 'tilemaps', 'parallax', 'vfx', 'sfx', 'hdri', 'pbr', 'gltf',
+    'glb', 'mushroom', 'mushrooms'
+  ]);
+
+  var dom = {};
+  var state = {
+    records: [],
+    invalidLines: 0,
+    loaded: false,
+    loadError: '',
+    filter: '',
+    sort: 'requests',
+    token: null,
+    user: null,
+    canPush: false,
+    authBusy: false,
+    submitting: false,
+    dictionary: new Set(),
+    dictionaryReady: false,
+    dictionaryLoading: false,
+    dictionaryError: '',
+    sessionGeneration: 0,
+    lastLine: ''
+  };
+
+  cacheDom();
+  bindEvents();
+  applyPrefill();
+  updateNoteCount();
+  updateSubmitAvailability();
+  loadDictionary();
+  loadQueue();
+  restoreSession();
+
+  function cacheDom() {
+    var ids = {
+      statRequests: 'stat-requests',
+      statTopics: 'stat-topics',
+      statRequesters: 'stat-requesters',
+      topRequesters: 'top-requesters',
+      queueBadge: 'queue-badge',
+      queueError: 'queue-error',
+      queueErrorText: 'queue-error-text',
+      queueRetry: 'queue-retry',
+      filter: 'filter',
+      sort: 'sort',
+      clearFilters: 'clear-filters',
+      copyQueries: 'copy-queries',
+      downloadJson: 'download-json',
+      listStatus: 'list-status',
+      tableWrap: 'table-wrap',
+      queueBody: 'queue-body',
+      queueEmpty: 'queue-empty',
+      filterEmpty: 'filter-empty',
+      filterReset: 'filter-reset',
+      invalidNote: 'invalid-note',
+      authForm: 'auth-form',
+      tokenArea: 'token-area',
+      token: 'token',
+      tokenHelp: 'token-help',
+      connect: 'connect',
+      authStatus: 'auth-status',
+      signedIn: 'signed-in',
+      profileLink: 'profile-link',
+      avatarInitials: 'avatar-initials',
+      userLogin: 'user-login',
+      signout: 'signout',
+      blockedMessage: 'blocked-message',
+      blockedText: 'blocked-text',
+      requestForm: 'request-form',
+      query: 'query',
+      note: 'note',
+      noteCount: 'note-count',
+      dictStatus: 'dict-status',
+      dictError: 'dict-error',
+      dictRetry: 'dict-retry',
+      submitStatus: 'submit-status',
+      submitError: 'submit-error',
+      submit: 'submit',
+      submitHint: 'submit-hint',
+      successPanel: 'success-panel',
+      successTitle: 'success-title',
+      successLine: 'success-line',
+      successCommit: 'success-commit'
+    };
+    Object.keys(ids).forEach(function (key) {
+      dom[key] = document.getElementById(ids[key]);
+    });
+  }
+
+  function bindEvents() {
+    dom.authForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      connect();
+    });
+    dom.signout.addEventListener('click', signOut);
+    dom.requestForm.addEventListener('submit', onSubmit);
+    dom.query.addEventListener('input', clearSubmitNotices);
+    dom.note.addEventListener('input', function () {
+      updateNoteCount();
+      clearSubmitNotices();
+    });
+    dom.filter.addEventListener('input', function () {
+      state.filter = dom.filter.value.trim().toLowerCase();
+      render();
+    });
+    dom.sort.addEventListener('change', function () {
+      state.sort = dom.sort.value === 'newest' ? 'newest' : 'requests';
+      render();
+    });
+    dom.clearFilters.addEventListener('click', clearFilters);
+    dom.filterReset.addEventListener('click', clearFilters);
+    dom.copyQueries.addEventListener('click', copyQueries);
+    dom.downloadJson.addEventListener('click', downloadJson);
+    dom.queueRetry.addEventListener('click', loadQueue);
+    dom.dictRetry.addEventListener('click', loadDictionary);
+  }
+
+  function applyPrefill() {
+    var params = new URLSearchParams(window.location.search);
+    var raw = params.get('q');
+    if (!raw) return;
+    var value = raw.trim().toLowerCase();
+    if (value.length > 30) value = value.slice(0, 30);
+    dom.query.value = value;
+  }
+
+  function updateNoteCount() {
+    var length = dom.note.value.length;
+    dom.noteCount.textContent = length + ' / ' + MAX_NOTE;
+    dom.noteCount.style.color = length > MAX_NOTE - 20 ? 'var(--warn)' : '';
+  }
+
+  function restoreSession() {
+    var saved = null;
+    try {
+      saved = sessionStorage.getItem(SESSION_KEY);
+    } catch (error) {
+      saved = null;
+    }
+    if (saved) {
+      dom.token.value = saved;
+      connect();
+    }
+  }
+
+  function apiHeaders(token) {
+    return {
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Authorization': 'Bearer ' + token
+    };
+  }
+
+  async function ghFetch(path, options) {
+    var opts = options || {};
+    var headers = apiHeaders(opts.token);
+    var init = { method: opts.method || 'GET', headers: headers, cache: 'no-store' };
+    if (opts.body !== undefined) {
+      headers['Content-Type'] = 'application/json';
+      init.body = JSON.stringify(opts.body);
+    }
+    try {
+      return await fetch(API + path, init);
+    } catch (error) {
+      var networkError = new Error('Network request to GitHub failed. Check the connection and try again.');
+      networkError.network = true;
+      throw networkError;
+    }
+  }
+
+  async function responseError(response) {
+    var message = 'HTTP ' + response.status;
+    try {
+      var data = await response.json();
+      if (data && typeof data.message === 'string' && data.message) {
+        message += ': ' + data.message;
+      }
+      if (data && Array.isArray(data.errors) && data.errors.length) {
+        var details = data.errors.map(function (item) {
+          if (item && typeof item.message === 'string') return item.message;
+          return '';
+        }).filter(Boolean).slice(0, 3);
+        if (details.length) message += ' (' + details.join('; ') + ')';
+      }
+    } catch (error) {
+      // The response did not carry JSON; the status line is enough.
+    }
+    var apiError = new Error(message);
+    apiError.status = response.status;
+    return apiError;
+  }
+
+  async function ghJson(path, options) {
+    var response = await ghFetch(path, options);
+    if (!response.ok) throw await responseError(response);
+    return response.json();
+  }
+
+  async function connect() {
+    if (state.authBusy || state.submitting) return;
+    var token = dom.token.value.trim();
+    clearAuthStatus();
+    hideBlocked();
+    if (!token) {
+      showAuthError('Paste a personal access token first.');
+      return;
+    }
+
+    state.authBusy = true;
+    var session = state.sessionGeneration;
+    dom.connect.disabled = true;
+    dom.connect.textContent = 'Connecting...';
+    updateSubmitAvailability();
+    setAuthNotice('info', 'Checking the token with GitHub...');
+
+    try {
+      var user;
+      try {
+        user = await ghJson('/user', { token: token });
+      } catch (error) {
+        if (session !== state.sessionGeneration) return;
+        handleUserAuthError(error);
+        return;
+      }
+      if (session !== state.sessionGeneration) return;
+      if (!user || typeof user.login !== 'string' || !/^[A-Za-z0-9-]+$/.test(user.login)) {
+        showAuthError('GitHub returned an unexpected account response. Try again.');
+        return;
+      }
+
+      state.user = user;
+      renderSignedIn(user);
+
+      var repo;
+      try {
+        repo = await ghJson('/repos/' + OWNER + '/' + REPO, { token: token });
+      } catch (error) {
+        if (session !== state.sessionGeneration) return;
+        state.canPush = false;
+        if (error.status === 401) {
+          clearStoredToken();
+          showAuthError('GitHub rejected the token (401). It may be invalid or expired.');
+        } else if (error.status === 403) {
+          showBlocked('This account is not a collaborator on the repository (403: access forbidden).');
+          setAuthNotice('warn', 'Signed in as ' + user.login + '. Repository write access was not confirmed (403).');
+        } else if (error.status === 404) {
+          showBlocked('Repository not found or no access with this token (404). Check Repository access on the token.');
+          setAuthNotice('warn', 'Signed in as ' + user.login + '. Repository access was not confirmed (404).');
+        } else {
+          showAuthError('Could not check repository access: ' + safeMessage(error));
+        }
+        return;
+      }
+
+      if (session !== state.sessionGeneration) return;
+      if (!repo || !repo.permissions || repo.permissions.push !== true) {
+        state.canPush = false;
+        showBlocked('This token does not report write access to the repository');
+        setAuthNotice('warn', 'Signed in as ' + user.login + '. The token needs Contents: Read and write for MeesaAssetLibrary.');
+        return;
+      }
+
+      state.token = token;
+      state.canPush = true;
+      try {
+        sessionStorage.setItem(SESSION_KEY, token);
+      } catch (error) {
+        setAuthNotice('warn', 'Connected, but this browser blocked sessionStorage. The token will not survive a reload.');
+      }
+      dom.token.value = '';
+      dom.tokenArea.hidden = true;
+      dom.tokenHelp.hidden = true;
+      hideBlocked();
+      setAuthNotice('ok', 'Connected as ' + user.login + '. Write access confirmed. The token stays in this tab only.');
+      dom.query.focus();
+    } catch (error) {
+      if (session === state.sessionGeneration) {
+        showAuthError('Unexpected error while connecting: ' + safeMessage(error));
+      }
+    } finally {
+      if (session === state.sessionGeneration) {
+        state.authBusy = false;
+        dom.connect.disabled = false;
+        dom.connect.textContent = 'Connect token';
+        updateSubmitAvailability();
+      }
+    }
+  }
+
+  function handleUserAuthError(error) {
+    if (error.status === 401) {
+      clearStoredToken();
+      showAuthError('GitHub rejected the token (401). It may be invalid or expired.');
+    } else if (error.status === 403) {
+      showAuthError('GitHub refused this token (403). Check that it is active and allowed for this account.');
+    } else if (error.status === 404) {
+      showAuthError('GitHub returned 404 for the account check. Verify the token and try again.');
+    } else {
+      showAuthError('Could not verify the token: ' + safeMessage(error));
+    }
+  }
+
+  function renderSignedIn(user) {
+    dom.signedIn.hidden = false;
+    dom.userLogin.textContent = user.login;
+    dom.avatarInitials.textContent = user.login.slice(0, 2).toUpperCase();
+    dom.profileLink.href = 'https://github.com/' + encodeURIComponent(user.login);
+    dom.profileLink.setAttribute('aria-label', 'GitHub profile for ' + user.login);
+    dom.token.value = '';
+    dom.tokenArea.hidden = true;
+    dom.tokenHelp.hidden = true;
+  }
+
+  function setAuthNotice(kind, message) {
+    dom.authStatus.hidden = false;
+    dom.authStatus.className = 'notice ' + kind;
+    dom.authStatus.textContent = message;
+  }
+
+  function showAuthError(message) {
+    setAuthNotice('error', message);
+  }
+
+  function clearAuthStatus() {
+    dom.authStatus.hidden = true;
+    dom.authStatus.textContent = '';
+    dom.authStatus.className = 'notice';
+  }
+
+  function showBlocked(message) {
+    dom.blockedMessage.hidden = false;
+    dom.blockedText.textContent = message;
+  }
+
+  function hideBlocked() {
+    dom.blockedMessage.hidden = true;
+    dom.blockedText.textContent = '';
+  }
+
+  function clearStoredToken() {
+    try {
+      sessionStorage.removeItem(SESSION_KEY);
+    } catch (error) {
+      // Nothing else can be done if the browser blocks storage.
+    }
+  }
+
+  function signOut() {
+    if (state.submitting) return;
+    clearStoredToken();
+    state.sessionGeneration += 1;
+    state.token = null;
+    state.user = null;
+    state.canPush = false;
+    state.authBusy = false;
+    dom.token.value = '';
+    dom.tokenArea.hidden = false;
+    dom.tokenHelp.hidden = false;
+    dom.signedIn.hidden = true;
+    dom.blockedMessage.hidden = true;
+    dom.successPanel.hidden = true;
+    dom.connect.disabled = false;
+    dom.connect.textContent = 'Connect token';
+    clearAuthStatus();
+    clearSubmitNotices();
+    updateSubmitAvailability();
+    dom.token.focus();
+  }
+
+  function safeMessage(error) {
+    if (!error) return 'Unknown error.';
+    if (error.network) return error.message;
+    if (error.status) return error.message;
+    return error.message ? String(error.message) : 'Unknown error.';
+  }
+
+  function updateSubmitAvailability() {
+    var ready = state.canPush && state.dictionaryReady && !state.submitting && !state.authBusy;
+    dom.submit.disabled = !ready;
+    if (state.submitting) {
+      dom.submit.textContent = 'Submitting...';
+    } else {
+      dom.submit.textContent = 'Add to queue';
+    }
+    if (state.submitting) {
+      dom.submitHint.textContent = 'Appending one line to the queue file.';
+    } else if (!state.canPush) {
+      dom.submitHint.textContent = 'Connect a collaborator token to submit.';
+    } else if (!state.dictionaryReady) {
+      dom.submitHint.textContent = 'Waiting for the common-word list.';
+    } else {
+      dom.submitHint.textContent = 'One commit, one queue line.';
+    }
+  }
+
+  async function loadDictionary() {
+    if (state.dictionaryLoading) return;
+    state.dictionaryLoading = true;
+    state.dictionaryReady = false;
+    state.dictionaryError = '';
+    dom.dictError.hidden = true;
+    dom.dictStatus.hidden = false;
+    dom.dictStatus.className = 'hint';
+    dom.dictStatus.textContent = 'Loading the common-word list...';
+    updateSubmitAvailability();
+
+    try {
+      var response = await fetch('../catalog/words.txt', { cache: 'no-store' });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      var text = await response.text();
+      var words = new Set();
+      text.split(/\r?\n/).forEach(function (line) {
+        var word = line.trim().toLowerCase();
+        if (/^[a-z]{3,30}$/.test(word)) words.add(word);
+      });
+      if (words.size === 0) {
+        throw new Error('The word list was empty.');
+      }
+      state.dictionary = words;
+      state.dictionaryReady = true;
+      dom.dictStatus.className = 'hint';
+      dom.dictStatus.textContent = 'Word list loaded: ' + words.size.toLocaleString(DATE_LOCALE) + ' common words. Submissions are checked against it.';
+      dom.dictError.hidden = true;
+    } catch (error) {
+      state.dictionary = new Set();
+      state.dictionaryReady = false;
+      state.dictionaryError = safeMessage(error);
+      dom.dictStatus.hidden = true;
+      dom.dictError.hidden = false;
+      dom.dictError.querySelector('p').textContent =
+        'The page could not load ../catalog/words.txt (' + state.dictionaryError + '), so submissions are blocked. Retry the word list before submitting.';
+    } finally {
+      state.dictionaryLoading = false;
+      updateSubmitAvailability();
+    }
+  }
+
+  async function loadQueue() {
+    dom.queueError.hidden = true;
+    if (!state.loaded) {
+      dom.listStatus.hidden = false;
+      dom.listStatus.className = 'hint list-status';
+      dom.listStatus.textContent = 'Reading the public queue...';
+    }
+    try {
+      var response = await fetch('../catalog/asset-requests.jsonl', { cache: 'no-store' });
+      if (response.status === 404) {
+        state.records = [];
+        state.invalidLines = 0;
+        state.loaded = true;
+        state.loadError = '';
+        render();
+        return;
+      }
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      var text = await response.text();
+      var parsed = parseQueue(text);
+      state.records = parsed.records;
+      state.invalidLines = parsed.invalid;
+      state.loaded = true;
+      state.loadError = '';
+      render();
+    } catch (error) {
+      state.loadError = safeMessage(error);
+      dom.queueError.hidden = false;
+      dom.queueErrorText.textContent = 'The public queue file could not be read (' + state.loadError + '). Requests still work when GitHub is reachable; reload to try the list again.';
+      if (!state.loaded) {
+        dom.listStatus.textContent = 'The public queue could not be loaded.';
+        dom.listStatus.hidden = false;
+      }
+      render();
+    }
+  }
+
+  function parseQueue(text) {
+    var records = [];
+    var invalid = 0;
+    String(text || '').replace(/^\uFEFF/, '').split(/\r?\n/).forEach(function (line) {
+      var trimmed = line.trim();
+      if (!trimmed) return;
+      try {
+        var record = JSON.parse(trimmed);
+        if (!record || typeof record !== 'object') throw new Error('not an object');
+        var query = typeof record.query === 'string' ? record.query.trim().toLowerCase() : '';
+        var login = typeof record.requested_by === 'string' ? record.requested_by.trim() : '';
+        if (!query || !login) throw new Error('missing query or requester');
+        records.push({
+          query: query,
+          note: typeof record.note === 'string' ? record.note : '',
+          requested_at: typeof record.requested_at === 'string' ? record.requested_at : '',
+          requested_by: login,
+          source: typeof record.source === 'string' ? record.source : ''
+        });
+      } catch (error) {
+        invalid += 1;
+      }
+    });
+    return { records: records, invalid: invalid };
+  }
+
+  function aggregate(records) {
+    var map = new Map();
+    var requesterTotals = new Map();
+    records.forEach(function (record) {
+      var query = record.query;
+      var time = Date.parse(record.requested_at);
+      if (!isFinite(time)) time = 0;
+      var entry = map.get(query);
+      if (!entry) {
+        entry = {
+          query: query,
+          requests: 0,
+          requesters: new Map(),
+          first: null,
+          last: null,
+          latestNote: '',
+          latestNoteBy: '',
+          latestNoteAt: -1
+        };
+        map.set(query, entry);
+      }
+      entry.requests += 1;
+      var loginKey = record.requested_by.toLowerCase();
+      var requester = entry.requesters.get(loginKey);
+      if (requester) {
+        requester.count += 1;
+      } else {
+        entry.requesters.set(loginKey, { login: record.requested_by, count: 1 });
+      }
+      var total = requesterTotals.get(loginKey);
+      if (total) {
+        total.count += 1;
+      } else {
+        requesterTotals.set(loginKey, { login: record.requested_by, count: 1 });
+      }
+      if (entry.first === null || time < entry.first.time) {
+        entry.first = { time: time, raw: record.requested_at };
+      }
+      if (entry.last === null || time >= entry.last.time) {
+        entry.last = { time: time, raw: record.requested_at };
+      }
+      if (record.note && time >= entry.latestNoteAt) {
+        entry.latestNote = record.note;
+        entry.latestNoteBy = record.requested_by;
+        entry.latestNoteAt = time;
+      }
+    });
+
+    var topics = Array.from(map.values()).map(function (entry) {
+      return {
+        query: entry.query,
+        requests: entry.requests,
+        requesters: Array.from(entry.requesters.values()).sort(function (a, b) {
+          return a.login.toLowerCase().localeCompare(b.login.toLowerCase());
+        }),
+        first: entry.first,
+        last: entry.last,
+        latestNote: entry.latestNote,
+        latestNoteBy: entry.latestNoteBy
+      };
+    });
+
+    var topRequesters = Array.from(requesterTotals.values()).sort(function (a, b) {
+      return b.count - a.count || a.login.toLowerCase().localeCompare(b.login.toLowerCase());
+    });
+
+    return {
+      topics: topics,
+      totalRequests: records.length,
+      uniqueTopics: topics.length,
+      uniqueRequesters: requesterTotals.size,
+      topRequesters: topRequesters
+    };
+  }
+
+  function render() {
+    var agg = aggregate(state.records);
+    var visible = visibleTopics(agg);
+    dom.statRequests.textContent = String(agg.totalRequests);
+    dom.statTopics.textContent = String(agg.uniqueTopics);
+    dom.statRequesters.textContent = String(agg.uniqueRequesters);
+    dom.queueBadge.hidden = !state.loaded || Boolean(state.loadError);
+    dom.listStatus.className = 'hint list-status';
+
+    renderTopRequesters(agg);
+    renderTable(agg);
+
+    if (state.loadError) {
+      dom.listStatus.hidden = true;
+    } else if (!state.loaded) {
+      dom.listStatus.hidden = false;
+      dom.listStatus.textContent = 'Reading the public queue...';
+    } else if (agg.totalRequests === 0) {
+      dom.listStatus.hidden = false;
+      dom.listStatus.textContent = 'No requests yet. The queue file is empty.';
+    } else {
+      dom.listStatus.hidden = false;
+      dom.listStatus.textContent = visible.length + ' ' + (visible.length === 1 ? 'topic' : 'topics') +
+        ' from ' + agg.totalRequests + ' ' + (agg.totalRequests === 1 ? 'request' : 'requests') + '.';
+    }
+
+    dom.invalidNote.hidden = !state.invalidLines;
+    if (state.invalidLines) {
+      dom.invalidNote.textContent = state.invalidLines + ' malformed ' +
+        (state.invalidLines === 1 ? 'line was' : 'lines were') + ' ignored while reading the queue.';
+    }
+
+    dom.copyQueries.disabled = agg.uniqueTopics === 0;
+    dom.downloadJson.disabled = agg.uniqueTopics === 0;
+    updateFiltersState();
+  }
+
+  function renderTopRequesters(agg) {
+    dom.topRequesters.replaceChildren();
+    if (!agg.topRequesters.length) {
+      var empty = document.createElement('li');
+      empty.className = 'muted small';
+      empty.textContent = 'No requests yet.';
+      dom.topRequesters.appendChild(empty);
+      return;
+    }
+    agg.topRequesters.slice(0, 8).forEach(function (item) {
+      var li = document.createElement('li');
+      var login = document.createElement('span');
+      login.textContent = '@' + item.login;
+      var count = document.createElement('span');
+      count.className = 'rank-count';
+      count.textContent = item.count + (item.count === 1 ? ' request' : ' requests');
+      li.appendChild(login);
+      li.appendChild(count);
+      dom.topRequesters.appendChild(li);
+    });
+  }
+
+  function visibleTopics(agg) {
+    var filter = state.filter;
+    var topics = agg.topics.filter(function (topic) {
+      if (!filter) return true;
+      if (topic.query.indexOf(filter) !== -1) return true;
+      if (topic.latestNote && topic.latestNote.toLowerCase().indexOf(filter) !== -1) return true;
+      return topic.requesters.some(function (requester) {
+        return requester.login.toLowerCase().indexOf(filter) !== -1;
+      });
+    });
+    topics.sort(function (a, b) {
+      if (state.sort === 'newest') {
+        return (b.last ? b.last.time : 0) - (a.last ? a.last.time : 0) ||
+          b.requests - a.requests ||
+          a.query.localeCompare(b.query);
+      }
+      return b.requests - a.requests ||
+        (b.last ? b.last.time : 0) - (a.last ? a.last.time : 0) ||
+        a.query.localeCompare(b.query);
+    });
+    return topics;
+  }
+
+  function renderTable(agg) {
+    var topics = visibleTopics(agg);
+    dom.queueBody.replaceChildren();
+
+    var isEmpty = state.loaded && !state.loadError && agg.totalRequests === 0;
+    var noMatches = state.loaded && agg.totalRequests > 0 && topics.length === 0;
+
+    dom.queueEmpty.hidden = !isEmpty;
+    dom.filterEmpty.hidden = !noMatches;
+    dom.tableWrap.hidden = topics.length === 0;
+
+    if (topics.length === 0) {
+      if (!isEmpty && !noMatches) dom.tableWrap.hidden = true;
+      return;
+    }
+
+    var fragment = document.createDocumentFragment();
+    topics.forEach(function (topic) {
+      var row = document.createElement('tr');
+
+      var queryCell = document.createElement('td');
+      queryCell.className = 'query-cell';
+      queryCell.textContent = topic.query;
+      row.appendChild(queryCell);
+
+      var requestsCell = document.createElement('td');
+      requestsCell.className = 'num';
+      requestsCell.textContent = String(topic.requests);
+      row.appendChild(requestsCell);
+
+      var requestersCell = document.createElement('td');
+      requestersCell.className = 'requester-cell';
+      requestersCell.textContent = topic.requesters.map(function (requester) {
+        return '@' + requester.login;
+      }).join(', ');
+      row.appendChild(requestersCell);
+
+      row.appendChild(stampCell(topic.first));
+      row.appendChild(stampCell(topic.last));
+
+      var noteCell = document.createElement('td');
+      noteCell.className = 'note-cell';
+      if (topic.latestNote) {
+        noteCell.textContent = topic.latestNote;
+        noteCell.title = topic.latestNote;
+        var by = document.createElement('span');
+        by.className = 'note-by';
+        by.textContent = ' @' + topic.latestNoteBy;
+        noteCell.appendChild(by);
+      } else {
+        noteCell.textContent = '\u2014';
+        noteCell.className += ' muted';
+      }
+      row.appendChild(noteCell);
+
+      fragment.appendChild(row);
+    });
+    dom.queueBody.appendChild(fragment);
+  }
+
+  function stampCell(stamp) {
+    var cell = document.createElement('td');
+    cell.className = 'stamp';
+    cell.textContent = stamp ? formatStamp(stamp.raw) : '\u2014';
+    if (stamp && stamp.raw) cell.title = stamp.raw;
+    return cell;
+  }
+
+  function formatStamp(value) {
+    var time = Date.parse(value);
+    if (!isFinite(time)) return value || '\u2014';
+    return new Date(time).toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+  }
+
+  function updateFiltersState() {
+    var active = Boolean(state.filter) || state.sort !== 'requests';
+    dom.clearFilters.disabled = !active;
+  }
+
+  function clearFilters() {
+    state.filter = '';
+    state.sort = 'requests';
+    dom.filter.value = '';
+    dom.sort.value = 'requests';
+    render();
+  }
+
+  async function copyQueries() {
+    var agg = aggregate(state.records);
+    var topics = visibleTopics(agg);
+    if (!topics.length) {
+      showListMessage('No queries to copy.', 'warn');
+      return;
+    }
+    var text = topics.map(function (topic) { return topic.query; }).join('\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      showListMessage('Copied ' + topics.length + ' ' + (topics.length === 1 ? 'query' : 'queries') + ' to the clipboard.', 'ok');
+    } catch (error) {
+      if (fallbackCopy(text)) {
+        showListMessage('Copied ' + topics.length + ' ' + (topics.length === 1 ? 'query' : 'queries') + ' to the clipboard.', 'ok');
+      } else {
+        showListMessage('The browser blocked clipboard access. Select the table text and copy it manually.', 'warn');
+      }
+    }
+  }
+
+  function fallbackCopy(text) {
+    var area = document.createElement('textarea');
+    area.value = text;
+    area.setAttribute('readonly', '');
+    area.style.position = 'fixed';
+    area.style.left = '-9999px';
+    document.body.appendChild(area);
+    area.select();
+    var copied = false;
+    try {
+      copied = document.execCommand('copy');
+    } catch (error) {
+      copied = false;
+    }
+    area.remove();
+    return copied;
+  }
+
+  function showListMessage(message, kind) {
+    dom.listStatus.hidden = false;
+    dom.listStatus.className = 'notice ' + kind + ' list-status';
+    dom.listStatus.textContent = message;
+  }
+
+  function downloadJson() {
+    var agg = aggregate(state.records);
+    var topics = visibleTopics(agg);
+    if (!topics.length) {
+      showListMessage('No queries to download.', 'warn');
+      return;
+    }
+    var payload = {
+      source: QUEUE_PATH,
+      generated_at: new Date().toISOString(),
+      total_requests: agg.totalRequests,
+      unique_topics: agg.uniqueTopics,
+      unique_requesters: agg.uniqueRequesters,
+      topics: topics.map(function (topic) {
+        return {
+          query: topic.query,
+          requests: topic.requests,
+          requesters: topic.requesters.map(function (requester) { return requester.login; }),
+          first: topic.first ? topic.first.raw : null,
+          last: topic.last ? topic.last.raw : null,
+          latest_note: topic.latestNote || null,
+          latest_note_by: topic.latestNoteBy || null
+        };
+      })
+    };
+    var blob = new Blob([JSON.stringify(payload, null, 2) + '\n'], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'asset-requests.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(function () { URL.revokeObjectURL(url); }, 2000);
+    showListMessage('Downloaded ' + topics.length + ' ' + (topics.length === 1 ? 'topic' : 'topics') + '.', 'ok');
+  }
+
+  function normalizeQuery(raw) {
+    return String(raw || '').trim().toLowerCase();
+  }
+
+  function validateQuery(query, note) {
+    if (!query) {
+      throw new Error('Enter one word to request.');
+    }
+    if (!/^[a-z]{3,30}$/.test(query)) {
+      if (/\s/.test(query)) throw new Error('Use a single word with no spaces (3-30 letters).');
+      if (query.length < 3) throw new Error('Use at least 3 letters.');
+      if (query.length > 30) throw new Error('Use at most 30 letters.');
+      throw new Error('Use lowercase letters only, 3-30 characters.');
+    }
+    if (STOPWORDS.has(query)) {
+      throw new Error('"' + query + '" is a stopword. Request a subject word instead.');
+    }
+    if (BLOCKLIST.has(query)) {
+      throw new Error('That word is not accepted in the public queue. Choose a neutral asset term.');
+    }
+    if (!state.dictionaryReady) {
+      throw new Error('The common-word list is not loaded yet. Retry it before submitting.');
+    }
+    if (!state.dictionary.has(query) && !GENRE_WORDS.has(query)) {
+      throw new Error('"' + query + '" is not in the queue vocabulary. Use a common English word or a known game term.');
+    }
+    if (note.length > MAX_NOTE) {
+      throw new Error('The note must be 280 characters or fewer.');
+    }
+  }
+
+  async function onSubmit(event) {
+    event.preventDefault();
+    if (state.submitting) return;
+    clearSubmitNotices();
+    if (!state.canPush || !state.token || !state.user) {
+      showSubmitError('Connect a collaborator token before submitting.');
+      return;
+    }
+
+    var query = normalizeQuery(dom.query.value);
+    var note = dom.note.value.trim();
+    try {
+      validateQuery(query, note);
+    } catch (error) {
+      showSubmitError(error.message);
+      dom.query.focus();
+      return;
+    }
+
+    state.submitting = true;
+    updateSubmitAvailability();
+    setSubmitStatus('info', 'Reading the queue file and appending the new line...');
+
+    try {
+      var result = await appendRequest(query, note);
+      onSuccess(result);
+    } catch (error) {
+      if (error.code === 'duplicate') {
+        showSubmitError('You already requested this.');
+      } else {
+        showSubmitError(submitErrorMessage(error));
+      }
+      setSubmitStatus('error', 'Nothing was added. The queue file was not changed.');
+    } finally {
+      state.submitting = false;
+      updateSubmitAvailability();
+    }
+  }
+
+  async function appendRequest(query, note) {
+    var attempt = 0;
+    while (true) {
+      var current = await readQueueFile();
+      if (findDuplicate(current.text, query, state.user.login)) {
+        var duplicate = new Error('duplicate');
+        duplicate.code = 'duplicate';
+        throw duplicate;
+      }
+
+      var record = buildRecord(query, note, state.user.login);
+      var line = JSON.stringify(record);
+      var nextText = appendLine(current.text, line);
+      var body = {
+        message: 'queue: ' + query + ' by @' + state.user.login,
+        content: encodeBase64Utf8(nextText),
+        branch: BRANCH
+      };
+      if (current.sha) body.sha = current.sha;
+
+      var response = await ghFetch(
+        '/repos/' + OWNER + '/' + REPO + '/contents/' + QUEUE_PATH,
+        { method: 'PUT', token: state.token, body: body }
+      );
+
+      if (response.ok) {
+        var data = null;
+        try {
+          data = await response.json();
+        } catch (error) {
+          data = null;
+        }
+        return {
+          line: line,
+          record: record,
+          commit: data && data.commit && typeof data.commit.sha === 'string' ? data.commit.sha : ''
+        };
+      }
+
+      if ((response.status === 409 || response.status === 422) && attempt < RETRY_LIMIT) {
+        attempt += 1;
+        setSubmitStatus('warn', 'The queue changed while submitting. Re-reading and retrying (' + attempt + '/' + RETRY_LIMIT + ')...');
+        continue;
+      }
+
+      throw await responseError(response);
+    }
+  }
+
+  async function readQueueFile() {
+    var response = await ghFetch(
+      '/repos/' + OWNER + '/' + REPO + '/contents/' + QUEUE_PATH + '?ref=' + encodeURIComponent(BRANCH),
+      { token: state.token }
+    );
+    if (response.status === 404) {
+      return { text: '', sha: null };
+    }
+    if (!response.ok) throw await responseError(response);
+    var data = await response.json();
+    var text = '';
+    if (data && data.encoding === 'base64' && typeof data.content === 'string') {
+      text = decodeBase64Utf8(data.content);
+    } else if (data && data.sha && Number(data.size) > 0) {
+      var blobResponse = await ghFetch('/repos/' + OWNER + '/' + REPO + '/git/blobs/' + encodeURIComponent(data.sha), { token: state.token });
+      if (!blobResponse.ok) throw await responseError(blobResponse);
+      var blob = await blobResponse.json();
+      if (!blob || typeof blob.content !== 'string') {
+        throw new Error('GitHub returned an unreadable queue file.');
+      }
+      text = decodeBase64Utf8(blob.content);
+    }
+    return {
+      text: text,
+      sha: data && typeof data.sha === 'string' ? data.sha : null
+    };
+  }
+
+  function findDuplicate(text, query, login) {
+    var wantedUser = String(login).toLowerCase();
+    var lines = String(text || '').replace(/^\uFEFF/, '').split(/\r?\n/);
+    for (var i = 0; i < lines.length; i += 1) {
+      var line = lines[i].trim();
+      if (!line) continue;
+      try {
+        var record = JSON.parse(line);
+        if (!record) continue;
+        var recordQuery = typeof record.query === 'string' ? record.query.trim().toLowerCase() : '';
+        var recordUser = typeof record.requested_by === 'string' ? record.requested_by.trim().toLowerCase() : '';
+        if (recordQuery === query && recordUser === wantedUser) return record;
+      } catch (error) {
+        // Ignore malformed history lines; they cannot be a valid duplicate.
+      }
+    }
+    return null;
+  }
+
+  function buildRecord(query, note, login) {
+    var record = { query: query };
+    if (note) record.note = note;
+    record.requested_at = new Date().toISOString();
+    record.requested_by = login;
+    record.source = 'gallery-search';
+    return record;
+  }
+
+  function appendLine(text, line) {
+    if (!text) return line + '\n';
+    return (text.endsWith('\n') ? text : text + '\n') + line + '\n';
+  }
+
+  function encodeBase64Utf8(text) {
+    var bytes = new TextEncoder().encode(text);
+    var binary = '';
+    var chunk = 0x8000;
+    for (var i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+    }
+    return btoa(binary);
+  }
+
+  function decodeBase64Utf8(value) {
+    var binary = atob(String(value).replace(/\s+/g, ''));
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i += 1) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+    return new TextDecoder('utf-8').decode(bytes);
+  }
+
+  function submitErrorMessage(error) {
+    if (error.network) {
+      return 'Network request to GitHub failed. Check the connection and try again. Nothing was added.';
+    }
+    if (error.status === 401) {
+      return 'GitHub rejected the token (401). Sign out, create or reconnect a valid token, and retry.';
+    }
+    if (error.status === 403) {
+      return 'GitHub refused the write (403). The token needs Contents: Read and write for this repository.';
+    }
+    if (error.status === 404) {
+      return 'The repository or queue file was not found (404). Confirm the token can access MeesaAssetLibrary.';
+    }
+    if (error.status === 409 || error.status === 422) {
+      return 'The queue kept changing while submitting. Nothing was added; try again.';
+    }
+    return 'Could not add the request: ' + safeMessage(error);
+  }
+
+  function onSuccess(result) {
+    state.lastLine = result.line;
+    state.records.push(result.record);
+    dom.successLine.textContent = result.line;
+    dom.successPanel.hidden = false;
+    dom.successCommit.hidden = !result.commit;
+    dom.successCommit.textContent = result.commit ? 'Commit ' + result.commit.slice(0, 12) + ' on main.' : '';
+    dom.note.value = '';
+    updateNoteCount();
+    clearSubmitNotices();
+    setSubmitStatus('ok', 'Request added. The queue table was refreshed with the new line.');
+    render();
+    dom.successTitle.focus();
+    if (typeof dom.successPanel.scrollIntoView === 'function') {
+      dom.successPanel.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  function setSubmitStatus(kind, message) {
+    dom.submitStatus.hidden = false;
+    dom.submitStatus.className = 'notice ' + kind;
+    dom.submitStatus.textContent = message;
+  }
+
+  function showSubmitError(message) {
+    dom.submitError.hidden = false;
+    dom.submitError.textContent = message;
+  }
+
+  function clearSubmitNotices() {
+    dom.submitStatus.hidden = true;
+    dom.submitStatus.textContent = '';
+    dom.submitStatus.className = 'notice info';
+    dom.submitError.hidden = true;
+    dom.submitError.textContent = '';
+    dom.submitError.className = 'notice error';
+  }
+})();
+</script>
+</body>
+</html>

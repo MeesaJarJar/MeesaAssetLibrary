@@ -30,6 +30,37 @@ are indexed separately in `catalog/community.jsonl`; they appear in the gallery
 with a Community badge and contributor attribution, and never mix with the
 curated `assets/` tree.
 
+## Asset requests
+
+The request queue at
+[meesajarjar.github.io/MeesaAssetLibrary/queue](https://meesajarjar.github.io/MeesaAssetLibrary/queue/)
+records demand for assets the library does not have. When a gallery search
+returns nothing, **Submit to queue** opens the queue with the query prefilled.
+Invited collaborators append one JSON line per request to
+`catalog/asset-requests.jsonl`; the page aggregates totals, requesters and notes
+at read time. A request is not an asset: nothing is ingested into `assets/`, and
+maintainers decide what to add next.
+
+Submitting needs a fine-grained personal access token:
+
+1. Open [github.com/settings/personal-access-tokens/new](https://github.com/settings/personal-access-tokens/new).
+2. Set **Repository access** to **Only select repositories**, then choose
+   **MeesaAssetLibrary**.
+3. Under **Permissions**, set **Contents** to **Read and write**. No other
+   permission is required.
+4. Connect the token on the queue page. It stays in that tab's
+   `sessionStorage`, is sent only to `api.github.com`, and is removed by
+   **Sign out**.
+
+The queue checks each query against `catalog/words.txt`, a 10,000-word English
+frequency list from
+[first20hours/google-10000-english](https://github.com/first20hours/google-10000-english),
+derived from Google's Trillion Word Corpus and Peter Norvig's frequency list.
+A small embedded genre vocabulary (for example `treant`, `goblin`, `tileset`,
+`mushroom`) covers game terms missing from that list. The upstream data is
+distributed under the LDC license for educational and personal/research use;
+read the upstream `LICENSE.md` before commercial use.
+
 ## Quick start
 
 1. Read `AGENTS.md` for the navigation contract.
@@ -99,6 +130,7 @@ and OpenCode configuration.
 | `catalog/` | index, facets, collections, move log, generated search index and embedding bins |
 | `scripts/` | ingest, search index builder, embedding job, gallery builder, integrity checker, static server |
 | `gallery/` | generated static browser, safe to open from disk |
+| `queue/` | public asset-request queue page |
 | `mcp/` | stdio MCP server exposing the catalog to agents |
 | `_inbox/` | drop zone for raw dumps, never authoritative |
 | `docs/` | schema and semantic search reference |

@@ -449,6 +449,30 @@ Each `assets[]` entry repeats `id`, `title`, `kind`, `role`, `family`,
 against the catalogs, verify the listed hashes, and stop on a mismatch or a
 restricted license it has not been authorized to use.
 
+## Request queue
+
+`catalog/asset-requests.jsonl` is a public, append-only demand log maintained by
+`queue/`. It is not a catalog, and its lines are not assets. One JSON object per
+line, newline-terminated, with keys in this order:
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `query` | string | required; one lowercase English word, 3-30 letters, accepted by the queue vocabulary (`catalog/words.txt` plus a small embedded game-term list) |
+| `note` | string | optional; max 280 characters; omitted when empty |
+| `requested_at` | string | required; ISO 8601 timestamp |
+| `requested_by` | string | required; GitHub login verified with `GET /user` |
+| `source` | string | required; `gallery-search` |
+
+```json
+{"query":"treant","note":"forest boss","requested_at":"2026-11-21T20:00:00.000Z","requested_by":"octocat","source":"gallery-search"}
+```
+
+Append-only: add a line; never edit, reorder or delete existing lines. Before
+appending, the page rejects the same `query` + `requested_by` pair, sends the
+current file `sha` with the commit, and retries on 409/422. Aggregates
+(requests, unique topics, requesters, first and last timestamps) are computed at
+read time and are never stored in the file.
+
 ## Extension rules
 
 - New tag namespace: use it immediately, then document it in

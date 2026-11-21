@@ -1104,7 +1104,7 @@ audio{width:100%}
     <p class="search-hint">Semantic ranks results by meaning once the catalog index loads. Keyword search always runs.</p>
   </div>
   <div class="controls">
-    <a class="button subtle add-asset" href="https://github.com/MeesaJarJar/MeesaAssetLibrary/issues?q=label%3Aasset-request" target="_blank" rel="noopener">Requests</a>
+    <a class="button subtle add-asset" href="../queue/">Requests</a>
     <a class="button subtle add-asset" href="../contribute/">Add asset</a>
     <div>
       <label for="sort">Sort</label>
@@ -1149,8 +1149,8 @@ audio{width:100%}
       <button type="button" class="button" id="empty-reset">Reset filters</button>
       <div class="empty-request" id="empty-request" hidden>
         <p id="request-text"></p>
-        <a class="button" id="request-link" href="#" target="_blank" rel="noopener">Request this asset</a>
-        <p class="muted">This opens a GitHub issue labelled asset-request. It does not add the asset.</p>
+        <a class="button" id="request-link" href="#">Submit to queue</a>
+        <p class="muted">This records demand in the public request queue. It does not add the asset.</p>
       </div>
     </div>
   </main>
@@ -2011,16 +2011,7 @@ const ASSETS = ${data};
   }
 
   function requestUrl(query) {
-    var body = [
-      'The gallery has no result for: ' + query,
-      '',
-      'What asset would help? Describe the kind, role, style, format and licence you need.',
-      '',
-      'Opened from the asset library gallery.'
-    ].join('\\n');
-    return 'https://github.com/MeesaJarJar/MeesaAssetLibrary/issues/new?labels=asset-request' +
-      '&title=' + encodeURIComponent('[Asset request] ' + query) +
-      '&body=' + encodeURIComponent(body);
+    return '../queue/?q=' + encodeURIComponent(query);
   }
 
   function renderConceptChips() {
