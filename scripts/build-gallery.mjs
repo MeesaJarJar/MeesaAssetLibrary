@@ -2186,6 +2186,14 @@ const ASSETS = ${data};
     stage.addEventListener('pointerup', endDrag);
     stage.addEventListener('pointercancel', endDrag);
 
+    // The dialog reflows after it opens, so the first measurement can be the
+    // card width instead of the stage width. Re-apply on the next frame and
+    // whenever the stage actually changes size.
+    if (typeof ResizeObserver === 'function') {
+      new ResizeObserver(function () { apply(); }).observe(stage);
+    }
+    requestAnimationFrame(function () { apply(); });
+
     syncOutputs();
     apply();
     tileApply = apply;
