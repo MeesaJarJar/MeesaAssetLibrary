@@ -67,7 +67,7 @@ async function main() {
       continue;
     }
 
-    await checkBundle(entry, bundleDir, reportError, reportWarning);
+    await checkBundle(entry, bundleDir, root, reportError, reportWarning);
   }
 
   await scanOrphans(root, knownDirs, reportWarning);
@@ -102,7 +102,10 @@ function parseIndex(text, reportError, reportWarning) {
       return;
     }
 
-    const entry = { raw, lineNo, id: '', dir: '', safeDir: false };
+    const entry = {
+      raw, lineNo, id: '', dir: '', safeDir: false,
+      file: '', mime: '', fileOk: false, mimeOk: false, legacy: false,
+    };
     entry.id = typeof raw.id === 'string' ? raw.id.trim() : '';
 
     if (!entry.id) {
@@ -125,6 +128,7 @@ function parseIndex(text, reportError, reportWarning) {
       entry.safeDir = true;
     }
 
+    checkIndexKeys(entry, reportError, reportWarning);
     checkTags(raw.tags, 'index', 'catalog/index.jsonl:' + lineNo, reportError, reportWarning);
     entries.push(entry);
   });
@@ -132,8 +136,47 @@ function parseIndex(text, reportError, reportWarning) {
   return entries;
 }
 
-async function checkBundle(entry, bundleDir, reportError, reportWarning) {
+function checkIndexKeys(entry, reportError, reportWarning) {
+  const raw = entry.raw;
+  const label = 'catalog/index.jsonl:' + entry.lineNo;
+  const hasFile = Object.hasOwn(raw, 'file');
+  const hasMime = Object.hasOwn(raw, 'mime');
+
+  if (!hasFile && !hasMime) {
+    entry.legacy = true;
+    reportWarning(label + ': legacy entry has no "file"/"mime" (rebuild the line to add them)');
+    return;
+  }
+
+  if (!hasFile) {
+    reportError(label + ': missing "file"');
+  } else if (typeof raw.file !== 'string' || !raw.file.trim()) {
+    reportError(label + ': missing or invalid "file"');
+  } else {
+    const file = raw.file.trim().replace(/\\/g, '/');
+
+    if (!safeRelative(file)) {
+      reportError(label + ': unsafe "file" path "' + file + '" (must be repo-relative)');
+    } else {
+      entry.file = file;
+      entry.fileOk = true;
+    }
+  }
+
+  if (!hasMime) {
+    reportError(label + ': missing "mime"');
+  } else if (typeof raw.mime !== 'string' || !raw.mime.trim()) {
+    reportError(label + ': missing or invalid "mime"');
+  } else {
+    entry.mime = raw.mime.trim();
+    entry.mimeOk = true;
+  }
+}
+
+async function checkBundle(entry, bundleDir, root, reportError, reportWarning) {
   const label = entry.dir;
+
+  await checkIndexFile(entry, root, reportError);
 
   const markdownStat = await statSafe(path.join(bundleDir, 'asset.md'));
   if (!markdownStat || !markdownStat.isFile()) {
@@ -189,8 +232,57 @@ async function checkBundle(entry, bundleDir, reportError, reportWarning) {
   }
 
   checkTags(bundle.tags, 'asset.json', label, reportError, reportWarning);
+  checkPrimaryMatch(entry, bundle, label, reportError);
   await checkPreview(entry.raw, bundle, bundleDir, label, reportError);
   await checkFiles(bundle, bundleDir, label, reportError);
+}
+
+async function checkIndexFile(entry, root, reportError) {
+  if (!entry.fileOk) return;
+
+  const filePath = path.join(root, ...entry.file.split('/'));
+  const fileStat = await statSafe(filePath);
+
+  if (!fileStat) {
+    reportError(entry.dir + ': index "file" "' + entry.file + '" is missing');
+  } else if (!fileStat.isFile()) {
+    reportError(entry.dir + ': index "file" "' + entry.file + '" is not a file');
+  }
+}
+
+function checkPrimaryMatch(entry, bundle, label, reportError) {
+  if (entry.legacy) return;
+
+  const primary = Array.isArray(bundle.files) ? bundle.files[0] : null;
+
+  if (!primary || typeof primary !== 'object' || Array.isArray(primary)) {
+    if (entry.fileOk || entry.mimeOk) {
+      reportError(label + ': asset.json has no "files[0]" to compare with the index');
+    }
+    return;
+  }
+
+  if (entry.fileOk) {
+    const primaryPath = typeof primary.path === 'string' ? primary.path.trim().replace(/\\/g, '/') : '';
+
+    if (!primaryPath) {
+      reportError(label + ': asset.json files[0] has a missing or invalid "path"');
+    } else if (!sameRepoPath(entry.file, entry.dir + '/' + primaryPath)) {
+      reportError(label + ': index "file" "' + entry.file +
+        '" does not match asset.json files[0].path "' + primaryPath + '"');
+    }
+  }
+
+  if (entry.mimeOk) {
+    const primaryMime = typeof primary.mime === 'string' ? primary.mime.trim() : '';
+
+    if (!primaryMime) {
+      reportError(label + ': asset.json files[0] has a missing or invalid "mime"');
+    } else if (entry.mime !== primaryMime) {
+      reportError(label + ': index "mime" "' + entry.mime +
+        '" does not match asset.json files[0].mime "' + primaryMime + '"');
+    }
+  }
 }
 
 function checkTags(tags, source, label, reportError, reportWarning) {
@@ -377,6 +469,10 @@ function safeRelative(value) {
 function dirKey(relativeDir) {
   const normalized = relativeDir.replace(/\\/g, '/').replace(/\/+$/, '');
   return process.platform === 'win32' ? normalized.toLowerCase() : normalized;
+}
+
+function sameRepoPath(left, right) {
+  return dirKey(left) === dirKey(right);
 }
 
 function idIncludesPrefix(id, prefix) {

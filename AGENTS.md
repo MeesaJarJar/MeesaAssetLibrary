@@ -10,7 +10,8 @@ shaders, or Unity/Godot project trees.
 - One bundle per asset: `assets/<kind>/<role>/<6-digit>-<slug>/`.
 - Every bundle has `asset.json` (machine truth), `asset.md` (LLM digest),
   `preview.svg` (cheap thumbnail) and `src/` (originals, often binary).
-- `catalog/index.jsonl` is the flat search index: one bundle per line.
+- `catalog/index.jsonl` is the flat search index: one bundle per line, with its
+  primary `file` and `mime` beside the bundle `dir`.
 - IDs look like `IMG-TILE-000001` and never change.
 
 ## Read order
@@ -92,7 +93,9 @@ the tool cannot express the case.
 - Bundles never move silently. Record every move in `catalog/moves.jsonl` with
   `id`, `from`, `to`, `at` and `reason`, then update the index.
 - Never rewrite `src/` bytes in place; publish a new bundle or a variant.
-- Deleting a bundle requires an explicit human decision; agents must not.
+- Deleting a bundle requires an explicit human decision; agents must not delete.
+  A human-approved deletion appends `{id, dir, removed, reason}` to
+  `catalog/retired.jsonl`, and the ID is never reused.
 
 ## Extension rules
 
@@ -107,9 +110,13 @@ the tool cannot express the case.
 ## Validation
 
 ```sh
-node scripts/check-library.mjs    # schema, hashes, index and preview checks
+node scripts/check-library.mjs    # schema, hashes, index file/mime and preview checks
 node scripts/build-gallery.mjs    # regenerate the static gallery
 ```
+
+`check-library.mjs` verifies that each index entry's `file` exists, matches
+`asset.json.files[0].path`, and that `mime` matches that file's MIME type. Legacy
+entries without both keys pass with one warning each.
 
 If either script is missing, validate by hand against `docs/SCHEMA.md` and say
 so in your report.

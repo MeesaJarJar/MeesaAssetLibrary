@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,17 +11,15 @@
   color-scheme:dark;
   --bg:#0b0e14;--bg2:#11161f;--panel:#151b26;--panel2:#1b2331;--text:#e6edf3;
   --muted:#9aa7b8;--line:#2a3444;--accent:#7cc4ff;--accent-soft:#24384d;
-  --chip:#1d2735;--danger:#ff8a8a;--focus:#ffd166;
+  --chip:#1d2735;--focus:#ffd166;--stage:#090c11;
   --shadow:0 12px 32px rgba(0,0,0,.35);
 }
-@media (prefers-color-scheme:light){
-  :root{
-    color-scheme:light;
-    --bg:#f6f7f9;--bg2:#eef1f5;--panel:#ffffff;--panel2:#f1f4f8;--text:#17202b;
-    --muted:#5b6878;--line:#d8dee7;--accent:#0b63a8;--accent-soft:#d9ecfc;
-    --chip:#e8eef6;--danger:#b42318;--focus:#9a5b00;
-    --shadow:0 12px 32px rgba(23,32,43,.12);
-  }
+:root[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f6f7f9;--bg2:#eef1f5;--panel:#ffffff;--panel2:#f1f4f8;--text:#17202b;
+  --muted:#5b6878;--line:#d8dee7;--accent:#0b63a8;--accent-soft:#d9ecfc;
+  --chip:#e8eef6;--focus:#9a5b00;--stage:#dfe4ea;
+  --shadow:0 12px 32px rgba(23,32,43,.12);
 }
 html,body{margin:0;min-height:100%}
 body{
@@ -34,6 +32,7 @@ button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .muted{color:var(--muted)}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.92em}
 .site-header{
   display:flex;gap:1rem;align-items:end;justify-content:space-between;flex-wrap:wrap;
   padding:1.1rem clamp(1rem,3vw,2rem);border-bottom:1px solid var(--line);
@@ -41,8 +40,8 @@ button{cursor:pointer}
 }
 .brand h1{margin:0;font-size:1.25rem;letter-spacing:.01em}
 .brand p{margin:.15rem 0 0;color:var(--muted);font-size:.85rem}
-.search{flex:1 1 340px;min-width:220px}
-.search label,.controls label{
+.search{flex:1 1 300px;min-width:200px}
+.search label,.controls label,.field-label{
   display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;
   color:var(--muted);margin-bottom:.3rem;
 }
@@ -50,10 +49,10 @@ button{cursor:pointer}
   width:100%;padding:.6rem .75rem;border:1px solid var(--line);border-radius:8px;
   background:var(--panel);
 }
-.controls{display:flex;align-items:end;gap:.75rem;flex-wrap:wrap}
+.controls{display:flex;align-items:end;gap:.6rem;flex-wrap:wrap}
 select{
   padding:.6rem .75rem;border:1px solid var(--line);border-radius:8px;
-  background:var(--panel);min-width:11rem;
+  background:var(--panel);
 }
 .kind-tabs{
   display:flex;gap:.5rem;overflow-x:auto;padding:.7rem clamp(1rem,3vw,2rem);
@@ -75,18 +74,13 @@ select{
   padding:1rem;position:sticky;top:6.4rem;max-height:calc(100vh - 8rem);overflow:auto;
 }
 .facets-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.6rem}
-.facets h2{
-  font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin:0;color:var(--muted);
-}
+.facets h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin:0;color:var(--muted)}
 .link-button{background:none;border:0;color:var(--accent);padding:.15rem;border-radius:4px}
 .link-button:disabled{color:var(--muted);cursor:not-allowed}
 .tag-group{border-top:1px solid var(--line);padding:.4rem 0}
 .tag-group summary{cursor:pointer;font-weight:600;font-size:.9rem;padding:.15rem 0}
 .tag-options{display:grid;gap:.1rem;padding:.35rem 0 .15rem .25rem}
-.tag-option{
-  display:flex;gap:.4rem;align-items:center;font-size:.84rem;color:var(--muted);
-  cursor:pointer;padding:.08rem 0;
-}
+.tag-option{display:flex;gap:.4rem;align-items:center;font-size:.84rem;color:var(--muted);cursor:pointer;padding:.08rem 0}
 .tag-option input{accent-color:var(--accent);margin:0}
 .tag-option .n{margin-left:auto;font-variant-numeric:tabular-nums;opacity:.6;font-size:.78rem}
 .results-bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
@@ -107,20 +101,42 @@ select{
 }
 .card:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow)}
 .thumb{
-  display:block;position:relative;aspect-ratio:4/3;border-bottom:1px solid var(--line);
-  background-color:var(--panel2);
+  display:block;position:relative;aspect-ratio:4/3;overflow:hidden;
+  border-bottom:1px solid var(--line);background-color:var(--panel2);
+}
+.thumb::before{
+  content:"";position:absolute;inset:0;
   background-image:
     linear-gradient(45deg,var(--bg) 25%,transparent 25%,transparent 75%,var(--bg) 75%),
     linear-gradient(45deg,var(--bg) 25%,transparent 25%,transparent 75%,var(--bg) 75%);
-  background-size:16px 16px;background-position:0 0,8px 8px;
+  background-size:16px 16px;background-position:0 0,8px 8px;opacity:.55;
 }
-.thumb img{width:100%;height:100%;object-fit:contain;display:block}
+.thumb img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block}
+.thumb img.cover{object-fit:cover}
+.tile-preview{
+  position:absolute;inset:0;z-index:1;background-repeat:repeat;background-size:50% 50%;
+  image-rendering:pixelated;
+}
+.tile-badge{
+  position:absolute;z-index:3;top:.4rem;right:.4rem;background:rgba(8,12,18,.78);
+  border:1px solid rgba(255,255,255,.4);color:#eaf2fb;border-radius:999px;
+  padding:.08rem .5rem;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;
+}
+.waveform{position:relative;z-index:1;display:block;width:100%;height:100%;color:var(--accent)}
+.waveform rect{fill:currentColor}
+.play-badge{
+  position:absolute;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:46px;height:46px;border-radius:50%;background:rgba(8,12,18,.72);
+  border:1px solid rgba(255,255,255,.65);display:grid;place-items:center;pointer-events:none;
+}
+.play-badge::after{
+  content:"";width:0;height:0;margin-left:3px;
+  border-style:solid;border-width:7px 0 7px 11px;
+  border-color:transparent transparent transparent #fff;
+}
 .card-body{display:flex;flex-direction:column;gap:.38rem;padding:.75rem .85rem .9rem;min-width:0}
 .card-title{font-weight:650;line-height:1.3;overflow-wrap:anywhere}
-.badge{
-  display:flex;flex-wrap:wrap;align-items:center;font-size:.7rem;letter-spacing:.04em;
-  text-transform:uppercase;color:var(--muted);
-}
+.badge{display:flex;flex-wrap:wrap;align-items:center;font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .badge-kind{color:var(--accent);font-weight:700}
 .badge-sep{opacity:.5;white-space:pre}
 .card-summary{
@@ -134,86 +150,239 @@ select{
 }
 .tag-more{font-size:.7rem;color:var(--muted);align-self:center}
 .placeholder{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:.3rem;border:1px dashed var(--line);margin:8px;
-  border-radius:8px;color:var(--muted);text-align:center;padding:.5rem;
+  position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:.3rem;margin:8px;border:1px dashed var(--line);border-radius:8px;
+  color:var(--muted);text-align:center;padding:.5rem;
 }
 .ph-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.85}
 .ph-detail{font-size:.75rem;overflow-wrap:anywhere}
-.empty{
-  border:1px dashed var(--line);border-radius:12px;padding:3rem 1.5rem;text-align:center;
-  background:var(--panel);
-}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:3rem 1.5rem;text-align:center;background:var(--panel)}
 .empty h2{margin:.2rem 0 .5rem;font-size:1.15rem}
 .empty p{color:var(--muted);max-width:42ch;margin:0 auto 1rem}
 dialog{
   border:1px solid var(--line);border-radius:16px;background:var(--panel);color:var(--text);
-  padding:0;width:min(1050px,calc(100vw - 2rem));max-height:calc(100vh - 2rem);
+  padding:0;width:min(1180px,calc(100vw - 2rem));max-height:calc(100vh - 2rem);
   box-shadow:var(--shadow);
 }
-dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(2px)}
-.lb-head{
+dialog[open]{display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+dialog::backdrop{background:rgba(0,0,0,.74);backdrop-filter:blur(2px)}
+.v-head{
   display:flex;justify-content:space-between;align-items:start;gap:1rem;
-  padding:1rem 1.25rem;border-bottom:1px solid var(--line);
-  position:sticky;top:0;background:var(--panel);z-index:1;
+  padding:.9rem 1.25rem;border-bottom:1px solid var(--line);background:var(--panel);
 }
-.lb-head h2{margin:0;font-size:1.15rem;overflow-wrap:anywhere}
-.lb-body{
-  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);gap:1.25rem;
-  padding:1.25rem;overflow:auto;max-height:calc(100vh - 12rem);
+.v-head h2{margin:0;font-size:1.15rem;overflow-wrap:anywhere}
+.v-head .badge{margin-top:.2rem}
+.v-body{
+  display:grid;grid-template-columns:minmax(0,1.35fr) minmax(270px,.65fr);gap:1.25rem;
+  padding:1.25rem;overflow:auto;
 }
-.lb-media{
-  position:relative;min-height:240px;aspect-ratio:4/3;align-self:start;
+.v-main{min-width:0}
+.v-side{min-width:0;overflow-wrap:anywhere}
+.v-summary{color:var(--muted);margin:.15rem 0 .8rem;white-space:pre-wrap}
+.v-side h3{font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:1rem 0 .4rem}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;font-size:.85rem;margin:0}
+.meta dt{color:var(--muted)}
+.meta dd{margin:0}
+.v-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.file-list{
+  list-style:none;margin:0;padding:0;max-height:180px;overflow:auto;
+  border:1px solid var(--line);border-radius:8px;background:var(--panel2);
+}
+.file-list li{
+  display:flex;justify-content:space-between;gap:.75rem;padding:.32rem .55rem;
+  border-bottom:1px solid var(--line);font-size:.8rem;
+}
+.file-list li:last-child{border-bottom:0}
+.file-list a{overflow-wrap:anywhere}
+.file-size{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+.v-links{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1rem}
+.v-links a{font-size:.88rem}
+.v-foot{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.7rem 1.25rem;border-top:1px solid var(--line);background:var(--panel);
+}
+.v-pos{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.image-toolbar{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.6rem}
+.zoom-btn{
+  border:1px solid var(--line);background:var(--panel2);color:var(--muted);
+  border-radius:7px;padding:.25rem .6rem;font-size:.8rem;
+}
+.zoom-btn[aria-pressed="true"]{border-color:var(--accent);color:var(--text);background:var(--accent-soft)}
+.image-stage{
+  position:relative;height:clamp(280px,52vh,560px);overflow:auto;cursor:grab;
   border:1px solid var(--line);border-radius:10px;background-color:var(--panel2);
   background-image:
     linear-gradient(45deg,var(--bg) 25%,transparent 25%,transparent 75%,var(--bg) 75%),
     linear-gradient(45deg,var(--bg) 25%,transparent 25%,transparent 75%,var(--bg) 75%);
   background-size:20px 20px;background-position:0 0,10px 10px;
+  touch-action:pan-x pan-y;
 }
-.lb-media img{width:100%;height:100%;object-fit:contain;display:block}
-.lb-info{min-width:0;overflow-wrap:anywhere}
-.lb-summary{color:var(--muted);margin:.4rem 0 .8rem;white-space:pre-wrap}
-.meta{display:grid;grid-template-columns:auto 1fr;gap:.3rem .8rem;font-size:.85rem;margin:0 0 1rem}
-.meta dt{color:var(--muted)}
-.meta dd{margin:0}
-.lb-info h3{
-  font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
-  margin:1rem 0 .4rem;
+.image-stage.dragging{cursor:grabbing}
+.image-canvas{
+  display:flex;align-items:center;justify-content:center;
+  min-width:100%;min-height:100%;width:max-content;height:max-content;padding:1rem;
 }
-.lb-tags{display:flex;flex-wrap:wrap;gap:.3rem}
-.file-list{
-  list-style:none;margin:0;padding:0;max-height:190px;overflow:auto;
-  border:1px solid var(--line);border-radius:8px;
+.image-canvas img{display:block;flex:none}
+.audio-panel{display:grid;gap:.9rem}
+.wave-large{
+  height:clamp(140px,26vh,250px);border:1px solid var(--line);border-radius:10px;
+  background:var(--stage);color:var(--accent);overflow:hidden;
 }
-.file-list li{
-  display:flex;justify-content:space-between;gap:.75rem;padding:.3rem .55rem;
-  border-bottom:1px solid var(--line);font-size:.8rem;
+.wave-large svg{width:100%;height:100%;display:block}
+.wave-large rect{fill:currentColor}
+audio{width:100%}
+.video-wrap{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#000}
+.video-wrap video{display:block;width:100%;max-height:58vh;background:#000}
+.video-bar{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-top:.6rem}
+.tile-toolbar{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+  gap:.55rem .8rem;margin-bottom:.65rem;
 }
-.file-list li:last-child{border-bottom:0}
-.file-list code{overflow-wrap:anywhere}
-.file-size{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
-.lb-links{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1rem}
-.lb-nav{
-  display:flex;justify-content:space-between;align-items:center;gap:1rem;
-  padding:.75rem 1.25rem;border-top:1px solid var(--line);
-  position:sticky;bottom:0;background:var(--panel);
+.ctrl{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.ctrl.wide{grid-column:span 2}
+.ctrl-head{display:flex;align-items:center;justify-content:space-between;gap:.35rem}
+.ctrl label,.ctrl .ctrl-name{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.ctrl output{font-size:.75rem;color:var(--text);font-variant-numeric:tabular-nums}
+.ctrl input[type="range"]{width:100%;accent-color:var(--accent);margin:0}
+.ctrl select{padding:.25rem .35rem;font-size:.8rem;border-radius:6px;background:var(--panel2)}
+.mini{
+  border:1px solid var(--line);background:var(--panel2);color:var(--muted);
+  border-radius:5px;padding:.02rem .35rem;font-size:.7rem;
 }
-.lb-pos{color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums}
+.mini:hover{color:var(--text);border-color:var(--accent)}
+.seg{display:flex;gap:.25rem;flex-wrap:wrap}
+.seg button{
+  border:1px solid var(--line);background:var(--panel2);color:var(--muted);
+  border-radius:6px;padding:.22rem .45rem;font-size:.75rem;
+}
+.seg button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}
+.tile-readout{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem;font-size:.82rem}
+.tile-readout .spacer{margin-left:auto}
+#tile-label{font-variant-numeric:tabular-nums;font-weight:650}
+.tile-stage{
+  position:relative;height:clamp(260px,46vh,520px);overflow:hidden;touch-action:none;
+  border:1px solid var(--line);border-radius:10px;cursor:grab;background-color:var(--stage);
+}
+.tile-stage.dragging{cursor:grabbing}
+.tile-stage[data-bg="dark"]{background-color:#090c11}
+.tile-stage[data-bg="light"]{background-color:#f1f1f1}
+.tile-stage[data-bg="magenta"]{background-color:#ff00ff}
+.tile-stage[data-bg="checker"]{
+  background-color:#8a8a8a;
+  background-image:conic-gradient(#c4c4c4 25%,#8a8a8a 0 50%,#c4c4c4 0 75%,#8a8a8a 0);
+  background-size:24px 24px;
+}
+.tile-rotor{position:absolute;inset:0;transform-origin:50% 50%}
+.tile-plane{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+.tile-surface{position:absolute;inset:0;background-repeat:repeat;image-rendering:pixelated}
+.tile-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(to right,rgba(255,212,64,.85) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(255,212,64,.85) 1px,transparent 1px);
+}
+.tile-note{margin:.5rem 0 0;font-size:.78rem;color:var(--muted)}
+.splat-badge{
+  position:absolute;z-index:3;top:.4rem;left:.4rem;background:rgba(6,10,16,.84);
+  border:1px solid rgba(124,196,255,.7);color:#dff1ff;border-radius:999px;
+  padding:.1rem .5rem;font-size:.68rem;letter-spacing:.04em;font-weight:650;
+}
+.splat-ph{
+  position:absolute;inset:0;z-index:2;display:grid;place-items:center;overflow:hidden;
+  background-color:#080b11;
+  background-image:
+    radial-gradient(circle at 14% 24%,rgba(140,205,255,.9) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 68% 58%,rgba(255,255,255,.7) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 42% 82%,rgba(140,205,255,.55) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 86% 32%,rgba(255,255,255,.45) 0 1px,transparent 1.6px);
+  background-size:17px 21px,23px 27px,31px 19px,37px 41px;
+}
+.splat-ph::before{
+  content:"";position:absolute;inset:18%;
+  background:radial-gradient(closest-side,rgba(124,196,255,.2),transparent);
+}
+.splat-ph-label{
+  position:absolute;left:.55rem;bottom:.55rem;
+  font:650 .76rem/1 ui-monospace,SFMono-Regular,Consolas,monospace;
+  letter-spacing:.18em;color:#dff1ff;border:1px solid rgba(124,196,255,.55);
+  border-radius:6px;padding:.3rem .55rem;background:rgba(6,10,16,.62);
+}
+.splat-wrap{display:grid;gap:.6rem}
+.splat-stage{
+  position:relative;min-height:420px;height:clamp(420px,56vh,640px);
+  overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#04060a;
+}
+.splat-stage canvas{position:absolute;inset:0;z-index:1;display:block;width:100%;height:100%}
+.splat-poster{
+  position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:contain;
+  opacity:.5;filter:saturate(.85);
+}
+.splat-load{
+  position:absolute;inset:0;z-index:2;display:grid;place-content:center;justify-items:center;
+  gap:.65rem;padding:1.5rem;text-align:center;
+  background:linear-gradient(rgba(4,6,10,.2),rgba(4,6,10,.78));
+}
+.splat-load-btn{
+  border:1px solid var(--accent);background:var(--accent-soft);color:var(--text);
+  border-radius:10px;padding:.65rem 1.2rem;font-size:1rem;font-weight:650;
+}
+.splat-load-btn:hover{filter:brightness(1.1)}
+.splat-load-hint{max-width:40ch;margin:0;color:#c3cfdd;font-size:.82rem}
+.splat-status{margin:0;min-height:1.35em;font-size:.82rem;color:var(--muted)}
+.splat-error{
+  margin:0;padding:.6rem .75rem;border:1px solid rgba(255,120,120,.55);
+  border-radius:8px;background:rgba(180,35,24,.1);color:var(--text);font-size:.86rem;
+}
+.splat-error code{background:rgba(127,127,127,.16);padding:.05rem .25rem;border-radius:3px}
+.splat-error-detail{
+  display:block;margin-top:.25rem;color:var(--muted);font-size:.78rem;overflow-wrap:anywhere;
+}
+.splat-bar{
+  display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;
+  padding:.45rem;border:1px solid var(--line);border-radius:9px;background:var(--panel2);
+}
+.splat-btn{
+  border:1px solid var(--line);background:var(--panel);color:var(--muted);
+  border-radius:7px;padding:.32rem .6rem;font-size:.8rem;
+}
+.splat-btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}
+.splat-readout{
+  margin-left:auto;display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;
+  font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;
+}
+#splat-total{color:var(--text);font-weight:650}
+.splat-hint{margin:0;font-size:.76rem;color:var(--muted)}
 @media (max-width:900px){
   .layout{grid-template-columns:1fr}
   .facets{position:static;max-height:none}
-  .lb-body{grid-template-columns:1fr;max-height:calc(100vh - 10rem)}
-  .lb-media{max-height:42vh}
+  .v-body{grid-template-columns:1fr}
+  .image-stage{height:clamp(240px,42vh,420px)}
 }
 @media (max-width:560px){
   .site-header{align-items:stretch}
   .search{flex-basis:100%}
   .grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem}
-  .lb-body{padding:1rem}
-  dialog{width:calc(100vw - 1rem);max-height:calc(100vh - 1rem)}
+  .v-body{padding:1rem;gap:1rem}
+  .v-head{padding:.8rem 1rem}
+  .v-foot{padding:.65rem 1rem}
+  dialog{width:calc(100vw - .75rem);max-height:calc(100vh - .75rem)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('mesa-gallery-theme');
+    if (saved === 'dark' || saved === 'light') {
+      document.documentElement.dataset.theme = saved;
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  } catch (error) {
+    /* storage can be unavailable on file://; the dark theme still works */
+  }
+})();
+</script>
 </head>
 <body>
 <header class="site-header">
@@ -226,13 +395,16 @@ dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(2px)}
     <input id="search" type="search" placeholder="id, title, summary, tags, role" autocomplete="off">
   </div>
   <div class="controls">
-    <label for="sort">Sort</label>
-    <select id="sort">
-      <option value="title">Title A-Z</option>
-      <option value="newest" selected>Newest added</option>
-      <option value="largest">Largest bytes</option>
-      <option value="kind">Kind</option>
-    </select>
+    <div>
+      <label for="sort">Sort</label>
+      <select id="sort">
+        <option value="title">Title A-Z</option>
+        <option value="newest" selected>Newest added</option>
+        <option value="largest">Largest bytes</option>
+        <option value="kind">Kind</option>
+      </select>
+    </div>
+    <button type="button" class="button subtle" id="theme" aria-label="Switch to light theme">Light mode</button>
   </div>
 </header>
 <nav class="kind-tabs" id="kind-tabs" aria-label="Filter by asset kind"></nav>
@@ -258,47 +430,677 @@ dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(2px)}
     </div>
   </main>
 </div>
-<dialog id="lightbox" aria-labelledby="lb-title">
-  <div class="lb-head">
-    <h2 id="lb-title"></h2>
-    <button type="button" class="button subtle" id="lb-close" aria-label="Close asset details">Close</button>
-  </div>
-  <div class="lb-body">
-    <div class="lb-media" id="lb-media"></div>
-    <div class="lb-info">
-      <div class="badge" id="lb-badge"></div>
-      <p class="lb-summary" id="lb-summary"></p>
-      <dl class="meta" id="lb-meta"></dl>
-      <h3>Tags</h3>
-      <div class="lb-tags" id="lb-tags"></div>
-      <h3>Files</h3>
-      <ul class="file-list" id="lb-files"></ul>
-      <div class="lb-links">
-        <a id="lb-md" target="_blank" rel="noopener">Open asset.md</a>
-        <a id="lb-json" target="_blank" rel="noopener">Open asset.json</a>
-      </div>
+<noscript><p style="padding:1rem">This gallery needs JavaScript to render the asset grid.</p></noscript>
+<dialog id="viewer" aria-labelledby="v-title">
+  <div class="v-head">
+    <div>
+      <h2 id="v-title"></h2>
+      <div class="badge" id="v-badge"></div>
     </div>
+    <button type="button" class="button subtle" id="v-close" aria-label="Close viewer">Close</button>
   </div>
-  <div class="lb-nav">
-    <button type="button" class="button subtle" id="lb-prev">Previous</button>
-    <span class="lb-pos" id="lb-pos"></span>
-    <button type="button" class="button subtle" id="lb-next">Next</button>
+  <div class="v-body">
+    <section class="v-main" id="v-media" aria-label="Asset preview"></section>
+    <aside class="v-side">
+      <p class="v-summary" id="v-summary"></p>
+      <h3>Details</h3>
+      <dl class="meta" id="v-meta"></dl>
+      <h3>Tags</h3>
+      <div class="v-tags" id="v-tags"></div>
+      <h3>Files</h3>
+      <ul class="file-list" id="v-files"></ul>
+      <div class="v-links">
+        <a id="v-download" download>Download original</a>
+        <a id="v-md" target="_blank" rel="noopener">asset.md</a>
+        <a id="v-json" target="_blank" rel="noopener">asset.json</a>
+      </div>
+    </aside>
+  </div>
+  <div class="v-foot">
+    <button type="button" class="button subtle" id="v-prev">Previous</button>
+    <span class="v-pos" id="v-pos"></span>
+    <button type="button" class="button subtle" id="v-next">Next</button>
   </div>
 </dialog>
 <script>
-const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title":"Mossy Forest Palette","summary":"Eight named hex/RGB swatches for wet stone, bark and undergrowth under cool overcast light, with contrast checks and pairing notes for ground, foliage and UI.","tags":["subject:palette/forest","style:reference","use:palette","palette:mossy-green","format:markdown","engine:any"],"preview":"../assets/doc/palette/000005-mossy-forest-palette/preview.svg","dir":"assets/doc/palette/000005-mossy-forest-palette","bytes":1644,"added":"2026-11-20","md":"../assets/doc/palette/000005-mossy-forest-palette/asset.md","json":"../assets/doc/palette/000005-mossy-forest-palette/asset.json","files":[{"path":"src/mossy-forest-palette.md","bytes":1644}]},{"id":"IMG-CONCEPT-000002","kind":"image","role":"concept","title":"Ruined Tower on a Hill","summary":"512x384 painted key art: a broken stone tower silhouetted on a hill under an indigo-to-amber dusk sky; strong single focal point with open space on the left third for titles or UI.","tags":["subject:structure/tower","style:painted","use:concept-art","mood:melancholic","palette:twilight","format:svg","engine:any"],"preview":"../assets/image/concept/000002-ruined-tower/preview.svg","dir":"assets/image/concept/000002-ruined-tower","bytes":4471,"added":"2026-11-20","md":"../assets/image/concept/000002-ruined-tower/asset.md","json":"../assets/image/concept/000002-ruined-tower/asset.json","files":[{"path":"src/ruined-tower.svg","bytes":4471}]},{"id":"IMG-ICON-000003","kind":"image","role":"icon","title":"Health Potion Icon","summary":"32x32 flat-vector red potion flask with a tan cork and a 1px dark outline; stays readable at 16px on light or dark HUD bars, with no slot frame or badge baked in.","tags":["subject:item/potion","style:flat","use:ui-icon","palette:crimson","format:svg","engine:any"],"preview":"../assets/image/icon/000003-health-potion/preview.svg","dir":"assets/image/icon/000003-health-potion","bytes":1420,"added":"2026-11-20","md":"../assets/image/icon/000003-health-potion/asset.md","json":"../assets/image/icon/000003-health-potion/asset.json","files":[{"path":"src/health-potion.svg","bytes":1420}]},{"id":"IMG-TILE-000001","kind":"image","role":"tile","title":"Mossy Stone Tile","summary":"Seamless 64x64 top-down cobblestone with cold grey-green stones, dark mortar and moss in the joints; low internal contrast keeps repeated tiles clean at 1x, so it fits overgrown ruins and forest floors.","tags":["subject:environment/stone","style:pixel-art","use:tileset","palette:mossy-green","format:svg","engine:any"],"preview":"../assets/image/tile/000001-mossy-stone/preview.svg","dir":"assets/image/tile/000001-mossy-stone","bytes":5151,"added":"2026-11-20","md":"../assets/image/tile/000001-mossy-stone/asset.md","json":"../assets/image/tile/000001-mossy-stone/asset.json","files":[{"path":"src/mossy-stone.svg","bytes":5151}]},{"id":"SND-SFX-000004","kind":"audio","role":"sfx","title":"UI Confirm Blip","summary":"0.22 s mono two-tone confirmation blip (880 Hz to 1320 Hz) with a soft attack and a click-free cosine fade; about -4 dBFS peak, 22050 Hz 16-bit PCM.","tags":["subject:ui/confirm","style:clean-synth","use:ui-sfx","format:wav","engine:any"],"preview":"../assets/audio/sfx/000004-ui-confirm/preview.svg","dir":"assets/audio/sfx/000004-ui-confirm","bytes":9746,"added":"2026-11-20","md":"../assets/audio/sfx/000004-ui-confirm/asset.md","json":"../assets/audio/sfx/000004-ui-confirm/asset.json","files":[{"path":"src/ui-confirm.wav","bytes":9746}]},{"id":"IMG-CONCEPT-000006","kind":"image","role":"concept","title":"Great Oak Tree Concept","summary":"Single centered broadleaf oak with a thick flared trunk and a dense layered green canopy on a pure black background, 848x608. Use for forest scene mockups, scale reference, or as an image-to-image seed for more tree variants; key the black backdrop out before engine use.","tags":["subject:environment/tree","style:pixel-art","use:concept-art","palette:mossy-green","format:png","engine:any"],"preview":"../assets/image/concept/000006-great-oak-tree-concept/preview.webp","dir":"assets/image/concept/000006-great-oak-tree-concept","bytes":385671,"added":"2026-11-20","md":"../assets/image/concept/000006-great-oak-tree-concept/asset.md","json":"../assets/image/concept/000006-great-oak-tree-concept/asset.json","files":[{"path":"src/Flux2-Klein-4b-base_00002_.png","bytes":385671}]},{"id":"IMG-CONCEPT-000007","kind":"image","role":"concept","title":"Tree Pair - Pine and Bare Oak","summary":"Two-panel 848x608 study: left, a dense conical pine with a heavy trunk on black; right, a pale-trunked oak with exposed branches and a green canopy on white. Use as a style-matched pair for forest variety or side-by-side reference; crop the panels apart and key the backgrounds before engine use.","tags":["subject:environment/tree","style:pixel-art","use:concept-art","palette:mossy-green","format:png","engine:any"],"preview":"../assets/image/concept/000007-tree-pair-pine-and-bare-oak/preview.webp","dir":"assets/image/concept/000007-tree-pair-pine-and-bare-oak","bytes":544302,"added":"2026-11-20","md":"../assets/image/concept/000007-tree-pair-pine-and-bare-oak/asset.md","json":"../assets/image/concept/000007-tree-pair-pine-and-bare-oak/asset.json","files":[{"path":"src/Flux2-Klein-4b-base_00003_.png","bytes":544302}]},{"id":"IMG-CONCEPT-000008","kind":"image","role":"concept","title":"Tree Pair - Twisted Oak and Leaning Tree","summary":"Two-panel 848x608 study: left, a round-canopied oak with a twisted trunk on black; right, a leaning pale-barked tree with a wide wind-swept canopy on white. Use for paired forest silhouettes or variation reference; crop the panels apart and key the backgrounds before engine use.","tags":["subject:environment/tree","style:pixel-art","use:concept-art","palette:mossy-green","format:png","engine:any"],"preview":"../assets/image/concept/000008-tree-pair-twisted-oak-and-leaning-tree/preview.webp","dir":"assets/image/concept/000008-tree-pair-twisted-oak-and-leaning-tree","bytes":554966,"added":"2026-11-20","md":"../assets/image/concept/000008-tree-pair-twisted-oak-and-leaning-tree/asset.md","json":"../assets/image/concept/000008-tree-pair-twisted-oak-and-leaning-tree/asset.json","files":[{"path":"src/Flux2-Klein-4b-base_00004_.png","bytes":554966}]}];
+/*
+ * MeesaSplat - dependency-free 3D Gaussian splatting renderer.
+ * Exposes window.MeesaSplat = { parsePly, mountSplatViewer }.
+ * No imports, no CDN, no build step: inline this file in a static page.
+ * Each splat is a camera-facing disc sized by its largest Gaussian axis.
+ * Splats are sorted back-to-front on the CPU and composited with straight
+ * alpha, so dense regions read as the source model instead of clipping white.
+ */
+(function () {
+"use strict";
+// PLY parsing
+var TYPES = {
+  char: [1, "i8"], int8: [1, "i8"], uchar: [1, "u8"], uint8: [1, "u8"],
+  short: [2, "i16"], int16: [2, "i16"], ushort: [2, "u16"], uint16: [2, "u16"],
+  int: [4, "i32"], int32: [4, "i32"], uint: [4, "u32"], uint32: [4, "u32"],
+  float: [4, "f32"], float32: [4, "f32"], double: [8, "f64"], float64: [8, "f64"]
+};
+var FIELDS = ["x", "y", "z", "f_dc_0", "f_dc_1", "f_dc_2", "opacity",
+  "scale_0", "scale_1", "scale_2", "rot_0", "rot_1", "rot_2", "rot_3"];
+var DEFAULTS = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], SH_C0 = 0.28209479177387814;
+function tinfo(name) {
+  var info = TYPES[name];
+  if (!info) throw new Error("Unsupported PLY property type: " + name);
+  return info;
+}
+function scalar(view, offset, kind, le) {
+  switch (kind) {
+    case "f32": return view.getFloat32(offset, le); case "f64": return view.getFloat64(offset, le);
+    case "i8": return view.getInt8(offset); case "u8": return view.getUint8(offset);
+    case "i16": return view.getInt16(offset, le); case "u16": return view.getUint16(offset, le);
+    case "i32": return view.getInt32(offset, le); case "u32": return view.getUint32(offset, le);
+    default: return 0;
+  }
+}
+function findHeaderEnd(bytes) {
+  var probe = new TextDecoder("latin1").decode(bytes.subarray(0, Math.min(bytes.length, 1 << 20)));
+  var at = probe.indexOf("end_header");
+  if (at < 0) throw new Error("PLY header is missing end_header");
+  var nl = bytes.indexOf(10, at + 10);
+  return nl < 0 ? bytes.length : nl + 1;
+}
+function parseHeader(text) {
+  var lines = text.split(/\r?\n/), format = null, elements = [], current = null;
+  if (lines[0].trim() !== "ply") throw new Error("Not a PLY file");
+  for (var i = 1; i < lines.length; i++) {
+    var parts = lines[i].trim().split(/\s+/);
+    if (!parts[0] || parts[0] === "comment" || parts[0] === "obj_info") continue;
+    if (parts[0] === "format") {
+      format = parts[1];
+      if (format === "binary_big_endian" || (format !== "ascii" && format !== "binary_little_endian"))
+        throw new Error("Unsupported PLY format: " + format);
+    } else if (parts[0] === "element") {
+      current = { name: parts[1], count: parseInt(parts[2], 10) || 0, props: [] }; elements.push(current);
+    } else if (parts[0] === "property") {
+      if (!current) throw new Error("PLY property outside an element");
+      if (parts[1] === "list") current.props.push({ name: parts[4], list: true, countType: parts[2], type: parts[3] });
+      else current.props.push({ name: parts[2], list: false, type: parts[1] });
+    } else if (parts[0] === "end_header") break;
+  }
+  if (!format) throw new Error("PLY header is missing a format line");
+  return { format: format, elements: elements };
+}
+function scalarStride(el) {
+  var stride = 0;
+  for (var i = 0; i < el.props.length; i++) {
+    if (el.props[i].list) return -1;
+    stride += tinfo(el.props[i].type)[0];
+  }
+  return stride;
+}
+// Scalar rows jump by stride; list rows are walked so the cursor lands exactly
+// on the next element.
+function skipBinary(view, cursor, el, end) {
+  var stride = scalarStride(el);
+  if (stride >= 0) return Math.min(end, cursor + stride * el.count);
+  for (var row = 0; row < el.count && cursor < end; row++) {
+    for (var p = 0; p < el.props.length; p++) {
+      var prop = el.props[p];
+      if (prop.list) {
+        var ci = tinfo(prop.countType), ii = tinfo(prop.type);
+        cursor += ci[0] + Math.max(0, scalar(view, cursor, ci[1], true)) * ii[0];
+      } else cursor += tinfo(prop.type)[0];
+      if (cursor > end) return end;
+    }
+  }
+  return Math.min(cursor, end);
+}
+function makeBounds(pos, count) {
+  var mn = [Infinity, Infinity, Infinity], mx = [-Infinity, -Infinity, -Infinity];
+  for (var i = 0; i < count; i++) for (var k = 0; k < 3; k++) {
+    var v = pos[i * 3 + k];
+    if (!isFinite(v)) continue;
+    if (v < mn[k]) mn[k] = v; if (v > mx[k]) mx[k] = v;
+  }
+  if (!isFinite(mn[0])) { mn = [-1, -1, -1]; mx = [1, 1, 1]; }
+  return {
+    min: { x: mn[0], y: mn[1], z: mn[2] }, max: { x: mx[0], y: mx[1], z: mx[2] },
+    center: { x: (mn[0] + mx[0]) / 2, y: (mn[1] + mx[1]) / 2, z: (mn[2] + mx[2]) / 2 },
+    size: { x: mx[0] - mn[0], y: mx[1] - mn[1], z: mx[2] - mn[2] } };
+}
+function alloc(count) {
+  return {
+    positions: new Float32Array(count * 3), colors: new Float32Array(count * 3),
+    alphas: new Float32Array(count), radii: new Float32Array(count), quats: new Float32Array(count * 4)
+  };
+}
+function storeSplat(out, index, values) {
+  var i3 = index * 3, i4 = index * 4;
+  for (var k = 0; k < 3; k++) {
+    out.positions[i3 + k] = values[k];
+    // Degree-0 spherical harmonic: color = 0.5 + C0 * f_dc.
+    out.colors[i3 + k] = Math.min(1, Math.max(0, 0.5 + SH_C0 * values[3 + k]));
+  }
+  out.alphas[index] = 1 / (1 + Math.exp(-values[6])); // opacity is stored as a logit
+  var r = Math.max(Math.exp(values[7]), Math.exp(values[8]), Math.exp(values[9]));
+  out.radii[index] = isFinite(r) && r > 0 ? r : 1e-9;
+  // rot_0..3 is (w, x, y, z). A zero quaternion degrades to identity.
+  var qw = values[10], qx = values[11], qy = values[12], qz = values[13];
+  var len = Math.sqrt(qw * qw + qx * qx + qy * qy + qz * qz);
+  if (len < 1e-12) { qw = 1; qx = qy = qz = 0; len = 1; }
+  out.quats[i4] = qw / len; out.quats[i4 + 1] = qx / len;
+  out.quats[i4 + 2] = qy / len; out.quats[i4 + 3] = qz / len;
+}
+function finishResult(out, count) {
+  var positions = out.positions.subarray(0, count * 3);
+  return {
+    count: count, positions: positions, colors: out.colors.subarray(0, count * 3),
+    alphas: out.alphas.subarray(0, count), radii: out.radii.subarray(0, count),
+    quats: out.quats.subarray(0, count * 4), bounds: makeBounds(positions, count)
+  };
+}
+function parseBinary(buffer, headerEnd, elements) {
+  var bytes = new Uint8Array(buffer), view = new DataView(buffer), vertexIndex = -1;
+  for (var e = 0; e < elements.length; e++) if (elements[e].name === "vertex") { vertexIndex = e; break; }
+  if (vertexIndex < 0) throw new Error("PLY has no vertex element");
+  var vertex = elements[vertexIndex], total = vertex.count, end = bytes.length, cursor = headerEnd;
+  for (var prior = 0; prior < vertexIndex; prior++) cursor = skipBinary(view, cursor, elements[prior], end);
+  // Fast path: all vertex properties scalar, so fixed offsets/stride keep extra
+  // fields (nx, custom data) from shifting the required ones.
+  var offsets = Object.create(null), stride = 0, hasList = false;
+  for (var p = 0; p < vertex.props.length; p++) {
+    var prop = vertex.props[p];
+    if (prop.list) { hasList = true; continue; }
+    offsets[prop.name] = stride;
+    stride += tinfo(prop.type)[0];
+  }
+  var readers = FIELDS.map(function (name) {
+    for (var q = 0; q < vertex.props.length; q++) {
+      var found = vertex.props[q];
+      if (found.name === name) return found.list ? null : { offset: offsets[name], kind: tinfo(found.type)[1] };
+    }
+    return null;
+  });
+  var available = hasList ? total : Math.min(total, Math.floor((end - cursor) / Math.max(stride, 1)));
+  var out = alloc(available), values = new Float64Array(FIELDS.length), parsed = 0;
+  if (!hasList) {
+    for (var i = 0; i < available; i++) {
+      var base = cursor + i * stride;
+      for (var r = 0; r < readers.length; r++) {
+        values[r] = readers[r] ? scalar(view, base + readers[r].offset, readers[r].kind, true) : DEFAULTS[r];
+      }
+      storeSplat(out, i, values); parsed++;
+    }
+  } else {
+    // Rare: list properties inside the vertex element force a row walk.
+    var ptr = cursor;
+    for (var row = 0; row < total && ptr < end; row++) {
+      values.set(DEFAULTS);
+      var rowStart = ptr;
+      for (var pr = 0; pr < vertex.props.length; pr++) {
+        var pp = vertex.props[pr], ci = pp.list ? tinfo(pp.countType) : tinfo(pp.type);
+        if (pp.list) ptr += ci[0] + Math.max(0, scalar(view, ptr, ci[1], true)) * tinfo(pp.type)[0];
+        else {
+          var fi = FIELDS.indexOf(pp.name);
+          if (fi >= 0) values[fi] = scalar(view, ptr, ci[1], true);
+          ptr += ci[0];
+        }
+      }
+      if (ptr > end || ptr <= rowStart) break;
+      storeSplat(out, parsed++, values);
+    }
+  }
+  return finishResult(out, parsed);
+}
+function parseAscii(buffer, headerEnd, elements) {
+  var tx = new TextDecoder("latin1").decode(new Uint8Array(buffer, headerEnd));
+  var lines = tx.split(/\r?\n/).filter(function (line) { return line.trim().length > 0; });
+  var lineIndex = 0, vertex = null;
+  for (var e = 0; e < elements.length && !vertex; e++) {
+    if (elements[e].name === "vertex") vertex = elements[e]; else lineIndex += elements[e].count;
+  }
+  if (!vertex) throw new Error("PLY has no vertex element");
+  lineIndex = Math.min(lineIndex, lines.length);
+  var out = alloc(vertex.count), values = new Float64Array(FIELDS.length), parsed = 0;
+  for (var i = 0; i < vertex.count && lineIndex < lines.length; i++, lineIndex++) {
+    var tokens = lines[lineIndex].trim().split(/\s+/), token = 0;
+    values.set(DEFAULTS);
+    for (var p = 0; p < vertex.props.length; p++) {
+      var prop = vertex.props[p];
+      if (prop.list) { token += 1 + Math.max(0, parseInt(tokens[token], 10) || 0); continue; }
+      var fi = FIELDS.indexOf(prop.name);
+      if (fi >= 0 && token < tokens.length) values[fi] = parseFloat(tokens[token]);
+      token++;
+    }
+    storeSplat(out, parsed++, values);
+  }
+  return finishResult(out, parsed);
+}
+function parsePly(arrayBuffer) {
+  if (!arrayBuffer || typeof arrayBuffer.byteLength !== "number") throw new Error("parsePly expects an ArrayBuffer");
+  if (arrayBuffer.byteLength === 0) return finishResult(alloc(0), 0);
+  var bytes = new Uint8Array(arrayBuffer), headerEnd = findHeaderEnd(bytes);
+  var header = parseHeader(new TextDecoder("latin1").decode(bytes.subarray(0, headerEnd)));
+  return header.format === "ascii" ? parseAscii(arrayBuffer, headerEnd, header.elements) : parseBinary(arrayBuffer, headerEnd, header.elements);
+}
+// Matrices (column-major, as WebGL expects) and GLSL
+function perspective(fovy, aspect, near, far) {
+  var f = 1 / Math.tan(fovy / 2), nf = 1 / (near - far), m = new Float32Array(16);
+  m[0] = f / aspect; m[5] = f; m[10] = (far + near) * nf; m[11] = -1; m[14] = 2 * far * near * nf;
+  return m;
+}
+function lookAt(eye, target, up) {
+  var zx = eye[0] - target[0], zy = eye[1] - target[1], zz = eye[2] - target[2];
+  var zl = Math.hypot(zx, zy, zz) || 1;
+  zx /= zl; zy /= zl; zz /= zl;
+  var xx = up[1] * zz - up[2] * zy, xy = up[2] * zx - up[0] * zz, xz = up[0] * zy - up[1] * zx;
+  var xl = Math.hypot(xx, xy, xz) || 1;
+  xx /= xl; xy /= xl; xz /= xl;
+  var yx = zy * xz - zz * xy, yy = zz * xx - zx * xz, yz = zx * xy - zy * xx;
+  return new Float32Array([
+    xx, yx, zx, 0, xy, yy, zy, 0, xz, yz, zz, 0,
+    -(xx * eye[0] + xy * eye[1] + xz * eye[2]),
+    -(yx * eye[0] + yy * eye[1] + yz * eye[2]),
+    -(zx * eye[0] + zy * eye[1] + zz * eye[2]), 1
+  ]);
+}
+var VERTEX_SHADER = `#version 300 es
+precision highp float;
+precision highp int;
+precision highp sampler2D;
+precision highp usampler2D;
+uniform mat4 u_view, u_proj;
+uniform vec2 u_viewport;
+uniform float u_flipY;
+uniform sampler2D u_data;
+uniform usampler2D u_order;
+uniform int u_orderW;
+uniform int u_dataW;
+out vec3 vColor;
+out float vAlpha;
+out vec2 vLocal;
+void main() {
+  int splat = gl_VertexID / 6;
+  int ci = gl_VertexID - splat * 6;
+  vec2 corner;
+  if (ci == 0) corner = vec2(-1.0, -1.0);
+  else if (ci == 1) corner = vec2(1.0, -1.0);
+  else if (ci == 2) corner = vec2(-1.0, 1.0);
+  else if (ci == 3) corner = vec2(1.0, -1.0);
+  else if (ci == 4) corner = vec2(1.0, 1.0);
+  else corner = vec2(-1.0, 1.0);
+  // Sorted index texture: instance/splat 0 is the farthest from the camera.
+  uint si = texelFetch(u_order, ivec2(splat % u_orderW, splat / u_orderW), 0).r;
+  int s = int(si);
+  ivec2 texel = ivec2((s % u_dataW) * 2, s / u_dataW);
+  vec4 a = texelFetch(u_data, texel, 0);              // x, y, z, radius
+  vec4 b = texelFetch(u_data, texel + ivec2(1, 0), 0); // r, g, b, alpha
+  vec3 p = a.xyz;
+  float radius = a.w;
+  if (u_flipY > 0.5) p.yz = -p.yz; // 180 degrees about X
+  vec4 viewPos = u_view * vec4(p, 1.0);
+  vec4 clip = u_proj * viewPos;
+  if (clip.w <= 0.0001) { gl_Position = vec4(0.0, 0.0, 2.0, 1.0); return; }
+  // Screen radius = focal_px * radius / depth, where focal_px for a vertical
+  // FOV is 0.5 * viewportHeight * proj[1][1]. Offsetting in NDC and multiplying
+  // by w keeps the quad exactly that many pixels wide after the divide.
+  float focal = 0.5 * u_viewport.y * u_proj[1][1];
+  float halfPx = clamp(focal * radius / clip.w, 1.0, 64.0);
+  clip.xy += corner * halfPx * (2.0 / u_viewport) * clip.w;
+  gl_Position = clip;
+  vColor = b.rgb;
+  vAlpha = b.a;
+  vLocal = corner;
+}`;
+var FRAGMENT_SHADER = `#version 300 es
+precision highp float;
+in vec3 vColor; in float vAlpha; in vec2 vLocal;
+out vec4 outColor;
+void main() {
+  float r2 = dot(vLocal, vLocal);
+  if (r2 > 1.0) discard;
+  float a = clamp(vAlpha * exp(-4.0 * r2), 0.0, 1.0);
+  if (a < 0.01) discard;
+  // Straight alpha: SRC_ALPHA / ONE_MINUS_SRC_ALPHA performs the compositing.
+  outColor = vec4(vColor, a);
+}`;
+function createProgram(gl) {
+  function compile(type, source) {
+    var shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      var log = gl.getShaderInfoLog(shader); gl.deleteShader(shader);
+      throw new Error("Shader compile failed: " + log);
+    }
+    return shader;
+  }
+  var vs = compile(gl.VERTEX_SHADER, VERTEX_SHADER), fs = compile(gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
+  var program = gl.createProgram();
+  gl.attachShader(program, vs); gl.attachShader(program, fs); gl.linkProgram(program);
+  gl.deleteShader(vs); gl.deleteShader(fs);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    var log = gl.getProgramInfoLog(program); gl.deleteProgram(program);
+    throw new Error("Program link failed: " + log);
+  }
+  return program;
+}
+// Viewer
+function mountSplatViewer(container, options) {
+  options = options || {};
+  var stats = { total: 0, drawn: 0, fps: 0 }, destroyed = false, fatal = false, lost = false;
+  var autoRotate = options.autoRotate !== false, flipY = !!options.flipY;
+  var maxSplats = Math.max(1, Math.floor(options.maxSplats || 400000));
+  var onProgress = typeof options.onProgress === "function" ? options.onProgress : null;
+  var onStats = typeof options.onStats === "function" ? options.onStats : null;
+  var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  var instanceData = new Float32Array(0), fit = { radius: 1, center: [0, 0, 0] };
+  var sortDirty = true, sortKeys = null, sortOrder = null, sortScratch = null, sortBits = null;
+  var sortCounts = new Uint32Array(256), orderUpload = new Uint32Array(0), upAxis = "y";
+  var yaw = 0, pitch = 0, zoom = 1, dragging = false, lastX = 0, lastY = 0;
+  var raf = 0, lastTime = 0, frames = 0, fpsStart = 0, lastStatsAt = 0, fps = 0;
+  if (typeof container === "string") container = document.querySelector(container);
+  if (!container || !container.appendChild) {
+    if (onProgress) try { onProgress({ phase: "error", message: "mountSplatViewer: container element is required" }); } catch (e) {}
+    return { destroy: function () {}, reset: function () {}, setAutoRotate: function () {}, setFlipY: function () {}, getStats: function () { return { total: 0, drawn: 0, fps: 0, upAxis: "y" }; } };
+  }
+  var canvas = document.createElement("canvas");
+  canvas.style.cssText = "display:block;width:100%;height:100%;touch-action:none;cursor:grab;";
+  container.appendChild(canvas);
+  var gl = null, glr = null, observer = null;
+  function progress(phase, extra) {
+    if (!onProgress) return;
+    try { onProgress(Object.assign({ phase: phase }, extra || {})); } catch (err) { /* gallery callback */ }
+  }
+  function reportError(err) {
+    fatal = true; stats.fps = 0;
+    progress("error", { message: err && err.message ? err.message : String(err) });
+  }
+  function emitStats(force) {
+    if (!onStats) return;
+    var now = performance.now();
+    if (!force && now - lastStatsAt < 250) return;
+    lastStatsAt = now;
+    if (fpsStart) { fps = autoRotate && !dragging ? (frames * 1000) / Math.max(1, now - fpsStart) : 0; frames = 0; fpsStart = now; }
+    try { onStats({ total: stats.total, drawn: stats.drawn, fps: Math.round(fps * 10) / 10 }); } catch (err) { /* ignore */ }
+  }
+  function resize() {
+    if (destroyed) return;
+    var rect = container.getBoundingClientRect ? container.getBoundingClientRect() : null;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var w = Math.max(1, Math.round(((rect && rect.width) || container.clientWidth || 300) * dpr));
+    var h = Math.max(1, Math.round(((rect && rect.height) || container.clientHeight || 300) * dpr));
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; sortDirty = true; requestFrame(); }
+  }
+  function initGL() {
+    var context = canvas.getContext("webgl2", { alpha: true, antialias: false, depth: false, premultipliedAlpha: true, preserveDrawingBuffer: true });
+    if (!context) throw new Error("WebGL2 is not available");
+    gl = context;
+    var program = createProgram(gl), vao = gl.createVertexArray();
+    // Unit 0: two RGBA32F texels per splat (position+radius, color+alpha).
+    var dataTex = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, dataTex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    // Unit 1: back-to-front splat indices as R32UI.
+    var orderTex = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, orderTex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.useProgram(program);
+    gl.uniform1i(gl.getUniformLocation(program, "u_data"), 0);
+    gl.uniform1i(gl.getUniformLocation(program, "u_order"), 1);
+    gl.disable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE);
+    gl.enable(gl.BLEND); gl.blendEquation(gl.FUNC_ADD);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    // The color factors above are correct; use ONE for the alpha channel so
+    // coverage accumulates instead of being multiplied by itself, which keeps
+    // the transparent canvas correct on light or dark gallery backgrounds.
+    gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    glr = {
+      program: program, vao: vao, dataTex: dataTex, orderTex: orderTex,
+      dataW: 1, dataH: 1, orderW: 1, orderH: 1,
+      uView: gl.getUniformLocation(program, "u_view"), uProj: gl.getUniformLocation(program, "u_proj"),
+      uViewport: gl.getUniformLocation(program, "u_viewport"), uFlipY: gl.getUniformLocation(program, "u_flipY"),
+      uOrderW: gl.getUniformLocation(program, "u_orderW"), uDataW: gl.getUniformLocation(program, "u_dataW")
+    };
+  }
+  function uploadSplats() {
+    if (!glr || !stats.drawn) return;
+    var n = stats.drawn, maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) || 4096;
+    var dataW = Math.max(1, Math.min(1024, n, Math.floor(maxTex / 2)));
+    var dataH = Math.ceil(n / dataW);
+    var orderW = Math.max(1, Math.min(1024, n, maxTex));
+    var orderH = Math.ceil(n / orderW);
+    var padded = new Float32Array(dataW * dataH * 8);
+    padded.set(instanceData);
+    orderUpload = new Uint32Array(orderW * orderH);
+    glr.dataW = dataW; glr.dataH = dataH; glr.orderW = orderW; glr.orderH = orderH;
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, glr.dataTex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, dataW * 2, dataH, 0, gl.RGBA, gl.FLOAT, padded);
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, glr.orderTex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R32UI, orderW, orderH, 0, gl.RED_INTEGER, gl.UNSIGNED_INT, orderUpload);
+    gl.activeTexture(gl.TEXTURE0);
+  }
+  function fitDistance(aspect) {
+    var vf = Math.PI / 4, hf = 2 * Math.atan(Math.tan(vf / 2) * aspect);
+    return (fit.radius / Math.sin(Math.min(vf, hf) / 2)) * 1.15; // 15% padding
+  }
+  function draw(now) {
+    if (destroyed || lost || fatal || !glr || !gl) return;
+    if (sortDirty) { sortSplats(); sortDirty = false; }
+    gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    if (stats.drawn > 0) {
+      var aspect = canvas.width / Math.max(1, canvas.height);
+      var pitchCos = Math.cos(pitch), distance = fitDistance(aspect) * zoom;
+      var cam = [fit.center[0] + Math.sin(yaw) * pitchCos * distance,
+        fit.center[1] + Math.sin(pitch) * distance, fit.center[2] + Math.cos(yaw) * pitchCos * distance];
+      var near = Math.max(distance * 0.01, 1e-6), far = distance * 4 + fit.radius * 8;
+      gl.useProgram(glr.program);
+      gl.uniformMatrix4fv(glr.uView, false, lookAt(cam, fit.center, [0, 1, 0]));
+      gl.uniformMatrix4fv(glr.uProj, false, perspective(Math.PI / 4, aspect, near, far));
+      gl.uniform2f(glr.uViewport, canvas.width, canvas.height); gl.uniform1f(glr.uFlipY, flipY ? 1 : 0);
+      gl.uniform1i(glr.uOrderW, glr.orderW); gl.uniform1i(glr.uDataW, glr.dataW);
+      gl.bindVertexArray(glr.vao); gl.drawArrays(gl.TRIANGLES, 0, stats.drawn * 6);
+      gl.bindVertexArray(null);
+    }
+    frames++; if (!fpsStart) fpsStart = now; emitStats(false);
+  }
+  function requestFrame() {
+    if (raf || destroyed || lost || fatal) return;
+    raf = window.requestAnimationFrame(tick);
+  }
+  function tick(now) {
+    raf = 0;
+    if (destroyed || lost || fatal) return;
+    var dt = lastTime ? Math.min(0.1, (now - lastTime) / 1000) : 0;
+    lastTime = now;
+    if (autoRotate && !dragging) { yaw += dt * 0.18; sortDirty = true; }
+    try { draw(now); } catch (err) { reportError(err); return; }
+    if (autoRotate && !dragging && stats.drawn > 0) requestFrame();
+  }
+  function reset() { yaw = 0; pitch = 0; zoom = 1; lastTime = 0; sortDirty = true; requestFrame(); }
+  function setAutoRotate(value) { autoRotate = !!value; lastTime = 0; if (autoRotate) requestFrame(); }
+  function setFlipY(value) { flipY = !!value; sortDirty = true; requestFrame(); }
+  function getStats() { return { total: stats.total, drawn: stats.drawn, fps: Math.round(fps * 10) / 10, upAxis: upAxis }; }
+  function onPointerDown(event) {
+    if (event.button !== 0) return;
+    dragging = true; lastX = event.clientX; lastY = event.clientY; lastTime = 0; canvas.style.cursor = "grabbing";
+    if (canvas.setPointerCapture) try { canvas.setPointerCapture(event.pointerId); } catch (err) { /* ignore */ }
+  }
+  function onPointerMove(event) {
+    if (!dragging) return;
+    yaw -= (event.clientX - lastX) * 0.01;
+    pitch = Math.max(-1.45, Math.min(1.45, pitch + (event.clientY - lastY) * 0.01));
+    lastX = event.clientX; lastY = event.clientY; sortDirty = true; requestFrame();
+  }
+  function onPointerUp(event) {
+    if (!dragging) return;
+    dragging = false; canvas.style.cursor = "grab";
+    if (canvas.releasePointerCapture) try { canvas.releasePointerCapture(event.pointerId); } catch (err) { /* ignore */ }
+    if (autoRotate) { lastTime = 0; requestFrame(); }
+  }
+  function onWheel(event) {
+    event.preventDefault();
+    zoom = Math.max(0.05, Math.min(20, zoom * Math.exp(event.deltaY * 0.001))); sortDirty = true; requestFrame();
+  }
+  function onContextLost(event) {
+    event.preventDefault(); lost = true;
+    if (raf) window.cancelAnimationFrame(raf);
+    raf = 0; glr = null; gl = null;
+  }
+  function onContextRestored() {
+    if (destroyed) return;
+    lost = false;
+    try { initGL(); uploadSplats(); sortDirty = true; requestFrame(); } catch (err) { reportError(err); }
+  }
+  canvas.addEventListener("wheel", onWheel, { passive: false });
+  var listeners = [["pointerdown", onPointerDown], ["pointermove", onPointerMove], ["pointerup", onPointerUp],
+    ["pointercancel", onPointerUp], ["webglcontextlost", onContextLost], ["webglcontextrestored", onContextRestored]];
+  for (var li = 0; li < listeners.length; li++) canvas.addEventListener(listeners[li][0], listeners[li][1]);
+  if (typeof ResizeObserver !== "undefined") { observer = new ResizeObserver(resize); observer.observe(container); }
+  else window.addEventListener("resize", resize);
+  function buildInstances(source, drawn, step, axis) {
+    var out = new Float32Array(drawn * 8);
+    for (var i = 0; i < drawn; i++) {
+      var k = step === 1 ? i : Math.floor(i * step), o = i * 8, s = k * 3;
+      var x = source.positions[s], y = source.positions[s + 1], z = source.positions[s + 2];
+      // Rotate the longest axis upright; sorting and framing use these coords.
+      if (axis === "x") { var t = x; x = -y; y = t; }
+      else if (axis === "z") { var u = y; y = z; z = -u; }
+      out[o] = x; out[o + 1] = y; out[o + 2] = z; out[o + 3] = source.radii[k];
+      out[o + 4] = source.colors[s]; out[o + 5] = source.colors[s + 1]; out[o + 6] = source.colors[s + 2];
+      out[o + 7] = source.alphas[k];
+    }
+    return out;
+  }
+  function orientedExtent(b, axis) {
+    if (axis === "x") return { x: b.size.y, y: b.size.x, z: b.size.z, cx: -b.center.y, cy: b.center.x, cz: b.center.z };
+    if (axis === "z") return { x: b.size.x, y: b.size.z, z: b.size.y, cx: b.center.x, cy: b.center.z, cz: -b.center.y };
+    return { x: b.size.x, y: b.size.y, z: b.size.z, cx: b.center.x, cy: b.center.y, cz: b.center.z };
+  }
+  function sortSplats() {
+    var n = stats.drawn;
+    if (!n || !glr) return;
+    var aspect = canvas.width / Math.max(1, canvas.height);
+    var pitchCos = Math.cos(pitch), distance = fitDistance(aspect) * zoom;
+    var ex = fit.center[0] + Math.sin(yaw) * pitchCos * distance;
+    var ey = fit.center[1] + Math.sin(pitch) * distance;
+    var ez = fit.center[2] + Math.cos(yaw) * pitchCos * distance;
+    // Forward vector from eye to orbit centre.
+    var fx = -Math.sin(yaw) * pitchCos, fy = -Math.sin(pitch), fz = -Math.cos(yaw) * pitchCos;
+    var flip = flipY ? -1 : 1;
+    for (var i = 0; i < n; i++) {
+      var o = i * 8;
+      // View-space depth; farthest splats must be composited first.
+      var d = (instanceData[o] - ex) * fx + (instanceData[o + 1] * flip - ey) * fy + (instanceData[o + 2] * flip - ez) * fz;
+      sortKeys[i] = d > 0 ? d : 0;
+    }
+    for (var j = 0; j < n; j++) sortOrder[j] = j;
+    // 8-bit radix passes over positive-float bit patterns: O(4n), no comparator.
+    var bits = sortBits, counts = sortCounts, src = sortOrder, dst = sortScratch;
+    for (var shift = 0; shift < 32; shift += 8) {
+      counts.fill(0);
+      for (var a = 0; a < n; a++) counts[(bits[src[a]] >>> shift) & 255]++;
+      var total = 0;
+      for (var b = 0; b < 256; b++) { var c = counts[b]; counts[b] = total; total += c; }
+      for (var m = 0; m < n; m++) { var idx = src[m]; dst[counts[(bits[idx] >>> shift) & 255]++] = idx; }
+      var sw = src; src = dst; dst = sw;
+    }
+    // Ascending depth, emitted in reverse so texture order 0 is farthest.
+    for (var p = 0; p < n; p++) orderUpload[p] = src[n - 1 - p];
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, glr.orderTex);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, glr.orderW, glr.orderH, gl.RED_INTEGER, gl.UNSIGNED_INT, orderUpload);
+    gl.activeTexture(gl.TEXTURE0);
+  }
+  function start() {
+    try {
+      if (!options.url) throw new Error("mountSplatViewer: options.url is required");
+      initGL(); resize();
+      progress("fetch", { url: options.url });
+      var request = controller ? fetch(options.url, { signal: controller.signal }) : fetch(options.url);
+      request.then(function (response) {
+        if (!response.ok) throw new Error("Failed to fetch splat file: HTTP " + response.status);
+        return response.arrayBuffer();
+      }).then(function (buffer) {
+        if (destroyed) return;
+        progress("parse", { bytes: buffer.byteLength });
+        var data = parsePly(buffer), total = data.count;
+        var step = total > maxSplats ? total / maxSplats : 1, drawn = Math.min(total, maxSplats);
+        var size = data.bounds.size, longest = Math.max(size.x, size.y, size.z);
+        // Keep Y up unless it is squashed relative to the longest axis.
+        upAxis = size.y >= 0.4 * longest ? "y" : (size.x >= size.z ? "x" : "z");
+        instanceData = buildInstances(data, drawn, step, upAxis);
+        sortKeys = new Float32Array(drawn);
+        sortBits = new Uint32Array(sortKeys.buffer);
+        sortOrder = new Uint32Array(drawn);
+        sortScratch = new Uint32Array(drawn);
+        var ob = orientedExtent(data.bounds, upAxis);
+        fit = { radius: 0.5 * Math.max(ob.x, ob.y, ob.z) || 0.5, center: [ob.cx, ob.cy, ob.cz] };
+        stats.total = total; stats.drawn = drawn; stats.upAxis = upAxis;
+        uploadSplats();
+        sortDirty = true;
+        progress("ready", { total: total, drawn: drawn, upAxis: upAxis }); emitStats(true); requestFrame();
+      }).catch(function (err) {
+        if (!destroyed && !(err && err.name === "AbortError")) reportError(err);
+      });
+    } catch (err) { reportError(err); }
+  }
+  function destroy() {
+    if (destroyed) return;
+    destroyed = true;
+    if (raf) window.cancelAnimationFrame(raf);
+    raf = 0;
+    if (controller) try { controller.abort(); } catch (err) { /* ignore */ }
+    if (observer) observer.disconnect(); else window.removeEventListener("resize", resize);
+    canvas.removeEventListener("wheel", onWheel);
+    for (var li = 0; li < listeners.length; li++) canvas.removeEventListener(listeners[li][0], listeners[li][1]);
+    try {
+      if (gl && glr) {
+        gl.deleteTexture(glr.dataTex); gl.deleteTexture(glr.orderTex);
+        gl.deleteVertexArray(glr.vao); gl.deleteProgram(glr.program);
+      }
+    } catch (err) { /* context may already be gone */ }
+    glr = null; gl = null;
+    if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+    instanceData = new Float32Array(0); orderUpload = new Uint32Array(0);
+    stats.total = 0; stats.drawn = 0;
+  }
+  start();
+  return { destroy: destroy, reset: reset, setAutoRotate: setAutoRotate, setFlipY: setFlipY, getStats: getStats };
+}
+window.MeesaSplat = { parsePly: parsePly, mountSplatViewer: mountSplatViewer };
+})();
+</script>
+<script>
+const ASSETS = [{"id":"IMG-TEXTURE-000009","kind":"image","role":"texture","title":"Mossy Cobblestone Texture","summary":"Seamless 768x768 top-down cobblestone with wet grey stones and green moss packed into the joints, generated prompt-only with a seamless model patch. Use for forest ruins, dungeon floors and overgrown paths; tiles cleanly on both axes at 1x, and the matching normal/height maps came from the same run.","tags":["subject:environment/stone","style:realistic","use:tileset","palette:mossy-green","format:png","engine:any"],"preview":"../assets/image/texture/000009-mossy-cobblestone-texture/preview.webp","file":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png","mime":"image/png","tileable":true,"splat":false,"technical":{"width":768,"height":768,"alpha":false,"tileable":true,"palette":null},"dir":"assets/image/texture/000009-mossy-cobblestone-texture","bytes":1051668,"added":"2026-11-21","md":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.md","json":"../assets/image/texture/000009-mossy-cobblestone-texture/asset.json","files":[{"path":"src/Albedo_00001_.png","bytes":1051668,"mime":"image/png","url":"../assets/image/texture/000009-mossy-cobblestone-texture/src/Albedo_00001_.png"}]},{"id":"SND-AMBIENCE-000010","kind":"audio","role":"ambience","title":"Mossloop Ambience","summary":"Six-second stereo ambient bed of stacked low sine tones (G3, D4, G4) with slow tremolo, echo and fade in/out. Use as a quiet forest or menu loop; the fade makes it loop cleanly at six seconds.","tags":["subject:ambience/forest","style:clean-synth","use:ambience","palette:mossy-green","format:ogg","engine:any"],"preview":"../assets/audio/ambience/000010-mossloop-ambience/preview.png","file":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg","mime":"audio/ogg","tileable":false,"splat":false,"technical":{"duration_s":6,"sample_rate":44100,"channels":2,"loopable":true},"dir":"assets/audio/ambience/000010-mossloop-ambience","bytes":19515,"added":"2026-11-21","md":"../assets/audio/ambience/000010-mossloop-ambience/asset.md","json":"../assets/audio/ambience/000010-mossloop-ambience/asset.json","files":[{"path":"src/demo-ambience.ogg","bytes":19515,"mime":"audio/ogg","url":"../assets/audio/ambience/000010-mossloop-ambience/src/demo-ambience.ogg"}]},{"id":"VID-CAPTURE-000011","kind":"video","role":"capture","title":"Mossy Tile Camera Loop","summary":"Six-second 1280x720 camera drift across the mossy cobblestone texture, pushing in slowly with a gentle sway. Use to demonstrate video playback or as a placeholder ambience plate; the still it was rendered from is the tileable texture bundle.","tags":["subject:environment/stone","style:realistic","use:reference","palette:mossy-green","format:mp4","engine:any"],"preview":"../assets/video/capture/000011-mossy-tile-camera-loop/preview.webp","file":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4","mime":"video/mp4","tileable":false,"splat":false,"technical":{"duration_s":6,"resolution":"1280x720","fps":24,"codec":"h264"},"dir":"assets/video/capture/000011-mossy-tile-camera-loop","bytes":893337,"added":"2026-11-21","md":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.md","json":"../assets/video/capture/000011-mossy-tile-camera-loop/asset.json","files":[{"path":"src/demo-tile-loop.mp4","bytes":893337,"mime":"video/mp4","url":"../assets/video/capture/000011-mossy-tile-camera-loop/src/demo-tile-loop.mp4"}]},{"id":"MDL-PROP-000012","kind":"model","role":"prop","title":"Sword Totem Splat","summary":"32,768-splat Gaussian reconstruction of a tall sword-shaped totem with a pale face at the guard, roughly 5.8 to 1 tall. Use to exercise the 3D splat viewer and as a stylized weapon or shrine prop reference; the PLY is the original and the poster is a viewport render.","tags":["subject:item/sword","style:realistic","use:reference","format:ply","engine:any"],"preview":"../assets/model/prop/000012-sword-totem-splat/preview.png","file":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply","mime":"application/octet-stream","tileable":false,"splat":true,"technical":{"format":"ply","splats":32768,"up_axis":"y","scale_units":"unknown"},"dir":"assets/model/prop/000012-sword-totem-splat","bytes":2228639,"added":"2026-11-21","md":"../assets/model/prop/000012-sword-totem-splat/asset.md","json":"../assets/model/prop/000012-sword-totem-splat/asset.json","files":[{"path":"src/splat-test.ply","bytes":2228639,"mime":"application/octet-stream","url":"../assets/model/prop/000012-sword-totem-splat/src/splat-test.ply"}]}];
 (function () {
   'use strict';
 
   var KINDS = ['image', 'model', 'audio', 'video', 'font', 'material', 'doc', 'project', 'other'];
+  var TECH_LABELS = {
+    width: 'Width', height: 'Height', alpha: 'Alpha', tileable: 'Tileable',
+    duration_s: 'Duration', sample_rate: 'Sample rate', channels: 'Channels',
+    bit_depth: 'Bit depth', loopable: 'Loopable', resolution: 'Resolution',
+    fps: 'Frame rate', codec: 'Codec', format: 'Format', polycount: 'Polycount',
+    uv: 'UVs', materials: 'Materials', rigged: 'Rigged', animations: 'Animations',
+    scale_units: 'Scale units', family: 'Family', weights: 'Weights',
+    glyphs: 'Glyphs', pages: 'Pages', engine: 'Engine',
+    engine_version: 'Engine version', bundle_type: 'Bundle type', splats: 'Splats'
+  };
   var state = { query: '', kind: 'all', sort: 'newest', tags: Object.create(null) };
   var current = [];
-  var lightboxList = [];
-  var lightboxIndex = -1;
-  var searchTimer = 0;
+  var byId = Object.create(null);
+  var viewerList = [];
+  var viewerIndex = -1;
+  var viewerAsset = null;
+  var opener = null;
+  var tileApply = null;
+  var splatHandle = null;
 
   var searchInput = document.getElementById('search');
   var sortSelect = document.getElementById('sort');
+  var themeButton = document.getElementById('theme');
   var tabs = document.getElementById('kind-tabs');
   var tagGroups = document.getElementById('tag-groups');
   var noTags = document.getElementById('no-tags');
@@ -310,24 +1112,26 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
   var emptyTitle = document.getElementById('empty-title');
   var emptyText = document.getElementById('empty-text');
   var countText = document.getElementById('result-count');
-  var dialog = document.getElementById('lightbox');
-  var lbTitle = document.getElementById('lb-title');
-  var lbBadge = document.getElementById('lb-badge');
-  var lbSummary = document.getElementById('lb-summary');
-  var lbMeta = document.getElementById('lb-meta');
-  var lbTags = document.getElementById('lb-tags');
-  var lbFiles = document.getElementById('lb-files');
-  var lbMedia = document.getElementById('lb-media');
-  var lbMd = document.getElementById('lb-md');
-  var lbJson = document.getElementById('lb-json');
-  var lbPos = document.getElementById('lb-pos');
-  var lbPrev = document.getElementById('lb-prev');
-  var lbNext = document.getElementById('lb-next');
-  var lbClose = document.getElementById('lb-close');
+  var dialog = document.getElementById('viewer');
+  var vTitle = document.getElementById('v-title');
+  var vBadge = document.getElementById('v-badge');
+  var vSummary = document.getElementById('v-summary');
+  var vMeta = document.getElementById('v-meta');
+  var vTags = document.getElementById('v-tags');
+  var vFiles = document.getElementById('v-files');
+  var vMedia = document.getElementById('v-media');
+  var vDownload = document.getElementById('v-download');
+  var vMd = document.getElementById('v-md');
+  var vJson = document.getElementById('v-json');
+  var vPos = document.getElementById('v-pos');
+  var vPrev = document.getElementById('v-prev');
+  var vNext = document.getElementById('v-next');
+  var vClose = document.getElementById('v-close');
 
   ASSETS.forEach(function (asset) {
     asset.tags = Array.isArray(asset.tags) ? asset.tags : [];
     asset.files = Array.isArray(asset.files) ? asset.files : [];
+    asset.technical = asset.technical && typeof asset.technical === 'object' ? asset.technical : {};
     asset.parsedTags = [];
     asset.tags.forEach(function (tag) {
       var at = tag.indexOf(':');
@@ -335,10 +1139,11 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
         asset.parsedTags.push({ namespace: tag.slice(0, at), value: tag.slice(at + 1) });
       }
     });
-    asset.searchText = [asset.id, asset.title, asset.summary, asset.role, asset.tags.join(' ')]
+    asset.searchText = [asset.id, asset.title, asset.summary, asset.role, asset.kind, asset.tags.join(' ')]
       .join(' ')
       .toLowerCase();
     asset.timestamp = Date.parse(asset.added || '') || 0;
+    byId[asset.id] = asset;
   });
 
   function el(tag, className, text) {
@@ -346,6 +1151,10 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
     if (className) node.className = className;
     if (text !== undefined && text !== null) node.textContent = String(text);
     return node;
+  }
+
+  function clear(node) {
+    while (node.firstChild) node.removeChild(node.firstChild);
   }
 
   function formatBytes(value) {
@@ -362,11 +1171,37 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
     return Number(number.toFixed(digits)) + ' ' + units[unit];
   }
 
+  function formatNumber(value) {
+    var number = Number(value);
+    if (!isFinite(number)) return String(value);
+    return String(Math.round(number * 1000) / 1000);
+  }
+
   function formatDate(value) {
     if (!value) return 'Unknown';
-    var date = new Date(value);
+    var date = new Date(/^\d{4}-\d{2}-\d{2}$/.test(value) ? value + 'T00:00:00' : value);
     if (isNaN(date.getTime())) return value;
     return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function formatTech(key, value) {
+    if (value === null || value === undefined || value === '') return '';
+    if (Array.isArray(value)) return value.join(', ');
+    if (key === 'duration_s') return formatNumber(value) + ' s';
+    if (key === 'sample_rate') {
+      var khz = Number(value) / 1000;
+      return (Math.round(khz * 100) / 100) + ' kHz (' + formatNumber(value) + ' Hz)';
+    }
+    if (key === 'channels') {
+      var labels = { 1: 'Mono', 2: 'Stereo' };
+      return formatNumber(value) + (labels[value] ? ' (' + labels[value] + ')' : '');
+    }
+    if (key === 'bit_depth') return formatNumber(value) + '-bit';
+    if (key === 'width' || key === 'height') return formatNumber(value) + ' px';
+    if (key === 'fps') return formatNumber(value) + ' fps';
+    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+    if (typeof value === 'object') return '';
+    return String(value);
   }
 
   function compareTitles(a, b) {
@@ -374,6 +1209,45 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
       sensitivity: 'base',
       numeric: true,
     });
+  }
+
+  function hashString(value) {
+    var hash = 2166136261;
+    for (var i = 0; i < value.length; i += 1) {
+      hash ^= value.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  }
+
+  function seeded(seed) {
+    var value = seed >>> 0;
+    return function () {
+      value = (Math.imul(value, 1664525) + 1013904223) >>> 0;
+      return value / 4294967296;
+    };
+  }
+
+  function buildWaveSvg(asset, bars, className) {
+    var random = seeded(hashString(asset.id + ':' + bars));
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 100 40');
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    if (className) svg.setAttribute('class', className);
+    var step = 100 / bars;
+    for (var i = 0; i < bars; i += 1) {
+      var height = 3 + Math.pow(random(), 1.6) * 31;
+      var rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', (i * step + step * 0.18).toFixed(2));
+      rect.setAttribute('y', ((40 - height) / 2).toFixed(2));
+      rect.setAttribute('width', (step * 0.64).toFixed(2));
+      rect.setAttribute('height', height.toFixed(2));
+      rect.setAttribute('rx', '0.3');
+      svg.appendChild(rect);
+    }
+    return svg;
   }
 
   function buildTabs() {
@@ -438,7 +1312,7 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
 
       var details = document.createElement('details');
       details.className = 'tag-group';
-      if (index < 2) details.open = true;
+      if (index < 3) details.open = true;
 
       var summary = document.createElement('summary');
       summary.textContent = namespace + ' (' + total + ')';
@@ -512,9 +1386,7 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
     list.sort(function (a, b) {
       if (state.sort === 'title') return compareTitles(a, b);
       if (state.sort === 'largest') return (b.bytes || 0) - (a.bytes || 0) || compareTitles(a, b);
-      if (state.sort === 'kind') {
-        return a.kind.localeCompare(b.kind) || compareTitles(a, b);
-      }
+      if (state.sort === 'kind') return a.kind.localeCompare(b.kind) || compareTitles(a, b);
       return (b.timestamp || 0) - (a.timestamp || 0) || compareTitles(a, b);
     });
   }
@@ -529,7 +1401,7 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
     sortList(list);
     current = list;
 
-    grid.textContent = '';
+    clear(grid);
     list.forEach(function (asset) {
       grid.appendChild(buildCard(asset));
     });
@@ -560,10 +1432,41 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
   function buildCard(asset) {
     var button = el('button', 'card');
     button.type = 'button';
-    button.setAttribute('aria-label', 'View details for ' + asset.title);
+    button.setAttribute('aria-label', 'Open ' + asset.title + ', ' + asset.kind +
+      (asset.splat ? ', 3D splat' : '') +
+      (asset.tileable ? ', tileable' : '') + (asset.role ? ', ' + asset.role : ''));
 
     var thumb = el('span', 'thumb');
-    addPreview(thumb, asset, false);
+
+    if (asset.kind === 'audio') {
+      thumb.appendChild(buildWaveSvg(asset, 46, 'waveform'));
+      thumb.appendChild(el('span', 'play-badge'));
+      thumb.lastChild.setAttribute('aria-hidden', 'true');
+    } else if (asset.kind === 'video') {
+      addThumbImage(thumb, asset, true);
+      thumb.appendChild(el('span', 'play-badge'));
+      thumb.lastChild.setAttribute('aria-hidden', 'true');
+    } else if (asset.splat) {
+      if (asset.preview) {
+        addThumbImage(thumb, asset, true, function () {
+          showSplatPlaceholder(thumb);
+        });
+      } else {
+        showSplatPlaceholder(thumb);
+      }
+      thumb.appendChild(el('span', 'play-badge'));
+      thumb.lastChild.setAttribute('aria-hidden', 'true');
+      thumb.appendChild(el('span', 'splat-badge', '3D Splat'));
+    } else if (asset.tileable && asset.preview) {
+      addTilePreview(thumb, asset);
+    } else {
+      addThumbImage(thumb, asset, false);
+    }
+
+    if (asset.tileable && !asset.splat && asset.kind !== 'audio' && asset.kind !== 'video') {
+      thumb.appendChild(el('span', 'tile-badge', 'Tileable'));
+    }
+
     button.appendChild(thumb);
 
     var body = el('span', 'card-body');
@@ -594,143 +1497,938 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
 
     button.appendChild(body);
     button.addEventListener('click', function () {
-      openLightbox(asset);
+      openViewer(asset, false);
     });
     return button;
   }
 
-  function addPreview(host, asset, large) {
-    host.textContent = '';
-
+  function addThumbImage(host, asset, cover, onFail) {
     if (!asset.preview) {
-      showPlaceholder(host, asset);
+      if (onFail) onFail();
+      else showPlaceholder(host, asset);
       return;
     }
 
     var image = document.createElement('img');
-    image.alt = large ? asset.title + ' preview' : '';
-    image.loading = large ? 'eager' : 'lazy';
+    image.alt = '';
+    image.loading = 'lazy';
     image.decoding = 'async';
+    if (cover) image.className = 'cover';
     image.addEventListener('error', function () {
-      showPlaceholder(host, asset);
+      if (onFail) onFail();
+      else showPlaceholder(host, asset);
     });
     image.src = asset.preview;
     host.appendChild(image);
   }
 
+  function showSplatPlaceholder(host) {
+    var existing = host.querySelector('.splat-ph');
+    if (existing) return;
+    var box = el('span', 'splat-ph');
+    box.appendChild(el('span', 'splat-ph-label', 'PLY'));
+    host.appendChild(box);
+  }
+
+  function addTilePreview(host, asset) {
+    var surface = el('span', 'tile-preview');
+    surface.style.backgroundImage = 'url("' + asset.preview.replace(/"/g, '%22') + '")';
+    host.appendChild(surface);
+
+    var probe = new Image();
+    probe.addEventListener('error', function () {
+      surface.remove();
+      showPlaceholder(host, asset);
+    });
+    probe.src = asset.preview;
+  }
+
   function showPlaceholder(host, asset) {
-    host.textContent = '';
+    var existing = host.querySelector('.placeholder');
+    if (existing) return;
     var box = el('span', 'placeholder');
     box.appendChild(el('span', 'ph-label', 'Preview unavailable'));
     box.appendChild(el('span', 'ph-detail', asset.kind + (asset.role ? ' / ' + asset.role : '')));
     host.appendChild(box);
   }
 
-  function openLightbox(asset) {
-    lightboxList = current.slice();
-    lightboxIndex = -1;
+  // ---- viewer -------------------------------------------------------------
 
-    for (var i = 0; i < lightboxList.length; i += 1) {
-      if (lightboxList[i].id === asset.id) {
-        lightboxIndex = i;
+  function openViewer(asset, fromHash) {
+    if (!asset) return;
+    if (viewerAsset && viewerAsset.id === asset.id && dialog.open) return;
+
+    var wasOpen = dialog.open;
+    if (!wasOpen) {
+      opener = fromHash ? null : document.activeElement;
+    }
+
+    var list = [];
+    var index = -1;
+    for (var i = 0; i < current.length; i += 1) {
+      if (current[i].id === asset.id) {
+        list = current.slice();
+        index = i;
         break;
       }
     }
-
-    if (lightboxIndex === -1) {
-      lightboxList = [asset];
-      lightboxIndex = 0;
+    if (index === -1) {
+      list = [asset];
+      index = 0;
     }
 
-    fillLightbox();
+    viewerList = list;
+    viewerIndex = index;
+    viewerAsset = asset;
 
-    if (typeof dialog.showModal === 'function') {
-      if (!dialog.open) dialog.showModal();
-    } else {
-      dialog.setAttribute('open', '');
-      lbClose.focus();
+    if (!wasOpen) {
+      if (typeof dialog.showModal === 'function') {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute('open', '');
+      }
     }
+
+    fillViewer();
+
+    if (!wasOpen) vClose.focus();
+    if (!fromHash) setHash(asset.id);
   }
 
-  function fillLightbox() {
-    var asset = lightboxList[lightboxIndex];
+  function fillViewer() {
+    var asset = viewerList[viewerIndex];
     if (!asset) return;
+    viewerAsset = asset;
 
-    lbTitle.textContent = asset.title;
-
-    lbBadge.textContent = '';
-    lbBadge.appendChild(el('span', 'badge-kind', asset.kind));
+    vTitle.textContent = asset.title;
+    vBadge.textContent = '';
+    vBadge.appendChild(el('span', 'badge-kind', asset.kind));
     if (asset.role) {
-      lbBadge.appendChild(el('span', 'badge-sep', ' / '));
-      lbBadge.appendChild(el('span', 'badge-role', asset.role));
+      vBadge.appendChild(el('span', 'badge-sep', ' / '));
+      vBadge.appendChild(el('span', 'badge-role', asset.role));
     }
+    vSummary.textContent = asset.summary || 'No summary.';
 
-    lbSummary.textContent = asset.summary || 'No summary.';
-    addPreview(lbMedia, asset, true);
+    fillMeta(asset);
+    fillTags(asset);
+    fillFiles(asset);
 
-    lbMeta.textContent = '';
+    vDownload.hidden = !asset.file;
+    if (asset.file) {
+      vDownload.href = asset.file;
+      vDownload.setAttribute('download', '');
+    } else {
+      vDownload.removeAttribute('href');
+    }
+    vMd.href = asset.md;
+    vJson.href = asset.json;
+
+    vPos.textContent = (viewerIndex + 1) + ' / ' + viewerList.length;
+    vPrev.disabled = viewerList.length < 2;
+    vNext.disabled = viewerList.length < 2;
+
+    renderMedia(asset);
+  }
+
+  function fillMeta(asset) {
+    vMeta.textContent = '';
     addMeta('ID', asset.id, true);
     addMeta('Kind', asset.kind);
     if (asset.role) addMeta('Role', asset.role);
     if (asset.added) addMeta('Added', formatDate(asset.added));
     addMeta('Bundle size', formatBytes(asset.bytes));
     addMeta('Directory', asset.dir, true);
-    addMeta('Files', asset.files.length ? String(asset.files.length) : 'None listed');
+    if (asset.mime) addMeta('MIME type', asset.mime);
 
-    lbTags.textContent = '';
-    if (!asset.tags.length) {
-      lbTags.appendChild(el('span', 'muted', 'No tags.'));
-    } else {
-      asset.tags.forEach(function (tag) {
-        lbTags.appendChild(el('span', 'tag', tag));
-      });
-    }
-
-    lbFiles.textContent = '';
-    if (!asset.files.length) {
-      var emptyItem = document.createElement('li');
-      emptyItem.appendChild(el('span', 'muted', 'No file listing available.'));
-      lbFiles.appendChild(emptyItem);
-    } else {
-      asset.files.forEach(function (file) {
-        var item = document.createElement('li');
-        item.appendChild(el('code', null, file.path));
-        item.appendChild(el('span', 'file-size', formatBytes(file.bytes)));
-        lbFiles.appendChild(item);
-      });
-    }
-
-    lbMd.href = asset.md;
-    lbJson.href = asset.json;
-
-    lbPos.textContent = (lightboxIndex + 1) + ' / ' + lightboxList.length;
-    lbPrev.disabled = lightboxList.length < 2;
-    lbNext.disabled = lightboxList.length < 2;
+    Object.keys(asset.technical).forEach(function (key) {
+      if (key === 'palette') return;
+      var text = formatTech(key, asset.technical[key]);
+      if (!text) return;
+      addMeta(TECH_LABELS[key] || key.replace(/_/g, ' '), text);
+    });
   }
 
   function addMeta(label, value, code) {
-    lbMeta.appendChild(el('dt', null, label));
+    var dt = el('dt', null, label);
     var dd = document.createElement('dd');
     if (code) {
       dd.appendChild(el('code', null, value));
     } else {
       dd.textContent = value;
     }
-    lbMeta.appendChild(dd);
+    vMeta.appendChild(dt);
+    vMeta.appendChild(dd);
   }
 
-  function stepLightbox(delta) {
-    if (lightboxList.length < 2) return;
-    lightboxIndex = (lightboxIndex + delta + lightboxList.length) % lightboxList.length;
-    fillLightbox();
-  }
-
-  function closeLightbox() {
-    if (typeof dialog.close === 'function' && dialog.open) {
-      dialog.close();
-    } else {
-      dialog.removeAttribute('open');
+  function fillTags(asset) {
+    vTags.textContent = '';
+    if (!asset.tags.length) {
+      vTags.appendChild(el('span', 'muted', 'No tags.'));
+      return;
     }
+    asset.tags.forEach(function (tag) {
+      vTags.appendChild(el('span', 'tag', tag));
+    });
+  }
+
+  function fillFiles(asset) {
+    vFiles.textContent = '';
+    if (!asset.files.length) {
+      var emptyItem = document.createElement('li');
+      emptyItem.appendChild(el('span', 'muted', 'No file listing available.'));
+      vFiles.appendChild(emptyItem);
+      return;
+    }
+
+    asset.files.forEach(function (file) {
+      var item = document.createElement('li');
+      var link = el('a', null, file.path);
+      link.href = file.url;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      item.appendChild(link);
+      item.appendChild(el('span', 'file-size', formatBytes(file.bytes)));
+      vFiles.appendChild(item);
+    });
+  }
+
+  function destroySplat() {
+    var handle = splatHandle;
+    splatHandle = null;
+    if (!handle) return;
+    try {
+      handle.destroy();
+    } catch (error) {
+      /* the WebGL context may already be gone */
+    }
+  }
+
+  function renderMedia(asset) {
+    destroySplat();
+    clear(vMedia);
+    tileApply = null;
+
+    if (asset.splat) {
+      renderSplat(asset);
+    } else if (asset.tileable) {
+      renderTileInspector(asset);
+    } else if (asset.kind === 'audio') {
+      renderAudio(asset);
+    } else if (asset.kind === 'video') {
+      renderVideo(asset);
+    } else {
+      renderImage(asset);
+    }
+  }
+
+  function renderImage(asset) {
+    var source = asset.preview;
+    if (asset.kind === 'image' && asset.file &&
+        (!asset.mime || asset.mime.indexOf('image/') === 0)) {
+      source = asset.file;
+    }
+
+    if (!source) {
+      vMedia.appendChild(el('p', 'muted', 'No preview is available for this asset.'));
+      return;
+    }
+
+    var toolbar = el('div', 'image-toolbar');
+    toolbar.setAttribute('role', 'group');
+    toolbar.setAttribute('aria-label', 'Image zoom');
+    var zoomValues = [['fit', 'Fit'], ['1', '100%'], ['2', '200%']];
+    var zoomButtons = [];
+
+    zoomValues.forEach(function (pair) {
+      var button = el('button', 'zoom-btn', pair[1]);
+      button.type = 'button';
+      button.dataset.zoom = pair[0];
+      button.setAttribute('aria-pressed', pair[0] === 'fit' ? 'true' : 'false');
+      button.addEventListener('click', function () {
+        zoomButtons.forEach(function (other) {
+          other.setAttribute('aria-pressed', other === button ? 'true' : 'false');
+        });
+        setZoom(pair[0]);
+      });
+      zoomButtons.push(button);
+      toolbar.appendChild(button);
+    });
+
+    var stage = el('div', 'image-stage');
+    stage.tabIndex = 0;
+    stage.setAttribute('aria-label', 'Image preview. Drag to pan when zoomed.');
+    var canvas = el('div', 'image-canvas');
+    var image = document.createElement('img');
+    image.alt = asset.title;
+    image.decoding = 'async';
+    canvas.appendChild(image);
+    stage.appendChild(canvas);
+    vMedia.appendChild(toolbar);
+    vMedia.appendChild(stage);
+
+    var natural = {
+      width: Number(asset.technical.width) || 512,
+      height: Number(asset.technical.height) || 512
+    };
+
+    function setZoom(mode) {
+      var stageBox = stage.getBoundingClientRect();
+      var availableWidth = Math.max(64, stageBox.width - 32);
+      var availableHeight = Math.max(64, stageBox.height - 32);
+      var scale;
+
+      if (mode === 'fit') {
+        scale = Math.min(availableWidth / natural.width, availableHeight / natural.height, 1);
+      } else {
+        scale = Number(mode) || 1;
+      }
+
+      var width = Math.max(1, Math.round(natural.width * scale));
+      image.style.width = width + 'px';
+      image.style.height = 'auto';
+    }
+
+    image.addEventListener('load', function () {
+      if (image.naturalWidth > 0) {
+        natural.width = image.naturalWidth;
+        natural.height = image.naturalHeight;
+      }
+      setZoom('fit');
+    });
+    image.addEventListener('error', function () {
+      if (source !== asset.preview && asset.preview) {
+        source = asset.preview;
+        image.src = source;
+        return;
+      }
+      clear(canvas);
+      canvas.appendChild(el('p', 'muted', 'The preview image could not be loaded.'));
+    });
+    image.src = source;
+
+    var drag = null;
+    stage.addEventListener('pointerdown', function (event) {
+      if (event.button !== 0) return;
+      drag = {
+        x: event.clientX,
+        y: event.clientY,
+        left: stage.scrollLeft,
+        top: stage.scrollTop
+      };
+      stage.classList.add('dragging');
+      if (stage.setPointerCapture) stage.setPointerCapture(event.pointerId);
+    });
+    stage.addEventListener('pointermove', function (event) {
+      if (!drag) return;
+      stage.scrollLeft = drag.left - (event.clientX - drag.x);
+      stage.scrollTop = drag.top - (event.clientY - drag.y);
+    });
+    function endDrag() {
+      drag = null;
+      stage.classList.remove('dragging');
+    }
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+  }
+
+  function renderAudio(asset) {
+    var panel = el('div', 'audio-panel');
+    var wave = el('div', 'wave-large');
+    wave.setAttribute('aria-hidden', 'true');
+    wave.appendChild(buildWaveSvg(asset, 96, null));
+    panel.appendChild(wave);
+
+    if (asset.file) {
+      var audio = document.createElement('audio');
+      audio.controls = true;
+      audio.preload = 'metadata';
+      audio.src = asset.file;
+      audio.setAttribute('aria-label', asset.title + ' audio player');
+      panel.appendChild(audio);
+    } else {
+      panel.appendChild(el('p', 'muted', 'No playable audio file is listed for this asset.'));
+    }
+
+    var note = el('p', 'muted');
+    note.style.margin = '0';
+    note.style.fontSize = '.82rem';
+    note.textContent = 'Use the player controls to listen. The waveform is a stylized preview.';
+    panel.appendChild(note);
+    vMedia.appendChild(panel);
+  }
+
+  function renderVideo(asset) {
+    if (!asset.file) {
+      vMedia.appendChild(el('p', 'muted', 'No playable video file is listed for this asset.'));
+      return;
+    }
+
+    var wrap = el('div', 'video-wrap');
+    var video = document.createElement('video');
+    video.controls = true;
+    video.preload = 'metadata';
+    video.src = asset.file;
+    if (asset.preview) video.poster = asset.preview;
+    video.setAttribute('aria-label', asset.title + ' video player');
+    wrap.appendChild(video);
+    vMedia.appendChild(wrap);
+
+    var bar = el('div', 'video-bar');
+    var loop = el('button', 'button subtle', 'Loop: off');
+    loop.type = 'button';
+    loop.setAttribute('aria-pressed', 'false');
+    loop.addEventListener('click', function () {
+      video.loop = !video.loop;
+      loop.setAttribute('aria-pressed', video.loop ? 'true' : 'false');
+      loop.textContent = video.loop ? 'Loop: on' : 'Loop: off';
+    });
+    bar.appendChild(loop);
+    if (asset.mime) bar.appendChild(el('span', 'muted', asset.mime));
+    vMedia.appendChild(bar);
+  }
+
+  function renderSplat(asset) {
+    var autoOn = true;
+    var flipOn = false;
+    var failed = false;
+
+    var wrap = el('div', 'splat-wrap');
+    var stage = el('div', 'splat-stage');
+    stage.id = 'splat-stage';
+    stage.setAttribute('role', 'group');
+    stage.setAttribute('aria-label', asset.title + ' 3D splat viewport');
+
+    var poster = null;
+    if (asset.preview) {
+      poster = document.createElement('img');
+      poster.className = 'splat-poster';
+      poster.alt = '';
+      poster.decoding = 'async';
+      poster.src = asset.preview;
+      poster.addEventListener('error', function () {
+        poster.hidden = true;
+      });
+      stage.appendChild(poster);
+    }
+
+    var panel = el('div', 'splat-load');
+    var loadButton = el('button', 'splat-load-btn', 'Load 3D');
+    loadButton.type = 'button';
+    loadButton.id = 'splat-load';
+    loadButton.setAttribute('aria-label', 'Load 3D splat preview');
+    var loadHint = el('p', 'splat-load-hint',
+      'The PLY file is downloaded and parsed in this browser only after you press Load.');
+    panel.appendChild(loadButton);
+    panel.appendChild(loadHint);
+    stage.appendChild(panel);
+
+    var status = el('p', 'splat-status', 'Not loaded');
+    status.id = 'splat-status';
+    status.dataset.phase = 'idle';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+
+    var errorBox = el('div', 'splat-error');
+    errorBox.id = 'splat-error';
+    errorBox.hidden = true;
+    errorBox.setAttribute('role', 'alert');
+    var errorText = el('span', 'splat-error-text');
+    var errorDetail = el('span', 'splat-error-detail');
+    errorBox.appendChild(errorText);
+    errorBox.appendChild(errorDetail);
+
+    var bar = el('div', 'splat-bar');
+    bar.setAttribute('role', 'group');
+    bar.setAttribute('aria-label', '3D view controls');
+
+    var autoButton = el('button', 'splat-btn', 'Auto-rotate: on');
+    autoButton.type = 'button';
+    autoButton.id = 'splat-auto';
+    autoButton.setAttribute('aria-pressed', 'true');
+    var flipButton = el('button', 'splat-btn', 'Flip Y: off');
+    flipButton.type = 'button';
+    flipButton.id = 'splat-flip';
+    flipButton.setAttribute('aria-pressed', 'false');
+    var resetButton = el('button', 'button subtle', 'Reset view');
+    resetButton.type = 'button';
+    resetButton.id = 'splat-reset';
+
+    var readout = el('span', 'splat-readout');
+    var totalText = el('span', null, '0 splats');
+    totalText.id = 'splat-total';
+    var drawnText = el('span', null, '0 drawn');
+    drawnText.id = 'splat-drawn';
+    readout.appendChild(totalText);
+    readout.appendChild(drawnText);
+
+    bar.appendChild(autoButton);
+    bar.appendChild(flipButton);
+    bar.appendChild(resetButton);
+    bar.appendChild(readout);
+
+    var hint = el('p', 'splat-hint', 'Drag to orbit, scroll to zoom. Auto-rotate spins the camera while it is on.');
+    wrap.appendChild(stage);
+    wrap.appendChild(status);
+    wrap.appendChild(errorBox);
+    wrap.appendChild(bar);
+    wrap.appendChild(hint);
+    vMedia.appendChild(wrap);
+
+    function syncToggles() {
+      autoButton.textContent = 'Auto-rotate: ' + (autoOn ? 'on' : 'off');
+      autoButton.setAttribute('aria-pressed', autoOn ? 'true' : 'false');
+      flipButton.textContent = 'Flip Y: ' + (flipOn ? 'on' : 'off');
+      flipButton.setAttribute('aria-pressed', flipOn ? 'true' : 'false');
+    }
+
+    function setPhase(phase, text) {
+      status.dataset.phase = phase;
+      status.textContent = text;
+    }
+
+    function updateStats(stats) {
+      var total = stats && isFinite(stats.total) ? Number(stats.total) : 0;
+      var drawn = stats && isFinite(stats.drawn) ? Number(stats.drawn) : 0;
+      totalText.textContent = total + (total === 1 ? ' splat' : ' splats');
+      drawnText.textContent = drawn + ' drawn';
+    }
+
+    function showSplatError(message) {
+      failed = true;
+      setPhase('error', 'Load failed');
+      errorText.textContent = '3D preview needs ';
+      errorText.appendChild(el('code', null, 'npm run serve'));
+      errorText.appendChild(document.createTextNode(' or the live site.'));
+      errorDetail.textContent = message ? String(message) : 'The 3D file could not be loaded.';
+      errorBox.hidden = false;
+      destroySplat();
+    }
+
+    function startSplat() {
+      if (failed || splatHandle) return;
+
+      errorBox.hidden = true;
+      errorDetail.textContent = '';
+      loadButton.disabled = true;
+      loadButton.textContent = 'Loading...';
+      panel.hidden = true;
+      if (poster) poster.hidden = true;
+      updateStats(null);
+      setPhase('fetch', 'Starting 3D view...');
+
+      if (!asset.file) {
+        showSplatError('No .ply file is listed for this asset.');
+        return;
+      }
+
+      if (!window.MeesaSplat || typeof window.MeesaSplat.mountSplatViewer !== 'function') {
+        showSplatError('The 3D renderer did not load.');
+        return;
+      }
+
+      var handle;
+      try {
+        handle = window.MeesaSplat.mountSplatViewer(stage, {
+          url: asset.file,
+          autoRotate: autoOn,
+          flipY: flipOn,
+          onProgress: function (progress) {
+            if (failed) return;
+            if (progress.phase === 'fetch') {
+              setPhase('fetch', 'Fetching PLY...');
+            } else if (progress.phase === 'parse') {
+              setPhase('parse', 'Parsing PLY' +
+                (progress.bytes ? ' (' + formatBytes(progress.bytes) + ')' : '') + '...');
+            } else if (progress.phase === 'ready') {
+              updateStats({ total: progress.total, drawn: progress.drawn });
+              setPhase('ready', 'Ready');
+            } else if (progress.phase === 'error') {
+              showSplatError(progress.message);
+            }
+          },
+          onStats: function (stats) {
+            if (!failed) updateStats(stats);
+          }
+        });
+      } catch (error) {
+        showSplatError(error && error.message ? error.message : String(error));
+        return;
+      }
+
+      splatHandle = handle;
+      var canvas = stage.querySelector('canvas');
+      if (canvas) canvas.setAttribute('aria-label', asset.title + ' 3D splat canvas');
+      if (failed) destroySplat();
+    }
+
+    autoButton.addEventListener('click', function () {
+      autoOn = !autoOn;
+      syncToggles();
+      if (!splatHandle) return;
+      try {
+        splatHandle.setAutoRotate(autoOn);
+      } catch (error) {
+        showSplatError(error && error.message ? error.message : String(error));
+      }
+    });
+
+    flipButton.addEventListener('click', function () {
+      flipOn = !flipOn;
+      syncToggles();
+      if (!splatHandle) return;
+      try {
+        splatHandle.setFlipY(flipOn);
+      } catch (error) {
+        showSplatError(error && error.message ? error.message : String(error));
+      }
+    });
+
+    resetButton.addEventListener('click', function () {
+      if (!splatHandle) return;
+      try {
+        splatHandle.reset();
+      } catch (error) {
+        showSplatError(error && error.message ? error.message : String(error));
+      }
+    });
+
+    loadButton.addEventListener('click', startSplat);
+    syncToggles();
+    updateStats(null);
+  }
+
+  function renderTileInspector(asset) {
+    var wrap = el('div', 'tile-wrap');
+    wrap.innerHTML = [
+      '<div class="tile-toolbar">',
+      '<div class="ctrl"><div class="ctrl-head"><label for="tile-rx">Repeat X</label><output id="tile-rx-out" for="tile-rx">3</output></div>',
+      '<input id="tile-rx" type="range" min="1" max="16" step="1" value="3"></div>',
+      '<div class="ctrl"><div class="ctrl-head"><label for="tile-ry">Repeat Y</label><output id="tile-ry-out" for="tile-ry">3</output></div>',
+      '<input id="tile-ry" type="range" min="1" max="16" step="1" value="3"></div>',
+      '<div class="ctrl"><div class="ctrl-head"><label for="tile-zoom">Zoom</label>',
+      '<span><button type="button" class="mini" id="tile-fit">Fit</button> <output id="tile-zoom-out" for="tile-zoom">100%</output></span></div>',
+      '<input id="tile-zoom" type="range" min="25" max="400" step="5" value="100"></div>',
+      '<div class="ctrl"><div class="ctrl-head"><label for="tile-ox">Offset X</label><output id="tile-ox-out" for="tile-ox">0%</output></div>',
+      '<input id="tile-ox" type="range" min="0" max="100" step="1" value="0"></div>',
+      '<div class="ctrl"><div class="ctrl-head"><label for="tile-oy">Offset Y</label><output id="tile-oy-out" for="tile-oy">0%</output></div>',
+      '<input id="tile-oy" type="range" min="0" max="100" step="1" value="0"></div>',
+      '<div class="ctrl wide"><span class="ctrl-name">Background</span><div class="seg" id="tile-bgs" role="group" aria-label="Tiling background">',
+      '<button type="button" data-bg="dark" aria-pressed="true">Dark</button>',
+      '<button type="button" data-bg="light" aria-pressed="false">Light</button>',
+      '<button type="button" data-bg="checker" aria-pressed="false">Checkerboard</button>',
+      '<button type="button" data-bg="magenta" aria-pressed="false">Magenta</button></div></div>',
+      '<div class="ctrl"><span class="ctrl-name">Overlays</span><div class="seg" role="group" aria-label="Overlays">',
+      '<button type="button" id="tile-grid-btn" aria-pressed="false">Grid</button>',
+      '<button type="button" id="tile-pixel-btn" aria-pressed="true">Pixelated</button></div></div>',
+      '<div class="ctrl"><label for="tile-rot">Rotation</label>',
+      '<select id="tile-rot"><option value="0">0 degrees</option><option value="90">90 degrees</option>',
+      '<option value="180">180 degrees</option><option value="270">270 degrees</option></select></div>',
+      '</div>',
+      '<div class="tile-readout"><span id="tile-label" role="status" aria-live="polite"></span>',
+      '<span class="spacer"></span><span class="muted">Drag to pan</span>',
+      '<button type="button" class="button subtle" id="tile-reset">Reset view</button></div>',
+      '<div class="tile-stage" id="tile-stage" data-bg="dark" tabindex="0" aria-label="Tiled preview. Drag to pan the texture.">',
+      '<div class="tile-rotor" id="tile-rotor">',
+      '<div class="tile-plane" id="tile-plane">',
+      '<div class="tile-surface" id="tile-surface"></div>',
+      '<div class="tile-grid" id="tile-grid" hidden></div>',
+      '</div></div></div>',
+      '<p class="tile-note" id="tile-note"></p>'
+    ].join('');
+
+    vMedia.appendChild(wrap);
+
+    var rx = wrap.querySelector('#tile-rx');
+    var ry = wrap.querySelector('#tile-ry');
+    var zoom = wrap.querySelector('#tile-zoom');
+    var ox = wrap.querySelector('#tile-ox');
+    var oy = wrap.querySelector('#tile-oy');
+    var rxOut = wrap.querySelector('#tile-rx-out');
+    var ryOut = wrap.querySelector('#tile-ry-out');
+    var zoomOut = wrap.querySelector('#tile-zoom-out');
+    var oxOut = wrap.querySelector('#tile-ox-out');
+    var oyOut = wrap.querySelector('#tile-oy-out');
+    var bgs = wrap.querySelector('#tile-bgs');
+    var gridButton = wrap.querySelector('#tile-grid-btn');
+    var pixelButton = wrap.querySelector('#tile-pixel-btn');
+    var rot = wrap.querySelector('#tile-rot');
+    var reset = wrap.querySelector('#tile-reset');
+    var fit = wrap.querySelector('#tile-fit');
+    var stage = wrap.querySelector('#tile-stage');
+    var rotor = wrap.querySelector('#tile-rotor');
+    var plane = wrap.querySelector('#tile-plane');
+    var surface = wrap.querySelector('#tile-surface');
+    var gridLayer = wrap.querySelector('#tile-grid');
+    var label = wrap.querySelector('#tile-label');
+    var note = wrap.querySelector('#tile-note');
+
+    var view = {
+      rx: 3, ry: 3, zoom: 100, ox: 0, oy: 0,
+      rot: 0, bg: 'dark', grid: false, pixel: true
+    };
+    var natural = {
+      width: Number(asset.technical.width) || 64,
+      height: Number(asset.technical.height) || 64
+    };
+    var tileWidth = natural.width;
+    var tileHeight = natural.height;
+    var source = asset.file || asset.preview;
+    var drag = null;
+
+    if (!source) {
+      stage.appendChild(el('p', 'placeholder', 'No image or preview is available to tile.'));
+      label.textContent = 'No image';
+      return;
+    }
+
+    surface.style.backgroundImage = 'url("' + source.replace(/"/g, '%22') + '")';
+    note.textContent = asset.file
+      ? 'Tiling the original file. Transparent areas show the selected background.'
+      : 'No primary file is listed, so the preview is being tiled.';
+
+    var probe = new Image();
+    probe.addEventListener('load', function () {
+      if (probe.naturalWidth > 0 && probe.naturalHeight > 0) {
+        natural.width = probe.naturalWidth;
+        natural.height = probe.naturalHeight;
+      }
+      apply();
+    });
+    probe.addEventListener('error', function () {
+      if (source !== asset.preview && asset.preview) {
+        source = asset.preview;
+        surface.style.backgroundImage = 'url("' + source.replace(/"/g, '%22') + '")';
+        note.textContent = 'The primary file could not be loaded; tiling the preview instead.';
+        probe.src = source;
+      } else {
+        clear(stage);
+        stage.appendChild(el('p', 'placeholder', 'The tiled image could not be loaded.'));
+      }
+    });
+    probe.src = source;
+
+    function wrapPercent(value) {
+      var result = value % 100;
+      if (result < 0) result += 100;
+      return Math.round(result);
+    }
+
+    function apply() {
+      var box = stage.getBoundingClientRect();
+      var stageWidth = Math.max(1, box.width);
+      var stageHeight = Math.max(1, box.height);
+      var base = Math.min(
+        stageWidth / (view.rx * natural.width),
+        stageHeight / (view.ry * natural.height)
+      );
+      var scale = base * (view.zoom / 100);
+
+      tileWidth = Math.max(1, natural.width * scale);
+      tileHeight = Math.max(1, natural.height * scale);
+
+      var position = (-view.ox / 100 * tileWidth) + 'px ' + (-view.oy / 100 * tileHeight) + 'px';
+      plane.style.width = (view.rx * tileWidth) + 'px';
+      plane.style.height = (view.ry * tileHeight) + 'px';
+      surface.style.backgroundSize = tileWidth + 'px ' + tileHeight + 'px';
+      surface.style.backgroundPosition = position;
+      surface.style.imageRendering = view.pixel ? 'pixelated' : 'auto';
+      gridLayer.style.backgroundSize = tileWidth + 'px ' + tileHeight + 'px';
+      gridLayer.style.backgroundPosition = position;
+      gridLayer.hidden = !view.grid;
+      rotor.style.transform = 'rotate(' + view.rot + 'deg)';
+      stage.dataset.bg = view.bg;
+      label.textContent = view.rx + 'x' + view.ry + ' tiles @ ' + view.zoom + '%' +
+        (view.zoom === 100 ? ' (fit)' : '');
+    }
+
+    function syncOutputs() {
+      rxOut.textContent = view.rx;
+      ryOut.textContent = view.ry;
+      zoomOut.textContent = view.zoom + '%';
+      oxOut.textContent = view.ox + '%';
+      oyOut.textContent = view.oy + '%';
+    }
+
+    rx.addEventListener('input', function () {
+      view.rx = Number(rx.value);
+      syncOutputs();
+      apply();
+    });
+    ry.addEventListener('input', function () {
+      view.ry = Number(ry.value);
+      syncOutputs();
+      apply();
+    });
+    zoom.addEventListener('input', function () {
+      view.zoom = Number(zoom.value);
+      syncOutputs();
+      apply();
+    });
+    ox.addEventListener('input', function () {
+      view.ox = Number(ox.value);
+      syncOutputs();
+      apply();
+    });
+    oy.addEventListener('input', function () {
+      view.oy = Number(oy.value);
+      syncOutputs();
+      apply();
+    });
+    fit.addEventListener('click', function () {
+      view.zoom = 100;
+      zoom.value = '100';
+      syncOutputs();
+      apply();
+    });
+
+    bgs.addEventListener('click', function (event) {
+      var button = event.target.closest('button[data-bg]');
+      if (!button) return;
+      view.bg = button.dataset.bg;
+      Array.prototype.forEach.call(bgs.querySelectorAll('button'), function (other) {
+        other.setAttribute('aria-pressed', other === button ? 'true' : 'false');
+      });
+      apply();
+    });
+
+    gridButton.addEventListener('click', function () {
+      view.grid = !view.grid;
+      gridButton.setAttribute('aria-pressed', view.grid ? 'true' : 'false');
+      apply();
+    });
+    pixelButton.addEventListener('click', function () {
+      view.pixel = !view.pixel;
+      pixelButton.setAttribute('aria-pressed', view.pixel ? 'true' : 'false');
+      apply();
+    });
+    rot.addEventListener('change', function () {
+      view.rot = Number(rot.value) || 0;
+      apply();
+    });
+
+    reset.addEventListener('click', function () {
+      view.rx = 3;
+      view.ry = 3;
+      view.zoom = 100;
+      view.ox = 0;
+      view.oy = 0;
+      view.rot = 0;
+      view.bg = 'dark';
+      view.grid = false;
+      view.pixel = true;
+      rx.value = '3';
+      ry.value = '3';
+      zoom.value = '100';
+      ox.value = '0';
+      oy.value = '0';
+      rot.value = '0';
+      Array.prototype.forEach.call(bgs.querySelectorAll('button'), function (button) {
+        button.setAttribute('aria-pressed', button.dataset.bg === 'dark' ? 'true' : 'false');
+      });
+      gridButton.setAttribute('aria-pressed', 'false');
+      pixelButton.setAttribute('aria-pressed', 'true');
+      syncOutputs();
+      apply();
+    });
+
+    stage.addEventListener('pointerdown', function (event) {
+      if (event.button !== 0) return;
+      drag = { x: event.clientX, y: event.clientY, ox: view.ox, oy: view.oy };
+      stage.classList.add('dragging');
+      if (stage.setPointerCapture) stage.setPointerCapture(event.pointerId);
+    });
+    stage.addEventListener('pointermove', function (event) {
+      if (!drag) return;
+      var dx = event.clientX - drag.x;
+      var dy = event.clientY - drag.y;
+      var angle = view.rot * Math.PI / 180;
+      var cos = Math.cos(angle);
+      var sin = Math.sin(angle);
+      var localX = dx * cos + dy * sin;
+      var localY = -dx * sin + dy * cos;
+      view.ox = wrapPercent(drag.ox - localX / tileWidth * 100);
+      view.oy = wrapPercent(drag.oy - localY / tileHeight * 100);
+      ox.value = String(view.ox);
+      oy.value = String(view.oy);
+      syncOutputs();
+      apply();
+    });
+    function endDrag() {
+      drag = null;
+      stage.classList.remove('dragging');
+    }
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+
+    syncOutputs();
+    apply();
+    tileApply = apply;
+  }
+
+  // ---- navigation ---------------------------------------------------------
+
+  function setHash(id) {
+    var target = '#asset=' + encodeURIComponent(id);
+    if (location.hash === target) return;
+    try {
+      history.replaceState(null, '', target);
+    } catch (error) {
+      location.hash = target.slice(1);
+    }
+  }
+
+  function clearHash() {
+    if (!location.hash) return;
+    try {
+      history.replaceState(null, '', location.pathname + location.search);
+    } catch (error) {
+      location.hash = '';
+    }
+  }
+
+  function handleHash() {
+    var match = /^#asset=(.+)$/.exec(location.hash);
+    if (!match) {
+      if (dialog.open) closeViewer(false);
+      return;
+    }
+
+    var id = match[1];
+    try {
+      id = decodeURIComponent(match[1]);
+    } catch (error) {
+      /* keep the raw value */
+    }
+
+    var asset = byId[id];
+    if (asset) {
+      openViewer(asset, true);
+    } else if (dialog.open) {
+      closeViewer(false);
+    }
+  }
+
+  function stepViewer(delta) {
+    if (viewerList.length < 2) return;
+    viewerIndex = (viewerIndex + delta + viewerList.length) % viewerList.length;
+    fillViewer();
+    setHash(viewerAsset.id);
+  }
+
+  function closeViewer(updateHash) {
+    if (dialog.open) {
+      if (typeof dialog.close === 'function') {
+        dialog.close();
+      } else {
+        dialog.removeAttribute('open');
+        destroySplat();
+        viewerList = [];
+        viewerIndex = -1;
+        viewerAsset = null;
+        if (opener && opener.focus) opener.focus();
+      }
+    }
+    if (updateHash !== false) clearHash();
   }
 
   function clearTagFilters() {
@@ -758,11 +2456,8 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
   }
 
   searchInput.addEventListener('input', function () {
-    window.clearTimeout(searchTimer);
-    searchTimer = window.setTimeout(function () {
-      state.query = searchInput.value.trim().toLowerCase();
-      render();
-    }, 120);
+    state.query = searchInput.value.trim().toLowerCase();
+    render();
   });
 
   sortSelect.addEventListener('change', function () {
@@ -770,16 +2465,52 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
     render();
   });
 
+  themeButton.addEventListener('click', function () {
+    var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    applyTheme(next);
+    try {
+      localStorage.setItem('mesa-gallery-theme', next);
+    } catch (error) {
+      /* storage is optional */
+    }
+  });
+
+  function applyTheme(theme) {
+    document.documentElement.dataset.theme = theme;
+    themeButton.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+    themeButton.setAttribute('aria-label', 'Switch to ' + (theme === 'dark' ? 'light' : 'dark') + ' theme');
+  }
+
   clearTags.addEventListener('click', clearTagFilters);
   resetButton.addEventListener('click', resetFilters);
   emptyReset.addEventListener('click', resetFilters);
-  lbClose.addEventListener('click', closeLightbox);
-  lbPrev.addEventListener('click', function () { stepLightbox(-1); });
-  lbNext.addEventListener('click', function () { stepLightbox(1); });
+  vClose.addEventListener('click', function () { closeViewer(true); });
+  vPrev.addEventListener('click', function () { stepViewer(-1); });
+  vNext.addEventListener('click', function () { stepViewer(1); });
+
+  dialog.addEventListener('cancel', function (event) {
+    event.preventDefault();
+    closeViewer(true);
+  });
 
   dialog.addEventListener('close', function () {
-    lightboxList = [];
-    lightboxIndex = -1;
+    // A hash navigation can open the next asset before this event fires; do not
+    // tear down or move focus out of a viewer that is already open again.
+    if (dialog.open) return;
+
+    viewerList = [];
+    viewerIndex = -1;
+    viewerAsset = null;
+    tileApply = null;
+    destroySplat();
+    clear(vMedia);
+
+    if (opener && opener.isConnected && opener.focus) {
+      opener.focus();
+    } else {
+      searchInput.focus();
+    }
+    opener = null;
   });
 
   document.addEventListener('keydown', function (event) {
@@ -787,19 +2518,31 @@ const ASSETS = [{"id":"DOC-PALETTE-000005","kind":"doc","role":"palette","title"
 
     if (event.key === 'Escape') {
       event.preventDefault();
-      closeLightbox();
-    } else if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      stepLightbox(-1);
-    } else if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      stepLightbox(1);
+      closeViewer(true);
+      return;
     }
+
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    var tag = event.target && event.target.tagName ? event.target.tagName : '';
+    if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' ||
+        tag === 'AUDIO' || tag === 'VIDEO') {
+      return;
+    }
+    event.preventDefault();
+    stepViewer(event.key === 'ArrowLeft' ? -1 : 1);
   });
 
+  window.addEventListener('hashchange', handleHash);
+
+  window.addEventListener('resize', function () {
+    if (tileApply) tileApply();
+  });
+
+  applyTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
   buildTabs();
   buildTagFacets();
   render();
+  handleHash();
 })();
 </script>
 </body>

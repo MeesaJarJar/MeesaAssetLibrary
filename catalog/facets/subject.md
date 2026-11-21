@@ -4,18 +4,20 @@ Purpose: what the asset depicts, independent of file format or intended use.
 Values are two-level (`subject:group/thing`) so a search can widen from
 `subject:item/potion` to `subject:item/`.
 
-Counts are from the eight bundles currently in the catalog (2026-11-20).
+Counts are from the four bundles currently in the catalog (2026-11-21).
 
 ## Values
 
 | Value | Count | Meaning |
 | --- | --- | --- |
-| `subject:environment/stone` | 1 | natural or worked stone surfaces: cobbles, walls, cliffs |
-| `subject:environment/tree` | 3 | individual trees and tree variants: canopy, trunk and root structure |
-| `subject:structure/tower` | 1 | a built vertical structure, ruined or intact |
-| `subject:item/potion` | 1 | a consumable inventory object |
-| `subject:ui/confirm` | 1 | positive acknowledgement feedback, not a click or hover |
-| `subject:palette/forest` | 1 | a colour reference set for a biome |
+| `subject:environment/stone` | 2 | natural or worked stone surfaces: cobbles, walls, cliffs |
+| `subject:environment/tree` | 0 | individual trees and tree variants: canopy, trunk and root structure |
+| `subject:ambience/forest` | 1 | a non-musical bed that places the listener in a biome |
+| `subject:structure/tower` | 0 | a built vertical structure, ruined or intact |
+| `subject:item/potion` | 0 | a consumable inventory object |
+| `subject:item/sword` | 1 | a held or displayed weapon; the silhouette is the point |
+| `subject:ui/confirm` | 0 | positive acknowledgement feedback, not a click or hover |
+| `subject:palette/forest` | 0 | a colour reference set for a biome |
 
 ## Choice notes
 
@@ -23,6 +25,9 @@ Counts are from the eight bundles currently in the catalog (2026-11-20).
   `environment/stone`, not `environment/ground`.
 - `subject:structure/*` is for recognisable architecture. A generic wall belongs
   under `environment/stone` unless the silhouette is the point.
+- Sound beds take `ambience/<place>`; `environment/*` is for depicted places and
+  surfaces, so a forest loop is `ambience/forest` while a forest image would take
+  an `environment/*` value.
 - Do not add flat one-word values (`subject:stone`, `subject:tower`). Two levels
   keep the facet sortable and let queries widen by prefix.
 - For UI sounds, describe the event (`ui/confirm`), not the input device. A

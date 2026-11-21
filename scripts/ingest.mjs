@@ -79,7 +79,8 @@ async function main() {
   };
   const entry = {
     id, kind: input.kind, role: input.role, title: input.title, summary: input.summary,
-    tags: input.tags, preview: previewName, dir: relDir, bytes: sourceStat.size, added,
+    tags: input.tags, preview: previewName, file: relDir + '/' + bundle.files[0].path, mime,
+    dir: relDir, bytes: sourceStat.size, added,
   };
 
   const counts = { ...existing.counts };
@@ -173,6 +174,21 @@ async function scanExisting(root, indexText) {
       const match = String(JSON.parse(line).id).match(/\d{6}/g);
       if (match) maxSeq = Math.max(maxSeq, Number(match[match.length - 1]));
     } catch { /* Invalid index lines are check-library's problem. */ }
+  }
+
+  // Retired IDs keep their sequence numbers reserved forever, so a deleted
+  // asset can never have its ID reissued to an unrelated bundle.
+  try {
+    const retiredText = await readFile(path.join(root, 'catalog', 'retired.jsonl'), 'utf8');
+    for (const line of retiredText.replace(/^\uFEFF/, '').split(/\r?\n/)) {
+      if (!line.trim()) continue;
+      try {
+        const match = String(JSON.parse(line).id).match(/\d{6}/g);
+        if (match) maxSeq = Math.max(maxSeq, Number(match[match.length - 1]));
+      } catch { /* Ignore malformed retirement rows. */ }
+    }
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
   }
 
   async function walk(directory, parts) {

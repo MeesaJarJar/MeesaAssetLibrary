@@ -50,6 +50,9 @@ required unless marked optional.
 | `mime` | string | IANA type, e.g. `image/svg+xml`, `audio/wav` |
 | `sha256` | string | 64 lowercase hex characters of the exact bytes |
 
+The first entry is the primary deliverable. The index mirrors its `path` and
+`mime` in the `file` and `mime` keys.
+
 ### source
 
 | Key | Type | Notes |
@@ -68,6 +71,38 @@ required unless marked optional.
 
 Relations are advisory: the index and directories are the source of truth for
 existence, so never point at a bundle that does not exist.
+
+## catalog/index.jsonl
+
+One JSON object per line, one line per bundle. UTF-8, LF, no trailing spaces.
+Keys are required and appear in exactly this order:
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `id` | string | `KIND-ROLE-NNNNNN`, matches `asset.json` |
+| `kind` | string | matches `asset.json` |
+| `role` | string | matches `asset.json` |
+| `title` | string | short human-readable name |
+| `summary` | string | when to use the asset, not just what it is |
+| `tags` | string[] | the same namespace:value tags as `asset.json` |
+| `preview` | string | bundle-relative preview filename, e.g. `preview.svg` |
+| `file` | string | repo-relative forward-slash path to the primary deliverable; equals `<dir>/<files[0].path>` |
+| `mime` | string | MIME type of `file`; equals `asset.json.files[0].mime` |
+| `dir` | string | repo-relative bundle directory |
+| `bytes` | integer | exact size of the primary file on disk |
+| `added` | string | ISO date `YYYY-MM-DD` the bundle entered the library |
+
+`preview` is bundle-relative, while `file` and `dir` are repo-relative. A
+consumer can resolve `file` directly from the repository root.
+
+```json
+{"id":"IMG-TILE-000001","kind":"image","role":"tile","title":"Mossy Stone Tile","summary":"Seamless 64x64 top-down cobblestone with cold grey-green stones and moss in the joints; low contrast keeps repeated ground tiles clean.","tags":["subject:environment/stone","style:pixel-art","use:tileset","palette:mossy-green","format:png","engine:any"],"preview":"preview.svg","file":"assets/image/tile/000001-mossy-stone/src/mossy-stone.png","mime":"image/png","dir":"assets/image/tile/000001-mossy-stone","bytes":5151,"added":"2026-11-20"}
+```
+
+Entries written before the `file` and `mime` keys existed are legacy.
+`check-library.mjs` accepts a legacy entry with exactly one warning. New ingest
+output always carries both keys, and a legacy line must be rewritten with them
+when it is next edited; an entry with only one of the two keys is an error.
 
 ## ID rules
 

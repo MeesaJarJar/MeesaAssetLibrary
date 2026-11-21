@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "id": "VID-CAPTURE-000011",
+  "kind": "video",
+  "role": "capture",
+  "title": "Mossy Tile Camera Loop",
+  "summary": "Six-second 1280x720 camera drift across the mossy cobblestone texture, pushing in slowly with a gentle sway. Use to demonstrate video playback or as a placeholder ambience plate; the still it was rendered from is the tileable texture bundle.",
+  "tags": [
+    "subject:environment/stone",
+    "style:realistic",
+    "use:reference",
+    "palette:mossy-green",
+    "format:mp4",
+    "engine:any"
+  ],
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/demo-tile-loop.mp4",
+      "bytes": 893337,
+      "mime": "video/mp4",
+      "sha256": "1cf2a8fec366b635668730883bac102ba8db5bcde29631dfa3e94407c375d6fa"
+    }
+  ],
+  "technical": {
+    "duration_s": 6,
+    "resolution": "1280x720",
+    "fps": 24,
+    "codec": "h264"
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ffmpeg zoompan",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "Rendered with ffmpeg from IMG-TEXTURE-000009 (Albedo_00001_.png), 24 fps, H.264, CRF 20, no audio track."
+}

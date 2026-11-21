@@ -3,17 +3,17 @@
 Purpose: which runtime or toolchain an asset is packaged for. This is about
 packaging compatibility, not art style and not a quality claim.
 
-Counts are from the eight bundles currently in the catalog (2026-11-20).
+Counts are from the four bundles currently in the catalog (2026-11-21).
 
 ## Values
 
 | Value | Count | Meaning |
 | --- | --- | --- |
-| `engine:any` | 8 | plain source files with no engine-specific packaging |
+| `engine:any` | 4 | plain source files with no engine-specific packaging |
 
 ## Choice notes
 
-- `any` means the bytes are engine-neutral: SVG, WAV, Markdown and similar. It
+- `any` means the bytes are engine-neutral: PNG, OGG, MP4, PLY and similar. It
   does not mean the asset has been imported and tested in every engine.
 - Add `engine:godot`, `engine:unity` or `engine:unreal` only when the bundle
   contains a ready-to-import package, preset or manifest for that engine.

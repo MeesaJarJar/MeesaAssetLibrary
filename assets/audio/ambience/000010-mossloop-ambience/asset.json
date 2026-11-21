@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "id": "SND-AMBIENCE-000010",
+  "kind": "audio",
+  "role": "ambience",
+  "title": "Mossloop Ambience",
+  "summary": "Six-second stereo ambient bed of stacked low sine tones (G3, D4, G4) with slow tremolo, echo and fade in/out. Use as a quiet forest or menu loop; the fade makes it loop cleanly at six seconds.",
+  "tags": [
+    "subject:ambience/forest",
+    "style:clean-synth",
+    "use:ambience",
+    "palette:mossy-green",
+    "format:ogg",
+    "engine:any"
+  ],
+  "preview": "preview.png",
+  "files": [
+    {
+      "path": "src/demo-ambience.ogg",
+      "bytes": 19515,
+      "mime": "audio/ogg",
+      "sha256": "d21bd3b273ebb09ad61d88d83de09b24f0b0ff99bb3da017894c14a97919f73a"
+    }
+  ],
+  "technical": {
+    "duration_s": 6,
+    "sample_rate": 44100,
+    "channels": 2,
+    "loopable": true
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ffmpeg synthesis",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "Synthesized with ffmpeg for the viewer demo; deterministic recipe, no samples or external audio."
+}

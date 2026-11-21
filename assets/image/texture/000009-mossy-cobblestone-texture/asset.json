@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "id": "IMG-TEXTURE-000009",
+  "kind": "image",
+  "role": "texture",
+  "title": "Mossy Cobblestone Texture",
+  "summary": "Seamless 768x768 top-down cobblestone with wet grey stones and green moss packed into the joints, generated prompt-only with a seamless model patch. Use for forest ruins, dungeon floors and overgrown paths; tiles cleanly on both axes at 1x, and the matching normal/height maps came from the same run.",
+  "tags": [
+    "subject:environment/stone",
+    "style:realistic",
+    "use:tileset",
+    "palette:mossy-green",
+    "format:png",
+    "engine:any"
+  ],
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/Albedo_00001_.png",
+      "bytes": 1051668,
+      "mime": "image/png",
+      "sha256": "e9a4f58aba8fa25a851d3334a675cd78d3e61458c746e64fe65f58b9a0c125c0"
+    }
+  ],
+  "technical": {
+    "width": 768,
+    "height": 768,
+    "alpha": false,
+    "tileable": true,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI 05-seamless_texture",
+    "captured": "2026-11-21"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI 05-seamless_texture workflow, DreamShaper 8, prompt-only (no input image), seed 424242, 28 steps, 768x768. Albedo map; normal, height and curvature maps were produced in the same run and are not stored in this bundle yet."
+}
