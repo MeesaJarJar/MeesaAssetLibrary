@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000021",
+  "kind": "image",
+  "role": "concept",
+  "title": "Treant Face",
+  "summary": "Close-up carved wood face with glowing green eyes, deep bark grain and moss brows, 768x768. Use for a dialogue portrait, boss intro plate, or icon crop; it is a face only, not a full body.",
+  "tags": [
+    "subject:creature/treant",
+    "style:stylized",
+    "use:concept-art",
+    "palette:earth",
+    "format:png",
+    "engine:any"
+  ],
+  "keywords": [
+    "treant",
+    "face",
+    "portrait",
+    "tree monster",
+    "forest guardian",
+    "ent",
+    "creature",
+    "bark",
+    "moss"
+  ],
+  "prompt": "treant face close-up, gnarled bark, glowing green eyes, game icon concept art, neutral dark background, detailed wood grain and moss",
+  "family": "treant",
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/treant-face.png",
+      "bytes": 1089370,
+      "mime": "image/png",
+      "sha256": "4d872efb2e1a2dd8078392da7d2f7d7decda8d2a4f72f6dbd00e1e00fbb315c7"
+    }
+  ],
+  "technical": {
+    "width": 768,
+    "height": 768,
+    "alpha": false,
+    "tileable": null,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI SDXL txt2img",
+    "captured": "2026-11-22"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI SDXL txt2img, seed 92003, 768x768. Face only."
+}

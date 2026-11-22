@@ -1006,6 +1006,15 @@ audio{width:100%}
   border-radius:999px;padding:.18rem .55rem;font-size:.76rem;
 }
 .variant-btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}
+.variant-thumbs-wrap{margin-top:.85rem;border-top:1px solid var(--line);padding-top:.7rem}
+.variant-thumbs{display:flex;gap:.5rem;overflow-x:auto;padding:.15rem 0}
+.variant-thumb{
+  flex:0 0 auto;width:78px;height:78px;padding:0;overflow:hidden;cursor:pointer;
+  border:2px solid var(--line);border-radius:9px;background:var(--panel2);
+}
+.variant-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.variant-thumb:hover{border-color:var(--accent)}
+.variant-thumb[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .v-cart-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
 .similar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem}
 .similar-card{
@@ -2413,6 +2422,42 @@ const ASSETS = ${data};
     syncHash();
   }
 
+  function appendVariantThumbs() {
+    if (viewerFamily.length < 2) return;
+
+    var wrap = el('div', 'variant-thumbs-wrap');
+    wrap.appendChild(el('span', 'field-label', 'Variants'));
+    var strip = el('div', 'variant-thumbs');
+    strip.setAttribute('role', 'group');
+    strip.setAttribute('aria-label', 'Variant thumbnails');
+
+    viewerFamily.forEach(function (member) {
+      var button = el('button', 'variant-thumb');
+      button.type = 'button';
+      button.title = member.title;
+      button.setAttribute('aria-label', 'Show variant: ' + member.title);
+      button.setAttribute('aria-pressed', member.id === viewerAsset.id ? 'true' : 'false');
+
+      if (member.preview || member.file) {
+        var image = document.createElement('img');
+        image.src = member.preview || member.file;
+        image.alt = member.title;
+        image.loading = 'lazy';
+        button.appendChild(image);
+      } else {
+        button.appendChild(el('span', 'muted', member.title.slice(0, 2)));
+      }
+
+      button.addEventListener('click', function () {
+        selectVariant(member);
+      });
+      strip.appendChild(button);
+    });
+
+    wrap.appendChild(strip);
+    vMedia.appendChild(wrap);
+  }
+
   function assetVectors(asset) {
     if (semantic.status !== 'ready') return null;
     var entry = semantic.assets[asset.id];
@@ -2653,6 +2698,7 @@ const ASSETS = ${data};
     stage.appendChild(canvas);
     vMedia.appendChild(toolbar);
     vMedia.appendChild(stage);
+    appendVariantThumbs();
 
     var natural = {
       width: Number(asset.technical.width) || 512,

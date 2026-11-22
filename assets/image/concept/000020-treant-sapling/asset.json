@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000020",
+  "kind": "image",
+  "role": "concept",
+  "title": "Treant Sapling",
+  "summary": "Small treant guardian with a moss crown, bark limbs and orange eyes on a light studio background, 768x768. Use as a low-level forest enemy, companion, or pet; the light backdrop needs keying out before engine use.",
+  "tags": [
+    "subject:creature/treant",
+    "style:stylized",
+    "use:concept-art",
+    "palette:mossy-green",
+    "format:png",
+    "engine:any"
+  ],
+  "keywords": [
+    "treant",
+    "sapling",
+    "tree monster",
+    "forest guardian",
+    "ent",
+    "creature",
+    "bark",
+    "moss"
+  ],
+  "prompt": "young treant sapling guardian, small tree creature, mossy bark, glowing green eyes, game character concept art, full body, centered, neutral dark background",
+  "family": "treant",
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/treant-sapling.png",
+      "bytes": 744072,
+      "mime": "image/png",
+      "sha256": "b042f9f2d82519584f9db8a7d117891def4cc8bd0b5648e6b8017682a5bf861e"
+    }
+  ],
+  "technical": {
+    "width": 768,
+    "height": 768,
+    "alpha": false,
+    "tileable": null,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI SDXL txt2img",
+    "captured": "2026-11-22"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI SDXL txt2img, seed 92002, 768x768. Light studio background."
+}

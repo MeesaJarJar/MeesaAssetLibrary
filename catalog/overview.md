@@ -8,7 +8,7 @@ maintained by hand; rebuild the browsable gallery with
 
 | Kind | Directory | Bundles | Notes |
 | --- | --- | --- | --- |
-| image | `assets/image/` | 4 | seamless stone texture + three dog concepts |
+| image | `assets/image/` | 7 | seamless stone texture + three dog concepts |
 | audio | `assets/audio/` | 2 | ambient forest loop + dog bark |
 | doc | `assets/doc/` | 0 | reserved roles only |
 | model | `assets/model/` | 2 | sword totem + dog splats |
@@ -18,7 +18,7 @@ maintained by hand; rebuild the browsable gallery with
 | project | `assets/project/` | 0 | engine export bundles |
 | other | `assets/other/` | 0 | uncategorised, use sparingly |
 
-Total: 10 bundles.
+Total: 13 bundles.
 
 ## Entry points
 

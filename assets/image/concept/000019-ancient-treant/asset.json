@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000019",
+  "kind": "image",
+  "role": "concept",
+  "title": "Ancient Treant",
+  "summary": "Massive walking treant with bark armor, moss-covered shoulders and glowing green eyes, standing in a misty forest, 768x768. Use as a forest boss, guardian NPC, or scale reference; the painted forest background is part of the image, not a cutout.",
+  "tags": [
+    "subject:creature/treant",
+    "style:stylized",
+    "use:concept-art",
+    "palette:mossy-green",
+    "format:png",
+    "engine:any"
+  ],
+  "keywords": [
+    "treant",
+    "tree monster",
+    "forest guardian",
+    "ent",
+    "boss",
+    "creature",
+    "bark",
+    "moss"
+  ],
+  "prompt": "ancient treant, massive walking tree creature, bark armor, glowing green eyes, boss concept art, full body, centered, neutral dark background, detailed bark and moss",
+  "family": "treant",
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/ancient-treant.png",
+      "bytes": 1001115,
+      "mime": "image/png",
+      "sha256": "05f18a28df93de646190dd5b17ece8fef3bbbbe8a400772c368bddeb0b598d70"
+    }
+  ],
+  "technical": {
+    "width": 768,
+    "height": 768,
+    "alpha": false,
+    "tileable": null,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI SDXL txt2img",
+    "captured": "2026-11-22"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "ComfyUI SDXL txt2img, seed 92001, 768x768."
+}

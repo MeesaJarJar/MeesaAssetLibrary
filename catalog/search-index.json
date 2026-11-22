@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-11-21T21:34:55.255Z",
+  "generated": "2026-11-22T17:08:16.944Z",
   "assets": [
     {
       "id": "IMG-CONCEPT-000013",
@@ -299,6 +299,315 @@
       }
     },
     {
+      "id": "IMG-CONCEPT-000019",
+      "kind": "image",
+      "role": "concept",
+      "title": "Ancient Treant",
+      "summary": "Massive walking treant with bark armor, moss-covered shoulders and glowing green eyes, standing in a misty forest, 768x768. Use as a forest boss, guardian NPC, or scale reference; the painted forest background is part of the image, not a cutout.",
+      "tags": [
+        "subject:creature/treant",
+        "style:stylized",
+        "use:concept-art",
+        "palette:mossy-green",
+        "format:png",
+        "engine:any"
+      ],
+      "keywords": [
+        "treant",
+        "tree monster",
+        "forest guardian",
+        "ent",
+        "boss",
+        "creature",
+        "bark",
+        "moss"
+      ],
+      "prompt": "ancient treant, massive walking tree creature, bark armor, glowing green eyes, boss concept art, full body, centered, neutral dark background, detailed bark and moss",
+      "family": "treant",
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/image/concept/000019-ancient-treant/src/ancient-treant.png",
+      "mime": "image/png",
+      "bytes": 1001115,
+      "sha256": null,
+      "dir": "assets/image/concept/000019-ancient-treant",
+      "added": "2026-11-22",
+      "text": "Ancient Treant. Massive walking treant with bark armor, moss-covered shoulders and glowing green eyes, standing in a misty forest, 768x768. Use as a forest boss, guardian NPC, or scale reference; the painted forest background is part of the image, not a cutout. subject:creature/treant, style:stylized, use:concept-art, palette:mossy-green, format:png, engine:any. treant, tree monster, forest guardian, ent, boss, creature, bark, moss. ancient treant, massive walking tree creature, bark armor, glowing green eyes, boss concept art, full body, centered, neutral dark background, detailed bark and moss",
+      "tokens": [
+        "ancient",
+        "treant",
+        "massive",
+        "walking",
+        "with",
+        "bark",
+        "armor",
+        "moss",
+        "covered",
+        "shoulder",
+        "and",
+        "glowing",
+        "green",
+        "eye",
+        "standing",
+        "in",
+        "misty",
+        "forest",
+        "768x768",
+        "use",
+        "as",
+        "boss",
+        "guardian",
+        "npc",
+        "or",
+        "scale",
+        "reference",
+        "the",
+        "painted",
+        "background",
+        "is",
+        "part",
+        "of",
+        "image",
+        "not",
+        "cutout",
+        "subject",
+        "creature",
+        "style",
+        "stylized",
+        "concept",
+        "art",
+        "palette",
+        "mossy",
+        "format",
+        "png",
+        "engine",
+        "any",
+        "tree",
+        "monster",
+        "ent",
+        "full",
+        "body",
+        "centered",
+        "neutral",
+        "dark",
+        "detailed"
+      ],
+      "embeddings": {
+        "clipImage": 6,
+        "clipText": 7,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
+      "id": "IMG-CONCEPT-000020",
+      "kind": "image",
+      "role": "concept",
+      "title": "Treant Sapling",
+      "summary": "Small treant guardian with a moss crown, bark limbs and orange eyes on a light studio background, 768x768. Use as a low-level forest enemy, companion, or pet; the light backdrop needs keying out before engine use.",
+      "tags": [
+        "subject:creature/treant",
+        "style:stylized",
+        "use:concept-art",
+        "palette:mossy-green",
+        "format:png",
+        "engine:any"
+      ],
+      "keywords": [
+        "treant",
+        "sapling",
+        "tree monster",
+        "forest guardian",
+        "ent",
+        "creature",
+        "bark",
+        "moss"
+      ],
+      "prompt": "young treant sapling guardian, small tree creature, mossy bark, glowing green eyes, game character concept art, full body, centered, neutral dark background",
+      "family": "treant",
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/image/concept/000020-treant-sapling/src/treant-sapling.png",
+      "mime": "image/png",
+      "bytes": 744072,
+      "sha256": null,
+      "dir": "assets/image/concept/000020-treant-sapling",
+      "added": "2026-11-22",
+      "text": "Treant Sapling. Small treant guardian with a moss crown, bark limbs and orange eyes on a light studio background, 768x768. Use as a low-level forest enemy, companion, or pet; the light backdrop needs keying out before engine use. subject:creature/treant, style:stylized, use:concept-art, palette:mossy-green, format:png, engine:any. treant, sapling, tree monster, forest guardian, ent, creature, bark, moss. young treant sapling guardian, small tree creature, mossy bark, glowing green eyes, game character concept art, full body, centered, neutral dark background",
+      "tokens": [
+        "treant",
+        "sapling",
+        "small",
+        "guardian",
+        "with",
+        "moss",
+        "crown",
+        "bark",
+        "limb",
+        "and",
+        "orange",
+        "eye",
+        "on",
+        "light",
+        "studio",
+        "background",
+        "768x768",
+        "use",
+        "as",
+        "low",
+        "level",
+        "forest",
+        "enemy",
+        "companion",
+        "or",
+        "pet",
+        "the",
+        "backdrop",
+        "need",
+        "keying",
+        "out",
+        "before",
+        "engine",
+        "subject",
+        "creature",
+        "style",
+        "stylized",
+        "concept",
+        "art",
+        "palette",
+        "mossy",
+        "green",
+        "format",
+        "png",
+        "any",
+        "tree",
+        "monster",
+        "ent",
+        "young",
+        "glowing",
+        "game",
+        "character",
+        "full",
+        "body",
+        "centered",
+        "neutral",
+        "dark"
+      ],
+      "embeddings": {
+        "clipImage": 8,
+        "clipText": 9,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
+      "id": "IMG-CONCEPT-000021",
+      "kind": "image",
+      "role": "concept",
+      "title": "Treant Face",
+      "summary": "Close-up carved wood face with glowing green eyes, deep bark grain and moss brows, 768x768. Use for a dialogue portrait, boss intro plate, or icon crop; it is a face only, not a full body.",
+      "tags": [
+        "subject:creature/treant",
+        "style:stylized",
+        "use:concept-art",
+        "palette:earth",
+        "format:png",
+        "engine:any"
+      ],
+      "keywords": [
+        "treant",
+        "face",
+        "portrait",
+        "tree monster",
+        "forest guardian",
+        "ent",
+        "creature",
+        "bark",
+        "moss"
+      ],
+      "prompt": "treant face close-up, gnarled bark, glowing green eyes, game icon concept art, neutral dark background, detailed wood grain and moss",
+      "family": "treant",
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/image/concept/000021-treant-face/src/treant-face.png",
+      "mime": "image/png",
+      "bytes": 1089370,
+      "sha256": null,
+      "dir": "assets/image/concept/000021-treant-face",
+      "added": "2026-11-22",
+      "text": "Treant Face. Close-up carved wood face with glowing green eyes, deep bark grain and moss brows, 768x768. Use for a dialogue portrait, boss intro plate, or icon crop; it is a face only, not a full body. subject:creature/treant, style:stylized, use:concept-art, palette:earth, format:png, engine:any. treant, face, portrait, tree monster, forest guardian, ent, creature, bark, moss. treant face close-up, gnarled bark, glowing green eyes, game icon concept art, neutral dark background, detailed wood grain and moss",
+      "tokens": [
+        "treant",
+        "face",
+        "close",
+        "up",
+        "carved",
+        "wood",
+        "with",
+        "glowing",
+        "green",
+        "eye",
+        "deep",
+        "bark",
+        "grain",
+        "and",
+        "moss",
+        "brow",
+        "768x768",
+        "use",
+        "for",
+        "dialogue",
+        "portrait",
+        "boss",
+        "intro",
+        "plate",
+        "or",
+        "icon",
+        "crop",
+        "it",
+        "is",
+        "only",
+        "not",
+        "full",
+        "body",
+        "subject",
+        "creature",
+        "style",
+        "stylized",
+        "concept",
+        "art",
+        "palette",
+        "earth",
+        "format",
+        "png",
+        "engine",
+        "any",
+        "tree",
+        "monster",
+        "forest",
+        "guardian",
+        "ent",
+        "gnarled",
+        "game",
+        "neutral",
+        "dark",
+        "background",
+        "detailed"
+      ],
+      "embeddings": {
+        "clipImage": 10,
+        "clipText": 11,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
       "id": "IMG-TEXTURE-000009",
       "kind": "image",
       "role": "texture",
@@ -385,8 +694,8 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 6,
-        "clipText": 7,
+        "clipImage": 12,
+        "clipText": 13,
         "clapAudio": null,
         "clapText": null
       }
@@ -464,8 +773,8 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 8,
-        "clipText": 9,
+        "clipImage": 14,
+        "clipText": 15,
         "clapAudio": null,
         "clapText": null
       }
@@ -560,8 +869,8 @@
         "lighting"
       ],
       "embeddings": {
-        "clipImage": 10,
-        "clipText": 11,
+        "clipImage": 16,
+        "clipText": 17,
         "clapAudio": null,
         "clapText": null
       }
@@ -644,7 +953,7 @@
       ],
       "embeddings": {
         "clipImage": null,
-        "clipText": 12,
+        "clipText": 18,
         "clapAudio": 0,
         "clapText": 1
       }
@@ -736,7 +1045,7 @@
       ],
       "embeddings": {
         "clipImage": null,
-        "clipText": 13,
+        "clipText": 19,
         "clapAudio": 2,
         "clapText": 3
       }
@@ -820,8 +1129,8 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 14,
-        "clipText": 15,
+        "clipImage": 20,
+        "clipText": 21,
         "clapAudio": null,
         "clapText": null
       }
@@ -923,8 +1232,8 @@
         "fur"
       ],
       "embeddings": {
-        "clipImage": 16,
-        "clipText": 17,
+        "clipImage": 22,
+        "clipText": 23,
         "clapAudio": null,
         "clapText": null
       }
@@ -958,6 +1267,9 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009"
     ],
     "across": [
@@ -985,8 +1297,14 @@
       "SND-SFX-000016",
       "VID-CAPTURE-000017"
     ],
+    "ancient": [
+      "IMG-CONCEPT-000019"
+    ],
     "and": [
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "SND-AMBIENCE-000010",
@@ -1003,6 +1321,9 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
@@ -1011,14 +1332,22 @@
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
+    "armor": [
+      "IMG-CONCEPT-000019"
+    ],
     "art": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
     "as": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
@@ -1039,16 +1368,23 @@
     ],
     "backdrop": [
       "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000020",
       "VID-CAPTURE-000017"
     ],
     "background": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
     "bark": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "SND-SFX-000016"
     ],
     "barking": [
@@ -1058,7 +1394,8 @@
       "SND-AMBIENCE-000010"
     ],
     "before": [
-      "IMG-CONCEPT-000013"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000020"
     ],
     "black": [
       "IMG-CONCEPT-000013",
@@ -1069,13 +1406,23 @@
     ],
     "body": [
       "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018"
+    ],
+    "boss": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000021"
     ],
     "both": [
       "IMG-TEXTURE-000009"
     ],
     "bright": [
       "IMG-CONCEPT-000015"
+    ],
+    "brow": [
+      "IMG-CONCEPT-000021"
     ],
     "brown": [
       "IMG-CONCEPT-000013",
@@ -1094,12 +1441,18 @@
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
+    "carved": [
+      "IMG-CONCEPT-000021"
+    ],
     "centered": [
       "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
       "MDL-PROP-000018"
     ],
     "character": [
       "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000020",
       "MDL-PROP-000018",
       "SND-SFX-000016"
     ],
@@ -1116,6 +1469,7 @@
       "SND-AMBIENCE-000010"
     ],
     "close": [
+      "IMG-CONCEPT-000021",
       "SND-SFX-000016"
     ],
     "cobblestone": [
@@ -1126,6 +1480,7 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000020",
       "MDL-PROP-000018",
       "SND-SFX-000016"
     ],
@@ -1133,22 +1488,38 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
+    ],
+    "covered": [
+      "IMG-CONCEPT-000019"
     ],
     "creature": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "SND-SFX-000016",
       "VID-CAPTURE-000017"
     ],
     "crop": [
-      "IMG-CONCEPT-000015"
+      "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000021"
+    ],
+    "crown": [
+      "IMG-CONCEPT-000020"
     ],
     "cue": [
       "SND-SFX-000016"
+    ],
+    "cutout": [
+      "IMG-CONCEPT-000019"
     ],
     "cycle": [
       "IMG-CONCEPT-000014",
@@ -1158,7 +1529,13 @@
       "SND-AMBIENCE-000010"
     ],
     "dark": [
-      "IMG-CONCEPT-000014"
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
+    ],
+    "deep": [
+      "IMG-CONCEPT-000021"
     ],
     "demonstrate": [
       "VID-CAPTURE-000011"
@@ -1167,11 +1544,14 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
     "dialogue": [
-      "IMG-CONCEPT-000015"
+      "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000021"
     ],
     "dog": [
       "IMG-CONCEPT-000013",
@@ -1198,15 +1578,22 @@
       "IMG-TEXTURE-000009"
     ],
     "earth": [
-      "IMG-CONCEPT-000013"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000021"
     ],
     "echo": [
       "SND-AMBIENCE-000010"
+    ],
+    "enemy": [
+      "IMG-CONCEPT-000020"
     ],
     "engine": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
@@ -1214,6 +1601,11 @@
       "SND-SFX-000016",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
+    ],
+    "ent": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
     ],
     "environment": [
       "IMG-TEXTURE-000009",
@@ -1229,10 +1621,14 @@
       "IMG-CONCEPT-000015"
     ],
     "eye": [
-      "IMG-CONCEPT-000015"
+      "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
     ],
     "face": [
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000012"
     ],
     "fade": [
@@ -1248,10 +1644,14 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "SND-SFX-000016"
     ],
     "forest": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "SND-AMBIENCE-000010"
     ],
@@ -1259,6 +1659,9 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
@@ -1283,6 +1686,9 @@
     ],
     "full": [
       "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018"
     ],
     "fur": [
@@ -1305,6 +1711,8 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
@@ -1319,11 +1727,25 @@
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
+    "glowing": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
+    ],
+    "gnarled": [
+      "IMG-CONCEPT-000021"
+    ],
     "golden": [
       "IMG-CONCEPT-000014",
       "VID-CAPTURE-000017"
     ],
+    "grain": [
+      "IMG-CONCEPT-000021"
+    ],
     "green": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "SND-AMBIENCE-000010",
       "VID-CAPTURE-000011"
@@ -1334,6 +1756,11 @@
     ],
     "guard": [
       "MDL-PROP-000012"
+    ],
+    "guardian": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
     ],
     "head": [
       "IMG-CONCEPT-000015"
@@ -1349,12 +1776,15 @@
     ],
     "icon": [
       "IMG-CONCEPT-000014",
-      "IMG-CONCEPT-000015"
+      "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000021"
     ],
     "image": [
-      "IMG-CONCEPT-000014"
+      "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000019"
     ],
     "in": [
+      "IMG-CONCEPT-000019",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "VID-CAPTURE-000011",
@@ -1363,8 +1793,13 @@
     "into": [
       "IMG-TEXTURE-000009"
     ],
+    "intro": [
+      "IMG-CONCEPT-000021"
+    ],
     "is": [
       "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "VID-CAPTURE-000011",
@@ -1374,6 +1809,7 @@
       "SND-SFX-000016"
     ],
     "it": [
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "VID-CAPTURE-000011",
@@ -1389,14 +1825,24 @@
       "IMG-TEXTURE-000009"
     ],
     "keying": [
-      "IMG-CONCEPT-000013"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000020"
     ],
     "layer": [
       "SND-SFX-000016"
     ],
+    "level": [
+      "IMG-CONCEPT-000020"
+    ],
+    "light": [
+      "IMG-CONCEPT-000020"
+    ],
     "lighting": [
       "IMG-CONCEPT-000013",
       "MDL-PROP-000018"
+    ],
+    "limb": [
+      "IMG-CONCEPT-000020"
     ],
     "loop": [
       "SND-AMBIENCE-000010",
@@ -1404,6 +1850,7 @@
       "VID-CAPTURE-000017"
     ],
     "low": [
+      "IMG-CONCEPT-000020",
       "SND-AMBIENCE-000010"
     ],
     "make": [
@@ -1411,6 +1858,9 @@
     ],
     "map": [
       "IMG-TEXTURE-000009"
+    ],
+    "massive": [
+      "IMG-CONCEPT-000019"
     ],
     "matching": [
       "IMG-TEXTURE-000009"
@@ -1428,19 +1878,32 @@
     "mid": [
       "IMG-CONCEPT-000014"
     ],
+    "misty": [
+      "IMG-CONCEPT-000019"
+    ],
     "model": [
       "IMG-TEXTURE-000009"
     ],
     "monochrome": [
       "IMG-CONCEPT-000015"
     ],
+    "monster": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
+    ],
     "moss": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009"
     ],
     "mossloop": [
       "SND-AMBIENCE-000010"
     ],
     "mossy": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
       "IMG-TEXTURE-000009",
       "SND-AMBIENCE-000010",
       "VID-CAPTURE-000011"
@@ -1466,26 +1929,34 @@
       "SND-SFX-000016"
     ],
     "need": [
-      "IMG-CONCEPT-000013"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000020"
     ],
     "neutral": [
-      "IMG-CONCEPT-000013"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
     ],
     "normal": [
       "IMG-TEXTURE-000009"
     ],
     "not": [
       "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
     "npc": [
       "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000019",
       "SND-SFX-000016"
     ],
     "of": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
@@ -1497,12 +1968,14 @@
     "on": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000020",
       "IMG-TEXTURE-000009"
     ],
     "one": [
       "SND-SFX-000016"
     ],
     "only": [
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009"
     ],
     "open": [
@@ -1512,6 +1985,9 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
@@ -1519,11 +1995,15 @@
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
+    "orange": [
+      "IMG-CONCEPT-000020"
+    ],
     "original": [
       "MDL-PROP-000012"
     ],
     "out": [
       "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000020",
       "SND-AMBIENCE-000010"
     ],
     "over": [
@@ -1535,6 +2015,9 @@
     "packed": [
       "IMG-TEXTURE-000009"
     ],
+    "painted": [
+      "IMG-CONCEPT-000019"
+    ],
     "pale": [
       "MDL-PROP-000012"
     ],
@@ -1542,10 +2025,16 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "SND-AMBIENCE-000010",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
+    ],
+    "part": [
+      "IMG-CONCEPT-000019"
     ],
     "patch": [
       "IMG-TEXTURE-000009"
@@ -1558,7 +2047,8 @@
     ],
     "pet": [
       "IMG-CONCEPT-000013",
-      "IMG-CONCEPT-000015"
+      "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000020"
     ],
     "placeholder": [
       "VID-CAPTURE-000011"
@@ -1571,6 +2061,7 @@
       "VID-CAPTURE-000017"
     ],
     "plate": [
+      "IMG-CONCEPT-000021",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -1585,11 +2076,15 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009"
     ],
     "portrait": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000018"
     ],
     "pose": [
@@ -1627,6 +2122,7 @@
     "reference": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000019",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "VID-CAPTURE-000011",
@@ -1663,8 +2159,12 @@
     "same": [
       "IMG-TEXTURE-000009"
     ],
+    "sapling": [
+      "IMG-CONCEPT-000020"
+    ],
     "scale": [
-      "IMG-CONCEPT-000013"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000019"
     ],
     "seamless": [
       "IMG-TEXTURE-000009"
@@ -1688,7 +2188,8 @@
       "SND-SFX-000016"
     ],
     "shoulder": [
-      "IMG-CONCEPT-000015"
+      "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019"
     ],
     "shrine": [
       "MDL-PROP-000012"
@@ -1727,7 +2228,8 @@
       "VID-CAPTURE-000011"
     ],
     "small": [
-      "IMG-CONCEPT-000015"
+      "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000020"
     ],
     "soft": [
       "IMG-CONCEPT-000013",
@@ -1749,6 +2251,9 @@
     "stacked": [
       "SND-AMBIENCE-000010"
     ],
+    "standing": [
+      "IMG-CONCEPT-000019"
+    ],
     "stereo": [
       "SND-AMBIENCE-000010"
     ],
@@ -1766,12 +2271,16 @@
     "studio": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000020",
       "MDL-PROP-000018"
     ],
     "style": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
@@ -1784,6 +2293,9 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
@@ -1792,6 +2304,9 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
@@ -1826,6 +2341,8 @@
     "the": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
@@ -1861,6 +2378,16 @@
     "totem": [
       "MDL-PROP-000012"
     ],
+    "treant": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
+    ],
+    "tree": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
+    ],
     "tremolo": [
       "SND-AMBIENCE-000010"
     ],
@@ -1876,10 +2403,16 @@
     "unprocessed": [
       "SND-SFX-000016"
     ],
+    "up": [
+      "IMG-CONCEPT-000021"
+    ],
     "use": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
@@ -1902,6 +2435,9 @@
     "viewport": [
       "MDL-PROP-000012"
     ],
+    "walking": [
+      "IMG-CONCEPT-000019"
+    ],
     "warm": [
       "IMG-CONCEPT-000014",
       "VID-CAPTURE-000017"
@@ -1921,6 +2457,9 @@
     "with": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "SND-AMBIENCE-000010",
@@ -1928,11 +2467,17 @@
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
+    "wood": [
+      "IMG-CONCEPT-000021"
+    ],
     "woof": [
       "SND-SFX-000016"
     ],
     "yard": [
       "SND-SFX-000016"
+    ],
+    "young": [
+      "IMG-CONCEPT-000020"
     ]
   },
   "families": {
@@ -1940,6 +2485,11 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015"
+    ],
+    "treant": [
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000021"
     ]
   },
   "concepts": [
@@ -6417,8 +6967,8 @@
     }
   ],
   "stats": {
-    "assets": 10,
-    "families": 1,
+    "assets": 13,
+    "families": 2,
     "concepts": 448
   }
 }
