@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "id": "IMG-CONCEPT-000022",
+  "kind": "image",
+  "role": "concept",
+  "title": "Treant Concept",
+  "summary": "A single game-ready treant concept on a neutral studio background, generated for the request queue. Use as a first-pass prop, creature or environment reference; the flat backdrop is not a cutout.",
+  "tags": [
+    "subject:request/treant",
+    "style:stylized",
+    "use:concept-art",
+    "format:png",
+    "engine:any"
+  ],
+  "keywords": [
+    "treant",
+    "concept",
+    "game asset"
+  ],
+  "prompt": "game concept art of a treant, single subject, full body, centered, neutral dark studio background, detailed, clean silhouette, no text",
+  "family": "treant",
+  "preview": "preview.webp",
+  "files": [
+    {
+      "path": "src/treant-image.png",
+      "bytes": 727485,
+      "mime": "image/png",
+      "sha256": "21bd48699ad641983d511e6d7dd470a4d328efa152e449f6473987f2cbd81624"
+    }
+  ],
+  "technical": {
+    "width": 768,
+    "height": 768,
+    "alpha": false,
+    "tileable": null,
+    "palette": null
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI SDXL txt2img",
+    "captured": "2026-11-22"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "Prototype pack for the queue request \"treant\". ComfyUI SDXL, seed 94019."
+}

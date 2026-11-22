@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "id": "SND-SFX-000023",
+  "kind": "audio",
+  "role": "sfx",
+  "title": "Treant Sound",
+  "summary": "A four-second one-shot sound effect for a treant, dry and unprocessed. Use as a first-pass cue; trim and layer it for the final mix.",
+  "tags": [
+    "subject:request/treant",
+    "style:realistic",
+    "use:sfx",
+    "format:mp3",
+    "engine:any"
+  ],
+  "keywords": [
+    "treant",
+    "sfx",
+    "sound"
+  ],
+  "prompt": "a natural treant sound effect, close perspective, single event, dry, no music, no reverb",
+  "family": null,
+  "preview": "preview.png",
+  "files": [
+    {
+      "path": "src/treant-audio.mp3",
+      "bytes": 97574,
+      "mime": "audio/mpeg",
+      "sha256": "9e0f2eb9a7578f25ab0807dd190db03b88a7768399c7cc3afb00c571f70af334"
+    }
+  ],
+  "technical": {
+    "duration_s": 4,
+    "sample_rate": 44100,
+    "channels": 2,
+    "loopable": false
+  },
+  "source": {
+    "origin": "generated",
+    "tool": "ComfyUI Stable Audio 3",
+    "captured": "2026-11-22"
+  },
+  "relations": {
+    "parent": null,
+    "variants": [],
+    "collections": []
+  },
+  "notes": "Prototype pack for the queue request \"treant\". Stable Audio 3, 4 s."
+}

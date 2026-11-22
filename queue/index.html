@@ -153,6 +153,11 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
 .requester-cell{max-width:250px;overflow-wrap:anywhere}
 .note-cell{max-width:320px;overflow-wrap:anywhere}
 .note-cell .note-by{color:var(--muted);font-size:.78rem;white-space:nowrap}
+.status-cell{white-space:nowrap}
+.status-badge{display:inline-block;padding:.12rem .5rem;border-radius:999px;border:1px solid var(--line);font-size:.72rem;line-height:1.5}
+.status-badge.open{color:var(--muted)}
+.status-badge.fulfilled{border-color:#2e6247;background:#12281c;color:#c9f7d9;text-decoration:none}
+.status-badge.fulfilled:hover{border-color:#4a9a6d}
 .stamp{white-space:nowrap;color:#c0ccdb;font-size:.82rem}
 .empty-state{
   border:1px dashed #3a4a61;border-radius:11px;background:#101823;
@@ -279,6 +284,7 @@ pre.line{
         <thead>
           <tr>
             <th scope="col">Query</th>
+            <th scope="col">Status</th>
             <th scope="col">Requests</th>
             <th scope="col">Requesters</th>
             <th scope="col">First</th>
@@ -476,6 +482,7 @@ pre.line{
   var dom = {};
   var state = {
     records: [],
+    status: {},
     invalidLines: 0,
     loaded: false,
     loadError: '',
@@ -907,8 +914,23 @@ pre.line{
     }
   }
 
+  async function loadStatus() {
+    try {
+      var response = await fetch('../catalog/asset-requests-status.json', { cache: 'no-store' });
+      if (!response.ok) {
+        state.status = {};
+        return;
+      }
+      var data = await response.json();
+      state.status = data && data.requests && typeof data.requests === 'object' ? data.requests : {};
+    } catch (error) {
+      state.status = {};
+    }
+  }
+
   async function loadQueue() {
     dom.queueError.hidden = true;
+    await loadStatus();
     if (!state.loaded) {
       dom.listStatus.hidden = false;
       dom.listStatus.className = 'hint list-status';
@@ -981,6 +1003,7 @@ pre.line{
       if (!entry) {
         entry = {
           query: query,
+          status: state.status[query] || null,
           requests: 0,
           requesters: new Map(),
           first: null,
@@ -1021,6 +1044,7 @@ pre.line{
     var topics = Array.from(map.values()).map(function (entry) {
       return {
         query: entry.query,
+        status: entry.status,
         requests: entry.requests,
         requesters: Array.from(entry.requesters.values()).sort(function (a, b) {
           return a.login.toLowerCase().localeCompare(b.login.toLowerCase());
@@ -1151,6 +1175,23 @@ pre.line{
       queryCell.className = 'query-cell';
       queryCell.textContent = topic.query;
       row.appendChild(queryCell);
+
+      var statusCell = document.createElement('td');
+      statusCell.className = 'status-cell';
+      if (topic.status && topic.status.status === 'fulfilled') {
+        var link = document.createElement('a');
+        link.className = 'status-badge fulfilled';
+        link.href = '../gallery/#q=' + encodeURIComponent(topic.query);
+        link.textContent = 'Fulfilled';
+        link.title = 'View the generated assets';
+        statusCell.appendChild(link);
+      } else {
+        var badge = document.createElement('span');
+        badge.className = 'status-badge open';
+        badge.textContent = 'Open';
+        statusCell.appendChild(badge);
+      }
+      row.appendChild(statusCell);
 
       var requestsCell = document.createElement('td');
       requestsCell.className = 'num';

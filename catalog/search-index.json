@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-11-22T17:08:16.944Z",
+  "generated": "2026-11-22T17:29:19.433Z",
   "assets": [
     {
       "id": "IMG-CONCEPT-000013",
@@ -608,6 +608,93 @@
       }
     },
     {
+      "id": "IMG-CONCEPT-000022",
+      "kind": "image",
+      "role": "concept",
+      "title": "Treant Concept",
+      "summary": "A single game-ready treant concept on a neutral studio background, generated for the request queue. Use as a first-pass prop, creature or environment reference; the flat backdrop is not a cutout.",
+      "tags": [
+        "subject:request/treant",
+        "style:stylized",
+        "use:concept-art",
+        "format:png",
+        "engine:any"
+      ],
+      "keywords": [
+        "treant",
+        "concept",
+        "game asset"
+      ],
+      "prompt": "game concept art of a treant, single subject, full body, centered, neutral dark studio background, detailed, clean silhouette, no text",
+      "family": "treant",
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.webp",
+      "file": "assets/image/concept/000022-treant-concept/src/treant-image.png",
+      "mime": "image/png",
+      "bytes": 727485,
+      "sha256": null,
+      "dir": "assets/image/concept/000022-treant-concept",
+      "added": "2026-11-22",
+      "text": "Treant Concept. A single game-ready treant concept on a neutral studio background, generated for the request queue. Use as a first-pass prop, creature or environment reference; the flat backdrop is not a cutout. subject:request/treant, style:stylized, use:concept-art, format:png, engine:any. treant, concept, game asset. game concept art of a treant, single subject, full body, centered, neutral dark studio background, detailed, clean silhouette, no text",
+      "tokens": [
+        "treant",
+        "concept",
+        "single",
+        "game",
+        "ready",
+        "on",
+        "neutral",
+        "studio",
+        "background",
+        "generated",
+        "for",
+        "the",
+        "request",
+        "queue",
+        "use",
+        "as",
+        "first",
+        "pass",
+        "prop",
+        "creature",
+        "or",
+        "environment",
+        "reference",
+        "flat",
+        "backdrop",
+        "is",
+        "not",
+        "cutout",
+        "subject",
+        "style",
+        "stylized",
+        "art",
+        "format",
+        "png",
+        "engine",
+        "any",
+        "asset",
+        "of",
+        "full",
+        "body",
+        "centered",
+        "dark",
+        "detailed",
+        "clean",
+        "silhouette",
+        "no",
+        "text"
+      ],
+      "embeddings": {
+        "clipImage": 12,
+        "clipText": 13,
+        "clapAudio": null,
+        "clapText": null
+      }
+    },
+    {
       "id": "IMG-TEXTURE-000009",
       "kind": "image",
       "role": "texture",
@@ -694,8 +781,8 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 12,
-        "clipText": 13,
+        "clipImage": 14,
+        "clipText": 15,
         "clapAudio": null,
         "clapText": null
       }
@@ -773,8 +860,8 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 14,
-        "clipText": 15,
+        "clipImage": 16,
+        "clipText": 17,
         "clapAudio": null,
         "clapText": null
       }
@@ -869,8 +956,8 @@
         "lighting"
       ],
       "embeddings": {
-        "clipImage": 16,
-        "clipText": 17,
+        "clipImage": 18,
+        "clipText": 19,
         "clapAudio": null,
         "clapText": null
       }
@@ -953,7 +1040,7 @@
       ],
       "embeddings": {
         "clipImage": null,
-        "clipText": 18,
+        "clipText": 20,
         "clapAudio": 0,
         "clapText": 1
       }
@@ -1045,9 +1132,88 @@
       ],
       "embeddings": {
         "clipImage": null,
-        "clipText": 19,
+        "clipText": 21,
         "clapAudio": 2,
         "clapText": 3
+      }
+    },
+    {
+      "id": "SND-SFX-000023",
+      "kind": "audio",
+      "role": "sfx",
+      "title": "Treant Sound",
+      "summary": "A four-second one-shot sound effect for a treant, dry and unprocessed. Use as a first-pass cue; trim and layer it for the final mix.",
+      "tags": [
+        "subject:request/treant",
+        "style:realistic",
+        "use:sfx",
+        "format:mp3",
+        "engine:any"
+      ],
+      "keywords": [
+        "treant",
+        "sfx",
+        "sound"
+      ],
+      "prompt": "a natural treant sound effect, close perspective, single event, dry, no music, no reverb",
+      "family": null,
+      "scope": "curated",
+      "contributor": null,
+      "license": null,
+      "preview": "preview.png",
+      "file": "assets/audio/sfx/000023-treant-sound/src/treant-audio.mp3",
+      "mime": "audio/mpeg",
+      "bytes": 97574,
+      "sha256": null,
+      "dir": "assets/audio/sfx/000023-treant-sound",
+      "added": "2026-11-22",
+      "text": "Treant Sound. A four-second one-shot sound effect for a treant, dry and unprocessed. Use as a first-pass cue; trim and layer it for the final mix. subject:request/treant, style:realistic, use:sfx, format:mp3, engine:any. treant, sfx, sound. a natural treant sound effect, close perspective, single event, dry, no music, no reverb",
+      "tokens": [
+        "treant",
+        "sound",
+        "four",
+        "second",
+        "one",
+        "shot",
+        "effect",
+        "for",
+        "dry",
+        "and",
+        "unprocessed",
+        "use",
+        "as",
+        "first",
+        "pass",
+        "cue",
+        "trim",
+        "layer",
+        "it",
+        "the",
+        "final",
+        "mix",
+        "subject",
+        "request",
+        "style",
+        "realistic",
+        "sfx",
+        "format",
+        "mp3",
+        "engine",
+        "any",
+        "natural",
+        "close",
+        "perspective",
+        "single",
+        "event",
+        "no",
+        "music",
+        "reverb"
+      ],
+      "embeddings": {
+        "clipImage": null,
+        "clipText": 22,
+        "clapAudio": 4,
+        "clapText": 5
       }
     },
     {
@@ -1129,8 +1295,8 @@
         "any"
       ],
       "embeddings": {
-        "clipImage": 20,
-        "clipText": 21,
+        "clipImage": 23,
+        "clipText": 24,
         "clapAudio": null,
         "clapText": null
       }
@@ -1232,8 +1398,8 @@
         "fur"
       ],
       "embeddings": {
-        "clipImage": 22,
-        "clipText": 23,
+        "clipImage": 25,
+        "clipText": 26,
         "clapAudio": null,
         "clapText": null
       }
@@ -1308,7 +1474,8 @@
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "SND-AMBIENCE-000010",
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "animal": [
       "IMG-CONCEPT-000013",
@@ -1324,11 +1491,13 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -1342,20 +1511,24 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
     "as": [
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
     "asset": [
       "IMG-CONCEPT-000014",
+      "IMG-CONCEPT-000022",
       "VID-CAPTURE-000017"
     ],
     "at": [
@@ -1369,6 +1542,7 @@
     "backdrop": [
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000022",
       "VID-CAPTURE-000017"
     ],
     "background": [
@@ -1378,6 +1552,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
@@ -1409,6 +1584,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018"
     ],
     "boss": [
@@ -1448,6 +1624,7 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018"
     ],
     "character": [
@@ -1460,6 +1637,7 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "VID-CAPTURE-000017"
@@ -1470,7 +1648,8 @@
     ],
     "close": [
       "IMG-CONCEPT-000021",
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "cobblestone": [
       "IMG-TEXTURE-000009",
@@ -1491,6 +1670,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
@@ -1504,6 +1684,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "SND-SFX-000016",
       "VID-CAPTURE-000017"
@@ -1516,10 +1697,12 @@
       "IMG-CONCEPT-000020"
     ],
     "cue": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "cutout": [
-      "IMG-CONCEPT-000019"
+      "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000022"
     ],
     "cycle": [
       "IMG-CONCEPT-000014",
@@ -1532,7 +1715,8 @@
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
-      "IMG-CONCEPT-000021"
+      "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022"
     ],
     "deep": [
       "IMG-CONCEPT-000021"
@@ -1546,6 +1730,7 @@
       "IMG-CONCEPT-000015",
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
@@ -1572,7 +1757,8 @@
       "VID-CAPTURE-000017"
     ],
     "dry": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "dungeon": [
       "IMG-TEXTURE-000009"
@@ -1584,6 +1770,9 @@
     "echo": [
       "SND-AMBIENCE-000010"
     ],
+    "effect": [
+      "SND-SFX-000023"
+    ],
     "enemy": [
       "IMG-CONCEPT-000020"
     ],
@@ -1594,11 +1783,13 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -1608,8 +1799,12 @@
       "IMG-CONCEPT-000021"
     ],
     "environment": [
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "VID-CAPTURE-000011"
+    ],
+    "event": [
+      "SND-SFX-000023"
     ],
     "exercise": [
       "MDL-PROP-000012"
@@ -1634,8 +1829,16 @@
     "fade": [
       "SND-AMBIENCE-000010"
     ],
+    "final": [
+      "SND-SFX-000023"
+    ],
+    "first": [
+      "IMG-CONCEPT-000022",
+      "SND-SFX-000023"
+    ],
     "flat": [
-      "IMG-CONCEPT-000013"
+      "IMG-CONCEPT-000013",
+      "IMG-CONCEPT-000022"
     ],
     "floor": [
       "IMG-TEXTURE-000009"
@@ -1645,8 +1848,10 @@
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "forest": [
       "IMG-CONCEPT-000019",
@@ -1662,16 +1867,19 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
     "four": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "frame": [
       "IMG-CONCEPT-000014"
@@ -1689,6 +1897,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018"
     ],
     "fur": [
@@ -1713,6 +1922,7 @@
       "IMG-CONCEPT-000015",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
@@ -1721,6 +1931,7 @@
       "MDL-PROP-000018"
     ],
     "generated": [
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009"
     ],
     "gentle": [
@@ -1800,6 +2011,7 @@
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "VID-CAPTURE-000011",
@@ -1812,6 +2024,7 @@
       "IMG-CONCEPT-000021",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -1829,7 +2042,8 @@
       "IMG-CONCEPT-000020"
     ],
     "layer": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "level": [
       "IMG-CONCEPT-000020"
@@ -1881,6 +2095,9 @@
     "misty": [
       "IMG-CONCEPT-000019"
     ],
+    "mix": [
+      "SND-SFX-000023"
+    ],
     "model": [
       "IMG-TEXTURE-000009"
     ],
@@ -1919,14 +2136,19 @@
       "VID-CAPTURE-000017"
     ],
     "mp3": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "mp4": [
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
+    "music": [
+      "SND-SFX-000023"
+    ],
     "natural": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "need": [
       "IMG-CONCEPT-000013",
@@ -1936,7 +2158,12 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
-      "IMG-CONCEPT-000021"
+      "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022"
+    ],
+    "no": [
+      "IMG-CONCEPT-000022",
+      "SND-SFX-000023"
     ],
     "normal": [
       "IMG-TEXTURE-000009"
@@ -1945,6 +2172,7 @@
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
@@ -1957,6 +2185,7 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000015",
       "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
@@ -1969,10 +2198,12 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009"
     ],
     "one": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "only": [
       "IMG-CONCEPT-000021",
@@ -1988,6 +2219,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
@@ -2036,6 +2268,10 @@
     "part": [
       "IMG-CONCEPT-000019"
     ],
+    "pass": [
+      "IMG-CONCEPT-000022",
+      "SND-SFX-000023"
+    ],
     "patch": [
       "IMG-TEXTURE-000009"
     ],
@@ -2043,7 +2279,8 @@
       "IMG-TEXTURE-000009"
     ],
     "perspective": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "pet": [
       "IMG-CONCEPT-000013",
@@ -2079,6 +2316,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009"
     ],
     "portrait": [
@@ -2097,11 +2335,15 @@
       "IMG-TEXTURE-000009"
     ],
     "prop": [
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000012"
     ],
     "pushing": [
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
+    ],
+    "queue": [
+      "IMG-CONCEPT-000022"
     ],
     "quiet": [
       "SND-AMBIENCE-000010"
@@ -2109,10 +2351,14 @@
     "reaction": [
       "SND-SFX-000016"
     ],
+    "ready": [
+      "IMG-CONCEPT-000022"
+    ],
     "realistic": [
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011"
     ],
     "reconstruction": [
@@ -2123,6 +2369,7 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000019",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "VID-CAPTURE-000011",
@@ -2134,9 +2381,16 @@
     "rendered": [
       "VID-CAPTURE-000011"
     ],
+    "request": [
+      "IMG-CONCEPT-000022",
+      "SND-SFX-000023"
+    ],
     "retriever": [
       "IMG-CONCEPT-000014",
       "VID-CAPTURE-000017"
+    ],
+    "reverb": [
+      "SND-SFX-000023"
     ],
     "rigged": [
       "MDL-PROP-000018"
@@ -2172,11 +2426,13 @@
     "second": [
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
     "sfx": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "shaped": [
       "MDL-PROP-000012"
@@ -2185,7 +2441,8 @@
       "SND-SFX-000016"
     ],
     "shot": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "shoulder": [
       "IMG-CONCEPT-000015",
@@ -2202,6 +2459,7 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000015",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
     ],
@@ -2210,7 +2468,9 @@
     ],
     "single": [
       "IMG-CONCEPT-000014",
-      "SND-SFX-000016"
+      "IMG-CONCEPT-000022",
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "sitting": [
       "IMG-CONCEPT-000013",
@@ -2234,6 +2494,9 @@
     "soft": [
       "IMG-CONCEPT-000013",
       "MDL-PROP-000018"
+    ],
+    "sound": [
+      "SND-SFX-000023"
     ],
     "speed": [
       "IMG-CONCEPT-000014"
@@ -2272,6 +2535,7 @@
       "IMG-CONCEPT-000013",
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000018"
     ],
     "style": [
@@ -2281,11 +2545,13 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -2296,6 +2562,7 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "VID-CAPTURE-000017"
@@ -2307,11 +2574,13 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -2334,6 +2603,9 @@
     "terrier": [
       "IMG-CONCEPT-000015"
     ],
+    "text": [
+      "IMG-CONCEPT-000022"
+    ],
     "texture": [
       "IMG-TEXTURE-000009",
       "VID-CAPTURE-000011"
@@ -2343,11 +2615,13 @@
       "IMG-CONCEPT-000014",
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -2381,7 +2655,9 @@
     "treant": [
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
-      "IMG-CONCEPT-000021"
+      "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
+      "SND-SFX-000023"
     ],
     "tree": [
       "IMG-CONCEPT-000019",
@@ -2392,7 +2668,8 @@
       "SND-AMBIENCE-000010"
     ],
     "trim": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "twice": [
       "SND-SFX-000016"
@@ -2401,7 +2678,8 @@
       "IMG-CONCEPT-000015"
     ],
     "unprocessed": [
-      "SND-SFX-000016"
+      "SND-SFX-000016",
+      "SND-SFX-000023"
     ],
     "up": [
       "IMG-CONCEPT-000021"
@@ -2413,11 +2691,13 @@
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
       "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022",
       "IMG-TEXTURE-000009",
       "MDL-PROP-000012",
       "MDL-PROP-000018",
       "SND-AMBIENCE-000010",
       "SND-SFX-000016",
+      "SND-SFX-000023",
       "VID-CAPTURE-000011",
       "VID-CAPTURE-000017"
     ],
@@ -2489,7 +2769,8 @@
     "treant": [
       "IMG-CONCEPT-000019",
       "IMG-CONCEPT-000020",
-      "IMG-CONCEPT-000021"
+      "IMG-CONCEPT-000021",
+      "IMG-CONCEPT-000022"
     ]
   },
   "concepts": [
@@ -6967,7 +7248,7 @@
     }
   ],
   "stats": {
-    "assets": 13,
+    "assets": 15,
     "families": 2,
     "concepts": 448
   }
