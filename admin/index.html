@@ -1,0 +1,1636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; form-action 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:,">
+<title>Pack Console - Meesa Asset Library</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  color-scheme:dark;
+  --bg:#0b0e14;--bg2:#10151d;--panel:#151b26;--panel2:#1b2331;
+  --text:#e6edf3;--muted:#9aa7b8;--line:#2a3444;
+  --accent:#7cc4ff;--accent-soft:#24384d;--good:#7ee0a3;--good-soft:#173326;
+  --warn:#ffd166;--warn-soft:#352b16;--danger:#ff9191;--danger-soft:#351d1d;
+  --chip:#1d2735;--focus:#ffd166;--shadow:0 14px 38px rgba(0,0,0,.34);
+}
+html,body{margin:0;min-height:100%}
+body{
+  background:
+    radial-gradient(1000px 560px at 12% -10%,#1b2a3d 0,transparent 68%),
+    radial-gradient(900px 500px at 100% 0,#15251f 0,transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+[hidden]{display:none!important}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:1rem;top:-4rem;z-index:20;background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:.5rem .8rem}
+.skip:focus{top:1rem}
+.site-header{
+  display:flex;gap:1rem;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;
+  padding:.85rem clamp(1rem,2.4vw,1.6rem);border-bottom:1px solid var(--line);
+  background:rgba(16,21,29,.96);backdrop-filter:blur(8px);position:sticky;top:0;z-index:8;
+}
+.brand{display:flex;gap:.7rem;align-items:center;min-width:0}
+.brand-mark{
+  width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none;
+  border:1px solid #356080;background:linear-gradient(150deg,#24384d,#173326);
+  color:var(--accent);font-weight:800;font-size:.78rem;letter-spacing:.08em;
+}
+.brand h1{margin:0;font-size:1.16rem;letter-spacing:.01em}
+.brand p{margin:.1rem 0 0;color:var(--muted);font-size:.82rem}
+.header-tools{display:flex;gap:.65rem;align-items:center;justify-content:flex-end;flex-wrap:wrap;font-size:.86rem}
+.health{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap}
+.header-links{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+.local-note{color:var(--muted);font-size:.74rem;border-left:1px solid var(--line);padding-left:.7rem}
+.token-form{
+  display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;width:100%;
+  padding-top:.75rem;border-top:1px solid var(--line);
+}
+.token-form .field{flex:1 1 320px;max-width:460px}
+.token-form input{min-width:0}
+.badge{
+  display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--line);border-radius:999px;
+  background:var(--chip);color:var(--muted);padding:.12rem .55rem;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+}
+.badge.good,.badge.ok{border-color:#2e6247;background:var(--good-soft);color:#bdf2d0}
+.badge.warn{border-color:#63511f;background:var(--warn-soft);color:#ffe6a2}
+.badge.bad{border-color:#7b3b3b;background:var(--danger-soft);color:#ffc4c4}
+.health .dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex:none}
+.health.ok .dot{background:var(--good)}
+.health.bad .dot{background:var(--danger)}
+.health.unknown .dot{background:var(--warn)}
+.console{
+  width:min(1440px,100%);margin:0 auto;padding:1.1rem clamp(1rem,2.4vw,1.6rem) 3rem;
+  display:grid;grid-template-columns:minmax(270px,330px) minmax(0,1fr);gap:1rem;align-items:start;
+}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:1rem;box-shadow:var(--shadow);margin:0 0 1rem;
+}
+.sidebar{position:sticky;top:5.4rem;max-height:calc(100vh - 6.6rem);overflow:auto;margin-bottom:0}
+.sidebar-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;margin-bottom:.8rem}
+.sidebar h2{margin:0;font-size:1.05rem}
+.sidebar p{margin:.15rem 0 0}
+.field{min-width:0}
+.field label,.field-label{display:block;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.28rem}
+input[type=text],input[type=password],input[type=search],input[type=number],select,textarea{
+  width:100%;padding:.55rem .65rem;border:1px solid var(--line);border-radius:8px;
+  background:#0f151f;transition:border-color .12s ease,box-shadow .12s ease;
+}
+textarea{resize:vertical;min-height:3.2rem;line-height:1.45}
+input:hover,select:hover,textarea:hover{border-color:#3a4a61}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,196,255,.12);outline:none}
+input:disabled,select:disabled,textarea:disabled{opacity:.55;cursor:not-allowed}
+.button{
+  border:1px solid var(--accent);background:var(--accent-soft);color:var(--text);
+  padding:.5rem .8rem;border-radius:8px;font-weight:600;line-height:1.3;
+}
+.button:hover{filter:brightness(1.08)}
+.button:disabled{opacity:.42;cursor:not-allowed;filter:none}
+.button.primary{background:#2d6d9b;border-color:#79c5ff;color:#fff}
+.button.subtle{border-color:var(--line);background:var(--panel2);color:var(--muted)}
+.button.subtle:hover{color:var(--text);border-color:var(--accent)}
+.button.danger{border-color:#7b3b3b;background:#2c1b1b;color:#ffc4c4}
+.button.publish{border-color:#3f8c64;background:#173326;color:#c9f7d9}
+.button.small-button{padding:.28rem .5rem;font-size:.78rem;font-weight:500}
+.muted{color:var(--muted)}
+.small{font-size:.82rem}
+.hint{color:var(--muted);font-size:.78rem;margin:.3rem 0 0}
+.sidebar-tools{display:grid;gap:.55rem;margin-bottom:.7rem}
+.sort-row{display:flex;gap:.45rem;align-items:center}
+.sort-row select{flex:1}
+.request-list{display:grid;gap:.45rem;margin-top:.2rem}
+.sidebar-links{display:flex;gap:.8rem;flex-wrap:wrap;margin:.8rem 0 0;padding-top:.55rem;border-top:1px solid var(--line);font-size:.8rem}
+.request-card{
+  display:grid;gap:.2rem;width:100%;text-align:left;border:1px solid var(--line);
+  background:#101823;border-radius:10px;padding:.55rem .6rem;color:var(--text);
+}
+.request-card:hover{border-color:#3f5a76;background:#141d29}
+.request-card.selected{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px rgba(124,196,255,.18)}
+.request-top{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.request-query{font-weight:700;overflow-wrap:anywhere}
+.request-meta{color:var(--muted);font-size:.78rem}
+.request-note{color:#b8c5d5;font-size:.78rem;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.status-badge{
+  display:inline-block;padding:.1rem .5rem;border-radius:999px;border:1px solid var(--line);
+  font-size:.68rem;line-height:1.5;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+  background:var(--chip);color:var(--muted);
+}
+.status-badge.status-open{color:#c4d0df}
+.status-badge.status-planned{border-color:#3b6a8d;background:#17293a;color:#bde3ff}
+.status-badge.status-generating{border-color:#63511f;background:var(--warn-soft);color:#ffe6a2}
+.status-badge.status-fulfilled{border-color:#2e6247;background:var(--good-soft);color:#c9f7d9}
+.status-badge.status-rejected{border-color:#7b3b3b;background:var(--danger-soft);color:#ffc4c4}
+.status-badge.status-failed{border-color:#7b3b3b;background:var(--danger-soft);color:#ffc4c4}
+.empty-state{border:1px dashed #3a4a61;border-radius:11px;background:#101823;padding:1rem 1.1rem}
+.empty-state h2,.empty-state h3{margin:0 0 .35rem;font-size:1rem}
+.empty-state p{margin:.3rem 0;color:var(--muted);max-width:72ch}
+.workspace{min-width:0}
+.request-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:.7rem}
+.eyebrow{margin:0 0 .15rem;color:var(--muted);font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.request-title{margin:0;font-size:1.55rem;letter-spacing:.01em;overflow-wrap:anywhere}
+.meta-row{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin:.4rem 0 .2rem}
+.request-facts{margin:.15rem 0;color:var(--muted);font-size:.82rem;overflow-wrap:anywhere}
+.request-note-full{margin:.55rem 0 0;color:#d2dce8;overflow-wrap:anywhere;white-space:pre-wrap}
+.request-actions{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin:0;justify-content:flex-end}
+.notice{border:1px solid var(--line);border-radius:10px;padding:.65rem .8rem;margin:.7rem 0;background:var(--panel2);overflow-wrap:anywhere}
+.notice strong{display:block;margin-bottom:.15rem}
+.notice p{margin:.15rem 0}
+.notice.error{border-color:#7b3b3b;background:var(--danger-soft);color:#ffd6d6}
+.notice.warn{border-color:#63511f;background:var(--warn-soft);color:#ffe9ae}
+.notice.ok{border-color:#2e6247;background:var(--good-soft);color:#c9f7d9}
+.notice.info{border-color:#2e5066;background:#12212d;color:#cfe9fb}
+.subpanel{border:1px solid var(--line);border-radius:12px;background:#111823;padding:.85rem;margin-top:.85rem}
+.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;flex-wrap:wrap;margin-bottom:.65rem}
+.section-head h3{margin:0;font-size:1rem}
+.section-head p{margin:.15rem 0 0}
+.section-actions{display:flex;gap:.45rem;align-items:center;flex-wrap:wrap}
+.group-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem}
+.group-card{border:1px solid var(--line);border-radius:11px;background:#0f151f;padding:.7rem;min-width:0}
+.group-head{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.group-head h4{margin:0;font-size:.95rem;letter-spacing:.01em}
+.count-wrap{display:flex;align-items:center;gap:.4rem;flex:0 0 auto}
+.count-wrap label{font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.count-wrap input{width:62px;padding:.36rem .4rem;text-align:center;font-variant-numeric:tabular-nums}
+.group-field{margin:.45rem 0}
+.group-field label{display:block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:.22rem}
+.group-field input,.group-field textarea,.prompt-row textarea{font-size:.86rem}
+.prompt-list{display:grid;gap:.4rem}
+.prompt-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.4rem;align-items:start}
+.prompt-empty{color:var(--muted);font-size:.78rem;padding:.3rem 0}
+.add-prompt{margin-top:.35rem}
+.plan-json{margin-top:.7rem;border-top:1px solid var(--line);padding-top:.55rem}
+.plan-json summary{cursor:pointer;font-weight:650;font-size:.86rem}
+.json-preview{
+  margin:.5rem 0 0;padding:.65rem .75rem;border:1px solid var(--line);border-radius:9px;
+  background:#0b1018;color:#cfe9fb;white-space:pre-wrap;overflow-wrap:anywhere;
+  font:0.76rem/1.5 ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  max-height:360px;overflow:auto;
+}
+.stage-badges{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.5rem}
+.stage-badge{
+  display:inline-flex;align-items:center;gap:.25rem;border:1px solid var(--line);border-radius:999px;
+  padding:.08rem .45rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+  background:var(--chip);
+}
+.stage-badge.done{border-color:#2e6247;color:#bdf2d0;background:var(--good-soft)}
+.stage-badge.active{border-color:#63511f;color:#ffe6a2;background:var(--warn-soft)}
+.progress-head{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin:.35rem 0 .3rem;font-size:.76rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.progress-log{
+  border:1px solid var(--line);border-radius:9px;background:#0b1018;padding:.45rem .55rem;
+  max-height:300px;overflow-y:auto;font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  font-size:.76rem;line-height:1.45;
+}
+.progress-line{display:grid;grid-template-columns:66px 78px minmax(0,1fr);gap:.5rem;padding:.16rem 0;border-bottom:1px solid #1a2330}
+.progress-line:last-child{border-bottom:0}
+.progress-line .p-time{color:#7f8da2}
+.progress-line .p-stage{color:#9ed0ff;overflow-wrap:anywhere}
+.progress-line .p-message{color:#cfdae8;overflow-wrap:anywhere}
+.progress-empty{color:var(--muted)}
+.asset-list{display:flex;gap:.35rem;flex-wrap:wrap;margin:.35rem 0 .5rem}
+.asset-chip{font-size:.75rem;border:1px solid var(--line);background:var(--chip);color:#c6d3e2;border-radius:999px;padding:.1rem .48rem;overflow-wrap:anywhere}
+.job-state.generating{border-color:#63511f;background:var(--warn-soft);color:#ffe6a2}
+.job-state.fulfilled{border-color:#2e6247;background:var(--good-soft);color:#c9f7d9}
+.job-state.failed{border-color:#7b3b3b;background:var(--danger-soft);color:#ffc4c4}
+.publish-result code{overflow-wrap:anywhere}
+.footer{width:min(1440px,100%);margin:0 auto;padding:0 clamp(1rem,2.4vw,1.6rem) 2rem;color:var(--muted);font-size:.78rem}
+.footer p{margin:.2rem 0}
+@media (max-width:980px){
+  .console{grid-template-columns:1fr}
+  .sidebar{position:static;max-height:none;overflow:visible}
+  .group-grid{grid-template-columns:1fr}
+  .request-actions{justify-content:flex-start}
+}
+@media (max-width:720px){
+  .site-header{align-items:flex-start}
+  .header-tools{justify-content:flex-start}
+  .local-note{border-left:0;padding-left:0}
+  .request-title{font-size:1.3rem}
+  .progress-line{grid-template-columns:64px minmax(0,1fr)}
+  .progress-line .p-message{grid-column:1 / -1;padding-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">PC</div>
+    <div>
+      <h1>Pack Console</h1>
+      <p>Plan, generate, and publish packs from the request queue</p>
+    </div>
+  </div>
+  <div class="header-tools">
+    <div class="health" id="health-badges" aria-label="Service health">
+      <span class="badge health unknown" id="ollama-badge"><span class="dot" aria-hidden="true"></span><span id="ollama-text">Ollama: checking</span></span>
+      <span class="badge health unknown" id="comfy-badge"><span class="dot" aria-hidden="true"></span><span id="comfy-text">ComfyUI: checking</span></span>
+    </div>
+    <span class="local-note">Local only: 127.0.0.1</span>
+    <nav class="header-links" aria-label="Library links">
+      <a href="/queue/">/queue/</a>
+      <a href="/gallery/">/gallery/</a>
+    </nav>
+  </div>
+  <form id="token-form" class="token-form" hidden autocomplete="off">
+    <div class="field">
+      <label for="token-input">Admin token</label>
+      <input id="token-input" type="password" autocomplete="new-password" spellcheck="false" placeholder="ADMIN_TOKEN from admin/.env.local">
+    </div>
+    <button id="token-save" class="button primary" type="submit">Unlock</button>
+    <button id="token-forget" class="button subtle" type="button" hidden>Forget token</button>
+  </form>
+</header>
+
+<main id="main" class="console">
+  <aside class="sidebar panel" aria-labelledby="requests-heading">
+    <div class="sidebar-head">
+      <div>
+        <h2 id="requests-heading">Requests</h2>
+        <p id="request-count" class="muted small">Loading...</p>
+      </div>
+      <button id="refresh-state" class="button subtle" type="button">Refresh</button>
+    </div>
+    <div id="sidebar-body">
+      <div class="sidebar-tools">
+        <div class="field">
+          <label for="request-filter">Filter</label>
+          <input id="request-filter" type="search" placeholder="query, note, requester" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="sort-row">
+          <label class="sr-only" for="request-sort">Sort requests</label>
+          <select id="request-sort">
+            <option value="requests">Most requested</option>
+            <option value="newest">Newest request</option>
+            <option value="query">Query A-Z</option>
+            <option value="status">Status</option>
+          </select>
+        </div>
+      </div>
+      <div id="request-list" class="request-list"></div>
+      <div id="request-list-empty" class="empty-state small" hidden>
+        <h3>No requests match</h3>
+        <p>Change the filter or refresh the queue.</p>
+      </div>
+      <p class="sidebar-links">
+        <a href="/queue/">Request queue</a>
+        <a href="/gallery/">Gallery</a>
+      </p>
+    </div>
+  </aside>
+
+  <div class="workspace">
+    <div id="app-error" class="notice error" role="alert" hidden></div>
+
+    <section id="auth-panel" class="panel auth-panel" aria-labelledby="auth-title" hidden>
+      <div class="section-head">
+        <div>
+          <h2 id="auth-title" style="margin:0;font-size:1.1rem">Local access required</h2>
+          <p class="muted small">This console is protected by <code>ADMIN_TOKEN</code> from <code>admin/.env.local</code>.</p>
+        </div>
+      </div>
+      <p>Enter the token in the header field and press Unlock. It is kept in this tab's sessionStorage only and sent as a Bearer header to this local server. It is never placed in the URL, localStorage, or logs.</p>
+      <div id="auth-error" class="notice warn" role="status" hidden></div>
+    </section>
+
+    <section id="empty-panel" class="panel empty-state" hidden>
+      <h2>Select a request</h2>
+      <p>The left column lists aggregated requests from the public queue. Pick one to plan a pack with Ollama, then generate and publish it.</p>
+      <p id="empty-engine-note" class="hint" hidden>Engine not ready. Add <code>scripts/lib/pack.mjs</code> and reload the request list.</p>
+    </section>
+
+    <section id="request-panel" class="panel" aria-labelledby="request-title" hidden>
+      <div class="request-head">
+        <div>
+          <p class="eyebrow">Selected request</p>
+          <h2 id="request-title" class="request-title">-</h2>
+          <div class="meta-row">
+            <span id="request-status" class="status-badge status-open">open</span>
+            <span id="request-demand" class="muted small"></span>
+            <span id="request-assets" class="muted small"></span>
+          </div>
+          <p id="request-requesters" class="request-facts"></p>
+          <p id="request-dates" class="request-facts"></p>
+          <p id="request-note" class="request-note-full"></p>
+        </div>
+        <div class="request-actions" aria-label="Request actions">
+          <button id="plan-button" class="button primary" type="button">Plan with Ollama</button>
+          <button id="generate-button" class="button" type="button" disabled>Generate pack</button>
+          <button id="publish-button" class="button publish" type="button" disabled>Publish</button>
+          <button id="reject-button" class="button danger" type="button">Reject request</button>
+        </div>
+      </div>
+
+      <div id="engine-warning" class="notice warn" role="status" hidden></div>
+      <div id="action-notice" class="notice info" role="status" aria-live="polite" hidden></div>
+      <div id="publish-result" class="notice ok publish-result" role="status" aria-live="polite" hidden></div>
+
+      <section id="plan-section" class="subpanel" aria-labelledby="plan-title" hidden>
+        <div class="section-head">
+          <div>
+            <h3 id="plan-title">Plan</h3>
+            <p id="plan-summary" class="muted small"></p>
+          </div>
+          <div class="section-actions">
+            <button id="copy-plan" class="button subtle" type="button">Copy plan</button>
+          </div>
+        </div>
+        <div id="group-grid" class="group-grid"></div>
+        <details class="plan-json" open>
+          <summary>Plan JSON</summary>
+          <pre id="plan-json" class="json-preview"></pre>
+        </details>
+      </section>
+
+      <section id="job-section" class="subpanel" aria-labelledby="job-title" hidden>
+        <div class="section-head">
+          <div>
+            <h3 id="job-title">Generation</h3>
+            <p id="job-meta" class="muted small"></p>
+          </div>
+          <span id="job-state" class="badge job-state">idle</span>
+        </div>
+        <div id="stage-badges" class="stage-badges" aria-label="Generation stages"></div>
+        <div id="job-error" class="notice error" role="alert" hidden></div>
+        <div id="job-assets" class="asset-list" aria-label="Generated assets"></div>
+        <div class="progress-head">
+          <span>Progress</span>
+          <span id="progress-count">0 lines</span>
+        </div>
+        <div id="progress-log" class="progress-log" role="log" aria-live="polite"></div>
+      </section>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>Pack Console writes assets through <code>scripts/lib/pack.mjs</code> and publishes with your local git credentials. No GitHub token is stored or requested by this console.</p>
+  <p>Bound to 127.0.0.1 only. No CDN, no framework, no telemetry.</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var TOKEN_KEY = 'meesa-admin-token';
+  var GROUPS = ['image', 'audio', 'video', 'model'];
+  var GROUP_LABELS = { image: 'Image', audio: 'Audio', video: 'Video', model: 'Model' };
+
+  var app = {
+    tokenRequired: false,
+    token: '',
+    requests: [],
+    health: { ollama: { ok: null }, comfy: { ok: null } },
+    engineReady: false,
+    engineError: '',
+    repo: { dirty: false, commit: null },
+    selected: null,
+    drafts: new Map(),
+    filter: '',
+    sort: 'requests',
+    planning: false,
+    generating: false,
+    publishing: false,
+    rejecting: false,
+    refreshing: false,
+    pollTimer: null,
+    healthTimer: null
+  };
+
+  var dom = {};
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function cacheDom() {
+    dom.tokenForm = byId('token-form');
+    dom.tokenInput = byId('token-input');
+    dom.tokenSave = byId('token-save');
+    dom.tokenForget = byId('token-forget');
+    dom.ollamaBadge = byId('ollama-badge');
+    dom.ollamaText = byId('ollama-text');
+    dom.comfyBadge = byId('comfy-badge');
+    dom.comfyText = byId('comfy-text');
+    dom.refreshState = byId('refresh-state');
+    dom.sidebarBody = byId('sidebar-body');
+    dom.requestFilter = byId('request-filter');
+    dom.requestSort = byId('request-sort');
+    dom.requestCount = byId('request-count');
+    dom.requestList = byId('request-list');
+    dom.requestListEmpty = byId('request-list-empty');
+    dom.appError = byId('app-error');
+    dom.authPanel = byId('auth-panel');
+    dom.authError = byId('auth-error');
+    dom.emptyPanel = byId('empty-panel');
+    dom.emptyEngineNote = byId('empty-engine-note');
+    dom.requestPanel = byId('request-panel');
+    dom.requestTitle = byId('request-title');
+    dom.requestStatus = byId('request-status');
+    dom.requestDemand = byId('request-demand');
+    dom.requestAssets = byId('request-assets');
+    dom.requestRequesters = byId('request-requesters');
+    dom.requestDates = byId('request-dates');
+    dom.requestNote = byId('request-note');
+    dom.planButton = byId('plan-button');
+    dom.generateButton = byId('generate-button');
+    dom.publishButton = byId('publish-button');
+    dom.rejectButton = byId('reject-button');
+    dom.engineWarning = byId('engine-warning');
+    dom.actionNotice = byId('action-notice');
+    dom.publishResult = byId('publish-result');
+    dom.planSection = byId('plan-section');
+    dom.planSummary = byId('plan-summary');
+    dom.copyPlan = byId('copy-plan');
+    dom.groupGrid = byId('group-grid');
+    dom.planJson = byId('plan-json');
+    dom.jobSection = byId('job-section');
+    dom.jobMeta = byId('job-meta');
+    dom.jobState = byId('job-state');
+    dom.stageBadges = byId('stage-badges');
+    dom.jobError = byId('job-error');
+    dom.jobAssets = byId('job-assets');
+    dom.progressLog = byId('progress-log');
+    dom.progressCount = byId('progress-count');
+  }
+
+  function make(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = String(text);
+    return node;
+  }
+
+  function clear(node) {
+    while (node.firstChild) node.removeChild(node.firstChild);
+  }
+
+  function hide(node) {
+    if (node) node.hidden = true;
+  }
+
+  function show(node) {
+    if (node) node.hidden = false;
+  }
+
+  function splitComma(value) {
+    return String(value || '')
+      .split(',')
+      .map(function (item) { return item.trim(); })
+      .filter(Boolean);
+  }
+
+  function joinComma(value) {
+    return Array.isArray(value) ? value.join(', ') : '';
+  }
+
+  function clampCount(value) {
+    var number = Number(value);
+    if (!Number.isFinite(number)) return 0;
+    return Math.max(0, Math.min(5, Math.trunc(number)));
+  }
+
+  function plural(value, singular, pluralWord) {
+    return value + ' ' + (value === 1 ? singular : pluralWord);
+  }
+
+  function findRequest(query) {
+    for (var index = 0; index < app.requests.length; index += 1) {
+      if (app.requests[index].query === query) return app.requests[index];
+    }
+    return null;
+  }
+
+  function getDraft(query, create) {
+    if (!query) return null;
+    var draft = app.drafts.get(query);
+    if (!draft && create) {
+      draft = { query: query, plan: null, jobId: null, job: null, publishedCommit: null };
+      app.drafts.set(query, draft);
+    }
+    return draft || null;
+  }
+
+  function selectedRequest() {
+    return app.selected ? findRequest(app.selected) : null;
+  }
+
+  function readStoredToken() {
+    try {
+      return sessionStorage.getItem(TOKEN_KEY) || '';
+    } catch (error) {
+      return '';
+    }
+  }
+
+  function storeToken(value) {
+    try {
+      if (value) sessionStorage.setItem(TOKEN_KEY, value);
+      else sessionStorage.removeItem(TOKEN_KEY);
+    } catch (error) {
+      // The console still works without persistence in this tab.
+    }
+  }
+
+  async function api(pathname, options) {
+    var opts = options || {};
+    var headers = { accept: 'application/json' };
+    if (opts.body !== undefined) headers['content-type'] = 'application/json';
+    if (app.token) headers.authorization = 'Bearer ' + app.token;
+    var response = await fetch(pathname, {
+      method: opts.method || 'GET',
+      headers: headers,
+      body: opts.body === undefined ? undefined : JSON.stringify(opts.body),
+      cache: 'no-store',
+      credentials: 'omit'
+    });
+    var text = await response.text();
+    var data = null;
+    if (text) {
+      try {
+        data = JSON.parse(text);
+      } catch (error) {
+        data = null;
+      }
+    }
+    if (!response.ok) {
+      var message = data && data.error ? data.error : 'Request failed with status ' + response.status + '.';
+      var failure = new Error(message);
+      failure.status = response.status;
+      failure.code = data && data.code;
+      failure.detail = data && data.detail;
+      failure.payload = data;
+      throw failure;
+    }
+    return data;
+  }
+
+  function errorMessage(error) {
+    var message = error && error.message ? error.message : 'Unknown error.';
+    if (error && error.detail && message.indexOf(error.detail) < 0) {
+      message += ' ' + error.detail;
+    }
+    return message;
+  }
+
+  // -------------------------------------------------------------------------
+  // Notices and shared chrome
+  // -------------------------------------------------------------------------
+
+  function showNotice(kind, message) {
+    dom.actionNotice.className = 'notice ' + (kind || 'info');
+    dom.actionNotice.textContent = message;
+    dom.actionNotice.hidden = false;
+  }
+
+  function clearNotice() {
+    dom.actionNotice.hidden = true;
+    dom.actionNotice.textContent = '';
+    dom.actionNotice.className = 'notice info';
+  }
+
+  function showPublishResult(commit) {
+    clear(dom.publishResult);
+    dom.publishResult.dataset.commit = commit || '';
+    dom.publishResult.appendChild(document.createTextNode('Published commit '));
+    dom.publishResult.appendChild(make('code', null, commit || '(unknown)'));
+    dom.publishResult.appendChild(document.createTextNode('. Use git log to review the change.'));
+    dom.publishResult.hidden = false;
+  }
+
+  function hidePublishResult() {
+    dom.publishResult.hidden = true;
+    dom.publishResult.textContent = '';
+    dom.publishResult.dataset.commit = '';
+  }
+
+  function showAppError(message) {
+    dom.appError.textContent = message;
+    dom.appError.hidden = false;
+  }
+
+  function hideAppError() {
+    dom.appError.hidden = true;
+    dom.appError.textContent = '';
+  }
+
+  function showLocked(message) {
+    hide(dom.sidebarBody);
+    hide(dom.requestPanel);
+    hide(dom.emptyPanel);
+    show(dom.authPanel);
+    dom.tokenForm.hidden = false;
+    dom.tokenForget.hidden = !app.token;
+    dom.requestCount.textContent = 'Locked';
+    clear(dom.requestList);
+    hide(dom.requestListEmpty);
+    if (message) {
+      dom.authError.textContent = message;
+      dom.authError.hidden = false;
+    } else {
+      dom.authError.hidden = true;
+      dom.authError.textContent = '';
+    }
+  }
+
+  function showUnlocked() {
+    hide(dom.authPanel);
+    show(dom.sidebarBody);
+  }
+
+  function paintStatus(node, status) {
+    var value = String(status || 'open');
+    if (['open', 'planned', 'generating', 'fulfilled', 'rejected', 'failed'].indexOf(value) < 0) value = 'open';
+    node.className = 'status-badge status-' + value;
+    node.textContent = value;
+  }
+
+  function renderHealth() {
+    renderHealthBadge(dom.ollamaBadge, dom.ollamaText, 'Ollama', app.health && app.health.ollama);
+    renderHealthBadge(dom.comfyBadge, dom.comfyText, 'ComfyUI', app.health && app.health.comfy);
+  }
+
+  function renderHealthBadge(badge, textNode, label, health) {
+    var ok = health && health.ok === true ? true : health && health.ok === false ? false : null;
+    var text = label + ': ' + (ok === true ? 'online' : ok === false ? 'offline' : 'checking');
+    if (label === 'Ollama' && health && health.model) text += ' (' + health.model + ')';
+    textNode.textContent = text;
+    badge.className = 'badge health ' + (ok === true ? 'ok' : ok === false ? 'bad' : 'unknown');
+    badge.dataset.state = ok === true ? 'ok' : ok === false ? 'bad' : 'unknown';
+  }
+
+  function renderEngineWarning() {
+    if (app.engineReady && !app.engineError) {
+      dom.engineWarning.hidden = true;
+      dom.engineWarning.textContent = '';
+      hide(dom.emptyEngineNote);
+      return;
+    }
+    if (app.engineReady) {
+      dom.engineWarning.textContent = 'The request queue could not be read. ' + app.engineError;
+      dom.engineWarning.hidden = false;
+      hide(dom.emptyEngineNote);
+      return;
+    }
+    var reason = app.engineError ? ' ' + app.engineError : ' scripts/lib/pack.mjs is missing or could not be loaded.';
+    dom.engineWarning.textContent =
+      'Engine not ready.' + reason + ' The server retries on the next request after the file exists.';
+    dom.engineWarning.hidden = false;
+    show(dom.emptyEngineNote);
+  }
+
+  // -------------------------------------------------------------------------
+  // Request list
+  // -------------------------------------------------------------------------
+
+  function pickDefaultRequest() {
+    var open = app.requests.filter(function (request) { return request.status === 'open'; });
+    var pool = open.length ? open : app.requests;
+    if (!pool.length) return null;
+    var sorted = pool.slice().sort(function (a, b) {
+      if (b.count !== a.count) return b.count - a.count;
+      return String(b.last || '').localeCompare(String(a.last || ''));
+    });
+    return sorted[0].query;
+  }
+
+  function filteredRequests() {
+    var filter = app.filter.trim().toLowerCase();
+    var list = app.requests.filter(function (request) {
+      if (!filter) return true;
+      if (request.query.toLowerCase().indexOf(filter) >= 0) return true;
+      if (String(request.status || '').toLowerCase().indexOf(filter) >= 0) return true;
+      if (String(request.note || '').toLowerCase().indexOf(filter) >= 0) return true;
+      return request.requesters.some(function (name) {
+        return name.toLowerCase().indexOf(filter) >= 0;
+      });
+    });
+    var statusOrder = { open: 0, planned: 1, generating: 2, failed: 3, fulfilled: 4, rejected: 5 };
+    list.sort(function (a, b) {
+      if (app.sort === 'query') return a.query.localeCompare(b.query);
+      if (app.sort === 'newest') return String(b.last || '').localeCompare(String(a.last || ''));
+      if (app.sort === 'status') {
+        var difference = (statusOrder[a.status] || 0) - (statusOrder[b.status] || 0);
+        if (difference !== 0) return difference;
+        return b.count - a.count;
+      }
+      if (b.count !== a.count) return b.count - a.count;
+      return String(b.last || '').localeCompare(String(a.last || ''));
+    });
+    return list;
+  }
+
+  function renderRequestList() {
+    var filtered = filteredRequests();
+    clear(dom.requestList);
+    dom.requestListEmpty.hidden = filtered.length > 0;
+    if (!filtered.length) {
+      dom.requestCount.textContent = app.requests.length ? 'No matches' : 'No requests';
+      return;
+    }
+    var openCount = app.requests.filter(function (request) { return request.status === 'open'; }).length;
+    var text = plural(filtered.length, 'request', 'requests');
+    if (filtered.length !== app.requests.length) text += ' of ' + app.requests.length;
+    text += ' - ' + openCount + ' open';
+    dom.requestCount.textContent = text;
+
+    filtered.forEach(function (request) {
+      var button = make('button', 'request-card');
+      button.type = 'button';
+      button.dataset.query = request.query;
+      button.setAttribute('aria-pressed', request.query === app.selected ? 'true' : 'false');
+      if (request.query === app.selected) button.classList.add('selected');
+
+      var top = make('span', 'request-top');
+      top.appendChild(make('span', 'request-query', request.query));
+      var status = make('span', 'status-badge');
+      paintStatus(status, request.status);
+      top.appendChild(status);
+      button.appendChild(top);
+
+      var meta =
+        plural(request.count, 'request', 'requests') + ' - ' + plural(request.assets.length, 'asset', 'assets');
+      button.appendChild(make('span', 'request-meta', meta));
+      if (request.note) button.appendChild(make('span', 'request-note', request.note));
+      button.addEventListener('click', function () {
+        selectRequest(request.query);
+      });
+      dom.requestList.appendChild(button);
+    });
+  }
+
+  function selectRequest(query) {
+    if (!findRequest(query)) return;
+    app.selected = query;
+    getDraft(query, true);
+    clearNotice();
+    hidePublishResult();
+    renderRequestList();
+    renderWorkspace();
+    resumeJobForDraft(getDraft(query, false));
+  }
+
+  function resumeJobForDraft(draft) {
+    if (!draft || !draft.jobId) return;
+    if (draft.job && (draft.job.state === 'fulfilled' || draft.job.state === 'failed')) return;
+    app.generating = true;
+    schedulePoll();
+  }
+
+  // -------------------------------------------------------------------------
+  // Workspace
+  // -------------------------------------------------------------------------
+
+  function renderWorkspace() {
+    var request = selectedRequest();
+    if (!request) {
+      hide(dom.requestPanel);
+      hide(dom.authPanel);
+      show(dom.emptyPanel);
+      renderEngineWarning();
+      return;
+    }
+    hide(dom.emptyPanel);
+    hide(dom.authPanel);
+    show(dom.requestPanel);
+
+    dom.requestTitle.textContent = request.query;
+    paintStatus(dom.requestStatus, request.status);
+    dom.requestDemand.textContent = plural(request.count, 'request', 'requests');
+    dom.requestAssets.textContent = plural(request.assets.length, 'asset', 'assets');
+    dom.requestRequesters.textContent = request.requesters.length
+      ? 'Requested by ' + request.requesters.join(', ')
+      : 'No requesters recorded.';
+    dom.requestDates.textContent =
+      request.first || request.last
+        ? 'First ' + formatDate(request.first) + ' - last ' + formatDate(request.last)
+        : '';
+    dom.requestNote.textContent = request.note ? 'Latest note: ' + request.note : 'No note on this request.';
+
+    renderEngineWarning();
+
+    var draft = getDraft(request.query, true);
+    renderPlan(draft);
+    renderJob(draft);
+    updateActionState(request, draft);
+  }
+
+  function formatDate(value) {
+    if (!value) return 'unknown';
+    var date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  function renderPlan(draft) {
+    if (!draft || !draft.plan) {
+      hide(dom.planSection);
+      return;
+    }
+    show(dom.planSection);
+    renderGroups(draft.plan);
+    renderPlanSummary(draft.plan);
+    renderPlanJson(draft.plan);
+  }
+
+  function renderGroups(plan) {
+    clear(dom.groupGrid);
+    GROUPS.forEach(function (name) {
+      var group = plan[name];
+      var card = make('section', 'group-card');
+      card.dataset.group = name;
+
+      var head = make('div', 'group-head');
+      head.appendChild(make('h4', null, GROUP_LABELS[name]));
+      var countWrap = make('div', 'count-wrap');
+      var countLabel = make('label', null, 'Count');
+      countLabel.htmlFor = 'count-' + name;
+      var countInput = make('input', 'group-count');
+      countInput.id = 'count-' + name;
+      countInput.type = 'number';
+      countInput.min = '0';
+      countInput.max = '5';
+      countInput.step = '1';
+      countInput.value = String(group.count);
+      countInput.addEventListener('input', function () {
+        group.count = clampCount(countInput.value);
+        updatePlanUi();
+      });
+      countInput.addEventListener('change', function () {
+        countInput.value = String(group.count);
+      });
+      countWrap.appendChild(countLabel);
+      countWrap.appendChild(countInput);
+      head.appendChild(countWrap);
+      card.appendChild(head);
+
+      card.appendChild(
+        textField('Title', 'title-' + name, 'text', group.title, function (value) {
+          group.title = value;
+          updatePlanUi();
+        }),
+      );
+      card.appendChild(
+        areaField('Summary', 'summary-' + name, group.summary, 3, function (value) {
+          group.summary = value;
+          updatePlanUi();
+        }),
+      );
+      card.appendChild(
+        areaField('Negative prompt', 'negative-' + name, group.negative, 2, function (value) {
+          group.negative = value;
+          updatePlanUi();
+        }),
+      );
+
+      var promptsField = make('div', 'group-field');
+      promptsField.appendChild(
+        make(
+          'label',
+          null,
+          name === 'model' ? 'Prompts (optional; model uses the first image)' : 'Prompts',
+        ),
+      );
+      var promptList = make('div', 'prompt-list');
+      promptList.dataset.groupPrompts = name;
+      renderPromptRows(promptList, group);
+      promptsField.appendChild(promptList);
+      var addPrompt = make('button', 'button subtle small-button add-prompt', 'Add prompt');
+      addPrompt.type = 'button';
+      addPrompt.addEventListener('click', function () {
+        group.prompts.push('');
+        renderPromptRows(promptList, group);
+        var areas = promptList.querySelectorAll('textarea');
+        if (areas.length) areas[areas.length - 1].focus();
+        updatePlanUi();
+      });
+      promptsField.appendChild(addPrompt);
+      card.appendChild(promptsField);
+
+      card.appendChild(
+        textField('Tags (comma separated)', 'tags-' + name, 'text', joinComma(group.tags), function (value) {
+          group.tags = splitComma(value);
+          updatePlanUi();
+        }),
+      );
+      card.appendChild(
+        textField('Keywords (comma separated)', 'keywords-' + name, 'text', joinComma(group.keywords), function (value) {
+          group.keywords = splitComma(value);
+          updatePlanUi();
+        }),
+      );
+
+      dom.groupGrid.appendChild(card);
+    });
+  }
+
+  function textField(labelText, id, type, value, onChange) {
+    var wrap = make('div', 'group-field');
+    var label = make('label', null, labelText);
+    label.htmlFor = id;
+    var input = make('input');
+    input.id = id;
+    input.type = type;
+    input.value = value || '';
+    input.addEventListener('input', function () { onChange(input.value); });
+    wrap.appendChild(label);
+    wrap.appendChild(input);
+    return wrap;
+  }
+
+  function areaField(labelText, id, value, rows, onChange) {
+    var wrap = make('div', 'group-field');
+    var label = make('label', null, labelText);
+    label.htmlFor = id;
+    var area = make('textarea');
+    area.id = id;
+    area.rows = rows;
+    area.value = value || '';
+    area.addEventListener('input', function () { onChange(area.value); });
+    wrap.appendChild(label);
+    wrap.appendChild(area);
+    return wrap;
+  }
+
+  function renderPromptRows(list, group) {
+    clear(list);
+    if (!group.prompts.length) {
+      list.appendChild(
+        make(
+          'div',
+          'prompt-empty',
+          list.dataset.groupPrompts === 'model'
+            ? 'Optional. The splat is reconstructed from the first generated image.'
+            : 'No prompts yet. Add one before generating this group.',
+        ),
+      );
+      return;
+    }
+    group.prompts.forEach(function (prompt, index) {
+      var row = make('div', 'prompt-row');
+      var area = make('textarea');
+      area.rows = 2;
+      area.value = prompt;
+      area.setAttribute('aria-label', GROUP_LABELS[list.dataset.groupPrompts] + ' prompt ' + (index + 1));
+      area.addEventListener('input', function () {
+        group.prompts[index] = area.value;
+        updatePlanUi();
+      });
+      var remove = make('button', 'button subtle small-button', 'Remove');
+      remove.type = 'button';
+      remove.addEventListener('click', function () {
+        group.prompts.splice(index, 1);
+        renderPromptRows(list, group);
+        updatePlanUi();
+      });
+      row.appendChild(area);
+      row.appendChild(remove);
+      list.appendChild(row);
+    });
+  }
+
+  function planTotals(plan) {
+    var totals = {};
+    var total = 0;
+    GROUPS.forEach(function (name) {
+      var count = groupCountValue(plan[name] && plan[name].count);
+      totals[name] = count;
+      total += count;
+    });
+    totals.total = total;
+    return totals;
+  }
+
+  function groupCountValue(value) {
+    var number = Number(value);
+    if (!Number.isFinite(number)) return 0;
+    return Math.max(0, Math.min(5, Math.trunc(number)));
+  }
+
+  function renderPlanSummary(plan) {
+    var totals = planTotals(plan);
+    dom.planSummary.textContent =
+      'Total ' + plural(totals.total, 'asset', 'assets') + ': ' +
+      'image ' + totals.image + ', audio ' + totals.audio + ', video ' + totals.video + ', model ' + totals.model + '.';
+  }
+
+  function renderPlanJson(plan) {
+    dom.planJson.textContent = JSON.stringify(plan, null, 2);
+  }
+
+  function updatePlanUi() {
+    var draft = getDraft(app.selected, false);
+    if (!draft || !draft.plan) return;
+    renderPlanSummary(draft.plan);
+    renderPlanJson(draft.plan);
+    updateActionState(selectedRequest(), draft);
+  }
+
+  function normalizePlan(raw, query) {
+    var source = raw && typeof raw === 'object' ? raw : {};
+    var plan = {
+      query: query,
+      family: typeof source.family === 'string' && source.family.trim() ? source.family.trim() : query
+    };
+    GROUPS.forEach(function (name) {
+      var group = source[name] && typeof source[name] === 'object' ? source[name] : {};
+      var prompts = Array.isArray(group.prompts)
+        ? group.prompts.map(function (value) { return String(value === null || value === undefined ? '' : value); })
+        : [];
+      if (!prompts.length && typeof group.prompt === 'string' && group.prompt.trim()) {
+        prompts = [group.prompt];
+      }
+      plan[name] = {
+        count: clampCount(group.count === undefined ? (prompts.length ? 1 : 0) : group.count),
+        prompts: prompts,
+        negative: typeof group.negative === 'string' ? group.negative : '',
+        title: typeof group.title === 'string' ? group.title : '',
+        summary: typeof group.summary === 'string' ? group.summary : '',
+        tags: Array.isArray(group.tags)
+          ? group.tags.map(function (value) { return String(value); }).filter(Boolean)
+          : typeof group.tags === 'string'
+            ? splitComma(group.tags)
+            : [],
+        keywords: Array.isArray(group.keywords)
+          ? group.keywords.map(function (value) { return String(value); }).filter(Boolean)
+          : typeof group.keywords === 'string'
+            ? splitComma(group.keywords)
+            : []
+      };
+    });
+    return plan;
+  }
+
+  function updateLocalRequest(query, patch) {
+    var request = findRequest(query);
+    if (!request) return;
+    if (patch.status) request.status = patch.status;
+    if (Array.isArray(patch.assets)) request.assets = patch.assets.slice();
+    if (patch.count !== undefined) request.count = patch.count;
+  }
+
+  // -------------------------------------------------------------------------
+  // Action state
+  // -------------------------------------------------------------------------
+
+  function updateActionState(request, draft) {
+    var status = request ? request.status : 'open';
+    var jobRunning = Boolean(
+      app.generating || (draft && draft.job && draft.job.state === 'generating') || status === 'generating',
+    );
+    var busy = app.planning || jobRunning || app.publishing || app.rejecting;
+    var hasPlan = Boolean(draft && draft.plan);
+    var engineReady = app.engineReady;
+
+    var canPlan = Boolean(request) && engineReady && !busy && status !== 'rejected' && status !== 'fulfilled';
+    var canGenerate = Boolean(request) && engineReady && !busy && hasPlan && status !== 'rejected' && status !== 'fulfilled';
+    var canPublish = Boolean(request) && engineReady && !busy && status === 'fulfilled' && Boolean(app.repo && app.repo.dirty);
+    var canReject = Boolean(request) && !busy && status !== 'rejected' && status !== 'fulfilled';
+
+    dom.planButton.disabled = !canPlan;
+    dom.generateButton.disabled = !canGenerate;
+    dom.publishButton.disabled = !canPublish;
+    dom.rejectButton.disabled = !canReject;
+
+    dom.planButton.textContent = app.planning ? 'Planning...' : 'Plan with Ollama';
+    dom.generateButton.textContent = jobRunning ? 'Generating...' : 'Generate pack';
+    dom.publishButton.textContent = app.publishing ? 'Publishing...' : 'Publish';
+    dom.rejectButton.textContent = app.rejecting ? 'Rejecting...' : 'Reject request';
+
+    dom.planButton.title = engineReady ? '' : 'The engine module is not loaded.';
+    dom.generateButton.title = !hasPlan
+      ? 'Plan the pack before generating.'
+      : engineReady
+        ? 'Runs ComfyUI and writes new assets.'
+        : 'The engine module is not loaded.';
+    dom.publishButton.title =
+      status !== 'fulfilled'
+        ? 'Publish is available after a fulfilled generation.'
+        : !app.repo || !app.repo.dirty
+          ? 'There are no uncommitted changes to publish.'
+          : 'Publish the generated changes with your local git credentials.';
+  }
+
+  // -------------------------------------------------------------------------
+  // Job rendering and polling
+  // -------------------------------------------------------------------------
+
+  function renderJob(draft) {
+    if (!draft || (!draft.job && !draft.jobId)) {
+      hide(dom.jobSection);
+      return;
+    }
+    show(dom.jobSection);
+    var job = draft.job || {
+      id: draft.jobId,
+      state: 'generating',
+      progress: [],
+      error: null,
+      assets: []
+    };
+
+    dom.jobMeta.textContent = 'Job ' + (job.id || draft.jobId || 'pending') + ' for "' + draft.query + '".';
+    dom.jobState.className = 'badge job-state ' + (job.state || 'generating');
+    dom.jobState.textContent = job.state || 'generating';
+
+    if (job.error) {
+      dom.jobError.textContent = job.error;
+      dom.jobError.hidden = false;
+    } else {
+      dom.jobError.hidden = true;
+      dom.jobError.textContent = '';
+    }
+
+    clear(dom.jobAssets);
+    if (job.assets && job.assets.length) {
+      job.assets.forEach(function (asset) {
+        dom.jobAssets.appendChild(make('span', 'asset-chip', asset));
+      });
+      dom.jobAssets.hidden = false;
+    } else if (job.state === 'fulfilled') {
+      dom.jobAssets.appendChild(make('span', 'asset-chip', 'No asset IDs returned'));
+      dom.jobAssets.hidden = false;
+    } else {
+      dom.jobAssets.hidden = true;
+    }
+
+    var progress = Array.isArray(job.progress) ? job.progress : [];
+    drawStageBadges(progress, job.state);
+    drawProgress(progress);
+  }
+
+  function drawStageBadges(progress, jobState) {
+    clear(dom.stageBadges);
+    var stages = [];
+    progress.forEach(function (line) {
+      if (stages.indexOf(line.stage) < 0) stages.push(line.stage);
+    });
+    if (!stages.length) {
+      dom.stageBadges.appendChild(make('span', 'stage-badge', 'waiting'));
+      return;
+    }
+    stages.forEach(function (stage, index) {
+      var badge = make('span', 'stage-badge', stage);
+      if (index < stages.length - 1) badge.classList.add('done');
+      else if (jobState === 'fulfilled' || jobState === 'failed') badge.classList.add('done');
+      else badge.classList.add('active');
+      dom.stageBadges.appendChild(badge);
+    });
+  }
+
+  function drawProgress(progress) {
+    var wasAtBottom = true;
+    if (dom.progressLog.scrollHeight > dom.progressLog.clientHeight) {
+      wasAtBottom =
+        dom.progressLog.scrollTop + dom.progressLog.clientHeight >= dom.progressLog.scrollHeight - 24;
+    }
+    clear(dom.progressLog);
+    if (!progress.length) {
+      dom.progressLog.appendChild(make('div', 'progress-empty', 'Waiting for the first progress line...'));
+    } else {
+      progress.forEach(function (line) {
+        var row = make('div', 'progress-line');
+        row.appendChild(make('span', 'p-time', formatClock(line.at)));
+        row.appendChild(make('span', 'p-stage', line.stage || 'progress'));
+        row.appendChild(make('span', 'p-message', line.message || ''));
+        dom.progressLog.appendChild(row);
+      });
+    }
+    dom.progressCount.textContent = plural(progress.length, 'line', 'lines');
+    if (wasAtBottom || progress.length > 0) {
+      dom.progressLog.scrollTop = dom.progressLog.scrollHeight;
+    }
+  }
+
+  function formatClock(value) {
+    if (!value) return '--:--:--';
+    var date = new Date(value);
+    if (Number.isNaN(date.getTime())) return '--:--:--';
+    return date.toLocaleTimeString([], { hour12: false });
+  }
+
+  function schedulePoll() {
+    if (app.pollTimer) return;
+    app.pollTimer = setTimeout(pollJob, 650);
+  }
+
+  async function pollJob() {
+    app.pollTimer = null;
+    var draft = getDraft(app.selected, false);
+    var query = draft ? draft.query : null;
+    if (!draft || !draft.jobId) {
+      app.generating = false;
+      renderWorkspace();
+      return;
+    }
+    try {
+      var job = await api('/api/jobs/' + encodeURIComponent(draft.jobId));
+      draft.job = job;
+      var running = job.state === 'generating' || job.state === 'queued';
+      app.generating = running;
+      if (running) {
+        renderJob(draft);
+        updateActionState(selectedRequest(), draft);
+        renderRequestList();
+        schedulePoll();
+        return;
+      }
+      if (job.state === 'fulfilled') {
+        updateLocalRequest(query, { status: 'fulfilled', assets: job.assets || [] });
+        showNotice('ok', 'Generation finished with ' + plural((job.assets || []).length, 'asset', 'assets') + '. Review the files, then publish.');
+        await refreshState();
+        renderRequestList();
+        renderJob(draft);
+        updateActionState(selectedRequest(), draft);
+      } else {
+        updateLocalRequest(query, { status: 'failed' });
+        showNotice('error', 'Generation failed. ' + (job.error || 'The engine did not report a reason.'));
+        renderRequestList();
+        renderJob(draft);
+        updateActionState(selectedRequest(), draft);
+      }
+    } catch (error) {
+      app.generating = false;
+      if (!draft.job) {
+        draft.job = { id: draft.jobId, state: 'generating', progress: [], error: null, assets: [] };
+      }
+      draft.job.state = 'failed';
+      draft.job.error = errorMessage(error);
+      showNotice('error', 'Could not read the generation job. ' + errorMessage(error));
+      renderJob(draft);
+      updateActionState(selectedRequest(), draft);
+    }
+  }
+
+  function syncSelectedJob() {
+    var request = selectedRequest();
+    var draft = getDraft(app.selected, false);
+    if (!request || !draft) return;
+    if (request.status === 'generating' && request.jobId) {
+      if (draft.jobId !== request.jobId) {
+        draft.jobId = request.jobId;
+        draft.job = null;
+      }
+      app.generating = true;
+      schedulePoll();
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Server state
+  // -------------------------------------------------------------------------
+
+  async function refreshState() {
+    if (app.refreshing) return;
+    app.refreshing = true;
+    try {
+      var data = await api('/api/state');
+      showUnlocked();
+      hideAppError();
+      app.requests = Array.isArray(data.requests) ? data.requests : [];
+      app.health = data.health || { ollama: { ok: null }, comfy: { ok: null } };
+      app.engineReady = Boolean(data.engineReady);
+      app.engineError = typeof data.engineError === 'string' ? data.engineError : '';
+      app.tokenRequired = Boolean(data.tokenRequired);
+      app.repo = data.repo && typeof data.repo === 'object'
+        ? { dirty: Boolean(data.repo.dirty), commit: data.repo.commit || null }
+        : { dirty: false, commit: null };
+
+      if (!app.tokenRequired) {
+        app.token = '';
+        storeToken('');
+        dom.tokenForm.hidden = true;
+        dom.tokenForget.hidden = true;
+      } else {
+        dom.tokenForm.hidden = false;
+        dom.tokenForget.hidden = !app.token;
+      }
+
+      if (!app.selected || !findRequest(app.selected)) {
+        app.selected = pickDefaultRequest();
+      }
+      renderHealth();
+      renderRequestList();
+      renderWorkspace();
+      syncSelectedJob();
+      startHealthTimer();
+    } catch (error) {
+      if (error.status === 401) {
+        app.token = '';
+        storeToken('');
+        showLocked('The token was rejected. Enter the ADMIN_TOKEN from admin/.env.local and try again.');
+        dom.tokenForm.hidden = false;
+        dom.tokenInput.focus();
+      } else {
+        showAppError('Could not load the console state. ' + errorMessage(error));
+      }
+    } finally {
+      app.refreshing = false;
+    }
+  }
+
+  async function refreshHealth() {
+    if (app.tokenRequired && !app.token) return;
+    try {
+      var health = await api('/api/health');
+      app.health = { ollama: health.ollama, comfy: health.comfy };
+      var wasReady = app.engineReady;
+      app.engineReady = Boolean(health.engineReady);
+      renderHealth();
+      if (wasReady !== app.engineReady) {
+        renderEngineWarning();
+        updateActionState(selectedRequest(), getDraft(app.selected, false));
+      }
+    } catch (error) {
+      // Health is advisory; the next state refresh reports real failures.
+    }
+  }
+
+  function startHealthTimer() {
+    if (app.healthTimer) return;
+    app.healthTimer = setInterval(refreshHealth, 30000);
+  }
+
+  // -------------------------------------------------------------------------
+  // Actions
+  // -------------------------------------------------------------------------
+
+  async function onPlan() {
+    var request = selectedRequest();
+    if (!request || app.planning) return;
+    app.planning = true;
+    clearNotice();
+    hidePublishResult();
+    showNotice('info', 'Asking Ollama to plan "' + request.query + '". No assets will be generated.');
+    updateActionState(request, getDraft(request.query, false));
+    try {
+      var raw = await api('/api/plan', { method: 'POST', body: { query: request.query } });
+      var draft = getDraft(request.query, true);
+      draft.plan = normalizePlan(raw, request.query);
+      draft.job = null;
+      draft.jobId = null;
+      draft.publishedCommit = null;
+      updateLocalRequest(request.query, { status: 'planned' });
+      renderRequestList();
+      renderWorkspace();
+      showNotice('ok', 'Plan ready. Adjust counts and prompts, then generate the pack.');
+    } catch (error) {
+      showNotice('error', 'Planning failed. ' + errorMessage(error));
+      if (error.code === 'ENGINE_NOT_READY') {
+        app.engineReady = false;
+        renderEngineWarning();
+      }
+      renderRequestList();
+      updateActionState(selectedRequest(), getDraft(app.selected, false));
+    } finally {
+      app.planning = false;
+      updateActionState(selectedRequest(), getDraft(app.selected, false));
+    }
+  }
+
+  function planProblem(plan) {
+    var total = 0;
+    var counts = {};
+    for (var index = 0; index < GROUPS.length; index += 1) {
+      var name = GROUPS[index];
+      var group = plan[name];
+      var count = groupCountValue(group && group.count);
+      counts[name] = count;
+      total += count;
+      if (name !== 'model' && count > 0) {
+        var hasPrompt = (group.prompts || []).some(function (prompt) { return String(prompt).trim().length > 0; });
+        if (!hasPrompt) {
+          return GROUP_LABELS[name] + ' has a count above zero but no prompt. Add a prompt or set its count to 0.';
+        }
+      }
+    }
+    if (total < 1) return 'Set at least one group count above zero before generating.';
+    if ((counts.video > 0 || counts.model > 0) && counts.image === 0) {
+      return 'Video and model generation need at least one image, because the first image is their source.';
+    }
+    return null;
+  }
+
+  async function onGenerate() {
+    var request = selectedRequest();
+    var draft = getDraft(app.selected, false);
+    if (!request || !draft || !draft.plan || app.generating) return;
+    var problem = planProblem(draft.plan);
+    if (problem) {
+      showNotice('error', problem);
+      return;
+    }
+    var totals = planTotals(draft.plan);
+    var confirmed = window.confirm(
+      'Generate ' + plural(totals.total, 'asset', 'assets') + ' for "' + request.query + '"?\n\n' +
+      'This runs ComfyUI and writes new files into the asset library. You can review them before publishing.',
+    );
+    if (!confirmed) return;
+
+    app.generating = true;
+    clearNotice();
+    hidePublishResult();
+    draft.jobId = null;
+    draft.job = null;
+    updateLocalRequest(request.query, { status: 'generating' });
+    renderRequestList();
+    renderWorkspace();
+    showNotice('info', 'Starting generation for "' + request.query + '".');
+
+    try {
+      var result = await api('/api/generate', {
+        method: 'POST',
+        body: { query: request.query, plan: draft.plan }
+      });
+      draft.jobId = result && result.jobId ? String(result.jobId) : '';
+      if (!draft.jobId) throw new Error('The server did not return a job id.');
+      draft.job = { id: draft.jobId, state: 'generating', progress: [], error: null, assets: [] };
+      renderJob(draft);
+      updateActionState(selectedRequest(), draft);
+      schedulePoll();
+    } catch (error) {
+      app.generating = false;
+      updateLocalRequest(request.query, { status: 'planned' });
+      showNotice('error', 'Could not start generation. ' + errorMessage(error));
+      renderRequestList();
+      renderWorkspace();
+    }
+  }
+
+  async function onCopyPlan() {
+    var draft = getDraft(app.selected, false);
+    if (!draft || !draft.plan) return;
+    var text = JSON.stringify(draft.plan, null, 2);
+    try {
+      await navigator.clipboard.writeText(text);
+      showNotice('ok', 'Plan copied to the clipboard.');
+      return;
+    } catch (error) {
+      var area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.appendChild(area);
+      area.select();
+      var copied = false;
+      try {
+        copied = document.execCommand('copy');
+      } catch (copyError) {
+        copied = false;
+      }
+      document.body.removeChild(area);
+      showNotice(copied ? 'ok' : 'error', copied ? 'Plan copied to the clipboard.' : 'Could not copy the plan. Select the JSON preview and copy it manually.');
+    }
+  }
+
+  async function onPublish() {
+    var request = selectedRequest();
+    if (!request || app.publishing) return;
+    if (request.status !== 'fulfilled') {
+      showNotice('error', 'Publish is available only after a fulfilled generation.');
+      return;
+    }
+    if (!app.repo || !app.repo.dirty) {
+      showNotice('error', 'There are no uncommitted changes to publish.');
+      return;
+    }
+    app.publishing = true;
+    clearNotice();
+    hidePublishResult();
+    updateActionState(request, getDraft(request.query, false));
+    try {
+      var result = await api('/api/publish', { method: 'POST', body: { query: request.query } });
+      var commit = result && result.commit ? String(result.commit) : '';
+      var draft = getDraft(request.query, true);
+      draft.publishedCommit = commit;
+      showPublishResult(commit);
+      showNotice('ok', 'Publish finished. The generated pack is now part of the repository history.');
+      await refreshState();
+    } catch (error) {
+      showNotice('error', 'Publishing failed. ' + errorMessage(error));
+    } finally {
+      app.publishing = false;
+      updateActionState(selectedRequest(), getDraft(app.selected, false));
+    }
+  }
+
+  async function onReject() {
+    var request = selectedRequest();
+    if (!request || app.rejecting) return;
+    var reason = window.prompt('Reason for rejecting "' + request.query + '" (required):', '');
+    if (reason === null) return;
+    reason = reason.trim();
+    if (!reason) {
+      showNotice('error', 'A rejection reason is required. Nothing was changed.');
+      return;
+    }
+    app.rejecting = true;
+    clearNotice();
+    hidePublishResult();
+    updateActionState(request, getDraft(request.query, false));
+    try {
+      await api('/api/reject', { method: 'POST', body: { query: request.query, reason: reason } });
+      updateLocalRequest(request.query, { status: 'rejected' });
+      showNotice('ok', 'Request "' + request.query + '" was rejected. Reason: ' + reason);
+      await refreshState();
+    } catch (error) {
+      showNotice('error', 'Rejecting the request failed. ' + errorMessage(error));
+    } finally {
+      app.rejecting = false;
+      renderRequestList();
+      renderWorkspace();
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Events and boot
+  // -------------------------------------------------------------------------
+
+  function bindEvents() {
+    dom.refreshState.addEventListener('click', function () { refreshState(); });
+    dom.requestFilter.addEventListener('input', function () {
+      app.filter = dom.requestFilter.value;
+      renderRequestList();
+    });
+    dom.requestSort.addEventListener('change', function () {
+      app.sort = dom.requestSort.value;
+      renderRequestList();
+    });
+    dom.planButton.addEventListener('click', function () { onPlan(); });
+    dom.generateButton.addEventListener('click', function () { onGenerate(); });
+    dom.publishButton.addEventListener('click', function () { onPublish(); });
+    dom.rejectButton.addEventListener('click', function () { onReject(); });
+    dom.copyPlan.addEventListener('click', function () { onCopyPlan(); });
+
+    dom.tokenForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var value = dom.tokenInput.value.trim();
+      if (!value) {
+        dom.authError.textContent = 'Enter the ADMIN_TOKEN value before unlocking.';
+        dom.authError.hidden = false;
+        return;
+      }
+      app.token = value;
+      storeToken(value);
+      dom.tokenForget.hidden = false;
+      hideAppError();
+      refreshState();
+    });
+
+    dom.tokenForget.addEventListener('click', function () {
+      app.token = '';
+      storeToken('');
+      dom.tokenInput.value = '';
+      dom.tokenForget.hidden = true;
+      dom.tokenForm.hidden = false;
+      showLocked('Token cleared from this tab. Enter ADMIN_TOKEN to unlock again.');
+    });
+  }
+
+  async function boot() {
+    cacheDom();
+    bindEvents();
+    renderHealth();
+    app.token = readStoredToken();
+    try {
+      var info = await api('/session-info');
+      app.tokenRequired = Boolean(info && info.tokenRequired);
+      if (app.tokenRequired) {
+        dom.tokenForm.hidden = false;
+        dom.tokenForget.hidden = !app.token;
+        if (!app.token) {
+          showLocked('ADMIN_TOKEN is required. Enter it above to load the request queue.');
+          return;
+        }
+        dom.tokenInput.value = app.token;
+      } else {
+        dom.tokenForm.hidden = true;
+      }
+      await refreshState();
+    } catch (error) {
+      showAppError('Could not reach the local Pack Console server. ' + errorMessage(error));
+      showLocked('The local server did not answer. Check the terminal for the admin server and reload.');
+    }
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>

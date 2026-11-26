@@ -156,8 +156,15 @@ td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
 .status-cell{white-space:nowrap}
 .status-badge{display:inline-block;padding:.12rem .5rem;border-radius:999px;border:1px solid var(--line);font-size:.72rem;line-height:1.5}
 .status-badge.open{color:var(--muted)}
+.status-badge.planned{border-color:#38557a;background:#122036;color:#b7d2f2}
+.status-badge.generating{border-color:#6b551f;background:#2a2110;color:#ffe0a0}
+.status-badge.generating .dot{display:inline-block;width:.42em;height:.42em;margin-right:.35em;border-radius:50%;background:currentColor;vertical-align:.06em;animation:status-pulse 1.4s ease-in-out infinite}
 .status-badge.fulfilled{border-color:#2e6247;background:#12281c;color:#c9f7d9;text-decoration:none}
 .status-badge.fulfilled:hover{border-color:#4a9a6d}
+.status-badge.rejected{border-color:#3d4a5a;background:#1b232e;color:#aab7c6}
+.status-badge.failed{border-color:#7a3434;background:#2c1416;color:#ffc0c0}
+.status-count{margin-left:.4rem;color:var(--muted);font-size:.72rem}
+@keyframes status-pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .stamp{white-space:nowrap;color:#c0ccdb;font-size:.82rem}
 .empty-state{
   border:1px dashed #3a4a61;border-radius:11px;background:#101823;
@@ -186,6 +193,7 @@ pre.line{
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;transition:none!important}
+  .status-badge.generating .dot{animation:none}
 }
 </style>
 </head>
@@ -245,8 +253,8 @@ pre.line{
   <section class="panel" aria-labelledby="list-title">
     <div class="panel-head">
       <div>
-        <h2 id="list-title">Open requests</h2>
-        <p class="muted small">Aggregated by query. Each topic shows how many people asked, who asked, when it started, and the latest note.</p>
+        <h2 id="list-title">Asset requests</h2>
+        <p class="muted small">Aggregated by query. Each topic shows its current status, how many people asked, who asked, when it started, and the latest note.</p>
       </div>
       <span class="badge good" id="queue-badge" hidden>Queue loaded</span>
     </div>
@@ -1151,6 +1159,50 @@ pre.line{
     return topics;
   }
 
+  var STATUS_META = {
+    planned: { label: 'Planned', className: 'planned' },
+    generating: { label: 'Generating', className: 'generating' },
+    fulfilled: { label: 'Fulfilled', className: 'fulfilled' },
+    rejected: { label: 'Rejected', className: 'rejected' },
+    failed: { label: 'Failed', className: 'failed' }
+  };
+
+  function statusBadge(topic) {
+    var entry = topic.status && typeof topic.status === 'object' ? topic.status : null;
+    var key = entry && typeof entry.status === 'string' ? entry.status.trim().toLowerCase() : '';
+    var reason = entry && typeof entry.reason === 'string' ? entry.reason.trim() : '';
+
+    if (key === 'fulfilled') {
+      var assets = entry && Array.isArray(entry.assets) ? entry.assets : [];
+      var countLabel = assets.length + (assets.length === 1 ? ' asset' : ' assets');
+      var wrap = document.createElement('span');
+      var link = document.createElement('a');
+      link.className = 'status-badge fulfilled';
+      link.href = '../gallery/#q=' + encodeURIComponent(topic.query);
+      link.textContent = 'Fulfilled';
+      link.title = countLabel;
+      wrap.appendChild(link);
+      var count = document.createElement('span');
+      count.className = 'status-count';
+      count.textContent = countLabel;
+      wrap.appendChild(count);
+      return wrap;
+    }
+
+    var meta = STATUS_META[key];
+    var badge = document.createElement('span');
+    badge.className = 'status-badge ' + (meta ? meta.className : 'open');
+    badge.textContent = meta ? meta.label : 'Open';
+    if (key === 'generating') {
+      var dot = document.createElement('span');
+      dot.className = 'dot';
+      dot.setAttribute('aria-hidden', 'true');
+      badge.insertBefore(dot, badge.firstChild);
+    }
+    if (reason) badge.title = reason;
+    return badge;
+  }
+
   function renderTable(agg) {
     var topics = visibleTopics(agg);
     dom.queueBody.replaceChildren();
@@ -1178,19 +1230,7 @@ pre.line{
 
       var statusCell = document.createElement('td');
       statusCell.className = 'status-cell';
-      if (topic.status && topic.status.status === 'fulfilled') {
-        var link = document.createElement('a');
-        link.className = 'status-badge fulfilled';
-        link.href = '../gallery/#q=' + encodeURIComponent(topic.query);
-        link.textContent = 'Fulfilled';
-        link.title = 'View the generated assets';
-        statusCell.appendChild(link);
-      } else {
-        var badge = document.createElement('span');
-        badge.className = 'status-badge open';
-        badge.textContent = 'Open';
-        statusCell.appendChild(badge);
-      }
+      statusCell.appendChild(statusBadge(topic));
       row.appendChild(statusCell);
 
       var requestsCell = document.createElement('td');

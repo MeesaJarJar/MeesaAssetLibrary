@@ -61,6 +61,54 @@ A small embedded genre vocabulary (for example `treant`, `goblin`, `tileset`,
 distributed under the LDC license for educational and personal/research use;
 read the upstream `LICENSE.md` before commercial use.
 
+## Pack console
+
+Maintainers turn queue demand into published assets from a local operator
+console. It is not deployed to Pages. From the repository root:
+
+```sh
+node admin/server.mjs
+```
+
+Open `http://127.0.0.1:4310/`. The server binds loopback only; use `--port` or
+`ADMIN_PORT` to change the port, and `admin/.env.local` or environment variables
+for ComfyUI, Ollama and the optional local admin token.
+
+The P0 workflow is one queued request to one small pack:
+
+1. Pick an open or planned request and read the queue demand (requests,
+   requesters, first and last ask).
+2. Review the generated plan, then set the per-group counts: image, audio,
+   video and model, each 0-5, with at least one asset total. P0 is one image and
+   one four-second audio; video and model stay at 0.
+3. Generate on local ComfyUI and inspect every result before publishing
+   anything.
+4. Generate ingests the bundles, marks the request `fulfilled` with the new
+   asset IDs, and rebuilds embeddings/search/gallery. Review `git diff`.
+5. Publish commits and pushes the reviewed changes. The public queue then shows
+   the new status and links the request to `../gallery/#q=<query>`.
+
+The console is local-only because it needs ComfyUI, and optionally Ollama for
+planning. The end-to-end operator guide, status meanings and limits are in
+`docs/PACK-CONSOLE.md`.
+
+## Semantic refresh
+
+`.github/workflows/embed-refresh.yml` rebuilds the semantic artifacts every day
+at 04:17 UTC and on manual dispatch: **Actions** -> **Refresh semantic
+embeddings** -> **Run workflow**. It runs `python scripts/embed.py` and
+`node scripts/build-search-index.mjs`, then commits and pushes only
+`catalog/embeddings.json`, the two embedding bins, `catalog/concepts.json` and
+`catalog/search-index.json` when they changed. The message is
+`Refresh semantic embeddings`; the job then dispatches the Pages workflow so the
+site rebuilds with the new artifacts (a `GITHUB_TOKEN` push alone does not
+trigger other workflows).
+
+This makes new community uploads semantically searchable within a day. The pack
+console embeds immediately when it publishes, so the daily job is a safety net,
+not the primary path. `.github/workflows/embed.yml` is the older manual,
+no-commit variant that fails when the generated diff is not empty.
+
 ## Quick start
 
 1. Read `AGENTS.md` for the navigation contract.
@@ -87,7 +135,8 @@ interpreter, run the script directly with the portable path for your machine:
 `python3 scripts/embed.py` on Linux/macOS, `py -3 scripts/embed.py` on Windows,
 or an activated virtual environment such as `.venv/Scripts/python.exe
 scripts/embed.py`. The dependencies are CPU Torch, `transformers`,
-`soundfile` and `pillow`; `.github/workflows/embed.yml` installs the same set.
+`soundfile` and `pillow`; `.github/workflows/embed-refresh.yml` installs the
+same set for the daily refresh.
 
 ## Search and packs
 
@@ -131,6 +180,7 @@ and OpenCode configuration.
 | `scripts/` | ingest, search index builder, embedding job, gallery builder, integrity checker, static server |
 | `gallery/` | generated static browser, safe to open from disk |
 | `queue/` | public asset-request queue page |
+| `admin/` | local pack console, loopback only and never deployed |
 | `mcp/` | stdio MCP server exposing the catalog to agents |
 | `_inbox/` | drop zone for raw dumps, never authoritative |
-| `docs/` | schema and semantic search reference |
+| `docs/` | schema, semantic search and pack-console reference |

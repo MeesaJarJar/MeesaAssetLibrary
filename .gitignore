@@ -10,3 +10,7 @@ node_modules/
 
 # gallery/ is intentionally tracked: it is generated output that agents and
 # humans browse directly.
+
+# Local Pack Console secrets and runtime state
+admin/.env.local
+admin/jobs.json

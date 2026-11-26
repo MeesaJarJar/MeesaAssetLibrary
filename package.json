@@ -13,6 +13,7 @@
     "embed": "python scripts/embed.py",
     "gallery": "node scripts/build-search-index.mjs && node scripts/build-gallery.mjs",
     "check": "node scripts/check-library.mjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "admin": "node admin/server.mjs"
   }
 }

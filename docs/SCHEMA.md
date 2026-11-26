@@ -473,6 +473,51 @@ current file `sha` with the commit, and retries on 409/422. Aggregates
 (requests, unique topics, requesters, first and last timestamps) are computed at
 read time and are never stored in the file.
 
+### Request status overlay
+
+`catalog/asset-requests-status.json` is a separate, console-written overlay for
+the queue. The queue page only reads it; it never writes status or changes the
+append-only request log. The local pack console rewrites the whole document
+atomically when a request moves through the pipeline.
+
+```json
+{
+  "version": 1,
+  "updated": "2026-11-26T12:00:00.000Z",
+  "requests": {
+    "treant": {
+      "status": "fulfilled",
+      "assets": ["IMG-CONCEPT-000019", "SND-SFX-000023"],
+      "at": "2026-11-26T11:58:00.000Z",
+      "prototype": true
+    },
+    "mimic": {
+      "status": "rejected",
+      "reason": "Too close to an existing mimic variant.",
+      "at": "2026-11-26T11:59:00.000Z"
+    }
+  }
+}
+```
+
+| Key | Type | Notes |
+| --- | --- | --- |
+| `version` | integer | required; currently `1` |
+| `updated` | string | required; ISO 8601 timestamp of the last status write |
+| `requests` | object | required; keys are lowercase queue queries |
+| `requests.<query>.status` | string | required; `open`, `planned`, `generating`, `fulfilled`, `rejected` or `failed` |
+| `requests.<query>.assets` | string[] | asset IDs produced by a `fulfilled` request; may be empty while a pack is partial |
+| `requests.<query>.reason` | string | optional; short human explanation, shown as a tooltip on non-fulfilled statuses |
+| `requests.<query>.at` | string | optional; ISO 8601 time of this status change |
+| `requests.<query>.prototype` | boolean | optional; `true` when the pack came from the prototype console flow |
+
+A missing query entry, an explicit `open`, or an unrecognized status displays as
+**Open**. `fulfilled` rows stay visible as history and link to
+`../gallery/#q=<query>`; `rejected` rows stay visible with the reason when
+present. The overlay is not a catalog: resolve `assets` against
+`catalog/index.jsonl` and `catalog/community.jsonl` before using a file, and
+never promote or retire an asset based on a status entry.
+
 ## Extension rules
 
 - New tag namespace: use it immediately, then document it in
